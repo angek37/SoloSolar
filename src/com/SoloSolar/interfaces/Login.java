@@ -1,5 +1,7 @@
 package com.SoloSolar.interfaces;
 
+import com.SoloSolar.DB.*;
+
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,7 +33,7 @@ public class Login {
 
                 JFrame frame = new JFrame("Inicio de Sesión");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.add(new LoginWindow());
+                frame.add(new LoginWindow(frame));
                 frame.pack();
                 frame.setResizable(false);
                 frame.setLocationRelativeTo(null);
@@ -47,8 +49,10 @@ public class Login {
 		private JButton signin;
 		private ImageIcon access = new ImageIcon(new ImageIcon("assets/login.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));		
 		private ImageIcon erroricon = new ImageIcon(new ImageIcon("assets/error-icon.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));		
-
-			public LoginWindow() {
+		private JFrame JF;
+		
+			public LoginWindow(JFrame frame) {
+				JF = frame;
 				setLayout(new GridBagLayout());
 				GridBagConstraints gbc = new GridBagConstraints();
 				gbc.insets = new Insets(8, 8, 8, 8);
@@ -85,8 +89,17 @@ public class Login {
 			}
 
 			public void actionPerformed(ActionEvent e) {
+				ConnectionDB c = new ConnectionDB();
+				
 				if(e.getSource() == signin) {
-					icono.setIcon(erroricon);
+					if(c.getPassword("Usuario", user.getText()).equals(pass.getText())) {
+						new General();
+						JF.setVisible(false);
+					}else {
+						user.setText("");
+						pass.setText("");
+						icono.setIcon(erroricon);
+					}
 				}
 			}
 			

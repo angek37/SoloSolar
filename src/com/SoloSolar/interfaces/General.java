@@ -71,7 +71,7 @@ public class General {
 			altaCat  = new JMenuItem("Alta Categoria");
 			bajaCat  = new JMenuItem("Baja Categoria");
 			modCat = new JMenuItem("Modificar Categoria");
-			cerrSes = new JMenuItem("Cerrar sesi�n");
+			cerrSes = new JMenuItem("Cerrar sesión");
 			salProg = new JMenuItem("Salir");
 			add(menu, BorderLayout.NORTH);
 			
@@ -115,7 +115,7 @@ public class General {
 			
 	}
 	
-	public static void main(String[] mr) {
-		new General();
-	}
+//	public static void main(String[] mr) {
+//		new General();
+//	}
 }

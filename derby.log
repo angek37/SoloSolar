@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Sat Jul 01 22:43:45 CDT 2017:
+ Iniciando instancia a816c00e-015d-0165-a6ea-000005ba4840 de Derby, versión The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): 
+en el directorio de base de datos /mnt/Shared/workspace/Solo-Solar/db con el cargador de clases sun.misc.Launcher$AppClassLoader@18b4aac2
+Cargado desde file:/usr/lib/jvm/jdk1.8.0_121/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.11.2-1-ARCH
+derby.system.home=null
+Cargador de clases de base de datos iniciado - derby.database.classpath=''
+----------------------------------------------------------------
+Sat Jul 01 22:43:46 CDT 2017:
+Cerrando la instancia a816c00e-015d-0165-a6ea-000005ba4840 en el directorio de base de datos /mnt/Shared/workspace/Solo-Solar/db con cargador de clases sun.misc.Launcher$AppClassLoader@18b4aac2
