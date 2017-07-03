@@ -49,6 +49,8 @@ public class General {
 		private JMenu usuarios, clientes, productos, categoria, salir;
 		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
 						altaProd, bajaProd, modProd, altaCat, bajaCat, modCat, cerrSes, salProg;
+		private JPanel panelPrincipal;
+		private AltaCliente ac = new AltaCliente();
 		
 		public GeneralPanel(String title) {
 			super(title);
@@ -73,13 +75,16 @@ public class General {
 			modCat = new JMenuItem("Modificar Categoria");
 			cerrSes = new JMenuItem("Cerrar sesión");
 			salProg = new JMenuItem("Salir");
+			panelPrincipal = new JPanel();
 			add(menu, BorderLayout.NORTH);
+			add(panelPrincipal, BorderLayout.CENTER);
 			
 			//Usuarios
 			menu.add(usuarios);
 			usuarios.add(altaUser);
 			usuarios.add(bajaUser);
 			usuarios.add(modUser);
+			altaUser.addActionListener(this);
 			
 			//Clientes
 			menu.add(clientes);
@@ -103,19 +108,29 @@ public class General {
 			menu.add(salir);
 			salir.add(cerrSes);
 			salir.add(salProg);
-			
+			cerrSes.addActionListener(this);
 			salProg.addActionListener(this);
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == salProg) {
+			if (e.getSource() == altaUser) {
+			  panelPrincipal.removeAll();
+		      panelPrincipal.add(ac);
+		      panelPrincipal.updateUI();
+		      panelPrincipal.repaint();
+			  repaint();
+			} else if(e.getSource() == salProg) {
 				System.exit(0);
+			} else if (e.getSource() == cerrSes) {
+				new Login();
+				this.dispose();
 			}
+			
 		}
 			
 	}
 	
-//	public static void main(String[] mr) {
-//		new General();
-//	}
+	public static void main(String[] mr) {
+		new General();
+	}
 }

@@ -93,7 +93,7 @@ public class Login {
 				
 				if(e.getSource() == signin) {
 					if(c.getPassword("Usuario", user.getText()).equals(pass.getText())) {
-						new General();
+						//new General();
 						JF.setVisible(false);
 					}else {
 						user.setText("");
