@@ -46,7 +46,7 @@ create table Producto (
 )
 
 create table Categoria (
-	id_cat int NOT NULL PRIMARY KEY,
+	id_cat int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	Nombre varchar(32) NOT NULL,
 	Descripcion varchar(64)
 )
