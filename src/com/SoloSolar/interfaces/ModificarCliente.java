@@ -10,11 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class AltaCliente extends JPanel {
+public class ModificarCliente extends JPanel {
 	private JLabel nombreLbl, apellidosLbl, calleLbl, coloniaLbl, ciudadLbl, estadoLbl, celLbl, telEmpLbl;
 	private JTextField nombreTF, apellidosTF, calleTF, coloniaTF, ciudadTF, estadoTF, celTF, telEmpTF; 
 		
-	public AltaCliente () {
+	public ModificarCliente () {
 		nombreLbl = new JLabel("Nombre: ");
 		apellidosLbl = new JLabel("Apellidos: ");
 		calleLbl = new JLabel("Calle: ");
@@ -38,7 +38,7 @@ public class AltaCliente extends JPanel {
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		add(nombreLbl, gbc);
+		add(apellidosLbl, gbc);
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 2;

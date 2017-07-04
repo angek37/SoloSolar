@@ -51,10 +51,12 @@ public class General {
 						altaProd, bajaProd, modProd, altaCat, bajaCat, modCat, cerrSes, salProg;
 		private JPanel panelPrincipal;
 		private AltaCliente ac = new AltaCliente();
+		private BajaCliente bc = new BajaCliente();
+		private ModificarCliente mc = new ModificarCliente();
 		
 		public GeneralPanel(String title) {
 			super(title);
-			setSize(500, 500);
+			setSize(500, 400);
 			menu = new JMenuBar();
 			usuarios = new JMenu("Usuarios");
 			clientes = new JMenu("Clientes");
@@ -84,13 +86,15 @@ public class General {
 			usuarios.add(altaUser);
 			usuarios.add(bajaUser);
 			usuarios.add(modUser);
-			altaUser.addActionListener(this);
 			
 			//Clientes
 			menu.add(clientes);
 			clientes.add(altaClie);
 			clientes.add(bajaClie);
 			clientes.add(modClie);
+			altaClie.addActionListener(this);
+			bajaClie.addActionListener(this);
+			modClie.addActionListener(this);
 			
 			//Productos
 			menu.add(productos);
@@ -113,19 +117,22 @@ public class General {
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == altaUser) {
-			  panelPrincipal.removeAll();
-		      panelPrincipal.add(ac);
-		      panelPrincipal.updateUI();
-		      panelPrincipal.repaint();
-			  repaint();
+			panelPrincipal.removeAll();
+			if (e.getSource() == altaClie) {
+				panelPrincipal.add(ac);
+			} else if (e.getSource() == bajaClie) {
+				panelPrincipal.add(bc);
+			} else if(e.getSource() == modClie) {
+				panelPrincipal.add(mc);
 			} else if(e.getSource() == salProg) {
 				System.exit(0);
 			} else if (e.getSource() == cerrSes) {
 				new Login();
 				this.dispose();
 			}
-			
+			panelPrincipal.updateUI();
+			panelPrincipal.repaint();
+			repaint();
 		}
 			
 	}
