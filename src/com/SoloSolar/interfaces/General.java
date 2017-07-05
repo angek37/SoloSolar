@@ -53,6 +53,7 @@ public class General {
 		private JPanel panelPrincipal;
 		private AltaCliente ac = new AltaCliente();
 		private BajaCliente bc = new BajaCliente();
+		private AltaCategoria acat = new AltaCategoria();
 		private ModificarCliente mc = new ModificarCliente();
 		
 		public GeneralPanel(String title) {
@@ -110,7 +111,7 @@ public class General {
 			categoria.add(altaCat);
 			categoria.add(bajaCat);
 			categoria.add(modCat);
-			
+			altaCat.addActionListener(this);
 			//Salir
 			menu.add(salir);
 			salir.add(cerrSes);
@@ -133,7 +134,10 @@ public class General {
 			} else if (e.getSource() == cerrSes) {
 				new Login();
 				this.dispose();
+			} else if (e.getSource() == altaCat) {
+				panelPrincipal.add(altaCat);
 			}
+			
 			panelPrincipal.updateUI();
 			panelPrincipal.repaint();
 			repaint();
