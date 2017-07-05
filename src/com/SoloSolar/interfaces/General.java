@@ -21,14 +21,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-<<<<<<< HEAD
+
 import com.SoloSolar.interfaces.General.GeneralPanel;
 import java.awt.Color;
-=======
+
 
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.DB.Insert;
->>>>>>> Paneles
 
 public class General {
 	
@@ -103,15 +102,14 @@ public class General {
 			modCat = new JMenuItem("Modificar Categoria");
 			cerrSes = new JMenuItem("Cerrar sesión");
 			salProg = new JMenuItem("Salir");
-<<<<<<< HEAD
+
 			panelPrincipal = new JPanel();
 			setLayout(new BorderLayout());
 			add(menu, BorderLayout.NORTH);
 			add(panelPrincipal, BorderLayout.CENTER);
 			panelPrincipal.setLayout(new BorderLayout());
-=======
+
 			jfp.add(menu, BorderLayout.NORTH);
->>>>>>> Paneles
 			
 			//Usuarios
 			menu.add(usuarios);
