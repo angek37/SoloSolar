@@ -21,7 +21,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import com.SoloSolar.interfaces.General.GeneralPanel;
+
+import com.SoloSolar.Capsulas.Categoria;
+import com.SoloSolar.DB.Insert;
 
 public class General {
 	
@@ -35,29 +37,47 @@ public class General {
                     ex.printStackTrace();
                 }
 
-                JFrame frame = new GeneralPanel("Solo - Solar");
+                JFrame frame = new JFrame("Solo - Solar");
+    			frame.setSize(600, 400);
+                frame.add(new GeneralPanel(frame));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setResizable(false);
+                frame.setResizable(true);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }
         });
 	}
 	
-	public class GeneralPanel extends JFrame implements ActionListener{
+	public class GeneralPanel extends JPanel implements ActionListener{
 		private JMenuBar menu;
 		private JMenu usuarios, clientes, productos, categoria, salir;
 		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
 						altaProd, bajaProd, modProd, altaCat, bajaCat, modCat, cerrSes, salProg;
-		private JPanel panelPrincipal;
+		
+		private JFrame jfp;
+		private JPanel panelPrincipal = new JPanel();
 		private AltaCliente ac = new AltaCliente();
 		private BajaCliente bc = new BajaCliente();
-		private AltaCategoria acat = new AltaCategoria();
 		private ModificarCliente mc = new ModificarCliente();
+		private AltaCategoria acat = new AltaCategoria();
 		
-		public GeneralPanel(String title) {
-			super(title);
-			setSize(500, 400);
+		public GeneralPanel(JFrame jf) {
+			jfp = jf;
+			setLayout(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.insets = new Insets(8, 8, 8, 8);
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			gbc.anchor = GridBagConstraints.WEST;
+			gbc.gridheight = GridBagConstraints.REMAINDER;
+			gbc.fill = GridBagConstraints.VERTICAL;
+			add(new MenuPanel(), gbc);
+			gbc.anchor = GridBagConstraints.EAST;
+			gbc.gridx++;
+			gbc.gridheight = GridBagConstraints.REMAINDER;
+			gbc.fill = GridBagConstraints.VERTICAL;
+			add(panelPrincipal, gbc);
+			
 			menu = new JMenuBar();
 			usuarios = new JMenu("Usuarios");
 			clientes = new JMenu("Clientes");
@@ -78,9 +98,7 @@ public class General {
 			modCat = new JMenuItem("Modificar Categoria");
 			cerrSes = new JMenuItem("Cerrar sesión");
 			salProg = new JMenuItem("Salir");
-			panelPrincipal = new JPanel();
-			add(menu, BorderLayout.NORTH);
-			add(panelPrincipal, BorderLayout.CENTER);
+			jfp.add(menu, BorderLayout.NORTH);
 			
 			//Usuarios
 			menu.add(usuarios);
@@ -129,9 +147,9 @@ public class General {
 				System.exit(0);
 			} else if (e.getSource() == cerrSes) {
 				new Login();
-				this.dispose();
+				jfp.dispose();
 			} else if (e.getSource() == altaCat) {
-				panelPrincipal.add(altaCat);
+				panelPrincipal.add(acat);
 			}
 			
 			panelPrincipal.updateUI();
@@ -139,6 +157,32 @@ public class General {
 			repaint();
 		}
 			
+	}
+	
+	public class MenuPanel extends JPanel {
+		private JButton venta, reporte, buscar;
+		
+		public MenuPanel() {
+			setLayout(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.anchor = GridBagConstraints.WEST;
+			gbc.insets = new Insets(8, 8, 8, 8);
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			venta = new JButton("Venta");
+			add(venta, gbc);
+			
+			gbc.anchor = GridBagConstraints.WEST;
+			gbc.gridy++;
+			reporte = new JButton("Reporte");
+			add(reporte, gbc);
+			
+			gbc.anchor = GridBagConstraints.WEST;
+			gbc.gridy++;
+			buscar = new JButton("Buscar");
+			add(buscar, gbc);
+			
+		}
 	}
 	
 	public static void main(String[] mr) {
