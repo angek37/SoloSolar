@@ -69,14 +69,14 @@ public class Login {
 				gbc.anchor = GridBagConstraints.EAST;
 				gbc.gridx = 0;
 				gbc.gridy++;
-				add(new JLabel("Contraseña:"), gbc);
+				add(new JLabel("Contraseï¿½a:"), gbc);
 				pass = new JPasswordField();
 				
 				gbc.gridx++;
 				gbc.fill = GridBagConstraints.HORIZONTAL;
 				gbc.weightx = 2;
 				add(pass, gbc);
-				signin = new JButton("Iniciar Sesión");
+				signin = new JButton("Iniciar Sesiï¿½n");
 				gbc.gridy++;
 				gbc.fill = GridBagConstraints.HORIZONTAL;
 				gbc.weightx = 2;
@@ -95,7 +95,7 @@ public class Login {
 				
 				if(e.getSource() == signin) {
 					if(c.getPassword("Usuario", user.getText()).equals(pass.getText())) {
-						//new General();
+						new General();
 						JF.setVisible(false);
 					}else {
 						user.setText("");

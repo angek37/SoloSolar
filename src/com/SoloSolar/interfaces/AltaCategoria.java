@@ -8,43 +8,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.DB.Insert;
 
 
-public class AltaCategoria {
-	public AltaCategoria() {
-		EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                    ex.printStackTrace();
-                }
-
-                JFrame frame = new JFrame("Registrar categoría");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.add(new CategoriaPanel());
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-        });
-	}
-	
-	public class CategoriaPanel extends JPanel implements ActionListener {
+public class AltaCategoria extends JPanel implements ActionListener{
 		private JTextField nombre, descripcion;
 		private JButton registrar;
 		
-		public CategoriaPanel() {
+		public AltaCategoria() {
 			setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.insets = new Insets(8, 8, 8, 8);
@@ -97,8 +73,6 @@ public class AltaCategoria {
 			}
 		}
 		
-		
-	}
 	
 	public static void main(String[] mr) {
 		new AltaCategoria();
