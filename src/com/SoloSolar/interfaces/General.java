@@ -88,8 +88,8 @@ public class General {
 			productos = new JMenu("Productos");
 			categoria = new JMenu("Categoria");
 			salir = new JMenu("Salir...");
-			altaUser = new JMenuItem("Alta Usuario");
-			bajaUser = new JMenuItem("Baja Usuario");
+			/*altaUser = new JMenuItem("Alta Usuario");
+			bajaUser = new JMenuItem("Baja Usuario");*/
 			modUser  = new JMenuItem("Modificar Usuario");
 			altaClie  = new JMenuItem("Alta Cliente");
 			bajaClie = new JMenuItem("Baja Cliente");
@@ -113,8 +113,8 @@ public class General {
 			
 			//Usuarios
 			menu.add(usuarios);
-			usuarios.add(altaUser);
-			usuarios.add(bajaUser);
+			/*usuarios.add(altaUser);
+			usuarios.add(bajaUser);*/
 			usuarios.add(modUser);
 			
 			//Clientes
@@ -144,7 +144,6 @@ public class General {
 			salir.add(salProg);
 			cerrSes.addActionListener(this);
 			salProg.addActionListener(this);
-			panelPrincipal.setBackground(Color.yellow);
 		}
 		
 		public void actionPerformed(ActionEvent e) {
