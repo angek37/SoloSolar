@@ -135,7 +135,7 @@ public class General {
 				new Login();
 				this.dispose();
 			} else if (e.getSource() == altaCat) {
-				panelPrincipal.add(altaCat);
+				panelPrincipal.add(acat);
 			}
 			
 			panelPrincipal.updateUI();
