@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import com.SoloSolar.interfaces.General.GeneralPanel;
+import java.awt.Color;
 
 public class General {
 	
@@ -78,8 +79,10 @@ public class General {
 			cerrSes = new JMenuItem("Cerrar sesión");
 			salProg = new JMenuItem("Salir");
 			panelPrincipal = new JPanel();
+			setLayout(new BorderLayout());
 			add(menu, BorderLayout.NORTH);
 			add(panelPrincipal, BorderLayout.CENTER);
+			panelPrincipal.setLayout(new BorderLayout());
 			
 			//Usuarios
 			menu.add(usuarios);
@@ -114,6 +117,7 @@ public class General {
 			salir.add(salProg);
 			cerrSes.addActionListener(this);
 			salProg.addActionListener(this);
+			panelPrincipal.setBackground(Color.yellow);
 		}
 		
 		public void actionPerformed(ActionEvent e) {
