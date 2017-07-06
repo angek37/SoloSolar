@@ -19,7 +19,8 @@ public class ClienteBD {
     	try
         {
             stmt = conn.createStatement();
-            stmt.execute("INSERT INTO Cliente VALUES (DEFAULT, '" + cli.getRFC() + "', '" + cli.getNombre() + "',"
+            stmt.execute("INSERT INTO Cliente(RFC, SECONDNAME, CALLE, COLONIA, CP, CIUDAD, EMAIL,"
+            		+ "TEL_CELULAR, TEL_EMPRESA) VALUES ('" + cli.getRFC() + "', '" + cli.getNombre() + "',"
             		+ "'" + cli.getApellidos() +  "', '" + cli.getCalle() + "', '" + cli.getColonia() + "',"
             				+ Integer.parseInt(cli.getCP()) + ", '" + cli.getCiudad() + "', '" + cli.getEstado() + "',"
             				+ "'" + cli.getEmail() + "', " + Integer.parseInt(cli.getTelefono()) + ","
