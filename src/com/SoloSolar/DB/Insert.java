@@ -21,16 +21,13 @@ public class Insert {
 
     public Insert(Categoria cat) {
     	createConnection();
-    	try
-        {
+    	try {
             stmt = conn.createStatement();
             stmt.execute("insert into Categoria(Nombre, Descripcion) values ('" +
             		cat.getNombre() + "','" + cat.getDescripcion() + "')");
             stmt.close();
             JOptionPane.showMessageDialog(null, "Categoria registrada exitosamente");
-        }
-        catch (SQLException sqlExcept)
-        {
+        } catch (SQLException sqlExcept) {
             sqlExcept.printStackTrace();
         }
     	shutdown();
