@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,29 +16,40 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class AltaCliente extends JPanel {
+import com.SoloSolar.Capsulas.Cliente;
+import com.SoloSolar.DB.ClienteBD;
+
+public class AltaCliente extends JPanel implements ActionListener {
 	private JLabel titulo;
-	private JLabel nombreLbl, apellidosLbl, calleLbl, coloniaLbl, ciudadLbl, estadoLbl, celLbl, telEmpLbl;
-	private JTextField nombreTF, apellidosTF, calleTF, coloniaTF, ciudadTF, estadoTF, celTF, telEmpTF;
+	private JLabel rfcLbl, nombreLbl, apellidosLbl, calleLbl, coloniaLbl, cpLbl, 
+					ciudadLbl, estadoLbl, emailLbl, celLbl, telEmpLbl;
+	private JTextField rfcTF, nombreTF, apellidosTF, calleTF, coloniaTF, cpTF, 
+					ciudadTF, estadoTF, emailTF, celTF, telEmpTF;
 	private JPanel panelN, panelC, panelS;
 	private JButton guardar;
 		
 	public AltaCliente () {
 		titulo = new JLabel("Alta de cliente");
+		rfcLbl = new JLabel("RFC: ");
 		nombreLbl = new JLabel("Nombre: ");
 		apellidosLbl = new JLabel("Apellidos: ");
 		calleLbl = new JLabel("Calle: ");
 		coloniaLbl = new JLabel("Colonia: ");
+		cpLbl = new JLabel("Codigo Postal: ");
 		ciudadLbl = new JLabel("Ciudad: ");
 		estadoLbl = new JLabel("Estado: ");
+		emailLbl = new JLabel("Email: ");
 		celLbl = new JLabel("Telefono Celular: ");
 		telEmpLbl = new JLabel("Telefono Empresa: ");
+		rfcTF = new JTextField();
 		nombreTF = new JTextField();
 		apellidosTF = new JTextField();
 		calleTF = new JTextField();
 		coloniaTF = new JTextField();
+		cpTF = new JTextField();
 		ciudadTF = new JTextField();
 		estadoTF = new JTextField();
+		emailTF = new JTextField();
 		celTF = new JTextField();
 		telEmpTF = new JTextField();
 		guardar = new JButton("Guardar");
@@ -76,6 +89,25 @@ public class AltaCliente extends JPanel {
 		gbc.gridy++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
+		panelC.add(rfcLbl, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(rfcTF, gbc);
+		
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
+		panelC.add(emailLbl, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(emailTF, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
 		panelC.add(calleLbl, gbc);
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -104,11 +136,11 @@ public class AltaCliente extends JPanel {
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
-		panelC.add(celLbl, gbc);
+		panelC.add(cpLbl, gbc);
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 2;
-		panelC.add(celTF, gbc);
+		panelC.add(cpTF, gbc);
 		
 		gbc.gridx = 0;
 		gbc.gridy++;
@@ -119,6 +151,15 @@ public class AltaCliente extends JPanel {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 2;
 		panelC.add(telEmpTF, gbc);
+		
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
+		panelC.add(celLbl, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(celTF, gbc);
 		
 		gbc.gridx = 0;
 		gbc.gridy++;
@@ -134,7 +175,25 @@ public class AltaCliente extends JPanel {
 		
 		add(panelS, BorderLayout.SOUTH);
 		panelS.add(guardar);
+		guardar.addActionListener(this);
 		
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		Cliente c = new Cliente();
+		if(e.getSource() == guardar) {
+			c.setNombre(nombreTF.getText());
+			c.setApellidos(apellidosTF.getText());
+			c.setRFC(rfcTF.getText());
+			c.setEmail(emailTF.getText());
+			c.setCalle(calleTF.getText());
+			c.setColonia(coloniaTF.getText());
+			c.setEstado(estadoTF.getText());
+			c.setCP(cpTF.getText());
+			c.setTelefono(celTF.getText());
+			c.setTelEmp(telEmpTF.getText());
+			ClienteBD.InsertCliente(c);
+		}
 	}
 
 }

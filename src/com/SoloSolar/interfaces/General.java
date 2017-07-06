@@ -56,7 +56,7 @@ public class General {
 		private JMenuBar menu;
 		private JMenu usuarios, clientes, productos, categoria, salir;
 		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
-						altaProd, bajaProd, modProd, altaCat, bajaCat, modCat, cerrSes, salProg;
+						altaProd, bajaProd, modProd, altaCat, bajaCat, modCat, salProg;
 		
 		private JFrame jfp;
 		private JPanel panelPrincipal = new JPanel();
@@ -100,7 +100,6 @@ public class General {
 			altaCat  = new JMenuItem("Alta Categoria");
 			bajaCat  = new JMenuItem("Baja Categoria");
 			modCat = new JMenuItem("Modificar Categoria");
-			cerrSes = new JMenuItem("Cerrar sesión");
 			salProg = new JMenuItem("Salir");
 
 			panelPrincipal = new JPanel();
@@ -140,9 +139,7 @@ public class General {
 			altaCat.addActionListener(this);
 			//Salir
 			menu.add(salir);
-			salir.add(cerrSes);
 			salir.add(salProg);
-			cerrSes.addActionListener(this);
 			salProg.addActionListener(this);
 		}
 		
@@ -156,9 +153,6 @@ public class General {
 				panelPrincipal.add(mc);
 			} else if(e.getSource() == salProg) {
 				System.exit(0);
-			} else if (e.getSource() == cerrSes) {
-				new Login();
-				jfp.dispose();
 			} else if (e.getSource() == altaCat) {
 				panelPrincipal.add(acat);
 			}

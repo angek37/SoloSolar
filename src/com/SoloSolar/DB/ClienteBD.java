@@ -2,32 +2,30 @@ package com.SoloSolar.DB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-import org.apache.derby.jdbc.*;
+import com.SoloSolar.Capsulas.Cliente;
 
-import com.SoloSolar.Capsulas.*;
-
-
-public class Insert {
-    private static String dbURL = "jdbc:derby:db/;user=admin;password=solosolo";
+public class ClienteBD {
+	private static String dbURL = "jdbc:derby:db/;user=admin;password=solosolo";
     private static Connection conn = null;
     private static Statement stmt = null;
     
-
-    public Insert(Categoria cat) {
+    public static void InsertCliente(Cliente cli) {
     	createConnection();
     	try
         {
             stmt = conn.createStatement();
-            stmt.execute("insert into Categoria(Nombre, Descripcion) values ('" +
-            		cat.getNombre() + "','" + cat.getDescripcion() + "')");
+            stmt.execute("INSERT INTO Cliente VALUES (DEFAULT, '" + cli.getRFC() + "', '" + cli.getNombre() + "',"
+            		+ "'" + cli.getApellidos() +  "', '" + cli.getCalle() + "', '" + cli.getColonia() + "',"
+            				+ Integer.parseInt(cli.getCP()) + ", '" + cli.getCiudad() + "', '" + cli.getEstado() + "',"
+            				+ "'" + cli.getEmail() + "', " + Integer.parseInt(cli.getTelefono()) + ","
+            				+ Integer.parseInt(cli.getTelEmp()) + ")");
             stmt.close();
-            JOptionPane.showMessageDialog(null, "Categoria registrada exitosamente");
+            JOptionPane.showMessageDialog(null, "Cliente registrado exitosamente");
         }
         catch (SQLException sqlExcept)
         {
@@ -45,7 +43,6 @@ public class Insert {
             except.printStackTrace();
         }
     }
-
     
     private static void shutdown() {
         try {
@@ -62,5 +59,4 @@ public class Insert {
         }
 
     }
-
 }
