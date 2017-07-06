@@ -2,32 +2,21 @@ package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import com.SoloSolar.interfaces.General.GeneralPanel;
-import java.awt.Color;
-
-
-import com.SoloSolar.Capsulas.Categoria;
-import com.SoloSolar.DB.Insert;
 
 public class General {
 	
@@ -67,20 +56,6 @@ public class General {
 		
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
-			setLayout(new GridBagLayout());
-			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.insets = new Insets(8, 8, 8, 8);
-			gbc.gridx = 0;
-			gbc.gridy = 0;
-			gbc.anchor = GridBagConstraints.WEST;
-			gbc.gridheight = GridBagConstraints.REMAINDER;
-			gbc.fill = GridBagConstraints.VERTICAL;
-			add(new MenuPanel(), gbc);
-			gbc.anchor = GridBagConstraints.EAST;
-			gbc.gridx++;
-			gbc.gridheight = GridBagConstraints.REMAINDER;
-			gbc.fill = GridBagConstraints.VERTICAL;
-			add(panelPrincipal, gbc);
 			
 			menu = new JMenuBar();
 			usuarios = new JMenu("Usuarios");
@@ -102,9 +77,8 @@ public class General {
 			modCat = new JMenuItem("Modificar Categoria");
 			salProg = new JMenuItem("Salir");
 
-			panelPrincipal = new JPanel();
 			setLayout(new BorderLayout());
-			add(menu, BorderLayout.NORTH);
+			add(new MenuPanel(), BorderLayout.WEST);
 			add(panelPrincipal, BorderLayout.CENTER);
 			panelPrincipal.setLayout(new BorderLayout());
 
@@ -166,26 +140,20 @@ public class General {
 	
 	public class MenuPanel extends JPanel {
 		private JButton venta, reporte, buscar;
+		private ImageIcon purchase = new ImageIcon(new ImageIcon("assets/cashier.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));		
+		private ImageIcon search = new ImageIcon(new ImageIcon("assets/research.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));		
+		private ImageIcon reports = new ImageIcon(new ImageIcon("assets/newspaper.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));		
+
 		
 		public MenuPanel() {
-			setLayout(new GridBagLayout());
-			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.anchor = GridBagConstraints.WEST;
-			gbc.insets = new Insets(8, 8, 8, 8);
-			gbc.gridx = 0;
-			gbc.gridy = 0;
-			venta = new JButton("Venta");
-			add(venta, gbc);
-			
-			gbc.anchor = GridBagConstraints.WEST;
-			gbc.gridy++;
-			reporte = new JButton("Reporte");
-			add(reporte, gbc);
-			
-			gbc.anchor = GridBagConstraints.WEST;
-			gbc.gridy++;
-			buscar = new JButton("Buscar");
-			add(buscar, gbc);
+			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			venta = new JButton(purchase);
+			venta.setVerticalAlignment(SwingConstants.BOTTOM);
+			add(venta);
+			reporte = new JButton(search);
+			add(reporte);
+			buscar = new JButton(reports);
+			add(buscar);
 			
 		}
 	}
