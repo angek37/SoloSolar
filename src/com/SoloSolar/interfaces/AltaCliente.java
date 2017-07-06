@@ -136,14 +136,23 @@ public class AltaCliente extends JPanel implements ActionListener {
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
+		panelC.add(ciudadLbl, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(ciudadTF, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
 		panelC.add(cpLbl, gbc);
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 2;
 		panelC.add(cpTF, gbc);
 		
-		gbc.gridx = 0;
-		gbc.gridy++;
+		gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
 		panelC.add(telEmpLbl, gbc);
@@ -152,7 +161,8 @@ public class AltaCliente extends JPanel implements ActionListener {
 		gbc.weightx = 2;
 		panelC.add(telEmpTF, gbc);
 		
-		gbc.gridx++;
+		gbc.gridx = 0;
+		gbc.gridy++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
 		panelC.add(celLbl, gbc);
@@ -189,6 +199,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 			c.setCalle(calleTF.getText());
 			c.setColonia(coloniaTF.getText());
 			c.setEstado(estadoTF.getText());
+			c.setCiudad(ciudadTF.getText());
 			c.setCP(cpTF.getText());
 			c.setTelefono(celTF.getText());
 			c.setTelEmp(telEmpTF.getText());

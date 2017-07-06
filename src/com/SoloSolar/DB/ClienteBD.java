@@ -22,10 +22,10 @@ public class ClienteBD {
             stmt = conn.createStatement();
             stmt.execute("INSERT INTO Cliente(RFC, FIRSTNAME, SECONDNAME, CALLE, COLONIA, CP, CIUDAD, ESTADO, EMAIL,"
             		+ "TEL_CELULAR, TEL_EMPRESA) VALUES ('" + cli.getRFC() + "', '" + cli.getNombre() + "',"
-            		+ "'" + cli.getApellidos() +  "', '" + cli.getCalle() + "', '" + cli.getColonia() + "',"
-            				+ Integer.parseInt(cli.getCP()) + ", '" + cli.getCiudad() + "', '" + cli.getEstado() + "',"
-            				+ "'" + cli.getEmail() + "', " + Integer.parseInt(cli.getTelefono()) + ","
-            				+ Integer.parseInt(cli.getTelEmp()) + ")");
+            		+ "'" + cli.getApellidos() +  "', '" + cli.getCalle() + "', '" + cli.getColonia() + "', "
+            				+ Integer.parseInt(cli.getCP()) + ", '" + cli.getCiudad() + "', '" + cli.getEstado() + "', "
+            				+ "'" + cli.getEmail() + "', '" + cli.getTelefono() + "', '"
+            				+ cli.getTelEmp() + "')");
             stmt.close();
             JOptionPane.showMessageDialog(null, "Cliente registrado exitosamente");
         }
