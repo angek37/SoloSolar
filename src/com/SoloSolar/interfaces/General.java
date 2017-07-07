@@ -1,7 +1,6 @@
 package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -77,6 +76,13 @@ public class General {
 			bajaCat  = new JMenuItem("Baja Categoria");
 			modCat = new JMenuItem("Modificar Categoria");
 			salProg = new JMenuItem("Salir");
+
+			setLayout(new BorderLayout());
+			add(new MenuPanel(), BorderLayout.WEST);
+			add(panelPrincipal, BorderLayout.CENTER);
+			panelPrincipal.setLayout(new BorderLayout());
+
+			jfp.add(menu, BorderLayout.NORTH);
 			
 			//Usuarios
 			menu.add(usuarios);
@@ -109,12 +115,6 @@ public class General {
 			menu.add(salir);
 			salir.add(salProg);
 			salProg.addActionListener(this);
-			
-			setLayout(new BorderLayout());
-			add(new MenuPanel(), BorderLayout.WEST);
-			add(panelPrincipal, BorderLayout.CENTER);
-			panelPrincipal.setLayout(new BorderLayout());
-			jfp.add(menu, BorderLayout.NORTH);
 		}
 		
 		public void actionPerformed(ActionEvent e) {
@@ -147,24 +147,13 @@ public class General {
 		
 		public MenuPanel() {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-			venta = new JButton("Venta",purchase);
-			venta.setMaximumSize(new Dimension(85,60));
-			venta.setVerticalTextPosition(SwingConstants.BOTTOM);
-			venta.setHorizontalTextPosition(SwingConstants.CENTER);
-			venta.setBorder(null);
+			venta = new JButton(purchase);
+			venta.setVerticalAlignment(SwingConstants.BOTTOM);
 			add(venta);
-			buscar = new JButton("Buscar",search);
-			buscar.setMaximumSize(new Dimension(85,60));
-			buscar.setVerticalTextPosition(SwingConstants.BOTTOM);
-			buscar.setHorizontalTextPosition(SwingConstants.CENTER);
-			buscar.setBorder(null);
-			add(buscar);
-			reporte = new JButton("Reportes",reports);
-			reporte.setMaximumSize(new Dimension(85,60));
-			reporte.setVerticalTextPosition(SwingConstants.BOTTOM);
-			reporte.setHorizontalTextPosition(SwingConstants.CENTER);
-			reporte.setBorder(null);
+			reporte = new JButton(search);
 			add(reporte);
+			buscar = new JButton(reports);
+			add(buscar);
 			
 		}
 	}
