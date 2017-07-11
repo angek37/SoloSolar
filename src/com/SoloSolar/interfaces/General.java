@@ -54,6 +54,7 @@ public class General {
 		private BajaCliente bc = new BajaCliente();
 		private ModificarCliente mc = new ModificarCliente();
 		private AltaCategoria acat = new AltaCategoria();
+		private ModificarUsuario modUsuario = new ModificarUsuario();
 		
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
@@ -83,6 +84,7 @@ public class General {
 			/*usuarios.add(altaUser);
 			usuarios.add(bajaUser);*/
 			usuarios.add(modUser);
+			modUser.addActionListener(this);
 			
 			//Clientes
 			menu.add(clientes);
@@ -119,7 +121,9 @@ public class General {
 		
 		public void actionPerformed(ActionEvent e) {
 			panelPrincipal.removeAll();
-			if (e.getSource() == altaClie) {
+			if (e.getSource() == modUser) {
+				panelPrincipal.add(modUsuario);
+			} else if (e.getSource() == altaClie) {
 				panelPrincipal.add(ac);
 			} else if (e.getSource() == bajaClie) {
 				panelPrincipal.add(bc);
@@ -138,35 +142,49 @@ public class General {
 			
 	}
 	
-	public class MenuPanel extends JPanel {
-		private JButton venta, reporte, buscar;
+	public class MenuPanel extends JPanel implements ActionListener {
+		private JButton venta, reporte, buscar, salir;
 		private ImageIcon purchase = new ImageIcon(new ImageIcon("assets/cashier.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));		
 		private ImageIcon search = new ImageIcon(new ImageIcon("assets/research.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));		
-		private ImageIcon reports = new ImageIcon(new ImageIcon("assets/newspaper.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));		
-
+		private ImageIcon reports = new ImageIcon(new ImageIcon("assets/newspaper.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+		private ImageIcon exit = new ImageIcon(new ImageIcon("assets/exit.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		
 		public MenuPanel() {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-			venta = new JButton("Venta",purchase);
+			venta = new JButton("Venta", purchase);
 			venta.setMaximumSize(new Dimension(85,60));
 			venta.setVerticalTextPosition(SwingConstants.BOTTOM);
 			venta.setHorizontalTextPosition(SwingConstants.CENTER);
 			venta.setBorder(null);
 			add(venta);
-			buscar = new JButton("Buscar",search);
+			buscar = new JButton("Buscar", search);
 			buscar.setMaximumSize(new Dimension(85,60));
 			buscar.setVerticalTextPosition(SwingConstants.BOTTOM);
 			buscar.setHorizontalTextPosition(SwingConstants.CENTER);
 			buscar.setBorder(null);
 			add(buscar);
-			reporte = new JButton("Reportes",reports);
+			reporte = new JButton("Reportes", reports);
 			reporte.setMaximumSize(new Dimension(85,60));
 			reporte.setVerticalTextPosition(SwingConstants.BOTTOM);
 			reporte.setHorizontalTextPosition(SwingConstants.CENTER);
 			reporte.setBorder(null);
 			add(reporte);
+			salir = new JButton("Salir", exit);
+			salir.setMaximumSize(new Dimension(85,60));
+			salir.setVerticalTextPosition(SwingConstants.BOTTOM);
+			salir.setHorizontalTextPosition(SwingConstants.CENTER);
+			salir.setBorder(null);
+			add(salir);
+			salir.addActionListener(this);
 			
 		}
+		
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == salir) {
+				System.exit(0);
+			}
+		}
+		
 	}
 	
 	public static void main(String[] mr) {
