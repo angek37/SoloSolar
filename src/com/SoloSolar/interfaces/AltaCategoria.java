@@ -10,9 +10,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Categoria;
+import com.SoloSolar.DB.Consulta;
 import com.SoloSolar.DB.Insert;
 
 
@@ -62,20 +66,63 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		gbc.gridwidth = 2;
 		add(registrar, gbc);
 		registrar.addActionListener(this);
+		
+		JTable table = new JTable(new CategoryModel());
+		table.setFillsViewportHeight(true);
+		table.setShowHorizontalLines(true);
+		table.setShowVerticalLines(true);
+		JScrollPane scrollPane = new JScrollPane(table);
+		gbc.gridx = 0;
+		gbc.gridy++;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.gridheight = 4;
+		add(scrollPane, gbc);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Categoria cat = new Categoria();
+		Categoria cat;
 		if(e.getSource() == registrar) {
-			cat.setNombre(nombre.getText());
-			cat.setDescripcion(descripcion.getText());
+			cat = new Categoria(nombre.getText(), descripcion.getText());
 			new Insert(cat);
 		}
 	}
+	
+	public class CategoryModel extends AbstractTableModel {
+		Consulta select = new Consulta();
+		Categoria[] category = select.selectCategories();
+		public int getRowCount() {
+			return category.length;
+		}
+
+		public int getColumnCount() {
+			return 2;
+		}
 		
-	/*
-	public static void main(String[] mr) {
-		new AltaCategoria();
+		public String getColumnName(int col) {
+			String aux = "";
+		      switch(col) {
+		      case 0: 
+		    	  return aux = "Nombre";
+		      case 1: 
+		    	  return aux = "Descripción";
+		      }
+			return aux;
+		    }
+		
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			   Object value = null;
+			   Categoria categoria = category[rowIndex];
+			   switch (columnIndex) {
+			   case 0:
+				   value = categoria.getNombre();
+				   break;
+			   case 1:
+				   value = categoria.getDescripcion();
+				   break;
+			   }
+	           return value;
+		}
 	}
-	 */
+	
 }
