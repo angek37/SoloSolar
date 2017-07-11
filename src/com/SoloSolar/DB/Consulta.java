@@ -31,7 +31,7 @@ public class Consulta {
     }
     
     public Categoria[] selectCategories(){
-    	Categoria[] cat = new Categoria[1];
+    	Categoria[] cat = new Categoria[0];
     	Categoria[] aux;
         try {
             stmt = conn.createStatement();
@@ -44,10 +44,6 @@ public class Consulta {
 //            }
             int c = 0;
             while(results.next()) {
-            	cat[c] = new Categoria();
-            	cat[c].setId(results.getInt(1));
-            	cat[c].setNombre(results.getString(2));
-            	cat[c].setDescripcion(results.getString(3));
             	aux = new Categoria[cat.length];
             	for(int x = 0; x < cat.length; x++) {
             		aux[x] = cat[x];
@@ -56,6 +52,10 @@ public class Consulta {
             	for(int x = 0; x < aux.length; x++) {
             		cat[x] = aux[x];
             	}
+            	cat[c] = new Categoria();
+            	cat[c].setId(results.getInt(1));
+            	cat[c].setNombre(results.getString(2));
+            	cat[c].setDescripcion(results.getString(3));
             	c++;
             }
             aux = null;
