@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -130,7 +131,10 @@ public class General {
 			} else if(e.getSource() == modClie) {
 				panelPrincipal.add(mc);
 			} else if(e.getSource() == salProg) {
-				System.exit(0);
+				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION);
+				if(reply == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
 			} else if (e.getSource() == altaCat) {
 				panelPrincipal.add(acat);
 			}
@@ -181,7 +185,10 @@ public class General {
 		
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == salir) {
-				System.exit(0);
+				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION);
+				if(reply == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
 			}
 		}
 		
