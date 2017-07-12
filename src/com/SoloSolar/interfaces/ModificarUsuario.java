@@ -8,19 +8,23 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import com.SoloSolar.DB.UsuarioBD;
 
-public class ModificarUsuario extends JPanel implements ActionListener {
+public class ModificarUsuario extends JPanel implements ActionListener, MouseListener {
 	private JLabel nombreLBL, usuarioLBL, passwordLBL, titulo;
 	private JTextField nombreTF, usuarioTF;
 	private JPasswordField passwordTF;
 	private JPanel panelN, panelC, panelS;
-	private JButton guardar, activarCambios;
+	private JButton guardar, activarCambios, verPass;
+	private char defaultEchoChar;
 	
 	public ModificarUsuario () {
 		titulo = new JLabel("Modificar Usuario");
@@ -32,12 +36,17 @@ public class ModificarUsuario extends JPanel implements ActionListener {
 		passwordTF = new JPasswordField();
 		guardar = new JButton("Modificar");
 		activarCambios = new JButton("Habilitar Campos");
+		verPass = new JButton("Mostrar");
 		nombreTF.setEditable(false);
 		usuarioTF.setEditable(false);
 		passwordTF.setEditable(false);
+		defaultEchoChar = passwordTF.getEchoChar();
 		panelN = new JPanel();
 		panelC = new JPanel();
 		panelS = new JPanel();
+		passwordTF.setText(UsuarioBD.getPass());
+		nombreTF.setText(UsuarioBD.getNombre());
+		usuarioTF.setText(UsuarioBD.getUsuario());
 		
 		titulo.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		titulo.setForeground(Color.RED);
@@ -84,6 +93,12 @@ public class ModificarUsuario extends JPanel implements ActionListener {
 		gbc.weightx = 2;
 		panelC.add(passwordTF, gbc);
 		
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
+		panelC.add(verPass, gbc);
+		verPass.addMouseListener(this);
+		
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -100,8 +115,38 @@ public class ModificarUsuario extends JPanel implements ActionListener {
 				passwordTF.setEditable(false);
 			}
 		} else if(e.getSource() == guardar) {
-			
+			 
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (e.getSource() == verPass) {
+			passwordTF.setEchoChar((char) 0); 
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		passwordTF.setEchoChar(defaultEchoChar);
 	}
 
 }

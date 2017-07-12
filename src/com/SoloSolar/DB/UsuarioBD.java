@@ -2,6 +2,7 @@ package com.SoloSolar.DB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import org.apache.derby.jdbc.*;
@@ -17,8 +18,7 @@ public class UsuarioBD {
     
     public static void ModificarUsuario(Usuario cli) {
     	createConnection();
-    	try
-        {
+    	try {
             stmt = conn.createStatement();
             stmt.executeUpdate("");
             
@@ -30,6 +30,54 @@ public class UsuarioBD {
             sqlExcept.printStackTrace();
         }
     	shutdown();
+    }
+    
+    public static String getNombre() {
+    	createConnection();
+    	String nombre = "";
+    	try {
+    		stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT NOMBRE FROM USUARIO");
+			while(rs.next()) {
+				nombre = rs.getString(1);
+			}
+    	} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	shutdown();
+    	return nombre;
+    }
+    
+    public static String getUsuario() {
+    	createConnection();
+    	String usuario = "";
+    	try {
+    		stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT USUARIO FROM USUARIO");
+			while(rs.next()) {
+				usuario = rs.getString(1);
+			}
+	    } catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	shutdown();
+    	return usuario;
+    }
+    
+    public static String getPass() {
+    	createConnection();
+    	String pass = "";
+    	try {
+    		stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT PASSWORD FROM USUARIO");
+			while(rs.next()) {
+				pass = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	shutdown();
+    	return pass;
     }
     
     private static void createConnection() {

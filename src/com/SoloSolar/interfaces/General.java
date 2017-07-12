@@ -35,7 +35,7 @@ public class General {
     			frame.setSize(600, 400);
                 frame.add(new GeneralPanel(frame));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setResizable(true);
+                frame.setResizable(false);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }
