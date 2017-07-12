@@ -4,11 +4,13 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,6 +25,7 @@ import com.SoloSolar.DB.Insert;
 public class AltaCategoria extends JPanel implements ActionListener{
 	private JTextField nombre, descripcion;
 	private JButton registrar;
+	private JTable table;
 		
 	public AltaCategoria() {
 		setLayout(new GridBagLayout());
@@ -67,7 +70,7 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		add(registrar, gbc);
 		registrar.addActionListener(this);
 		
-		JTable table = new JTable(new CategoryModel());
+		table = new JTable(new CategoryModel());
 		table.setFillsViewportHeight(true);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
@@ -81,10 +84,18 @@ public class AltaCategoria extends JPanel implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		Insert in = new Insert();
 		Categoria cat;
 		if(e.getSource() == registrar) {
 			cat = new Categoria(nombre.getText(), descripcion.getText());
-			new Insert(cat);
+			if(in.InsertCategory(cat)) {
+				JOptionPane.showMessageDialog(null, "Categoria registrada exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+			}else {
+				JOptionPane.showMessageDialog(null, "No ha sido posible registrar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			nombre.setText("");
+			descripcion.setText("");
+			table.setModel(new CategoryModel());
 		}
 	}
 	

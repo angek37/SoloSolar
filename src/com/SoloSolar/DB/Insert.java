@@ -19,18 +19,23 @@ public class Insert {
     private static Statement stmt = null;
     
 
-    public Insert(Categoria cat) {
+    public Insert() {
     	createConnection();
+    }
+    
+    public boolean InsertCategory(Categoria cat) {
     	try {
             stmt = conn.createStatement();
             stmt.execute("insert into Categoria(Nombre, Descripcion) values ('" +
             		cat.getNombre() + "','" + cat.getDescripcion() + "')");
             stmt.close();
-            JOptionPane.showMessageDialog(null, "Categoria registrada exitosamente");
+            shutdown();
+            return true;
         } catch (SQLException sqlExcept) {
             sqlExcept.printStackTrace();
+            return false;
         }
-    	shutdown();
+    	
     }
     
     private static void createConnection() {
