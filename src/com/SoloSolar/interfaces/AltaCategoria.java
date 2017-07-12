@@ -122,7 +122,7 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		    	  return aux = "Descripción";
 		      }
 			return aux;
-		    }
+		}
 		
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			   Object value = null;
