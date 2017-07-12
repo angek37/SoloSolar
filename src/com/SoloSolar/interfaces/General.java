@@ -51,11 +51,6 @@ public class General {
 		
 		private JFrame jfp;
 		private JPanel panelPrincipal = new JPanel();
-		private AltaCliente ac = new AltaCliente();
-		private BajaCliente bc = new BajaCliente();
-		private ModificarCliente mc = new ModificarCliente();
-		private AltaCategoria acat = new AltaCategoria();
-		private ModificarUsuario modUsuario = new ModificarUsuario();
 		
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
@@ -122,13 +117,18 @@ public class General {
 		
 		public void actionPerformed(ActionEvent e) {
 			panelPrincipal.removeAll();
+			
 			if (e.getSource() == modUser) {
+				ModificarUsuario modUsuario = new ModificarUsuario();
 				panelPrincipal.add(modUsuario);
 			} else if (e.getSource() == altaClie) {
+				AltaCliente ac = new AltaCliente();
 				panelPrincipal.add(ac);
 			} else if (e.getSource() == bajaClie) {
+				BajaCliente bc = new BajaCliente();
 				panelPrincipal.add(bc);
 			} else if(e.getSource() == modClie) {
+				ModificarCliente mc = new ModificarCliente();
 				panelPrincipal.add(mc);
 			} else if(e.getSource() == salProg) {
 				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION);
@@ -136,6 +136,7 @@ public class General {
 					System.exit(0);
 				}
 			} else if (e.getSource() == altaCat) {
+				AltaCategoria acat = new AltaCategoria();
 				panelPrincipal.add(acat);
 			}
 			

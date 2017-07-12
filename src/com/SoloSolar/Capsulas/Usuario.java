@@ -23,4 +23,8 @@ public class Usuario {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
+	
+	public String getUsuario() {
+		return usuario;
+	}
 }

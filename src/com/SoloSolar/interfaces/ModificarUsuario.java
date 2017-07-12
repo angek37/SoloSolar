@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+
+import com.SoloSolar.Capsulas.Usuario;
 import com.SoloSolar.DB.UsuarioBD;
 
 public class ModificarUsuario extends JPanel implements ActionListener, MouseListener {
@@ -102,6 +104,7 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		Usuario u = new Usuario();
 		if (e.getSource() == activarCambios) {
 			if (activarCambios.getText().equals("Habilitar Campos")) {
 				activarCambios.setText("Deshabilitar Campos");
@@ -115,7 +118,10 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 				passwordTF.setEditable(false);
 			}
 		} else if(e.getSource() == guardar) {
-			 
+			 u.setNombre(nombreTF.getText());
+			 u.setUsuario(usuarioTF.getText());
+			 u.setPassword(String.valueOf(passwordTF.getPassword()));
+			 UsuarioBD.ModificarUsuario(u);
 		}
 	}
 

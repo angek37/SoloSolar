@@ -16,14 +16,16 @@ public class UsuarioBD {
     private static Connection conn = null;
     private static Statement stmt = null;
     
-    public static void ModificarUsuario(Usuario cli) {
+    public static void ModificarUsuario(Usuario us) {
     	createConnection();
     	try {
             stmt = conn.createStatement();
-            stmt.executeUpdate("");
+            stmt.executeUpdate("UPDATE USUARIO SET NOMBRE = '" + us.getNombre() + "', "
+            		+ "USUARIO = '" + us.getUsuario() + "', "
+            		+ "PASSWORD = '" + us.getPassword() + "'");
             
             stmt.close();
-            JOptionPane.showMessageDialog(null, "Cliente registrado exitosamente");
+            JOptionPane.showMessageDialog(null, "Usuario modificado exitosamente");
         }
         catch (SQLException sqlExcept)
         {
