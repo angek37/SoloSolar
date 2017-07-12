@@ -36,7 +36,7 @@ public class General {
     			frame.setSize(600, 400);
                 frame.add(new GeneralPanel(frame));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setResizable(false);
+                frame.setResizable(true);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }
@@ -102,6 +102,7 @@ public class General {
 			categoria.add(altaCat);
 			categoria.add(bajaCat);
 			categoria.add(modCat);
+			modCat.addActionListener(this);
 			altaCat.addActionListener(this);
 			//Salir
 			menu.add(salir);
@@ -130,7 +131,7 @@ public class General {
 			} else if(e.getSource() == modClie) {
 				ModificarCliente mc = new ModificarCliente();
 				panelPrincipal.add(mc);
-			} else if(e.getSource() == salProg) {
+			} else if (e.getSource() == salProg) {
 				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION);
 				if(reply == JOptionPane.YES_OPTION) {
 					System.exit(0);
@@ -138,6 +139,9 @@ public class General {
 			} else if (e.getSource() == altaCat) {
 				AltaCategoria acat = new AltaCategoria();
 				panelPrincipal.add(acat);
+			} else if (e.getSource() == modCat) {
+				ModificarCategoria mcat = new ModificarCategoria();
+				panelPrincipal.add(mcat);
 			}
 			
 			panelPrincipal.updateUI();
