@@ -7,9 +7,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -19,7 +22,7 @@ import javax.swing.table.AbstractTableModel;
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.DB.Consulta;
 
-public class ModificarCategoria extends JPanel {
+public class ModificarCategoria extends JPanel implements MouseListener {
 	private JTextField nombre, descripcion;
 	private JTable table;
 	
@@ -29,6 +32,7 @@ public class ModificarCategoria extends JPanel {
 		table.setFillsViewportHeight(true);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
+		table.addMouseListener(this);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(150, 0));
 		add(scrollPane, BorderLayout.WEST);
@@ -52,8 +56,20 @@ public class ModificarCategoria extends JPanel {
 		}
 
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			Categoria categoria = category[rowIndex];
-			return categoria.getNombre();
+			Object value = null;
+			   Categoria categoria = category[rowIndex];
+			   switch (columnIndex) {
+			   case 0:
+				   value = categoria.getNombre();
+				   break;
+			   case 1:
+				   value = categoria.getDescripcion();
+				   break;
+			   case 2:
+				   value = categoria.getId();
+				   break;
+			   }
+	           return value;
 		}
 		
 	}
@@ -108,9 +124,33 @@ public class ModificarCategoria extends JPanel {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			
-			
+			if(e.getSource() == actualizar) {
+				JOptionPane.showMessageDialog(null, "Button Pressed");
+			}
 		}
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 1) {
+			nombre.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
+			descripcion.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
+		}
+	}
+
+	public void mousePressed(MouseEvent e) {
+		
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
+		
 	}
 
 }
