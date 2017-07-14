@@ -38,9 +38,10 @@ public class ClienteBD {
     }
     
     public static String[] ClientesExistentes() {
-    	String datos[] = new String[CantidadClientes()];
+    	String datos[] = new String[CantidadClientes() + 1];
+    	datos[0] = "Seleccionar Cliente";
     	createConnection();
-    	int i = 0;
+    	int i = 1;
     	try {
     		stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE");
@@ -69,6 +70,32 @@ public class ClienteBD {
 		}
     	shutdown();
     	return tamano;
+    }
+    
+    public static Cliente ClienteSeleccionado(int id) {
+    	Cliente c = new Cliente();
+    	createConnection();
+    	try {
+    		stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE WHERE ID_CUS = " + id);
+			while(rs.next()) {
+				c.setRFC((rs.getString(2))); // RFC
+				c.setNombre((rs.getString(3))); // NOMBRE
+				c.setApellidos((rs.getString(4))); // APELLIDOS
+				c.setCalle((rs.getString(5))); // CALLE
+				c.setColonia((rs.getString(6))); // COLONIA
+				c.setCP((rs.getString(7))); // CP 
+				c.setCiudad((rs.getString(8))); // CIUDAD
+				c.setEstado((rs.getString(9))); // ESTADO
+				c.setEmail((rs.getString(10)));// EMAIL 
+				c.setTelefono((rs.getString(11)));// TELEFONO
+				c.setTelEmp((rs.getString(12)));// TELEFONO
+			}
+	    } catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	shutdown();
+    	return c;
     }
     
     private static void createConnection() {

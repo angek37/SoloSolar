@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,9 +18,10 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
 
-public class ModificarCliente extends JPanel {
+public class ModificarCliente extends JPanel implements ItemListener {
 	private JComboBox personas;
 	private JLabel titulo;
 	private JLabel rfcLbl, nombreLbl, apellidosLbl, calleLbl, coloniaLbl, cpLbl, 
@@ -58,6 +61,7 @@ public class ModificarCliente extends JPanel {
 		panelN = new JPanel();
 		panelC = new JPanel();
 		panelS = new JPanel();
+		guardar.setEnabled(false);
 		
 		setLayout(new BorderLayout());
 		add(panelN, BorderLayout.NORTH);
@@ -74,6 +78,7 @@ public class ModificarCliente extends JPanel {
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		panelC.add(personas, gbc);
+		personas.addItemListener(this);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 1;
@@ -193,5 +198,41 @@ public class ModificarCliente extends JPanel {
 		add(panelS, BorderLayout.SOUTH);
 		panelS.add(guardar);
 		
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent arg0) {
+		if (arg0.getSource() == personas) {
+			if (personas.getSelectedIndex() == 0) {
+				rfcTF.setText("");
+				nombreTF.setText("");
+				apellidosTF.setText("");
+				calleTF.setText("");
+				coloniaTF.setText("");
+				cpTF.setText("");
+				ciudadTF.setText("");
+				estadoTF.setText("");
+				emailTF.setText("");
+				celTF.setText("");
+				telEmpTF.setText("");
+				guardar.setEnabled(false);
+			} else {
+				String[] val;
+				val = personas.getSelectedItem().toString().split(":");
+				Cliente c = ClienteBD.ClienteSeleccionado(Integer.parseInt(val[0]));
+				rfcTF.setText(c.getRFC());
+				nombreTF.setText(c.getNombre());
+				apellidosTF.setText(c.getApellidos());
+				calleTF.setText(c.getCalle());
+				coloniaTF.setText(c.getColonia());
+				cpTF.setText(c.getCP());
+				ciudadTF.setText(c.getCiudad());
+				estadoTF.setText(c.getEstado());
+				emailTF.setText(c.getEmail());
+				celTF.setText(c.getTelefono());
+				telEmpTF.setText(c.getTelEmp());
+				guardar.setEnabled(true);
+			}
+		}
 	}
 }
