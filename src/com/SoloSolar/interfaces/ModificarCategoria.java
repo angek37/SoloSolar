@@ -2,6 +2,7 @@ package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -16,14 +17,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.DB.Consulta;
 
 public class ModificarCategoria extends JPanel implements MouseListener {
-	private JTextField nombre, descripcion;
+	private JTextField id, nombre, descripcion;
 	private JTable table;
 	
 	public ModificarCategoria() {
@@ -37,6 +42,10 @@ public class ModificarCategoria extends JPanel implements MouseListener {
 		scrollPane.setPreferredSize(new Dimension(150, 0));
 		add(scrollPane, BorderLayout.WEST);
 		add(new ModifyCategory(), BorderLayout.CENTER);
+		
+		JLabel titulo = new JLabel("Administrar categorías");
+		titulo.setHorizontalAlignment(JLabel.CENTER);
+		add(titulo, BorderLayout.NORTH);
 	}
 	
 	public class CategoryModel extends AbstractTableModel {
@@ -80,12 +89,21 @@ public class ModificarCategoria extends JPanel implements MouseListener {
 		public ModifyCategory() {
 			setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
+			setBorder(new CompoundBorder(new TitledBorder("Modificar valores de categoría"), new EmptyBorder(12, 0, 0, 0)));
 			gbc.gridx = 0;
 			gbc.gridy = 0;
 			gbc.weighty = 0;
-			gbc.gridwidth = GridBagConstraints.REMAINDER;
+			gbc.anchor = GridBagConstraints.WEST;
 			gbc.insets = new Insets(4,4,4,4);
-			add(new JLabel("Actualizar categoría"), gbc);
+			add(new JLabel("ID:"), gbc);
+			id = new JTextField();
+			id.setEnabled(false);
+			gbc.gridx+=2;
+			gbc.weightx = 1;
+			gbc.weighty = 0;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.gridwidth = 2;
+			add(id, gbc);
 			gbc.gridy++;
 			gbc.gridx = 0;
 			gbc.anchor = GridBagConstraints.WEST;
@@ -134,6 +152,7 @@ public class ModificarCategoria extends JPanel implements MouseListener {
 		if (e.getClickCount() == 1) {
 			nombre.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
 			descripcion.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
+			id.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2));
 		}
 	}
 
