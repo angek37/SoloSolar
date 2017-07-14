@@ -16,32 +16,42 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.SoloSolar.DB.ClienteBD;
+
 public class ModificarCliente extends JPanel {
 	private JComboBox personas;
 	private JLabel titulo;
-	private JLabel nombreLbl, apellidosLbl, calleLbl, coloniaLbl, ciudadLbl, estadoLbl, celLbl, telEmpLbl;
-	private JTextField nombreTF, apellidosTF, calleTF, coloniaTF, ciudadTF, estadoTF, celTF, telEmpTF;
+	private JLabel rfcLbl, nombreLbl, apellidosLbl, calleLbl, coloniaLbl, cpLbl, 
+		ciudadLbl, estadoLbl, emailLbl, celLbl, telEmpLbl;
+	private JTextField rfcTF, nombreTF, apellidosTF, calleTF, coloniaTF, cpTF, 
+		ciudadTF, estadoTF, emailTF, celTF, telEmpTF;
 	private JPanel panelN, panelC, panelS;
 	private JButton guardar;
 		
 	public ModificarCliente() {
-		String nose[] = {"asd", "asd", "sdsd"};
+		String nose[] = ClienteBD.ClientesExistentes();
 		personas = new JComboBox(nose);
 		titulo = new JLabel("Modificar cliente");
+		rfcLbl = new JLabel("RFC: ");
 		nombreLbl = new JLabel("Nombre: ");
 		apellidosLbl = new JLabel("Apellidos: ");
 		calleLbl = new JLabel("Calle: ");
 		coloniaLbl = new JLabel("Colonia: ");
+		cpLbl = new JLabel("Codigo Postal: ");
 		ciudadLbl = new JLabel("Ciudad: ");
 		estadoLbl = new JLabel("Estado: ");
+		emailLbl = new JLabel("Email: ");
 		celLbl = new JLabel("Telefono Celular: ");
 		telEmpLbl = new JLabel("Telefono Empresa: ");
+		rfcTF = new JTextField();
 		nombreTF = new JTextField();
 		apellidosTF = new JTextField();
 		calleTF = new JTextField();
 		coloniaTF = new JTextField();
+		cpTF = new JTextField();
 		ciudadTF = new JTextField();
 		estadoTF = new JTextField();
+		emailTF = new JTextField();
 		celTF = new JTextField();
 		telEmpTF = new JTextField();
 		guardar = new JButton("Guardar");
@@ -86,6 +96,25 @@ public class ModificarCliente extends JPanel {
 		gbc.gridy++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
+		panelC.add(rfcLbl, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(rfcTF, gbc);
+		
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
+		panelC.add(emailLbl, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(emailTF, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
 		panelC.add(calleLbl, gbc);
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -114,14 +143,23 @@ public class ModificarCliente extends JPanel {
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
-		panelC.add(celLbl, gbc);
+		panelC.add(ciudadLbl, gbc);
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 2;
-		panelC.add(celTF, gbc);
+		panelC.add(ciudadTF, gbc);
 		
 		gbc.gridx = 0;
 		gbc.gridy++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
+		panelC.add(cpLbl, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(cpTF, gbc);
+		
+		gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
 		panelC.add(telEmpLbl, gbc);
@@ -129,6 +167,16 @@ public class ModificarCliente extends JPanel {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 2;
 		panelC.add(telEmpTF, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
+		panelC.add(celLbl, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(celTF, gbc);
 		
 		gbc.gridx = 0;
 		gbc.gridy++;

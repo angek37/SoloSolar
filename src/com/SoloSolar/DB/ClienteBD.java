@@ -2,6 +2,7 @@ package com.SoloSolar.DB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import org.apache.derby.jdbc.*;
@@ -34,6 +35,40 @@ public class ClienteBD {
             sqlExcept.printStackTrace();
         }
     	shutdown();
+    }
+    
+    public static String[] ClientesExistentes() {
+    	String datos[] = new String[CantidadClientes()];
+    	createConnection();
+    	int i = 0;
+    	try {
+    		stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE");
+			while(rs.next()) {
+				datos[i] = rs.getString(1) + ": " + rs.getString(3);
+				i++;
+			}
+	    } catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	shutdown();
+    	return datos;
+    }
+    
+    public static int CantidadClientes() {
+    	createConnection();
+    	int tamano = 0;
+    	try {
+    		stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE");
+			while(rs.next()) {
+				tamano++;
+			}
+	    } catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	shutdown();
+    	return tamano;
     }
     
     private static void createConnection() {
