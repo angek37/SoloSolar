@@ -61,6 +61,17 @@ public class ModificarCliente extends JPanel implements ItemListener {
 		panelN = new JPanel();
 		panelC = new JPanel();
 		panelS = new JPanel();
+		rfcTF.setEditable(false);
+		nombreTF.setEditable(false);
+		apellidosTF.setEditable(false);
+		calleTF.setEditable(false);
+		coloniaTF.setEditable(false);
+		cpTF.setEditable(false);
+		ciudadTF.setEditable(false);
+		estadoTF.setEditable(false);
+		emailTF.setEditable(false);
+		celTF.setEditable(false);
+		telEmpTF.setEditable(false);
 		guardar.setEnabled(false);
 		
 		setLayout(new BorderLayout());
@@ -215,9 +226,20 @@ public class ModificarCliente extends JPanel implements ItemListener {
 				emailTF.setText("");
 				celTF.setText("");
 				telEmpTF.setText("");
+				rfcTF.setEditable(false);
+				nombreTF.setEditable(false);
+				apellidosTF.setEditable(false);
+				calleTF.setEditable(false);
+				coloniaTF.setEditable(false);
+				cpTF.setEditable(false);
+				ciudadTF.setEditable(false);
+				estadoTF.setEditable(false);
+				emailTF.setEditable(false);
+				celTF.setEditable(false);
+				telEmpTF.setEditable(false);
 				guardar.setEnabled(false);
 			} else {
-				String[] val;
+				String val[];
 				val = personas.getSelectedItem().toString().split(":");
 				Cliente c = ClienteBD.ClienteSeleccionado(Integer.parseInt(val[0]));
 				rfcTF.setText(c.getRFC());
@@ -231,6 +253,17 @@ public class ModificarCliente extends JPanel implements ItemListener {
 				emailTF.setText(c.getEmail());
 				celTF.setText(c.getTelefono());
 				telEmpTF.setText(c.getTelEmp());
+				rfcTF.setEditable(true);
+				nombreTF.setEditable(true);
+				apellidosTF.setEditable(true);
+				calleTF.setEditable(true);
+				coloniaTF.setEditable(true);
+				cpTF.setEditable(true);
+				ciudadTF.setEditable(true);
+				estadoTF.setEditable(true);
+				emailTF.setEditable(true);
+				celTF.setEditable(true);
+				telEmpTF.setEditable(true);
 				guardar.setEnabled(true);
 			}
 		}
