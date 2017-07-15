@@ -1,6 +1,8 @@
 package com.SoloSolar.interfaces;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -26,6 +28,7 @@ public class AltaCategoria extends JPanel implements ActionListener{
 	private JTextField nombre, descripcion;
 	private JButton registrar;
 	private JTable table;
+	private JLabel titulo;
 		
 	public AltaCategoria() {
 		setLayout(new GridBagLayout());
@@ -35,7 +38,10 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		gbc.weighty = 0.2;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.insets = new Insets(4,4,4,4);
-		add(new JLabel("Registrar nueva categoría"), gbc);
+		JLabel titulo = new JLabel("Registrar nueva Categoría");
+		titulo.setFont(new Font("Calibri", Font.ITALIC, 16));
+		titulo.setForeground(Color.BLUE);
+		add(titulo, gbc);
 		gbc.gridy++;
 		gbc.gridx = 0;
 		gbc.anchor = GridBagConstraints.WEST;

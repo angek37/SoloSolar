@@ -44,6 +44,30 @@ public class Insert {
             stmt.execute("update Categoria set nombre = '" + cat.getNombre() + "',"
             		+ "descripcion = '" + cat.getDescripcion() + "' where id_cat = "+ cat.getId());
             stmt.close();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean ChangeCategory(int old, int sustitute) {
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("update Producto set Categoria = " + sustitute + " where Categoria = "+ old);
+            stmt.close();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean DeleteCategory(int id_cat) {
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("delete from Categoria where id_cat = "+id_cat);
+            stmt.close();
             shutdown();
             return true;
         } catch (SQLException sqlExcept) {
@@ -63,7 +87,7 @@ public class Insert {
     }
 
     
-    private static void shutdown() {
+    public static void shutdown() {
         try {
             if (stmt != null) {
                 stmt.close();

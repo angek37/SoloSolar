@@ -72,7 +72,7 @@ public class General {
 			modProd  = new JMenuItem("Modificar Producto");
 			altaCat  = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
-			salProg = new JMenuItem("Salir");
+			salProg = new JMenuItem("Salir del Sistema");
 			
 			//Usuarios
 			menu.add(usuarios);
