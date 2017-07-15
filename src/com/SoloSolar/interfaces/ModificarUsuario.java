@@ -5,12 +5,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,18 +29,21 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 	private JPanel panelN, panelC, panelS;
 	private JButton guardar, activarCambios, verPass;
 	private char defaultEchoChar;
+	private ImageIcon ver = new ImageIcon(new ImageIcon("assets/eye.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
 	
 	public ModificarUsuario () {
 		titulo = new JLabel("Modificar Usuario");
 		nombreLBL = new JLabel("Nombre: ");
 		usuarioLBL = new JLabel("Usuario: ");
-		passwordLBL = new JLabel("Contraseña: ");
+		passwordLBL = new JLabel("ContraseÃ±a: ");
 		nombreTF = new JTextField();
 		usuarioTF = new JTextField();
 		passwordTF = new JPasswordField();
 		guardar = new JButton("Modificar");
 		activarCambios = new JButton("Habilitar Campos");
-		verPass = new JButton("Mostrar");
+		verPass = new JButton(ver);
+		verPass.setBorder(null);
+		
 		nombreTF.setEditable(false);
 		usuarioTF.setEditable(false);
 		passwordTF.setEditable(false);
