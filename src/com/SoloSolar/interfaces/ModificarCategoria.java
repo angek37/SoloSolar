@@ -2,7 +2,6 @@ package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -17,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -26,6 +24,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.DB.Consulta;
+import com.SoloSolar.DB.Insert;
 
 public class ModificarCategoria extends JPanel implements MouseListener {
 	private JTextField id, nombre, descripcion;
@@ -142,8 +141,19 @@ public class ModificarCategoria extends JPanel implements MouseListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			Insert in = new Insert();
+			Categoria cat;
 			if(e.getSource() == actualizar) {
-				JOptionPane.showMessageDialog(null, "Button Pressed");
+				cat = new Categoria(Integer.parseInt(id.getText()), nombre.getText(), descripcion.getText());
+				if(in.UpdateCategory(cat)) {
+					JOptionPane.showMessageDialog(null, "Categoria modificada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "No ha sido posible modificar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				nombre.setText("");
+				descripcion.setText("");
+				id.setText("");
+				table.setModel(new CategoryModel());
 			}
 		}
 	}

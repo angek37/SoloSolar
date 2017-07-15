@@ -38,6 +38,20 @@ public class Insert {
     	
     }
     
+    public boolean UpdateCategory(Categoria cat) {
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("update Categoria set nombre = '" + cat.getNombre() + "',"
+            		+ "descripcion = '" + cat.getDescripcion() + "' where id_cat = "+ cat.getId());
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    }
+    
     private static void createConnection() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
