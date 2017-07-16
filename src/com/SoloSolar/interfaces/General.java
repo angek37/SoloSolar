@@ -35,6 +35,7 @@ public class General {
                 JFrame frame = new JFrame("Solo - Solar");
                 //frame.setUndecorated(true);
     			frame.setSize(600, 450);
+    			frame.setMinimumSize(new Dimension(600, 450));
                 frame.add(new GeneralPanel(frame));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setResizable(false);
@@ -48,7 +49,7 @@ public class General {
 		private JMenuBar menu;
 		private JMenu usuarios, clientes, productos, categoria, salir;
 		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
-						altaProd, bajaProd, modProd, altaCat, bajaCat, modCat, salProg;
+						altaProd, bajaProd, modProd, altaCat, adminCat, salProg;
 		
 		private JFrame jfp;
 		private JPanel panelPrincipal = new JPanel();
@@ -72,9 +73,8 @@ public class General {
 			bajaProd  = new JMenuItem("Baja Producto");
 			modProd  = new JMenuItem("Modificar Producto");
 			altaCat  = new JMenuItem("Alta Categoria");
-			bajaCat  = new JMenuItem("Baja Categoria");
-			modCat = new JMenuItem("Modificar Categoria");
-			salProg = new JMenuItem("Salir");
+			adminCat = new JMenuItem("Administrar Categorías");
+			salProg = new JMenuItem("Salir del Sistema");
 			
 			//Usuarios
 			menu.add(usuarios);
@@ -101,9 +101,8 @@ public class General {
 			//Categoria
 			menu.add(categoria);
 			categoria.add(altaCat);
-			categoria.add(bajaCat);
-			categoria.add(modCat);
-			modCat.addActionListener(this);
+			categoria.add(adminCat);
+			adminCat.addActionListener(this);
 			altaCat.addActionListener(this);
 			//Salir
 			menu.add(salir);
@@ -140,8 +139,8 @@ public class General {
 			} else if (e.getSource() == altaCat) {
 				AltaCategoria acat = new AltaCategoria();
 				panelPrincipal.add(acat);
-			} else if (e.getSource() == modCat) {
-				ModificarCategoria mcat = new ModificarCategoria();
+			} else if (e.getSource() == adminCat) {
+				AdministrarCategorias mcat = new AdministrarCategorias();
 				panelPrincipal.add(mcat);
 			}
 			
