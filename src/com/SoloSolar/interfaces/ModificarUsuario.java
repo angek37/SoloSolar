@@ -42,6 +42,8 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 		guardar = new JButton("Modificar");
 		activarCambios = new JButton("Habilitar Campos");
 		verPass = new JButton(ver);
+		verPass.setFocusable(false);
+		verPass.setContentAreaFilled(false);
 		verPass.setBorder(null);
 		
 		nombreTF.setEditable(false);

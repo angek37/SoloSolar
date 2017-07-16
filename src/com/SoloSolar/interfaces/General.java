@@ -1,6 +1,7 @@
 package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -11,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -33,7 +35,7 @@ public class General {
                 }
 
                 JFrame frame = new JFrame("Solo - Solar");
-                //frame.setUndecorated(true);
+                frame.setUndecorated(true);
     			frame.setSize(600, 450);
     			frame.setMinimumSize(new Dimension(600, 450));
                 frame.add(new GeneralPanel(frame));
@@ -50,18 +52,23 @@ public class General {
 		private JMenu usuarios, clientes, productos, categoria, salir;
 		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
 						altaProd, bajaProd, modProd, altaCat, adminCat, salProg;
-		
+		private ImageIcon barraTitulo;
+		private JLabel titulo;
 		private JFrame jfp;
 		private JPanel panelPrincipal = new JPanel();
+		private JPanel norte;
 		
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
-			
+			barraTitulo = new ImageIcon(new ImageIcon("assets/titulo.jpg").getImage());
+			titulo = new JLabel();
+			titulo.setIcon(barraTitulo);
 			menu = new JMenuBar();
 			usuarios = new JMenu("Usuarios");
 			clientes = new JMenu("Clientes");
 			productos = new JMenu("Productos");
 			categoria = new JMenu("Categoria");
+			norte = new JPanel();
 			salir = new JMenu("Salir...");
 			/*altaUser = new JMenuItem("Alta Usuario");
 			bajaUser = new JMenuItem("Baja Usuario");*/
@@ -75,6 +82,7 @@ public class General {
 			altaCat  = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
 			salProg = new JMenuItem("Salir del Sistema");
+			panelPrincipal.setBackground(new Color(153, 217, 234));
 			
 			//Usuarios
 			menu.add(usuarios);
@@ -113,7 +121,10 @@ public class General {
 			add(new MenuPanel(), BorderLayout.WEST);
 			add(panelPrincipal, BorderLayout.CENTER);
 			panelPrincipal.setLayout(new BorderLayout());
-			jfp.add(menu, BorderLayout.NORTH);
+			jfp.add(norte, BorderLayout.NORTH);
+			norte.setLayout(new BorderLayout());
+			norte.add(titulo, BorderLayout.NORTH);
+			norte.add(menu, BorderLayout.SOUTH);
 		}
 		
 		public void actionPerformed(ActionEvent e) {
@@ -159,6 +170,7 @@ public class General {
 		private ImageIcon exit = new ImageIcon(new ImageIcon("assets/exit.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		
 		public MenuPanel() {
+			//setBackground(new Color(153, 217, 234));
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			venta = new JButton("Venta", purchase);
 			venta.setMaximumSize(new Dimension(85,60));
