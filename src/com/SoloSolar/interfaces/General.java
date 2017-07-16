@@ -33,7 +33,7 @@ public class General {
                 }
 
                 JFrame frame = new JFrame("Solo - Solar");
-    			frame.setSize(600, 450);
+    			frame.setMinimumSize(new Dimension(600, 450));
                 frame.add(new GeneralPanel(frame));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setResizable(true);
