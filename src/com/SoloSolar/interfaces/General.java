@@ -38,58 +38,31 @@ public class General {
                 }
 
                 JFrame frame = new JFrame("Solo - Solar");
-                frame.setUndecorated(true);
     			frame.setMinimumSize(new Dimension(600, 450));
                 frame.add(new GeneralPanel(frame));
-                frame.setResizable(false);
+                frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+                frame.setResizable(true);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }
         });
 	}
 	
-	public static class FrameDragListener extends MouseAdapter {
-
-        private final JFrame frame;
-        private Point mouseDownCompCoords = null;
-
-        public FrameDragListener(JFrame frame) {
-            this.frame = frame;
-        }
-
-        public void mouseReleased(MouseEvent e) {
-            mouseDownCompCoords = null;
-        }
-
-        public void mousePressed(MouseEvent e) {
-            mouseDownCompCoords = e.getPoint();
-        }
-
-        public void mouseDragged(MouseEvent e) {
-            Point currCoords = e.getLocationOnScreen();
-            frame.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
-        }
-    }
-	
 	public class GeneralPanel extends JPanel implements ActionListener{
 		private JMenuBar menu;
 		private JMenu usuarios, clientes, productos, categoria, salir;
 		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
 						altaProd, bajaProd, modProd, altaCat, adminCat, salProg;
-		private ImageIcon barraTitulo;
+		private ImageIcon logo = new ImageIcon(new ImageIcon("assets/logo.png").getImage().getScaledInstance(120, 40, Image.SCALE_DEFAULT));
 		private JLabel titulo;
 		private JFrame jfp;
 		private JPanel panelPrincipal = new JPanel();
 		private JPanel titleBar;
 		
 		public GeneralPanel(JFrame jf) {
-			FrameDragListener frameDragListener = new FrameDragListener(jf);
 			jfp = jf;
-			barraTitulo = new ImageIcon(new ImageIcon("assets/titulo.jpg").getImage());
 			titulo = new JLabel();
-			titulo.setIcon(barraTitulo);
-			titulo.addMouseListener(frameDragListener);
-			titulo.addMouseMotionListener(frameDragListener);
+			titulo.setIcon(logo);
 			menu = new JMenuBar();
 			usuarios = new JMenu("Usuarios");
 			clientes = new JMenu("Clientes");
@@ -109,7 +82,6 @@ public class General {
 			altaCat  = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
 			salProg = new JMenuItem("Salir del Sistema");
-			panelPrincipal.setBackground(new Color(153, 217, 234));
 			
 			//Usuarios
 			menu.add(usuarios);
@@ -148,10 +120,11 @@ public class General {
 			add(new MenuPanel(), BorderLayout.WEST);
 			add(panelPrincipal, BorderLayout.CENTER);
 			panelPrincipal.setLayout(new BorderLayout());
-			jfp.add(titleBar, BorderLayout.NORTH);
+			jfp.add(menu, BorderLayout.NORTH);
+			add(titleBar, BorderLayout.NORTH);
+			titleBar.setBackground(new Color(255,252,76));
 			titleBar.setLayout(new BorderLayout());
 			titleBar.add(titulo, BorderLayout.NORTH);
-			titleBar.add(menu, BorderLayout.SOUTH);
 		}
 		
 		public void actionPerformed(ActionEvent e) {
@@ -204,6 +177,7 @@ public class General {
 			venta.setVerticalTextPosition(SwingConstants.BOTTOM);
 			venta.setHorizontalTextPosition(SwingConstants.CENTER);
 			venta.setBorder(null);
+			venta.setToolTipText("Registrar una venta");
 			add(venta);
 			buscar = new JButton("Buscar", search);
 			buscar.setMaximumSize(new Dimension(85,60));
