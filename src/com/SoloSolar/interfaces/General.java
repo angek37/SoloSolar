@@ -86,7 +86,7 @@ public class General {
 		public GeneralPanel(JFrame jf) {
 			FrameDragListener frameDragListener = new FrameDragListener(jf);
 			jfp = jf;
-			barraTitulo = new ImageIcon(new ImageIcon("assets/titulo.jpg").getImage());
+			barraTitulo = new ImageIcon(new ImageIcon("assets/tituloA.jpg").getImage());
 			titulo = new ImageFondo(barraTitulo.getImage());
 			FlowLayout fl = new FlowLayout();
 			fl.setAlignment(FlowLayout.RIGHT);
