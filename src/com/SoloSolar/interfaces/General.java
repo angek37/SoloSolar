@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -36,16 +39,37 @@ public class General {
 
                 JFrame frame = new JFrame("Solo - Solar");
                 frame.setUndecorated(true);
-    			frame.setSize(600, 450);
     			frame.setMinimumSize(new Dimension(600, 450));
                 frame.add(new GeneralPanel(frame));
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setResizable(false);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }
         });
 	}
+	
+	public static class FrameDragListener extends MouseAdapter {
+
+        private final JFrame frame;
+        private Point mouseDownCompCoords = null;
+
+        public FrameDragListener(JFrame frame) {
+            this.frame = frame;
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            mouseDownCompCoords = null;
+        }
+
+        public void mousePressed(MouseEvent e) {
+            mouseDownCompCoords = e.getPoint();
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            Point currCoords = e.getLocationOnScreen();
+            frame.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+        }
+    }
 	
 	public class GeneralPanel extends JPanel implements ActionListener{
 		private JMenuBar menu;
@@ -56,19 +80,22 @@ public class General {
 		private JLabel titulo;
 		private JFrame jfp;
 		private JPanel panelPrincipal = new JPanel();
-		private JPanel norte;
+		private JPanel titleBar;
 		
 		public GeneralPanel(JFrame jf) {
+			FrameDragListener frameDragListener = new FrameDragListener(jf);
 			jfp = jf;
 			barraTitulo = new ImageIcon(new ImageIcon("assets/titulo.jpg").getImage());
 			titulo = new JLabel();
 			titulo.setIcon(barraTitulo);
+			titulo.addMouseListener(frameDragListener);
+			titulo.addMouseMotionListener(frameDragListener);
 			menu = new JMenuBar();
 			usuarios = new JMenu("Usuarios");
 			clientes = new JMenu("Clientes");
 			productos = new JMenu("Productos");
 			categoria = new JMenu("Categoria");
-			norte = new JPanel();
+			titleBar = new JPanel();
 			salir = new JMenu("Salir...");
 			/*altaUser = new JMenuItem("Alta Usuario");
 			bajaUser = new JMenuItem("Baja Usuario");*/
@@ -121,10 +148,10 @@ public class General {
 			add(new MenuPanel(), BorderLayout.WEST);
 			add(panelPrincipal, BorderLayout.CENTER);
 			panelPrincipal.setLayout(new BorderLayout());
-			jfp.add(norte, BorderLayout.NORTH);
-			norte.setLayout(new BorderLayout());
-			norte.add(titulo, BorderLayout.NORTH);
-			norte.add(menu, BorderLayout.SOUTH);
+			jfp.add(titleBar, BorderLayout.NORTH);
+			titleBar.setLayout(new BorderLayout());
+			titleBar.add(titulo, BorderLayout.NORTH);
+			titleBar.add(menu, BorderLayout.SOUTH);
 		}
 		
 		public void actionPerformed(ActionEvent e) {
@@ -211,6 +238,8 @@ public class General {
 		
 	}
 	
+
+
 	public static void main(String[] mr) {
 		new General();
 	}
