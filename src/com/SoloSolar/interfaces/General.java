@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
 
 public class General {
 	
@@ -38,9 +39,9 @@ public class General {
                 }
 
                 JFrame frame = new JFrame("Solo - Solar");
-    			frame.setMinimumSize(new Dimension(600, 450));
+                frame.setMinimumSize(new Dimension(600, 450));
                 frame.add(new GeneralPanel(frame));
-                frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+                frame.setUndecorated(true);
                 frame.setResizable(true);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -53,7 +54,7 @@ public class General {
 		private JMenu usuarios, clientes, productos, categoria, salir;
 		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
 						altaProd, bajaProd, modProd, altaCat, adminCat, salProg;
-		private ImageIcon logo = new ImageIcon(new ImageIcon("assets/logo.png").getImage().getScaledInstance(120, 40, Image.SCALE_DEFAULT));
+		private ImageIcon logo = new ImageIcon(new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
 		private JLabel titulo;
 		private JFrame jfp;
 		private JPanel panelPrincipal = new JPanel();
@@ -63,6 +64,7 @@ public class General {
 			jfp = jf;
 			titulo = new JLabel();
 			titulo.setIcon(logo);
+			titulo.setBorder(new EmptyBorder(5,5,6,0));//top,left,bottom,right
 			menu = new JMenuBar();
 			usuarios = new JMenu("Usuarios");
 			clientes = new JMenu("Clientes");
@@ -120,10 +122,10 @@ public class General {
 			add(new MenuPanel(), BorderLayout.WEST);
 			add(panelPrincipal, BorderLayout.CENTER);
 			panelPrincipal.setLayout(new BorderLayout());
-			jfp.add(menu, BorderLayout.NORTH);
-			add(titleBar, BorderLayout.NORTH);
-			titleBar.setBackground(new Color(255,252,76));
+			jfp.add(titleBar, BorderLayout.NORTH);
+			titleBar.setBackground(new Color(207,0,1));
 			titleBar.setLayout(new BorderLayout());
+			titleBar.add(menu, BorderLayout.SOUTH);
 			titleBar.add(titulo, BorderLayout.NORTH);
 		}
 		
@@ -143,7 +145,7 @@ public class General {
 				ModificarCliente mc = new ModificarCliente();
 				panelPrincipal.add(mc);
 			} else if (e.getSource() == salProg) {
-				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION);
+				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(reply == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
@@ -170,7 +172,6 @@ public class General {
 		private ImageIcon exit = new ImageIcon(new ImageIcon("assets/exit.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		
 		public MenuPanel() {
-			//setBackground(new Color(153, 217, 234));
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			venta = new JButton("Venta", purchase);
 			venta.setMaximumSize(new Dimension(85,60));
@@ -203,7 +204,7 @@ public class General {
 		
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == salir) {
-				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION);
+				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(reply == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
