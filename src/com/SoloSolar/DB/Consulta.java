@@ -17,7 +17,6 @@ public class Consulta {
     private static Statement stmt = null;
     
     public Consulta() {
-    	createConnection();
     }
     
     private static void createConnection() {
@@ -31,6 +30,7 @@ public class Consulta {
     }
     
     public Categoria[] selectCategories(){
+    	createConnection();
     	Categoria[] cat = new Categoria[0];
     	Categoria[] aux;
         try {

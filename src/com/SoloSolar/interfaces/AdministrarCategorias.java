@@ -12,8 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.AbstractListModel;
-import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -25,7 +23,6 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Categoria;
@@ -34,9 +31,11 @@ import com.SoloSolar.DB.Insert;
 
 public class AdministrarCategorias extends JPanel implements MouseListener {
 	private JTextField id, nombre, descripcion;
-	private JComboBox categories;
+	private JComboBox<Categoria> categories;
 	private JTable table;
 	private JLabel prod;
+	Consulta select = new Consulta();
+	Categoria[] category = select.selectCategories();
 	
 	public AdministrarCategorias() {
 		setLayout(new BorderLayout());
@@ -170,7 +169,7 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 			gbc2.insets = new Insets(20, 0, 20, 0);
 			deleteP.add(new JLabel("Transferir a: "), gbc2);
 			
-			categories = new JComboBox(new ComboBoxCat());
+			categories = new JComboBox<Categoria>(category);
 			gbc2.gridx++;
 			deleteP.add(categories, gbc2);
 			
@@ -188,60 +187,45 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 		public void actionPerformed(ActionEvent e) {
 			Insert in = new Insert();
 			Categoria cat;
-			if(e.getSource() == actualizar) {
-				cat = new Categoria(Integer.parseInt(id.getText()), nombre.getText(), descripcion.getText());
-				if(in.UpdateCategory(cat)) {
-					JOptionPane.showMessageDialog(null, "Categoria modificada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-				}else {
-					JOptionPane.showMessageDialog(null, "No ha sido posible modificar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				nombre.setText("");
-				descripcion.setText("");
-				id.setText("");
-				table.setModel(new CategoryModel());
-				categories.setModel(new ComboBoxCat());
-			}else if (e.getSource() == eliminar) {
-				int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar la categoría?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-				if(reply == JOptionPane.YES_OPTION) {
-					if(in.ChangeCategory(8, 1)) {	// Cambiar por gets reales
-						if(in.DeleteCategory(8)) {	// Cambiar por gets reales
-							JOptionPane.showMessageDialog(null, "Categoria eliminada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-							table.setModel(new CategoryModel());
-							categories.setModel(new ComboBoxCat());
-							in.shutdown();
-						}else {
-							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
-						}
+			try {
+				if(e.getSource() == actualizar) {
+					cat = new Categoria(Integer.parseInt(id.getText()), nombre.getText(), descripcion.getText());
+					if(in.UpdateCategory(cat)) {
+						JOptionPane.showMessageDialog(null, "Categoria modificada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
 					}else {
-						JOptionPane.showMessageDialog(null, "No ha sido posible transferir los productos", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No ha sido posible modificar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					nombre.setText("");
+					descripcion.setText("");
+					id.setText("");
+					table.setModel(new CategoryModel());
+				}else if (e.getSource() == eliminar) {
+					Categoria substituteCat = (Categoria) categories.getSelectedItem();
+					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar la categoría '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(reply == JOptionPane.YES_OPTION) {
+						if(in.ChangeCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2), substituteCat.getId())) {
+							if(in.DeleteCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2))) {
+								in.shutdown();
+								JOptionPane.showMessageDialog(null, "Categoria eliminada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+								table.setModel(new CategoryModel());
+								nombre.setText("");
+								descripcion.setText("");
+								id.setText("");
+							}else {
+								in.shutdown();
+								JOptionPane.showMessageDialog(null, "No ha sido posible eliminar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible transferir los productos", "Error", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
+			}catch(NumberFormatException | ArrayIndexOutOfBoundsException exp) {
+				JOptionPane.showMessageDialog(null, "No se ha seleccionado una categoría", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
 
-	public class ComboBoxCat extends AbstractListModel implements ComboBoxModel {
-		Consulta select = new Consulta();
-		Categoria[] category = select.selectCategories();
-		String selection = null;
-
-		public int getSize() {
-			return category.length;
-		}
-
-		public Object getElementAt(int index) {
-			return category[index].getNombre();
-		}
-		
-		public void setSelectedItem(Object anItem) {
-			selection = (String) anItem;
-		}
-
-		public Object getSelectedItem() {
-			return selection;
-		}
-	}
-	
 	public void mouseClicked(MouseEvent e) {
 		try {
 			if (e.getClickCount() == 1) {
@@ -249,8 +233,8 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 				descripcion.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
 				id.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2));
 			}
-		}catch(UnsupportedOperationException expt) {
-			expt.getMessage();
+		}catch(ArrayIndexOutOfBoundsException expt) {
+			
 		}
 	}
 

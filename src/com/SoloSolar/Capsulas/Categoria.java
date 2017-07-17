@@ -45,4 +45,8 @@ public class Categoria {
 		return id;
 	}
 	
+	public String toString() {
+		return nombre;
+	}
+	
 }
