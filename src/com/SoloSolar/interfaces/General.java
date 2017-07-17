@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -76,20 +77,23 @@ public class General {
 		private JMenu usuarios, clientes, productos, categoria, salir;
 		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
 						altaProd, bajaProd, modProd, altaCat, adminCat, salProg;
-		private ImageIcon barraTitulo;
-		private JLabel titulo;
+		private ImageIcon barraTitulo, cerrarImg, minimizarImg;
+		private ImageFondo titulo;
 		private JFrame jfp;
-		private JPanel panelPrincipal = new JPanel();
-		private JPanel titleBar;
+		private JPanel titleBar, panelPrincipal = new JPanel();
+		private JButton cerrar, minimizar;
 		
 		public GeneralPanel(JFrame jf) {
 			FrameDragListener frameDragListener = new FrameDragListener(jf);
 			jfp = jf;
 			barraTitulo = new ImageIcon(new ImageIcon("assets/titulo.jpg").getImage());
-			titulo = new JLabel();
-			titulo.setIcon(barraTitulo);
+			titulo = new ImageFondo(barraTitulo.getImage());
+			FlowLayout fl = new FlowLayout();
+			fl.setAlignment(FlowLayout.RIGHT);
+			titulo.setLayout(fl);
 			titulo.addMouseListener(frameDragListener);
 			titulo.addMouseMotionListener(frameDragListener);
+			titulo.setBackground(new Color(56, 170, 57));
 			menu = new JMenuBar();
 			usuarios = new JMenu("Usuarios");
 			clientes = new JMenu("Clientes");
@@ -97,8 +101,6 @@ public class General {
 			categoria = new JMenu("Categoria");
 			titleBar = new JPanel();
 			salir = new JMenu("Salir...");
-			/*altaUser = new JMenuItem("Alta Usuario");
-			bajaUser = new JMenuItem("Baja Usuario");*/
 			modUser  = new JMenuItem("Modificar Usuario");
 			altaClie  = new JMenuItem("Alta Cliente");
 			bajaClie = new JMenuItem("Baja Cliente");
@@ -110,11 +112,29 @@ public class General {
 			adminCat = new JMenuItem("Administrar Categorías");
 			salProg = new JMenuItem("Salir del Sistema");
 			panelPrincipal.setBackground(new Color(153, 217, 234));
+			cerrarImg = new ImageIcon(new ImageIcon("assets/cerrar.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+			minimizarImg = new ImageIcon(new ImageIcon("assets/minimizar.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+			cerrar = new JButton("", cerrarImg);
+			cerrar.setMaximumSize(new Dimension(85,60));
+			cerrar.setVerticalTextPosition(SwingConstants.BOTTOM);
+			cerrar.setHorizontalTextPosition(SwingConstants.CENTER);
+			cerrar.setBorder(null);
+			cerrar.setFocusable(false);
+			cerrar.setContentAreaFilled(false);
+			minimizar = new JButton("", minimizarImg);
+			minimizar.setMaximumSize(new Dimension(85,60));
+			minimizar.setVerticalTextPosition(SwingConstants.BOTTOM);
+			minimizar.setHorizontalTextPosition(SwingConstants.CENTER);
+			minimizar.setBorder(null);
+			minimizar.setFocusable(false);
+			minimizar.setContentAreaFilled(false);
+			titulo.add(minimizar, BorderLayout.EAST);
+			titulo.add(cerrar, BorderLayout.EAST);
+			minimizar.addActionListener(this);
+			cerrar.addActionListener(this);
 			
 			//Usuarios
 			menu.add(usuarios);
-			/*usuarios.add(altaUser);
-			usuarios.add(bajaUser);*/
 			usuarios.add(modUser);
 			modUser.addActionListener(this);
 			
@@ -150,6 +170,7 @@ public class General {
 			panelPrincipal.setLayout(new BorderLayout());
 			jfp.add(titleBar, BorderLayout.NORTH);
 			titleBar.setLayout(new BorderLayout());
+			titleBar.setBackground(new Color(56, 170, 57));
 			titleBar.add(titulo, BorderLayout.NORTH);
 			titleBar.add(menu, BorderLayout.SOUTH);
 		}
@@ -180,6 +201,10 @@ public class General {
 			} else if (e.getSource() == adminCat) {
 				AdministrarCategorias mcat = new AdministrarCategorias();
 				panelPrincipal.add(mcat);
+			} else if (e.getSource() == cerrar) {
+				System.exit(0);
+			} else if (e.getSource() == minimizar) {
+				jfp.setExtendedState(1);
 			}
 			
 			panelPrincipal.updateUI();
