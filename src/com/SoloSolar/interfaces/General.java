@@ -4,13 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -25,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
 
 public class General {
 	
@@ -39,69 +36,39 @@ public class General {
                 }
 
                 JFrame frame = new JFrame("Solo - Solar");
-                frame.setUndecorated(true);
-    			frame.setMinimumSize(new Dimension(600, 450));
+                frame.setMinimumSize(new Dimension(600, 450));
                 frame.add(new GeneralPanel(frame));
-                frame.setResizable(false);
+                frame.setResizable(true);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }
         });
 	}
 	
-	public static class FrameDragListener extends MouseAdapter {
-
-        private final JFrame frame;
-        private Point mouseDownCompCoords = null;
-
-        public FrameDragListener(JFrame frame) {
-            this.frame = frame;
-        }
-
-        public void mouseReleased(MouseEvent e) {
-            mouseDownCompCoords = null;
-        }
-
-        public void mousePressed(MouseEvent e) {
-            mouseDownCompCoords = e.getPoint();
-        }
-
-        public void mouseDragged(MouseEvent e) {
-            Point currCoords = e.getLocationOnScreen();
-            frame.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
-        }
-    }
-	
 	public class GeneralPanel extends JPanel implements ActionListener{
 		private JMenuBar menu;
-		private JMenu usuarios, clientes, productos, categoria, salir;
-		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
+		private JMenu clientes, productos, categoria, salir;
+		private JMenuItem altaClie, bajaClie, modClie, 
 						altaProd, bajaProd, modProd, altaCat, adminCat, salProg;
-		private ImageIcon barraTitulo, cerrarImg, minimizarImg;
-		private ImageFondo titulo;
+		private ImageIcon logo = new ImageIcon(new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
+		private JLabel titulo;
 		private JFrame jfp;
-		private JPanel titleBar, panelPrincipal = new JPanel();
-		private JButton cerrar, minimizar;
+		private JPanel panelPrincipal = new JPanel();
+		private JPanel titleBar;
+		private JButton userB;
+		private ImageIcon userIcon = new ImageIcon(new ImageIcon("assets/User.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		
 		public GeneralPanel(JFrame jf) {
-			FrameDragListener frameDragListener = new FrameDragListener(jf);
 			jfp = jf;
-			barraTitulo = new ImageIcon(new ImageIcon("assets/tituloA.jpg").getImage());
-			titulo = new ImageFondo(barraTitulo.getImage());
-			FlowLayout fl = new FlowLayout();
-			fl.setAlignment(FlowLayout.RIGHT);
-			titulo.setLayout(fl);
-			titulo.addMouseListener(frameDragListener);
-			titulo.addMouseMotionListener(frameDragListener);
-			titulo.setBackground(new Color(56, 170, 57));
+			titulo = new JLabel();
+			titulo.setIcon(logo);
+			titulo.setBorder(new EmptyBorder(5,5,6,0));//top,left,bottom,right
 			menu = new JMenuBar();
-			usuarios = new JMenu("Usuarios");
 			clientes = new JMenu("Clientes");
 			productos = new JMenu("Productos");
 			categoria = new JMenu("Categoria");
 			titleBar = new JPanel();
 			salir = new JMenu("Salir...");
-			modUser  = new JMenuItem("Modificar Usuario");
 			altaClie  = new JMenuItem("Alta Cliente");
 			bajaClie = new JMenuItem("Baja Cliente");
 			modClie = new JMenuItem("Modificar Cliente");
@@ -111,32 +78,6 @@ public class General {
 			altaCat  = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
 			salProg = new JMenuItem("Salir del Sistema");
-			panelPrincipal.setBackground(new Color(153, 217, 234));
-			cerrarImg = new ImageIcon(new ImageIcon("assets/cerrar.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
-			minimizarImg = new ImageIcon(new ImageIcon("assets/minimizar.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
-			cerrar = new JButton("", cerrarImg);
-			cerrar.setMaximumSize(new Dimension(85,60));
-			cerrar.setVerticalTextPosition(SwingConstants.BOTTOM);
-			cerrar.setHorizontalTextPosition(SwingConstants.CENTER);
-			cerrar.setBorder(null);
-			cerrar.setFocusable(false);
-			cerrar.setContentAreaFilled(false);
-			minimizar = new JButton("", minimizarImg);
-			minimizar.setMaximumSize(new Dimension(85,60));
-			minimizar.setVerticalTextPosition(SwingConstants.BOTTOM);
-			minimizar.setHorizontalTextPosition(SwingConstants.CENTER);
-			minimizar.setBorder(null);
-			minimizar.setFocusable(false);
-			minimizar.setContentAreaFilled(false);
-			titulo.add(minimizar, BorderLayout.EAST);
-			titulo.add(cerrar, BorderLayout.EAST);
-			minimizar.addActionListener(this);
-			cerrar.addActionListener(this);
-			
-			//Usuarios
-			menu.add(usuarios);
-			usuarios.add(modUser);
-			modUser.addActionListener(this);
 			
 			//Clientes
 			menu.add(clientes);
@@ -167,18 +108,25 @@ public class General {
 			setLayout(new BorderLayout());
 			add(new MenuPanel(), BorderLayout.WEST);
 			add(panelPrincipal, BorderLayout.CENTER);
+			userB = new JButton(userIcon);
+			userB.setToolTipText("Administrar datos de usuario");
+			userB.setBorder(null);
+			userB.setBackground(null);
+			userB.setFocusable(false);
+			userB.addActionListener(this);
 			panelPrincipal.setLayout(new BorderLayout());
 			jfp.add(titleBar, BorderLayout.NORTH);
+			titleBar.setBackground(new Color(255,255,186));
 			titleBar.setLayout(new BorderLayout());
-			titleBar.setBackground(new Color(56, 170, 57));
-			titleBar.add(titulo, BorderLayout.NORTH);
 			titleBar.add(menu, BorderLayout.SOUTH);
+			titleBar.add(titulo, BorderLayout.CENTER);
+			titleBar.add(userB, BorderLayout.EAST);
 		}
 		
 		public void actionPerformed(ActionEvent e) {
 			panelPrincipal.removeAll();
 			
-			if (e.getSource() == modUser) {
+			if (e.getSource() == userB) {
 				ModificarUsuario modUsuario = new ModificarUsuario();
 				panelPrincipal.add(modUsuario);
 			} else if (e.getSource() == altaClie) {
@@ -191,7 +139,7 @@ public class General {
 				ModificarCliente mc = new ModificarCliente();
 				panelPrincipal.add(mc);
 			} else if (e.getSource() == salProg) {
-				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION);
+				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(reply == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
@@ -201,10 +149,6 @@ public class General {
 			} else if (e.getSource() == adminCat) {
 				AdministrarCategorias mcat = new AdministrarCategorias();
 				panelPrincipal.add(mcat);
-			} else if (e.getSource() == cerrar) {
-				System.exit(0);
-			} else if (e.getSource() == minimizar) {
-				jfp.setExtendedState(1);
 			}
 			
 			panelPrincipal.updateUI();
@@ -222,13 +166,13 @@ public class General {
 		private ImageIcon exit = new ImageIcon(new ImageIcon("assets/exit.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		
 		public MenuPanel() {
-			//setBackground(new Color(153, 217, 234));
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			venta = new JButton("Venta", purchase);
 			venta.setMaximumSize(new Dimension(85,60));
 			venta.setVerticalTextPosition(SwingConstants.BOTTOM);
 			venta.setHorizontalTextPosition(SwingConstants.CENTER);
 			venta.setBorder(null);
+			venta.setToolTipText("Registrar una venta");
 			add(venta);
 			buscar = new JButton("Buscar", search);
 			buscar.setMaximumSize(new Dimension(85,60));
@@ -254,7 +198,7 @@ public class General {
 		
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == salir) {
-				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION);
+				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(reply == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
