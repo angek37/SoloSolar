@@ -5,11 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -41,7 +38,6 @@ public class General {
                 JFrame frame = new JFrame("Solo - Solar");
                 frame.setMinimumSize(new Dimension(600, 450));
                 frame.add(new GeneralPanel(frame));
-                frame.setUndecorated(true);
                 frame.setResizable(true);
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -51,14 +47,16 @@ public class General {
 	
 	public class GeneralPanel extends JPanel implements ActionListener{
 		private JMenuBar menu;
-		private JMenu usuarios, clientes, productos, categoria, salir;
-		private JMenuItem altaUser, bajaUser, modUser, altaClie, bajaClie, modClie, 
+		private JMenu clientes, productos, categoria, salir;
+		private JMenuItem altaClie, bajaClie, modClie, 
 						altaProd, bajaProd, modProd, altaCat, adminCat, salProg;
 		private ImageIcon logo = new ImageIcon(new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
 		private JLabel titulo;
 		private JFrame jfp;
 		private JPanel panelPrincipal = new JPanel();
 		private JPanel titleBar;
+		private JButton userB;
+		private ImageIcon userIcon = new ImageIcon(new ImageIcon("assets/User.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
@@ -66,15 +64,11 @@ public class General {
 			titulo.setIcon(logo);
 			titulo.setBorder(new EmptyBorder(5,5,6,0));//top,left,bottom,right
 			menu = new JMenuBar();
-			usuarios = new JMenu("Usuarios");
 			clientes = new JMenu("Clientes");
 			productos = new JMenu("Productos");
 			categoria = new JMenu("Categoria");
 			titleBar = new JPanel();
 			salir = new JMenu("Salir...");
-			/*altaUser = new JMenuItem("Alta Usuario");
-			bajaUser = new JMenuItem("Baja Usuario");*/
-			modUser  = new JMenuItem("Modificar Usuario");
 			altaClie  = new JMenuItem("Alta Cliente");
 			bajaClie = new JMenuItem("Baja Cliente");
 			modClie = new JMenuItem("Modificar Cliente");
@@ -84,13 +78,6 @@ public class General {
 			altaCat  = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
 			salProg = new JMenuItem("Salir del Sistema");
-			
-			//Usuarios
-			menu.add(usuarios);
-			/*usuarios.add(altaUser);
-			usuarios.add(bajaUser);*/
-			usuarios.add(modUser);
-			modUser.addActionListener(this);
 			
 			//Clientes
 			menu.add(clientes);
@@ -121,18 +108,25 @@ public class General {
 			setLayout(new BorderLayout());
 			add(new MenuPanel(), BorderLayout.WEST);
 			add(panelPrincipal, BorderLayout.CENTER);
+			userB = new JButton(userIcon);
+			userB.setToolTipText("Administrar datos de usuario");
+			userB.setBorder(null);
+			userB.setBackground(null);
+			userB.setFocusable(false);
+			userB.addActionListener(this);
 			panelPrincipal.setLayout(new BorderLayout());
 			jfp.add(titleBar, BorderLayout.NORTH);
-			titleBar.setBackground(new Color(207,0,1));
+			titleBar.setBackground(new Color(255,255,186));
 			titleBar.setLayout(new BorderLayout());
 			titleBar.add(menu, BorderLayout.SOUTH);
-			titleBar.add(titulo, BorderLayout.NORTH);
+			titleBar.add(titulo, BorderLayout.CENTER);
+			titleBar.add(userB, BorderLayout.EAST);
 		}
 		
 		public void actionPerformed(ActionEvent e) {
 			panelPrincipal.removeAll();
 			
-			if (e.getSource() == modUser) {
+			if (e.getSource() == userB) {
 				ModificarUsuario modUsuario = new ModificarUsuario();
 				panelPrincipal.add(modUsuario);
 			} else if (e.getSource() == altaClie) {
