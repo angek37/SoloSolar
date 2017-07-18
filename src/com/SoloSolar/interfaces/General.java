@@ -4,10 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +24,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class General {
 	
@@ -37,6 +40,7 @@ public class General {
 
                 JFrame frame = new JFrame("Solo - Solar");
                 frame.setMinimumSize(new Dimension(600, 450));
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(new GeneralPanel(frame));
                 frame.setResizable(true);
                 frame.setLocationRelativeTo(null);
@@ -108,10 +112,12 @@ public class General {
 			setLayout(new BorderLayout());
 			add(new MenuPanel(), BorderLayout.WEST);
 			add(panelPrincipal, BorderLayout.CENTER);
-			userB = new JButton(userIcon);
+			userB = new JButton("admin",userIcon);
 			userB.setToolTipText("Administrar datos de usuario");
-			userB.setBorder(null);
-			userB.setBackground(null);
+			userB.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+			userB.setFont(new Font("Calibri", Font.PLAIN, 10));
+			userB.setHorizontalTextPosition(SwingConstants.LEFT);
+			userB.setBackground(new Color(255,255,166));
 			userB.setFocusable(false);
 			userB.addActionListener(this);
 			panelPrincipal.setLayout(new BorderLayout());
