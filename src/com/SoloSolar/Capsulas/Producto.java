@@ -2,9 +2,10 @@ package com.SoloSolar.Capsulas;
 
 public class Producto {
 	private String Clave, Nombre;
-	private int Categoria, Paquete, Costo, Precio1, Precio2;
+	private int Categoria, Paquete;
+	private Double Costo, Precio1, Precio2;
 	
-	public Producto(String clave, String nombre, int categoria, int paquete, int costo, int precio1, int precio2) {
+	public Producto(String clave, String nombre, int categoria, int paquete, Double costo, Double precio1, Double precio2) {
 		super();
 		Clave = clave;
 		Nombre = nombre;
@@ -43,22 +44,22 @@ public class Producto {
 	public void setPaquete(int paquete) {
 		Paquete = paquete;
 	}
-	public int getCosto() {
+	public Double getCosto() {
 		return Costo;
 	}
-	public void setCosto(int costo) {
+	public void setCosto(Double costo) {
 		Costo = costo;
 	}
-	public int getPrecio1() {
+	public Double getPrecio1() {
 		return Precio1;
 	}
-	public void setPrecio1(int precio1) {
+	public void setPrecio1(Double precio1) {
 		Precio1 = precio1;
 	}
-	public int getPrecio2() {
+	public Double getPrecio2() {
 		return Precio2;
 	}
-	public void setPrecio2(int precio2) {
+	public void setPrecio2(Double precio2) {
 		Precio2 = precio2;
 	}
 

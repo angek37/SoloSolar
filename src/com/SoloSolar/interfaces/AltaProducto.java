@@ -21,7 +21,9 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListDataListener;
 
 import com.SoloSolar.Capsulas.Categoria;
+import com.SoloSolar.Capsulas.Producto;
 import com.SoloSolar.DB.Consulta;
+import com.SoloSolar.DB.Insert;
 
 public class AltaProducto extends JPanel implements ActionListener{
 	private JLabel titulo;
@@ -116,10 +118,25 @@ public class AltaProducto extends JPanel implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		Insert i = new Insert();
 		Categoria c;
-		c = (Categoria) categories.getSelectedItem();
+		Producto p;
 		if(e.getSource() == registrar) {
-			JOptionPane.showMessageDialog(null, "Registrao'" + c.getId());
+			c = (Categoria) categories.getSelectedItem();
+			p = new Producto(clave.getText(), nombre.getText(), c.getId(), 
+					Integer.parseInt(paquete.getText()), Double.parseDouble(costo.getText()), 
+					Double.parseDouble(precio1.getText()), Double.parseDouble(precio2.getText()));
+			if(i.InsertProduct(p)) {
+				JOptionPane.showMessageDialog(null, "Producto registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+				clave.setText("");
+				nombre.setText("");
+				paquete.setText("");
+				costo.setText("");
+				precio1.setText("");
+				precio2.setText("");
+			}else {
+				JOptionPane.showMessageDialog(null, "No ha sido posible registrar el producto", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 	

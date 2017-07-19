@@ -76,6 +76,21 @@ public class Insert {
         }
     }
     
+    public boolean InsertProduct(Producto prod) {
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("insert into Producto values('" +prod.getClave()+ "','" +prod.getNombre()+ "'," +prod.getCategoria()+ "," 
+            		+prod.getPaquete()+ "," +prod.getCosto()+ "," +prod.getPrecio1()+ "," +prod.getPrecio2()+ ")");
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    	
+    }
+    
     private static void createConnection() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
