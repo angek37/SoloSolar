@@ -96,7 +96,7 @@ public class General {
 			productos.add(altaProd);
 			productos.add(bajaProd);
 			productos.add(modProd);
-			
+			altaProd.addActionListener(this);
 			//Categoria
 			menu.add(categoria);
 			categoria.add(altaCat);
@@ -155,6 +155,8 @@ public class General {
 			} else if (e.getSource() == adminCat) {
 				AdministrarCategorias mcat = new AdministrarCategorias();
 				panelPrincipal.add(mcat);
+			} else if (e.getSource() == altaProd) {
+				panelPrincipal.add(new AltaProducto());
 			}
 			
 			panelPrincipal.updateUI();
