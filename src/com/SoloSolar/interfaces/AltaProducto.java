@@ -8,7 +8,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.AbstractList;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -16,8 +18,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListDataListener;
 
 import com.SoloSolar.Capsulas.Categoria;
+import com.SoloSolar.DB.Consulta;
 
 public class AltaProducto extends JPanel implements ActionListener{
 	private JLabel titulo;
@@ -63,8 +67,8 @@ public class AltaProducto extends JPanel implements ActionListener{
 		gbc.gridx = 0;
 		gbc.gridy++;
 		add(new JLabel("Categoría:"), gbc);
-		categories = new JComboBox<Categoria>();
-		gbc.ipadx = 300;
+		categories = new JComboBox<Categoria>(new ProductModel());
+		categories.setMaximumSize(new Dimension(200, 20));
 		gbc.gridx++;
 		add(categories, gbc);
 		//Fila 4
@@ -112,8 +116,55 @@ public class AltaProducto extends JPanel implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		Categoria c;
+		c = (Categoria) categories.getSelectedItem();
 		if(e.getSource() == registrar) {
-			JOptionPane.showMessageDialog(null, "Registrao'");
+			JOptionPane.showMessageDialog(null, "Registrao'" + c.getId());
 		}
+	}
+	
+	public class ProductModel<Categoria> extends AbstractList implements ComboBoxModel {
+		Consulta c = new Consulta();
+		Categoria[] category = (Categoria[]) c.selectCategories();
+		Object ob;
+		
+		public int getSize() {
+			return category.length;
+		}
+
+		public Object getElementAt(int index) {
+			ob = (Object) category[index];
+			return ob;
+		}
+
+		public void setSelectedItem(Object anItem) {
+			
+		}
+
+		public Object getSelectedItem() {
+			return ob;
+		}
+
+		public Object get(int index) {
+			return null;
+		}
+
+		public int size() {
+			
+			return 0;
+		}
+
+		@Override
+		public void addListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void removeListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }
