@@ -116,7 +116,8 @@ public class General {
 			userB.setBorder(BorderFactory.createRaisedSoftBevelBorder());
 			userB.setFont(new Font("Calibri", Font.PLAIN, 10));
 			userB.setHorizontalTextPosition(SwingConstants.LEFT);
-			userB.setBackground(null);
+			userB.setBackground(new Color(255,255,166));
+			userB.setContentAreaFilled(false);
 			userB.setFocusable(false);
 			userB.addActionListener(this);
 			panelPrincipal.setLayout(new BorderLayout());
