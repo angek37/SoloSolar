@@ -24,7 +24,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 public class General {
 	
@@ -117,7 +116,7 @@ public class General {
 			userB.setBorder(BorderFactory.createRaisedSoftBevelBorder());
 			userB.setFont(new Font("Calibri", Font.PLAIN, 10));
 			userB.setHorizontalTextPosition(SwingConstants.LEFT);
-			userB.setBackground(new Color(255,255,166));
+			userB.setBackground(null);
 			userB.setFocusable(false);
 			userB.addActionListener(this);
 			panelPrincipal.setLayout(new BorderLayout());
