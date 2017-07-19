@@ -25,6 +25,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
+
 public class General {
 	
 	public General() {
@@ -32,8 +34,9 @@ public class General {
             @Override
             public void run() {
                 try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                    //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                	UIManager.setLookAndFeel(new AluminiumLookAndFeel());
+                } catch (UnsupportedLookAndFeelException ex) {
                     ex.printStackTrace();
                 }
 
@@ -81,6 +84,7 @@ public class General {
 			altaCat  = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
 			salProg = new JMenuItem("Salir del Sistema");
+			jfp.setIconImage(new ImageIcon("assets/icono.png").getImage());
 			
 			//Clientes
 			menu.add(clientes);
