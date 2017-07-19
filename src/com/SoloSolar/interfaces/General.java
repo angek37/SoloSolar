@@ -25,9 +25,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
-import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
-import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
-import com.jtattoo.plaf.smart.SmartLookAndFeel;
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 
 public class General {
 	
@@ -37,7 +35,7 @@ public class General {
             public void run() {
                 try {
                     //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                	UIManager.setLookAndFeel(new SmartLookAndFeel());
+                	UIManager.setLookAndFeel(new AluminiumLookAndFeel());
                 } catch (UnsupportedLookAndFeelException ex) {
                     ex.printStackTrace();
                 }
