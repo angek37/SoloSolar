@@ -38,7 +38,7 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		gbc.weighty = 0.2;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.insets = new Insets(4,4,4,4);
-		JLabel titulo = new JLabel("Registrar nueva Categoría");
+		titulo = new JLabel("Registrar nueva Categoría");
 		titulo.setFont(new Font("Calibri", Font.ITALIC, 16));
 		titulo.setForeground(Color.BLUE);
 		add(titulo, gbc);

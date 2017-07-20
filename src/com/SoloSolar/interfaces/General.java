@@ -33,7 +33,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import com.jtattoo.plaf.fast.FastLookAndFeel;
 
 public class General {
@@ -109,6 +108,7 @@ public class General {
 			productos.add(bajaProd);
 			productos.add(modProd);
 			productos.getPopupMenu().setBorder(new VerticalTextBorder());
+			altaProd.addActionListener(this);
 			
 			//Categoria
 			menu.add(categoria);
@@ -160,6 +160,8 @@ public class General {
 			} else if (e.getSource() == adminCat) {
 				AdministrarCategorias mcat = new AdministrarCategorias();
 				panelPrincipal.add(mcat);
+			} else if (e.getSource() == altaProd) {
+				panelPrincipal.add(new AltaProducto());
 			}
 			
 			panelPrincipal.updateUI();
