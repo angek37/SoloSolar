@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
 
-public class ModificarCliente extends JPanel implements ItemListener {
+public class AdministrarClientes extends JPanel implements ItemListener {
 	private JComboBox personas;
 	private JLabel titulo;
 	private JLabel rfcLbl, nombreLbl, apellidosLbl, calleLbl, coloniaLbl, cpLbl, 
@@ -28,7 +28,7 @@ public class ModificarCliente extends JPanel implements ItemListener {
 	private JPanel panelN, panelC, panelS;
 	private JButton guardar;
 		
-	public ModificarCliente() {
+	public AdministrarClientes() {
 		String nose[] = ClienteBD.ClientesExistentes();
 		personas = new JComboBox(nose);
 		titulo = new JLabel("Modificar cliente");

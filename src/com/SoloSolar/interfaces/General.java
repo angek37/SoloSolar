@@ -146,7 +146,7 @@ public class General {
 				AltaCliente ac = new AltaCliente();
 				panelPrincipal.add(ac);
 			} else if(e.getSource() == modClie) {
-				ModificarCliente mc = new ModificarCliente();
+				AdministrarClientes mc = new AdministrarClientes();
 				panelPrincipal.add(mc);
 			} else if (e.getSource() == altaCat) {
 				AltaCategoria acat = new AltaCategoria();
