@@ -34,52 +34,22 @@ public class UsuarioBD {
     	shutdown();
     }
     
-    public static String getNombre() {
+    public static Usuario Datos() {
+    	Usuario u = new Usuario();
     	createConnection();
-    	String nombre = "";
     	try {
     		stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT NOMBRE FROM USUARIO");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM USUARIO");
 			while(rs.next()) {
-				nombre = rs.getString(1);
+				u.setUsuario(rs.getString(1));
+				u.setPassword(rs.getString(2));
+				u.setNombre(rs.getString(3));
 			}
     	} catch (SQLException e) {
 			e.printStackTrace();
 		}
     	shutdown();
-    	return nombre;
-    }
-    
-    public static String getUsuario() {
-    	createConnection();
-    	String usuario = "";
-    	try {
-    		stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT USUARIO FROM USUARIO");
-			while(rs.next()) {
-				usuario = rs.getString(1);
-			}
-	    } catch (SQLException e) {
-			e.printStackTrace();
-		}
-    	shutdown();
-    	return usuario;
-    }
-    
-    public static String getPass() {
-    	createConnection();
-    	String pass = "";
-    	try {
-    		stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT PASSWORD FROM USUARIO");
-			while(rs.next()) {
-				pass = rs.getString(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-    	shutdown();
-    	return pass;
+    	return u;
     }
     
     private static void createConnection() {

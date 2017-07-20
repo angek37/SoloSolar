@@ -1,6 +1,7 @@
 package com.SoloSolar.interfaces;
 
 import com.SoloSolar.DB.*;
+import com.jtattoo.plaf.fast.FastLookAndFeel;
 
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -26,8 +27,8 @@ public class Login {
             @Override
             public void run() {
                 try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                    UIManager.setLookAndFeel(new FastLookAndFeel());
+                } catch (UnsupportedLookAndFeelException ex) {
                     ex.printStackTrace();
                 }
 
@@ -53,6 +54,7 @@ public class Login {
 		
 			public LoginWindow(JFrame frame) {
 				JF = frame;
+				JF.setIconImage(new ImageIcon("assets/icono.png").getImage());
 				setLayout(new GridBagLayout());
 				GridBagConstraints gbc = new GridBagConstraints();
 				gbc.insets = new Insets(8, 8, 8, 8);

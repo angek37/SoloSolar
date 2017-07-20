@@ -53,9 +53,10 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 		panelN = new JPanel();
 		panelC = new JPanel();
 		panelS = new JPanel();
-		passwordTF.setText(UsuarioBD.getPass());
-		nombreTF.setText(UsuarioBD.getNombre());
-		usuarioTF.setText(UsuarioBD.getUsuario());
+		Usuario us = UsuarioBD.Datos();
+		passwordTF.setText(us.getPassword());
+		nombreTF.setText(us.getNombre());
+		usuarioTF.setText(us.getUsuario());
 		
 		titulo.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		titulo.setForeground(Color.RED);

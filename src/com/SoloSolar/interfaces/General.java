@@ -10,7 +10,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,7 +61,7 @@ public class General {
 	public class GeneralPanel extends JPanel implements ActionListener{
 		private JMenuBar menu;
 		private JMenu clientes, productos, categoria;
-		private JMenuItem altaClie, bajaClie, modClie, 
+		private JMenuItem altaClie, modClie, 
 						altaProd, bajaProd, modProd, altaCat, adminCat;
 		private ImageIcon logo = new ImageIcon(new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
 		private JLabel titulo;
@@ -83,22 +82,20 @@ public class General {
 			categoria = new JMenu("Categoria");
 			titleBar = new JPanel();
 			altaClie  = new JMenuItem("Alta Cliente");
-			bajaClie = new JMenuItem("Baja Cliente");
-			modClie = new JMenuItem("Modificar Cliente");
+			modClie = new JMenuItem("Administrar Cliente");
 			altaProd  = new JMenuItem("Alta Producto");
 			bajaProd  = new JMenuItem("Baja Producto");
 			modProd  = new JMenuItem("Modificar Producto");
 			altaCat  = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
 			jfp.setIconImage(new ImageIcon("assets/icono.png").getImage());
+			panelPrincipal.setBackground(new Color(64, 128, 128));
 			
 			//Clientes
 			menu.add(clientes);
 			clientes.add(altaClie);
-			clientes.add(bajaClie);
 			clientes.add(modClie);
 			altaClie.addActionListener(this);
-			bajaClie.addActionListener(this);
 			modClie.addActionListener(this);
 			clientes.getPopupMenu().setBorder(new VerticalTextBorder());
 			
@@ -148,9 +145,6 @@ public class General {
 			} else if (e.getSource() == altaClie) {
 				AltaCliente ac = new AltaCliente();
 				panelPrincipal.add(ac);
-			} else if (e.getSource() == bajaClie) {
-				BajaCliente bc = new BajaCliente();
-				panelPrincipal.add(bc);
 			} else if(e.getSource() == modClie) {
 				ModificarCliente mc = new ModificarCliente();
 				panelPrincipal.add(mc);
@@ -209,24 +203,31 @@ public class General {
 			venta.setHorizontalTextPosition(SwingConstants.CENTER);
 			venta.setBorder(null);
 			venta.setToolTipText("Registrar una venta");
+			venta.setFocusable(false);
 			add(venta);
 			buscar = new JButton("Buscar", search);
 			buscar.setMaximumSize(new Dimension(85,60));
 			buscar.setVerticalTextPosition(SwingConstants.BOTTOM);
 			buscar.setHorizontalTextPosition(SwingConstants.CENTER);
 			buscar.setBorder(null);
+			buscar.setToolTipText("Buscar productos");
+			buscar.setFocusable(false);
 			add(buscar);
 			reporte = new JButton("Reportes", reports);
 			reporte.setMaximumSize(new Dimension(85,60));
 			reporte.setVerticalTextPosition(SwingConstants.BOTTOM);
 			reporte.setHorizontalTextPosition(SwingConstants.CENTER);
 			reporte.setBorder(null);
+			reporte.setToolTipText("Crear reporte");
+			reporte.setFocusable(false);
 			add(reporte);
 			salir = new JButton("Salir", exit);
 			salir.setMaximumSize(new Dimension(85,60));
 			salir.setVerticalTextPosition(SwingConstants.BOTTOM);
 			salir.setHorizontalTextPosition(SwingConstants.CENTER);
 			salir.setBorder(null);
+			salir.setToolTipText("Salir del programa");
+			salir.setFocusable(false);
 			add(salir);
 			salir.addActionListener(this);
 			
