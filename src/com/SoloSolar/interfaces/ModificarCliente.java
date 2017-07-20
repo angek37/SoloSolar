@@ -13,10 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
@@ -76,8 +73,8 @@ public class ModificarCliente extends JPanel implements ItemListener {
 		
 		setLayout(new BorderLayout());
 		add(panelN, BorderLayout.NORTH);
-		titulo.setFont(new Font("Times New Roman", Font.BOLD, 24));
-		titulo.setForeground(Color.RED);
+		titulo.setFont(new Font("Calibri", Font.ITALIC, 16));
+		titulo.setForeground(Color.BLUE);
 		panelN.add(titulo);
 		
 		add(panelC, BorderLayout.CENTER);

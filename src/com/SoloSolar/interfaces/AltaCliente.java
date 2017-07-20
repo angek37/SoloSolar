@@ -57,8 +57,8 @@ public class AltaCliente extends JPanel implements ActionListener {
 		
 		setLayout(new BorderLayout());
 		add(panelN, BorderLayout.NORTH);
-		titulo.setFont(new Font("Times New Roman", Font.BOLD, 24));
-		titulo.setForeground(Color.RED);
+		titulo.setFont(new Font("Calibri", Font.ITALIC, 16));
+		titulo.setForeground(Color.BLUE);
 		panelN.add(titulo);
 		
 		add(panelC, BorderLayout.CENTER);
