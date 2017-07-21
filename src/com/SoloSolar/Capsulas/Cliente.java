@@ -8,6 +8,24 @@ public class Cliente {
 		
 	}
 	
+	public Cliente(String rfc, String nombre, String apellidos, String calle, String colonia, String cp, String ciudad,
+			String estado, String email, String telefono, String telEmp) {
+		super();
+		this.rfc = rfc;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.calle = calle;
+		this.colonia = colonia;
+		this.cp = cp;
+		this.ciudad = ciudad;
+		this.estado = estado;
+		this.email = email;
+		this.telefono = telefono;
+		this.telEmp = telEmp;
+	}
+
+
+
 	public Cliente(int id, String rfc, String nombre, String apellidos, String calle, String colonia, String cp,
 			String ciudad, String estado, String email, String telefono, String telEmp) {
 		super();
@@ -119,5 +137,9 @@ public class Cliente {
 	
 	public String getTelEmp() {
 		return telEmp;
+	}
+	
+	public String toString() {
+		return nombre;
 	}
 }
