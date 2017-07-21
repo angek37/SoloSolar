@@ -48,7 +48,7 @@ public class General {
                 }
 
                 JFrame frame = new JFrame("Solo - Solar");
-                frame.setMinimumSize(new Dimension(600, 450));
+                frame.setMinimumSize(new Dimension(800, 550));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(new GeneralPanel(frame));
                 frame.setResizable(true);
@@ -75,7 +75,7 @@ public class General {
 			jfp = jf;
 			titulo = new JLabel();
 			titulo.setIcon(logo);
-			titulo.setBorder(new EmptyBorder(5,5,6,0));//top,left,bottom,right
+			titulo.setBorder(new EmptyBorder(5, 5, 6, 0));//top,left,bottom,right
 			menu = new JMenuBar();
 			clientes = new JMenu("Clientes");
 			productos = new JMenu("Productos");

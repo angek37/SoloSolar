@@ -9,6 +9,7 @@ import org.apache.derby.jdbc.*;
 
 import javax.swing.JOptionPane;
 
+import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Cliente;
 
 public class ClienteBD {
@@ -37,65 +38,69 @@ public class ClienteBD {
     	shutdown();
     }
     
-    public static String[] ClientesExistentes() {
-    	String datos[] = new String[CantidadClientes() + 1];
-    	datos[0] = "Seleccionar Cliente";
+    public Cliente[] selectClientes(){
     	createConnection();
-    	int i = 1;
-    	try {
-    		stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE");
-			while(rs.next()) {
-				datos[i] = rs.getString(1) + ": " + rs.getString(3);
-				i++;
-			}
-	    } catch (SQLException e) {
-			e.printStackTrace();
-		}
-    	shutdown();
-    	return datos;
+    	Cliente[] cl = new Cliente[0];
+    	Cliente[] aux;
+    	
+        try {
+            stmt = conn.createStatement();
+            ResultSet results = stmt.executeQuery("SELECT * FROM CLIENTE");
+            int c = 0;
+            while(results.next()) {
+            	aux = new Cliente[cl.length];
+            	for(int x = 0; x < cl.length; x++) {
+            		aux[x] = cl[x];
+            	}
+            	cl = new Cliente[c + 1];
+            	for(int x = 0; x < aux.length; x++) {
+            		cl[x] = aux[x];
+            	}
+            	cl[c] = new Cliente();
+            	cl[c].setId(results.getInt(1));
+            	cl[c].setRFC(results.getString(2));            	
+            	cl[c].setNombre(results.getString(3)); // NOMBRE
+            	cl[c].setApellidos(results.getString(4)); // APELLIDOS
+            	cl[c].setCalle(results.getString(5)); // CALLE
+            	cl[c].setColonia(results.getString(6)); // COLONIA
+            	cl[c].setCP(results.getString(7)); // CP 
+            	cl[c].setCiudad(results.getString(8)); // CIUDAD
+            	cl[c].setEstado(results.getString(9)); // ESTADO
+            	cl[c].setEmail(results.getString(10));// EMAIL 
+            	cl[c].setTelefono(results.getString(11));// TELEFONO
+            	cl[c].setTelEmp(results.getString(12));// TELEFONO
+            	c++;
+            }
+            aux = null;
+            results.close();
+            stmt.close();
+            shutdown();
+            return cl;
+        }
+        catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return null;
+        }
     }
     
-    public static int CantidadClientes() {
-    	createConnection();
-    	int tamano = 0;
-    	try {
-    		stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE");
-			while(rs.next()) {
-				tamano++;
-			}
-	    } catch (SQLException e) {
-			e.printStackTrace();
-		}
-    	shutdown();
-    	return tamano;
-    }
-    
-    public static Cliente ClienteSeleccionado(int id) {
-    	Cliente c = new Cliente();
+    public boolean UpdateClient(Cliente cli) {
     	createConnection();
     	try {
     		stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM CLIENTE WHERE ID_CUS = " + id);
-			while(rs.next()) {
-				c.setRFC((rs.getString(2))); // RFC
-				c.setNombre((rs.getString(3))); // NOMBRE
-				c.setApellidos((rs.getString(4))); // APELLIDOS
-				c.setCalle((rs.getString(5))); // CALLE
-				c.setColonia((rs.getString(6))); // COLONIA
-				c.setCP((rs.getString(7))); // CP 
-				c.setCiudad((rs.getString(8))); // CIUDAD
-				c.setEstado((rs.getString(9))); // ESTADO
-				c.setEmail((rs.getString(10)));// EMAIL 
-				c.setTelefono((rs.getString(11)));// TELEFONO
-				c.setTelEmp((rs.getString(12)));// TELEFONO
-			}
-	    } catch (SQLException e) {
-			e.printStackTrace();
-		}
-    	shutdown();
-    	return c;
+            stmt.execute("UPDATE CLIENTE SET RFC = '" + cli.getRFC() + "', FIRSTNAME = '" + cli.getNombre() + "',"
+                    	+ "SECONDNAME = '" + cli.getApellidos() +  "', CALLE = '" + cli.getCalle() + "', "
+                    	+ "COLONIA = '" + cli.getColonia() + "', CP = " + Integer.parseInt(cli.getCP()) + ", "
+                    	+ "CIUDAD = '" + cli.getCiudad() + "', ESTADO = '" + cli.getEstado() + "', "
+                    	+ "EMAIL = '" + cli.getEmail() + "', TEL_CELULAR = '" + cli.getTelefono() + "', "
+                    	+ "TEL_EMPRESA = '" + cli.getTelEmp() + "' WHERE ID_CUS = "+ cli.getId());
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            shutdown();
+            return false;
+        }
     }
     
     private static void createConnection() {

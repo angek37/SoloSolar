@@ -2,267 +2,404 @@ package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
+import com.SoloSolar.DB.Insert;
 
-public class AdministrarClientes extends JPanel implements ItemListener {
-	private JComboBox personas;
-	private JLabel titulo;
-	private JLabel rfcLbl, nombreLbl, apellidosLbl, calleLbl, coloniaLbl, cpLbl, 
-		ciudadLbl, estadoLbl, emailLbl, celLbl, telEmpLbl;
-	private JTextField rfcTF, nombreTF, apellidosTF, calleTF, coloniaTF, cpTF, 
-		ciudadTF, estadoTF, emailTF, celTF, telEmpTF;
-	private JPanel panelN, panelC, panelS;
-	private JButton guardar;
-		
+public class AdministrarClientes extends JPanel implements MouseListener {
+	private JComboBox<Cliente> clientes;
+	private JTable table;
+	private JLabel titulo, idLbl, rfcLbl, nombreLbl, apellidosLbl, calleLbl, coloniaLbl, cpLbl, 
+			ciudadLbl, estadoLbl, emailLbl, celLbl, telEmpLbl;
+	private JTextField idTF, rfcTF, nombreTF, apellidosTF, calleTF, coloniaTF, cpTF, 
+			ciudadTF, estadoTF, emailTF, celTF, telEmpTF;
+	ClienteBD select  = new ClienteBD();
+	Cliente[] client = select.selectClientes();
+	
 	public AdministrarClientes() {
-		String nose[] = ClienteBD.ClientesExistentes();
-		personas = new JComboBox(nose);
-		titulo = new JLabel("Modificar cliente");
-		rfcLbl = new JLabel("RFC: ");
-		nombreLbl = new JLabel("Nombre: ");
-		apellidosLbl = new JLabel("Apellidos: ");
-		calleLbl = new JLabel("Calle: ");
-		coloniaLbl = new JLabel("Colonia: ");
-		cpLbl = new JLabel("Codigo Postal: ");
-		ciudadLbl = new JLabel("Ciudad: ");
-		estadoLbl = new JLabel("Estado: ");
-		emailLbl = new JLabel("Email: ");
-		celLbl = new JLabel("Telefono Celular: ");
-		telEmpLbl = new JLabel("Telefono Empresa: ");
-		rfcTF = new JTextField();
-		nombreTF = new JTextField();
-		apellidosTF = new JTextField();
-		calleTF = new JTextField();
-		coloniaTF = new JTextField();
-		cpTF = new JTextField();
-		ciudadTF = new JTextField();
-		estadoTF = new JTextField();
-		emailTF = new JTextField();
-		celTF = new JTextField();
-		telEmpTF = new JTextField();
-		guardar = new JButton("Guardar");
-		panelN = new JPanel();
-		panelC = new JPanel();
-		panelS = new JPanel();
-		rfcTF.setEditable(false);
-		nombreTF.setEditable(false);
-		apellidosTF.setEditable(false);
-		calleTF.setEditable(false);
-		coloniaTF.setEditable(false);
-		cpTF.setEditable(false);
-		ciudadTF.setEditable(false);
-		estadoTF.setEditable(false);
-		emailTF.setEditable(false);
-		celTF.setEditable(false);
-		telEmpTF.setEditable(false);
-		guardar.setEnabled(false);
-		
 		setLayout(new BorderLayout());
-		add(panelN, BorderLayout.NORTH);
+		table = new JTable(new ClientModel());
+		table.setFillsViewportHeight(true);
+		table.setShowHorizontalLines(true);
+		table.setShowVerticalLines(true);
+		table.addMouseListener(this);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setPreferredSize(new Dimension(150, 0));
+		add(scrollPane, BorderLayout.WEST);
+		add(new ModificarClientes(), BorderLayout.CENTER);
+		
 		titulo.setFont(new Font("Calibri", Font.ITALIC, 16));
 		titulo.setForeground(Color.BLUE);
-		panelN.add(titulo);
+		add(titulo, BorderLayout.NORTH);
+	}
+	
+	public class ClientModel extends AbstractTableModel {
+		ClienteBD select  = new ClienteBD();
+		Cliente[] client = select.selectClientes();
 		
-		add(panelC, BorderLayout.CENTER);
-		panelC.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(8, 8, 8, 8);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		panelC.add(personas, gbc);
-		personas.addItemListener(this);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		panelC.add(nombreLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(nombreTF, gbc);
-		
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(apellidosLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(apellidosTF, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(rfcLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(rfcTF, gbc);
-		
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(emailLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(emailTF, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(calleLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(calleTF, gbc);
+		public int getRowCount() {
+			return client.length;
+		}
 
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(coloniaLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(coloniaTF, gbc);
+		public int getColumnCount() {
+			return 1;
+		}
 		
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(estadoLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(estadoTF, gbc);
-		
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(ciudadLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(ciudadTF, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(cpLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(cpTF, gbc);
-		
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(telEmpLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(telEmpTF, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(celLbl, gbc);
-		gbc.gridx++;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 2;
-		panelC.add(celTF, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(new JLabel(" "), gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(new JLabel(" "), gbc);
-		
-		add(panelS, BorderLayout.SOUTH);
-		panelS.add(guardar);
+		public String getColumnName(int col) {
+			return "Nombre";
+		}
+
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			Object value = null;
+			   Cliente cliente = client[rowIndex];
+			   switch (columnIndex) {
+				   case 0:
+					   value = cliente.getNombre();
+					   break;
+				   case 1:
+					   value = cliente.getId();
+					   break;
+				   case 2:
+					   value = cliente.getApellidos();
+					   break;
+				   case 3:
+					   value = cliente.getRFC();
+					   break;
+				   case 4:
+					   value = cliente.getEmail();
+					   break;
+				   case 5:
+					   value = cliente.getCalle();
+					   break;
+				   case 6:
+					   value = cliente.getColonia();
+					   break;
+				   case 7:
+					   value = cliente.getEstado();
+					   break;
+				   case 8:
+					   value = cliente.getCiudad();
+					   break;
+				   case 9:
+					   value = cliente.getCP();
+					   break;
+				   case 10:
+					   value = cliente.getTelEmp();
+					   break;
+				   case 11:
+					   value = cliente.getTelefono();
+					   break;
+			   }
+	           return value;
+		}
 		
 	}
+	
+	public class ModificarClientes extends JPanel implements ActionListener{
+		private JButton actualizar, eliminar;
+		private JPanel updateP, deleteP;
+		
+		public ModificarClientes() {
+			setLayout(new BorderLayout());
+			updateP = new JPanel();
+			deleteP = new JPanel();
+			titulo = new JLabel("Administrar clientes");
+			idLbl = new JLabel("ID: ");
+			rfcLbl = new JLabel("RFC: ");
+			nombreLbl = new JLabel("Nombre: ");
+			apellidosLbl = new JLabel("Apellidos: ");
+			calleLbl = new JLabel("Calle: ");
+			coloniaLbl = new JLabel("Colonia: ");
+			cpLbl = new JLabel("Codigo Postal: ");
+			ciudadLbl = new JLabel("Ciudad: ");
+			estadoLbl = new JLabel("Estado: ");
+			emailLbl = new JLabel("Email: ");
+			celLbl = new JLabel("Telefono Celular: ");
+			telEmpLbl = new JLabel("Telefono Empresa: ");
+			actualizar = new JButton("Actualizar");
+			idTF = new JTextField();
+			rfcTF = new JTextField();
+			nombreTF = new JTextField();
+			apellidosTF = new JTextField();
+			calleTF = new JTextField();
+			coloniaTF = new JTextField();
+			cpTF = new JTextField();
+			ciudadTF = new JTextField();
+			estadoTF = new JTextField();
+			emailTF = new JTextField();
+			celTF = new JTextField();
+			telEmpTF = new JTextField();
+			idTF.setEditable(false);
+				
+			updateP.setLayout(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
+			updateP.setBorder(new CompoundBorder(new TitledBorder("Modificar valores de cliente"), new EmptyBorder(12, 0, 0, 0)));
+			gbc.insets = new Insets(8, 8, 8, 8);
+			gbc.anchor = GridBagConstraints.WEST;
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			updateP.add(idLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(idTF, gbc);
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(nombreLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(nombreTF, gbc);
+			
+			gbc.gridx = 0;
+			gbc.gridy++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(apellidosLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(apellidosTF, gbc);
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(rfcLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(rfcTF, gbc);
+			
+			gbc.gridx = 0;
+			gbc.gridy++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(emailLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(emailTF, gbc);
 
-	@Override
-	public void itemStateChanged(ItemEvent arg0) {
-		if (arg0.getSource() == personas) {
-			if (personas.getSelectedIndex() == 0) {
-				rfcTF.setText("");
-				nombreTF.setText("");
-				apellidosTF.setText("");
-				calleTF.setText("");
-				coloniaTF.setText("");
-				cpTF.setText("");
-				ciudadTF.setText("");
-				estadoTF.setText("");
-				emailTF.setText("");
-				celTF.setText("");
-				telEmpTF.setText("");
-				rfcTF.setEditable(false);
-				nombreTF.setEditable(false);
-				apellidosTF.setEditable(false);
-				calleTF.setEditable(false);
-				coloniaTF.setEditable(false);
-				cpTF.setEditable(false);
-				ciudadTF.setEditable(false);
-				estadoTF.setEditable(false);
-				emailTF.setEditable(false);
-				celTF.setEditable(false);
-				telEmpTF.setEditable(false);
-				guardar.setEnabled(false);
-			} else {
-				String val[];
-				val = personas.getSelectedItem().toString().split(":");
-				Cliente c = ClienteBD.ClienteSeleccionado(Integer.parseInt(val[0]));
-				rfcTF.setText(c.getRFC());
-				nombreTF.setText(c.getNombre());
-				apellidosTF.setText(c.getApellidos());
-				calleTF.setText(c.getCalle());
-				coloniaTF.setText(c.getColonia());
-				cpTF.setText(c.getCP());
-				ciudadTF.setText(c.getCiudad());
-				estadoTF.setText(c.getEstado());
-				emailTF.setText(c.getEmail());
-				celTF.setText(c.getTelefono());
-				telEmpTF.setText(c.getTelEmp());
-				rfcTF.setEditable(true);
-				nombreTF.setEditable(true);
-				apellidosTF.setEditable(true);
-				calleTF.setEditable(true);
-				coloniaTF.setEditable(true);
-				cpTF.setEditable(true);
-				ciudadTF.setEditable(true);
-				estadoTF.setEditable(true);
-				emailTF.setEditable(true);
-				celTF.setEditable(true);
-				telEmpTF.setEditable(true);
-				guardar.setEnabled(true);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(calleLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(calleTF, gbc);
+			
+			gbc.gridx = 0;
+			gbc.gridy++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(coloniaLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(coloniaTF, gbc);
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(estadoLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(estadoTF, gbc);
+			
+			gbc.gridx = 0;
+			gbc.gridy++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(ciudadLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(ciudadTF, gbc);
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(cpLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(cpTF, gbc);
+			
+			gbc.gridx = 0;
+			gbc.gridy++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(telEmpLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(telEmpTF, gbc);
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
+			updateP.add(celLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(celTF, gbc);
+			
+			gbc.gridy++;
+			gbc.weightx = 1;
+			gbc.weighty = 0;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.gridwidth = 2;
+			updateP.add(actualizar, gbc);
+			actualizar.addActionListener(this);
+			
+			deleteP.setLayout(new GridBagLayout());
+			GridBagConstraints gbc2 = new GridBagConstraints();
+			deleteP.setBorder(new CompoundBorder(new TitledBorder("Eliminar cliente"), new EmptyBorder(12, 12, 12, 12)));
+			//prod = new JLabel("Productos dentro de esta categoría: ");
+			gbc2.gridx = 0;
+			gbc2.gridy = 0;
+			gbc2.anchor = GridBagConstraints.WEST;
+			gbc2.gridwidth = 2;
+			gbc2.fill = GridBagConstraints.HORIZONTAL;
+			//deleteP.add(prod, gbc2);
+			gbc2.gridwidth = 1;
+			gbc2.gridy++;
+			gbc2.weightx = 1;
+			gbc2.anchor = GridBagConstraints.WEST;
+			gbc2.insets = new Insets(20, 0, 20, 0);
+			deleteP.add(new JLabel("Selecciona cliente: "), gbc2);
+			
+			clientes = new JComboBox<Cliente>(client);
+			gbc2.gridx++;
+			deleteP.add(clientes, gbc2);
+			
+			eliminar = new JButton("Eliminar");
+			gbc2.insets = new Insets(0, 0, 0, 0);
+			gbc2.gridy++;
+			deleteP.add(eliminar, gbc2);
+			eliminar.addActionListener(this);
+			
+			add(updateP, BorderLayout.CENTER);
+			add(deleteP, BorderLayout.SOUTH);
+		}
+		
+
+		public void actionPerformed(ActionEvent e) {
+			ClienteBD in = new ClienteBD();
+			Cliente cl;
+			try {
+				if(e.getSource() == actualizar) {
+					cl = new Cliente(Integer.parseInt(idTF.getText()), rfcTF.getText(), nombreTF.getText(), 
+							apellidosTF.getText(), calleTF.getText(), coloniaTF.getText(), cpTF.getText(),
+						ciudadTF.getText(), estadoTF.getText(), emailTF.getText(), celTF.getText(), telEmpTF.getText());
+					if(in.UpdateClient(cl)) {
+						JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(null, "No ha sido posible modificar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					idTF.setText("");
+					rfcTF.setText("");
+					nombreTF.setText("");
+					apellidosTF.setText("");
+					calleTF.setText("");
+					coloniaTF.setText("");
+					cpTF.setText("");
+					ciudadTF.setText("");
+					estadoTF.setText("");
+					emailTF.setText("");
+					celTF.setText("");
+					telEmpTF.setText("");
+					table.setModel(new ClientModel());
+				}/*else if (e.getSource() == eliminar) {
+					Categoria substituteCat = (Categoria) categories.getSelectedItem();
+					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar la categoría '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(reply == JOptionPane.YES_OPTION) {
+						if(in.ChangeCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2), substituteCat.getId())) {
+							if(in.DeleteCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2))) {
+								in.shutdown();
+								JOptionPane.showMessageDialog(null, "Categoria eliminada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+								table.setModel(new CategoryModel());
+								nombre.setText("");
+								descripcion.setText("");
+								id.setText("");
+							}else {
+								in.shutdown();
+								JOptionPane.showMessageDialog(null, "No ha sido posible eliminar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible transferir los productos", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}*/
+			}catch(NumberFormatException | ArrayIndexOutOfBoundsException exp) {
+				JOptionPane.showMessageDialog(null, "No se ha seleccionado una categoría", "Error", JOptionPane.ERROR_MESSAGE);
+			}/*
+	*/	}
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		try {
+			if (e.getClickCount() == 1) {
+				nombreTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
+				idTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 1));
+				apellidosTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 2));
+				rfcTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 3));
+				emailTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 4));
+				calleTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 5));
+				coloniaTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 6));
+				estadoTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 7));
+				ciudadTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 8));
+				cpTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 9));
+				telEmpTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 10));
+				celTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 11));
 			}
+		}catch(ArrayIndexOutOfBoundsException expt) {
+			
 		}
 	}
+
+	public void mousePressed(MouseEvent e) {
+		
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
+		
+	}
+	
 }

@@ -1,7 +1,37 @@
 package com.SoloSolar.Capsulas;
 
 public class Cliente {
+	private int id;
 	private String rfc, nombre, apellidos, calle, colonia, cp, ciudad, estado, email, telefono, telEmp;
+	
+	public Cliente() {
+		
+	}
+	
+	public Cliente(int id, String rfc, String nombre, String apellidos, String calle, String colonia, String cp,
+			String ciudad, String estado, String email, String telefono, String telEmp) {
+		super();
+		this.id = id;
+		this.rfc = rfc;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.calle = calle;
+		this.colonia = colonia;
+		this.cp = cp;
+		this.ciudad = ciudad;
+		this.estado = estado;
+		this.email = email;
+		this.telefono = telefono;
+		this.telEmp = telEmp;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public int getId() {
+		return id;
+	}
 	
 	public void setRFC(String rfc) {
 		this.rfc = rfc;
