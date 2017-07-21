@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.AbstractList;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -23,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Categoria;
@@ -34,8 +37,6 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 	private JComboBox<Categoria> categories;
 	private JTable table;
 	private JLabel prod;
-	Consulta select = new Consulta();
-	Categoria[] category = select.selectCategories();
 	
 	public AdministrarCategorias() {
 		setLayout(new BorderLayout());
@@ -169,7 +170,7 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 			gbc2.insets = new Insets(20, 0, 20, 0);
 			deleteP.add(new JLabel("Transferir a: "), gbc2);
 			
-			categories = new JComboBox<Categoria>(category);
+			categories = new JComboBox<Categoria>(new ProductModel());
 			gbc2.gridx++;
 			deleteP.add(categories, gbc2);
 			
@@ -199,6 +200,8 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 					descripcion.setText("");
 					id.setText("");
 					table.setModel(new CategoryModel());
+					categories.setModel(new ProductModel());
+					categories.updateUI();
 				}else if (e.getSource() == eliminar) {
 					Categoria substituteCat = (Categoria) categories.getSelectedItem();
 					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar la categoría '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -211,6 +214,8 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 								nombre.setText("");
 								descripcion.setText("");
 								id.setText("");
+								categories.setModel(new ProductModel());
+								categories.updateUI();
 							}else {
 								in.shutdown();
 								JOptionPane.showMessageDialog(null, "No ha sido posible eliminar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
@@ -251,6 +256,51 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 	}
 
 	public void mouseExited(MouseEvent e) {
+		
+	}
+	
+	public class ProductModel<Categoria> extends AbstractList implements ComboBoxModel {
+		Consulta c = new Consulta();
+		Categoria[] category = (Categoria[]) c.selectCategories();
+		Object ob;
+		
+		public int getSize() {
+			return category.length;
+		}
+
+		public Object getElementAt(int index) {
+			ob = (Object) category[index];
+			return ob;
+		}
+
+		public void setSelectedItem(Object anItem) {
+			
+		}
+
+		public Object getSelectedItem() {
+			return ob;
+		}
+
+		public Object get(int index) {
+			return null;
+		}
+
+		public int size() {
+			
+			return 0;
+		}
+
+		@Override
+		public void addListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void removeListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}
 	
