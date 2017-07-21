@@ -27,7 +27,6 @@ import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
-import com.SoloSolar.DB.Insert;
 
 public class AdministrarClientes extends JPanel implements MouseListener {
 	private JComboBox<Cliente> clientes;
@@ -315,54 +314,44 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 		public void actionPerformed(ActionEvent e) {
 			ClienteBD in = new ClienteBD();
 			Cliente cl;
-			try {
-				if(e.getSource() == actualizar) {
-					cl = new Cliente(Integer.parseInt(idTF.getText()), rfcTF.getText(), nombreTF.getText(), 
-							apellidosTF.getText(), calleTF.getText(), coloniaTF.getText(), cpTF.getText(),
-						ciudadTF.getText(), estadoTF.getText(), emailTF.getText(), celTF.getText(), telEmpTF.getText());
-					if(in.UpdateClient(cl)) {
-						JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+			if(e.getSource() == actualizar) {
+				cl = new Cliente(Integer.parseInt(idTF.getText()), rfcTF.getText(), nombreTF.getText(), 
+						apellidosTF.getText(), calleTF.getText(), coloniaTF.getText(), cpTF.getText(),
+					ciudadTF.getText(), estadoTF.getText(), emailTF.getText(), celTF.getText(), telEmpTF.getText());
+				if(in.UpdateClient(cl)) {
+					JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "No ha sido posible modificar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				idTF.setText("");
+				rfcTF.setText("");
+				nombreTF.setText("");
+				apellidosTF.setText("");
+				calleTF.setText("");
+				coloniaTF.setText("");
+				cpTF.setText("");
+				ciudadTF.setText("");
+				estadoTF.setText("");
+				emailTF.setText("");
+				celTF.setText("");
+				telEmpTF.setText("");
+				table.setModel(new ClientModel());
+			} else if (e.getSource() == eliminar) {
+				String val[];
+				val = clientes.getSelectedItem().toString().split(": ");
+				int indexSelect = clientes.getSelectedIndex();
+				int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar el cliente '" + val[1] + "'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(reply == JOptionPane.YES_OPTION) {
+					if(in.DeleteCategory(Integer.parseInt(val[0]))) {
+						JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+						table.setModel(new ClientModel());
+						clientes.removeItemAt(indexSelect);
 					}else {
-						JOptionPane.showMessageDialog(null, "No ha sido posible modificar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
 					}
-					idTF.setText("");
-					rfcTF.setText("");
-					nombreTF.setText("");
-					apellidosTF.setText("");
-					calleTF.setText("");
-					coloniaTF.setText("");
-					cpTF.setText("");
-					ciudadTF.setText("");
-					estadoTF.setText("");
-					emailTF.setText("");
-					celTF.setText("");
-					telEmpTF.setText("");
-					table.setModel(new ClientModel());
-				}/*else if (e.getSource() == eliminar) {
-					Categoria substituteCat = (Categoria) categories.getSelectedItem();
-					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar la categoría '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-					if(reply == JOptionPane.YES_OPTION) {
-						if(in.ChangeCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2), substituteCat.getId())) {
-							if(in.DeleteCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2))) {
-								in.shutdown();
-								JOptionPane.showMessageDialog(null, "Categoria eliminada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-								table.setModel(new CategoryModel());
-								nombre.setText("");
-								descripcion.setText("");
-								id.setText("");
-							}else {
-								in.shutdown();
-								JOptionPane.showMessageDialog(null, "No ha sido posible eliminar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
-							}
-						}else {
-							JOptionPane.showMessageDialog(null, "No ha sido posible transferir los productos", "Error", JOptionPane.ERROR_MESSAGE);
-						}
-					}
-				}*/
-			}catch(NumberFormatException | ArrayIndexOutOfBoundsException exp) {
-				JOptionPane.showMessageDialog(null, "No se ha seleccionado una categoría", "Error", JOptionPane.ERROR_MESSAGE);
-			}/*
-	*/	}
+				}
+			}
+		}
 	}
 
 	public void mouseClicked(MouseEvent e) {

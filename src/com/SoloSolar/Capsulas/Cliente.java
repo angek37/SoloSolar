@@ -140,6 +140,6 @@ public class Cliente {
 	}
 	
 	public String toString() {
-		return nombre;
+		return id + ": " +  nombre;
 	}
 }

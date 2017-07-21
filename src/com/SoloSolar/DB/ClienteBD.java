@@ -112,6 +112,21 @@ public class ClienteBD {
             except.printStackTrace();
         }
     }
+
+    public boolean DeleteCategory(int id_cus) {
+    	createConnection();
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("DELETE FROM CLIENTE WHERE ID_CUS = " + id_cus);
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            shutdown();
+            return false;
+        }
+    }
     
     private static void shutdown() {
         try {
