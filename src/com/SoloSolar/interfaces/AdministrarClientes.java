@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.AbstractList;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -23,10 +25,13 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
+import com.SoloSolar.DB.Consulta;
+import com.SoloSolar.interfaces.AdministrarCategorias.ProductModel;
 
 public class AdministrarClientes extends JPanel implements MouseListener {
 	private JComboBox<Cliente> clientes;
@@ -336,6 +341,8 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 				celTF.setText("");
 				telEmpTF.setText("");
 				table.setModel(new ClientModel());
+				clientes.setModel(new ClientsModel());
+				clientes.updateUI();
 			} else if (e.getSource() == eliminar) {
 				String val[];
 				val = clientes.getSelectedItem().toString().split(": ");
@@ -345,13 +352,59 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 					if(in.DeleteCategory(Integer.parseInt(val[0]))) {
 						JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
 						table.setModel(new ClientModel());
-						clientes.removeItemAt(indexSelect);
+						clientes.setModel(new ClientsModel());
+						clientes.updateUI();
 					}else {
 						JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		}
+	}
+	
+	public class ClientsModel<Cliente> extends AbstractList implements ComboBoxModel {
+		ClienteBD c = new ClienteBD();
+		Cliente[] clients = (Cliente[]) c.selectClientes();
+		Object ob;
+		
+		public int getSize() {
+			return clients.length;
+		}
+
+		public Object getElementAt(int index) {
+			ob = (Object) clients[index];
+			return ob;
+		}
+
+		public void setSelectedItem(Object anItem) {
+			
+		}
+
+		public Object getSelectedItem() {
+			return ob;
+		}
+
+		public Object get(int index) {
+			return null;
+		}
+
+		public int size() {
+			
+			return 0;
+		}
+
+		@Override
+		public void addListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void removeListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 	public void mouseClicked(MouseEvent e) {

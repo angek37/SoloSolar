@@ -213,6 +213,7 @@ public class General {
 			buscar.setBorder(null);
 			buscar.setToolTipText("Buscar productos");
 			buscar.setFocusable(false);
+			buscar.addActionListener(this);
 			add(buscar);
 			reporte = new JButton("Reportes", reports);
 			reporte.setMaximumSize(new Dimension(85,60));
@@ -235,7 +236,9 @@ public class General {
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == salir) {
+			if(e.getSource() == buscar) {
+				Buscar b = new Buscar();
+			} else if(e.getSource() == salir) {
 				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(reply == JOptionPane.YES_OPTION) {
 					System.exit(0);
