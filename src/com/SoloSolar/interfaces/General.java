@@ -62,7 +62,7 @@ public class General {
 		private JMenuBar menu;
 		private JMenu clientes, productos, categoria;
 		private JMenuItem altaClie, modClie, 
-						altaProd, bajaProd, modProd, altaCat, adminCat;
+						altaProd, altaCat, adminCat, adminProd;
 		private ImageIcon logo = new ImageIcon(new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
 		private JLabel titulo;
 		private JFrame jfp;
@@ -84,8 +84,7 @@ public class General {
 			altaClie  = new JMenuItem("Alta Cliente");
 			modClie = new JMenuItem("Administrar Cliente");
 			altaProd  = new JMenuItem("Alta Producto");
-			bajaProd  = new JMenuItem("Baja Producto");
-			modProd  = new JMenuItem("Modificar Producto");
+			adminProd  = new JMenuItem("Administar Productos");
 			altaCat  = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
 			jfp.setIconImage(new ImageIcon("assets/icono.png").getImage());
@@ -102,10 +101,10 @@ public class General {
 			//Productos
 			menu.add(productos);
 			productos.add(altaProd);
-			productos.add(bajaProd);
-			productos.add(modProd);
+			productos.add(adminProd);
 			productos.getPopupMenu().setBorder(new VerticalTextBorder());
 			altaProd.addActionListener(this);
+			adminProd.addActionListener(this);
 			
 			//Categoria
 			menu.add(categoria);
@@ -156,6 +155,8 @@ public class General {
 				panelPrincipal.add(mcat);
 			} else if (e.getSource() == altaProd) {
 				panelPrincipal.add(new AltaProducto());
+			} else if (e.getSource() == adminProd) {
+				panelPrincipal.add(new AdministrarProducto());
 			}
 			
 			panelPrincipal.updateUI();
