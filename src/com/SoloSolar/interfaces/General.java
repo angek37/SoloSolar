@@ -42,7 +42,9 @@ public class General {
             public void run() {
                 try {
                     //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                	UIManager.setLookAndFeel(new FastLookAndFeel());
+                	FastLookAndFeel f = new FastLookAndFeel();
+                	f.setTheme("Default", "", " ");
+                	UIManager.setLookAndFeel(f);
                 } catch (UnsupportedLookAndFeelException ex) {
                     ex.printStackTrace();
                 }
@@ -96,13 +98,13 @@ public class General {
 			clientes.add(modClie);
 			altaClie.addActionListener(this);
 			modClie.addActionListener(this);
-			clientes.getPopupMenu().setBorder(new VerticalTextBorder());
+			//clientes.getPopupMenu().setBorder(new VerticalTextBorder());
 			
 			//Productos
 			menu.add(productos);
 			productos.add(altaProd);
 			productos.add(adminProd);
-			productos.getPopupMenu().setBorder(new VerticalTextBorder());
+			//productos.getPopupMenu().setBorder(new VerticalTextBorder());
 			altaProd.addActionListener(this);
 			adminProd.addActionListener(this);
 			
@@ -112,7 +114,7 @@ public class General {
 			categoria.add(adminCat);
 			adminCat.addActionListener(this);
 			altaCat.addActionListener(this);
-			categoria.getPopupMenu().setBorder(new VerticalTextBorder());
+			//categoria.getPopupMenu().setBorder(new VerticalTextBorder());
 			
 			setLayout(new BorderLayout());
 			add(new MenuPanel(), BorderLayout.WEST);
@@ -165,7 +167,7 @@ public class General {
 		}
 			
 	}
-	
+	/*
 	private static class VerticalTextBorder implements Border {
         @Override
         public Insets getBorderInsets(final Component c) {
@@ -188,7 +190,7 @@ public class General {
             return false;
         }
     }
-	
+	*/
 	public class MenuPanel extends JPanel implements ActionListener {
 		private JButton venta, reporte, buscar, salir;
 		private ImageIcon purchase = new ImageIcon(new ImageIcon("assets/cashier.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));		
