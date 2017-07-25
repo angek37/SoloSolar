@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.util.AbstractList;
 
 import javax.swing.ComboBoxModel;
@@ -49,6 +50,18 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 		table.setFillsViewportHeight(true);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseMoved(MouseEvent e) {
+				int row = table.rowAtPoint(e.getPoint());
+				if (row > -1) {
+					table.clearSelection();
+					table.setRowSelectionInterval(row, row);
+				} else {
+					table.clearSelection();
+				}
+			}
+		});
 		table.addMouseListener(this);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(150, 0));

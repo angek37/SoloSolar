@@ -8,14 +8,22 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
 
+import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
+import com.SoloSolar.DB.Consulta;
+import com.SoloSolar.interfaces.AltaCategoria.CategoryModel;
 
 public class AltaCliente extends JPanel implements ActionListener {
 	private JLabel titulo;
@@ -24,6 +32,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 	private JTextField rfcTF, nombreTF, apellidosTF, calleTF, coloniaTF, cpTF, 
 					ciudadTF, estadoTF, emailTF, celTF, telEmpTF;
 	private JPanel panelN, panelC, panelS;
+	private JTable table;
 	private JButton guardar;
 		
 	public AltaCliente () {
@@ -169,21 +178,37 @@ public class AltaCliente extends JPanel implements ActionListener {
 		gbc.weightx = 2;
 		panelC.add(celTF, gbc);
 		
-		gbc.gridx = 0;
+		gbc.gridx = gbc.gridx + 2;
 		gbc.gridy++;
-		gbc.fill = GridBagConstraints.NONE;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 1;
-		panelC.add(new JLabel(" "), gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		panelC.add(new JLabel(" "), gbc);
-		
-		add(panelS, BorderLayout.SOUTH);
-		panelS.add(guardar);
+		panelC.add(guardar, gbc);
 		guardar.addActionListener(this);
+		
+		table = new JTable(new ClientModel());
+		table.setFillsViewportHeight(true);
+		table.setShowHorizontalLines(true);
+		table.setShowVerticalLines(true);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseMoved(MouseEvent e) {
+				int row = table.rowAtPoint(e.getPoint());
+				if (row > -1) {
+					table.clearSelection();
+					table.setRowSelectionInterval(row, row);
+				} else {
+					table.clearSelection();
+				}
+			}
+		});
+		JScrollPane scrollPane = new JScrollPane(table);
+		gbc.gridx = 0;
+		gbc.gridy++;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.gridheight = 4;
+		panelC.add(scrollPane, gbc);
 		
 	}
 	
@@ -202,6 +227,55 @@ public class AltaCliente extends JPanel implements ActionListener {
 			c.setTelefono(celTF.getText());
 			c.setTelEmp(telEmpTF.getText());
 			ClienteBD.InsertCliente(c);
+			table.setModel(new ClientModel());
+		}
+	}
+	
+	public class ClientModel extends AbstractTableModel {
+		ClienteBD select = new ClienteBD();
+		Cliente[] client = select.selectClientes();
+		public int getRowCount() {
+			return client.length;
+		}
+
+		public int getColumnCount() {
+			return 4;
+		}
+		
+		public String getColumnName(int col) {
+			String aux = "";
+		      switch(col) {
+		      case 0: 
+		    	  return aux = "Nombre";
+		      case 1: 
+		    	  return aux = "Apellido";
+		      case 2:
+		    	  return aux = "RFC";
+		      case 3:
+		    	  return aux = "Email";
+		    	  
+		      }
+			return aux;
+		}
+		
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			   Object value = null;
+			   Cliente cliente = client[rowIndex];
+			   switch (columnIndex) {
+			   case 0:
+				   value = cliente.getNombre();
+				   break;
+			   case 1:
+				   value = cliente.getApellidos();
+				   break;
+			   case 2:
+				   value = cliente.getRFC();
+				   break;
+			   case 3:
+				   value = cliente.getEmail();
+				   break;
+			   }
+	           return value;
 		}
 	}
 
