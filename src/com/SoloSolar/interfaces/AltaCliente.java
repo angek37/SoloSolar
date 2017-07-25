@@ -19,11 +19,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
-import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
-import com.SoloSolar.DB.Consulta;
-import com.SoloSolar.interfaces.AltaCategoria.CategoryModel;
 
 public class AltaCliente extends JPanel implements ActionListener {
 	private JLabel titulo;
@@ -211,7 +208,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 		panelC.add(scrollPane, gbc);
 		
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		Cliente c = new Cliente();
 		if(e.getSource() == guardar) {

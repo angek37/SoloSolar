@@ -2,18 +2,12 @@ package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Insets;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -29,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import com.jtattoo.plaf.fast.FastLookAndFeel;
@@ -167,30 +160,7 @@ public class General {
 		}
 			
 	}
-	/*
-	private static class VerticalTextBorder implements Border {
-        @Override
-        public Insets getBorderInsets(final Component c) {
-            return new Insets(0, 15, 0, 0);
-        }
-
-        @Override
-        public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-            final Graphics2D g2 = (Graphics2D) g;
-            final AffineTransform fontAT = new AffineTransform();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            fontAT.rotate(-Math.PI / 2);
-            g2.setFont(g2.getFont().deriveFont(fontAT));
-            g2.drawString("", 10, height);
-            c.setBackground(new Color(196, 196, 196));
-        }
-
-        @Override
-        public boolean isBorderOpaque() {
-            return false;
-        }
-    }
-	*/
+	
 	public class MenuPanel extends JPanel implements ActionListener {
 		private JButton venta, reporte, buscar, salir;
 		private ImageIcon purchase = new ImageIcon(new ImageIcon("assets/cashier.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));		

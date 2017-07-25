@@ -31,8 +31,6 @@ import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
-import com.SoloSolar.DB.Consulta;
-import com.SoloSolar.interfaces.AdministrarCategorias.ProductModel;
 
 public class AdministrarClientes extends JPanel implements MouseListener {
 	private JComboBox<Cliente> clientes;

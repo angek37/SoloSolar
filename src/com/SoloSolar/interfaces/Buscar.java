@@ -8,11 +8,6 @@ import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import com.SoloSolar.interfaces.General.GeneralPanel;
-import com.jtattoo.plaf.fast.FastLookAndFeel;
 
 public class Buscar extends JFrame {
 	
@@ -20,11 +15,11 @@ public class Buscar extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
+                /*try {
                 	UIManager.setLookAndFeel(new FastLookAndFeel());
                 } catch (UnsupportedLookAndFeelException ex) {
                     ex.printStackTrace();
-                }
+                }*/
 
                 JFrame frame = new JFrame("Buscar");
                 frame.setMinimumSize(new Dimension(750, 500));
