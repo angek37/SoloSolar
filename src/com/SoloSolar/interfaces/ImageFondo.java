@@ -11,7 +11,7 @@ public class ImageFondo extends JPanel{
     
     public ImageFondo(Image img) {
         this.img = img;
-        Dimension dimension = new Dimension(img.getWidth(null),img.getHeight(null));
+        Dimension dimension = new Dimension(img.getWidth(null), img.getHeight(null));
         this.setPreferredSize(dimension);
         this.setMaximumSize(dimension);
         this.setMaximumSize(dimension);
