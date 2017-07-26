@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,7 +40,7 @@ public class General {
 				try {
 					// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					FastLookAndFeel f = new FastLookAndFeel();
-					f.setTheme("Default", "", " ");
+					f.setTheme("Default", "", "Solo - Solar");
 					UIManager.setLookAndFeel(f);
 				} catch (UnsupportedLookAndFeelException ex) {
 					ex.printStackTrace();
@@ -66,6 +67,10 @@ public class General {
 		private JButton userB;
 		private ImageIcon userIcon = new ImageIcon(
 				new ImageIcon("assets/User.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+		private ImageIcon addC = new ImageIcon(
+				new ImageIcon("assets/add.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+		private ImageIcon admC = new ImageIcon(
+				new ImageIcon("assets/admin.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
@@ -73,12 +78,13 @@ public class General {
 			titulo.setIcon(logo);
 			titulo.setBorder(new EmptyBorder(5, 5, 6, 0));// top,left,bottom,right
 			menu = new JMenuBar();
+			menu.setBackground(new Color(232, 232, 232));
 			clientes = new JMenu("Clientes");
 			productos = new JMenu("Productos");
 			categoria = new JMenu("Categoria");
 			titleBar = new JPanel();
-			altaClie = new JMenuItem("Alta Cliente");
-			modClie = new JMenuItem("Administrar Cliente");
+			altaClie = new JMenuItem("Alta Cliente", addC);
+			modClie = new JMenuItem("Administrar Cliente", admC);
 			altaProd = new JMenuItem("Alta Producto");
 			adminProd = new JMenuItem("Administar Productos");
 			altaCat = new JMenuItem("Alta Categoria");
@@ -90,6 +96,7 @@ public class General {
 			// Clientes
 			menu.add(clientes);
 			clientes.add(altaClie);
+			clientes.addSeparator();
 			clientes.add(modClie);
 			altaClie.addActionListener(this);
 			modClie.addActionListener(this);
@@ -177,6 +184,7 @@ public class General {
 				new ImageIcon("assets/exit.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
 
 		public MenuPanel() {
+			setBackground(new Color(232, 232, 232));
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			bienvenida = new JButton("Bienvenida", home);
 			bienvenida.setMaximumSize(new Dimension(85, 60));
