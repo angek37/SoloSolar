@@ -6,39 +6,40 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
-public class Buscar extends JFrame {
+import com.sun.glass.events.KeyEvent;
+
+public class Buscar {
 	
-	public Buscar() {
+	public Buscar(JFrame padre) {
 		EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                /*try {
-                	UIManager.setLookAndFeel(new FastLookAndFeel());
-                } catch (UnsupportedLookAndFeelException ex) {
-                    ex.printStackTrace();
-                }*/
-
-                JFrame frame = new JFrame("Buscar");
-                frame.setMinimumSize(new Dimension(750, 500));
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frame.add(new SearchDialog(frame));
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
+                JDialog dialog = new JDialog(padre, "Solo - Solar (Buscar)");
+                dialog.setMinimumSize(new Dimension(750, 500));
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.add(new SearchDialog(dialog));
+                dialog.setLocationRelativeTo(null);
+                dialog.setVisible(true);
+                dialog.getRootPane().registerKeyboardAction(e -> {
+                	dialog.dispose();
+                }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
             }
         });
 	}
 	
 	public class SearchDialog extends JPanel {
-		private JFrame jf;
+		private JDialog dg;
 		private JPanel panelPrincipal;
 		
-		public SearchDialog(JFrame frame) {
-			jf = frame;
-			jf.setIconImage(new ImageIcon("assets/icono.png").getImage());
+		public SearchDialog(JDialog dialog) {
+			dg = dialog;
+			dg.setIconImage(new ImageIcon("assets/icono.png").getImage());
 			panelPrincipal = new JPanel();
 			//panelPrincipal.setBackground(new Color(64, 128, 128));
 			panelPrincipal.setBackground(new Color(239, 228, 176));
