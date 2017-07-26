@@ -30,7 +30,7 @@ import com.jtattoo.plaf.fast.FastLookAndFeel;
 public class General {
 	private JFrame frame;
 	private JPanel panelPrincipal;
-	private ImageFondo bienvenida = new ImageFondo(new ImageIcon("assets/bienvenida.png").getImage());
+	private ScalablePane bienvenida = new ScalablePane(new ImageIcon("assets/bienvenido.png").getImage());
 	
 	public General() {
 		EventQueue.invokeLater(new Runnable() {
