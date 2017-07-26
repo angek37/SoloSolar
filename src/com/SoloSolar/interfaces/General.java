@@ -31,108 +31,108 @@ public class General {
 	private JFrame frame;
 	private JPanel panelPrincipal;
 	private ScalablePane bienvenida = new ScalablePane(new ImageIcon("assets/bienvenido.png").getImage());
-	
+
 	public General() {
 		EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                	FastLookAndFeel f = new FastLookAndFeel();
-                	f.setTheme("Default", "", " ");
-                	UIManager.setLookAndFeel(f);
-                } catch (UnsupportedLookAndFeelException ex) {
-                    ex.printStackTrace();
-                }
-                frame = new JFrame("Solo - Solar");
-                frame.setMinimumSize(new Dimension(800, 550));
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.add(new GeneralPanel(frame));
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-        });
+			@Override
+			public void run() {
+				try {
+					// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					FastLookAndFeel f = new FastLookAndFeel();
+					f.setTheme("Default", "", " ");
+					UIManager.setLookAndFeel(f);
+				} catch (UnsupportedLookAndFeelException ex) {
+					ex.printStackTrace();
+				}
+				frame = new JFrame("Solo - Solar");
+				frame.setMinimumSize(new Dimension(800, 550));
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.add(new GeneralPanel(frame));
+				frame.setLocationRelativeTo(null);
+				frame.setVisible(true);
+			}
+		});
 	}
-	
-	public class GeneralPanel extends JPanel implements ActionListener{
+
+	public class GeneralPanel extends JPanel implements ActionListener {
 		private JMenuBar menu;
 		private JMenu clientes, productos, categoria;
-		private JMenuItem altaClie, modClie, 
-						altaProd, altaCat, adminCat, adminProd;
-		private ImageIcon logo = new ImageIcon(new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
+		private JMenuItem altaClie, modClie, altaProd, altaCat, adminCat, adminProd;
+		private ImageIcon logo = new ImageIcon(
+				new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
 		private JLabel titulo;
 		private JFrame jfp;
 		private JPanel titleBar;
 		private JButton userB;
-		private ImageIcon userIcon = new ImageIcon(new ImageIcon("assets/User.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-		
-		
+		private ImageIcon userIcon = new ImageIcon(
+				new ImageIcon("assets/User.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
 			titulo = new JLabel();
 			titulo.setIcon(logo);
-			titulo.setBorder(new EmptyBorder(5, 5, 6, 0));//top,left,bottom,right
+			titulo.setBorder(new EmptyBorder(5, 5, 6, 0));// top,left,bottom,right
 			menu = new JMenuBar();
 			clientes = new JMenu("Clientes");
 			productos = new JMenu("Productos");
 			categoria = new JMenu("Categoria");
 			titleBar = new JPanel();
-			altaClie  = new JMenuItem("Alta Cliente");
+			altaClie = new JMenuItem("Alta Cliente");
 			modClie = new JMenuItem("Administrar Cliente");
-			altaProd  = new JMenuItem("Alta Producto");
-			adminProd  = new JMenuItem("Administar Productos");
-			altaCat  = new JMenuItem("Alta Categoria");
+			altaProd = new JMenuItem("Alta Producto");
+			adminProd = new JMenuItem("Administar Productos");
+			altaCat = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
 			jfp.setIconImage(new ImageIcon("assets/icono.png").getImage());
 			panelPrincipal = new JPanel();
 			panelPrincipal.setBackground(new Color(64, 128, 128));
-			
-			//Clientes
+
+			// Clientes
 			menu.add(clientes);
 			clientes.add(altaClie);
 			clientes.add(modClie);
 			altaClie.addActionListener(this);
 			modClie.addActionListener(this);
-			//clientes.getPopupMenu().setBorder(new VerticalTextBorder());
-			
-			//Productos
+			// clientes.getPopupMenu().setBorder(new VerticalTextBorder());
+
+			// Productos
 			menu.add(productos);
 			productos.add(altaProd);
 			productos.add(adminProd);
-			//productos.getPopupMenu().setBorder(new VerticalTextBorder());
+			// productos.getPopupMenu().setBorder(new VerticalTextBorder());
 			altaProd.addActionListener(this);
 			adminProd.addActionListener(this);
-			
-			//Categoria
+
+			// Categoria
 			menu.add(categoria);
 			categoria.add(altaCat);
 			categoria.add(adminCat);
 			adminCat.addActionListener(this);
 			altaCat.addActionListener(this);
-			//categoria.getPopupMenu().setBorder(new VerticalTextBorder());
-			
+			// categoria.getPopupMenu().setBorder(new VerticalTextBorder());
+
 			setLayout(new BorderLayout());
 			add(new MenuPanel(), BorderLayout.WEST);
 			add(panelPrincipal, BorderLayout.CENTER);
-			userB = new JButton("admin",userIcon);
+			userB = new JButton("admin", userIcon);
 			userB.setToolTipText("Administrar datos de usuario");
 			userB.setBorder(BorderFactory.createRaisedSoftBevelBorder());
 			userB.setFont(new Font("Calibri", Font.PLAIN, 10));
 			userB.setHorizontalTextPosition(SwingConstants.LEFT);
-			userB.setBackground(new Color(255,255,166));
+			userB.setBackground(new Color(255, 255, 166));
 			userB.setContentAreaFilled(false);
 			userB.setFocusable(false);
 			userB.addActionListener(this);
 			panelPrincipal.setLayout(new BorderLayout());
 			jfp.add(titleBar, BorderLayout.NORTH);
-			titleBar.setBackground(new Color(255,255,186));
+			titleBar.setBackground(new Color(255, 255, 186));
 			titleBar.setLayout(new BorderLayout());
 			titleBar.add(menu, BorderLayout.SOUTH);
 			titleBar.add(titulo, BorderLayout.CENTER);
 			titleBar.add(userB, BorderLayout.EAST);
 			panelPrincipal.add(bienvenida);
 		}
-		
+
 		public void actionPerformed(ActionEvent e) {
 			panelPrincipal.removeAll();
 			if (e.getSource() == userB) {
@@ -141,7 +141,7 @@ public class General {
 			} else if (e.getSource() == altaClie) {
 				AltaCliente ac = new AltaCliente();
 				panelPrincipal.add(ac);
-			} else if(e.getSource() == modClie) {
+			} else if (e.getSource() == modClie) {
 				AdministrarClientes mc = new AdministrarClientes();
 				panelPrincipal.add(mc);
 			} else if (e.getSource() == altaCat) {
@@ -155,22 +155,27 @@ public class General {
 			} else if (e.getSource() == adminProd) {
 				panelPrincipal.add(new AdministrarProducto());
 			}
-			
+
 			panelPrincipal.updateUI();
 			panelPrincipal.repaint();
 			repaint();
 		}
-			
+
 	}
-	
+
 	public class MenuPanel extends JPanel implements ActionListener {
 		private JButton bienvenida, venta, reporte, buscar, salir;
-		private ImageIcon home = new ImageIcon(new ImageIcon("assets/home.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
-		private ImageIcon purchase = new ImageIcon(new ImageIcon("assets/cashier.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));		
-		private ImageIcon search = new ImageIcon(new ImageIcon("assets/research.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));		
-		private ImageIcon reports = new ImageIcon(new ImageIcon("assets/newspaper.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
-		private ImageIcon exit = new ImageIcon(new ImageIcon("assets/exit.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
-		
+		private ImageIcon home = new ImageIcon(
+				new ImageIcon("assets/home.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
+		private ImageIcon purchase = new ImageIcon(
+				new ImageIcon("assets/cashier.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
+		private ImageIcon search = new ImageIcon(
+				new ImageIcon("assets/research.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
+		private ImageIcon reports = new ImageIcon(
+				new ImageIcon("assets/newspaper.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
+		private ImageIcon exit = new ImageIcon(
+				new ImageIcon("assets/exit.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
+
 		public MenuPanel() {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			bienvenida = new JButton("Bienvenida", home);
@@ -191,7 +196,7 @@ public class General {
 			venta.setFocusable(false);
 			add(venta);
 			buscar = new JButton("Buscar", search);
-			buscar.setMaximumSize(new Dimension(85,60));
+			buscar.setMaximumSize(new Dimension(85, 60));
 			buscar.setVerticalTextPosition(SwingConstants.BOTTOM);
 			buscar.setHorizontalTextPosition(SwingConstants.CENTER);
 			buscar.setBorder(null);
@@ -200,7 +205,7 @@ public class General {
 			buscar.addActionListener(this);
 			add(buscar);
 			reporte = new JButton("Reportes", reports);
-			reporte.setMaximumSize(new Dimension(85,60));
+			reporte.setMaximumSize(new Dimension(85, 60));
 			reporte.setVerticalTextPosition(SwingConstants.BOTTOM);
 			reporte.setHorizontalTextPosition(SwingConstants.CENTER);
 			reporte.setBorder(null);
@@ -208,7 +213,7 @@ public class General {
 			reporte.setFocusable(false);
 			add(reporte);
 			salir = new JButton("Salir", exit);
-			salir.setMaximumSize(new Dimension(85,60));
+			salir.setMaximumSize(new Dimension(85, 60));
 			salir.setVerticalTextPosition(SwingConstants.BOTTOM);
 			salir.setHorizontalTextPosition(SwingConstants.CENTER);
 			salir.setBorder(null);
@@ -216,9 +221,9 @@ public class General {
 			salir.setFocusable(false);
 			add(salir);
 			salir.addActionListener(this);
-			
+
 		}
-		
+
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == bienvenida) {
 				panelPrincipal.removeAll();
@@ -226,16 +231,17 @@ public class General {
 				panelPrincipal.updateUI();
 				panelPrincipal.repaint();
 				repaint();
-			} else if(e.getSource() == buscar) {
+			} else if (e.getSource() == buscar) {
 				Buscar b = new Buscar(frame);
-			} else if(e.getSource() == salir) {
-				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if(reply == JOptionPane.YES_OPTION) {
+			} else if (e.getSource() == salir) {
+				int reply = JOptionPane.showConfirmDialog(null, "¿Desea cerrar el sistema?", "Cerrar Sistema",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (reply == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
 			}
 		}
-		
+
 	}
 
 	public static void main(String[] mr) {
