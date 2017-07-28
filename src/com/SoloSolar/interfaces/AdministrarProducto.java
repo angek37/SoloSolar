@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.AbstractList;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -23,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Categoria;
@@ -75,10 +78,10 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			Object value = null;
 			   Producto producto = product[rowIndex];
 			   switch (columnIndex) {
-			   case 0:
+			   case 1:
 				   value = producto.getClave();
 				   break;
-			   case 1:
+			   case 0:
 				   value = producto.getNombre();
 				   break;
 			   case 2:
@@ -148,7 +151,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			gbc.weightx = 1;
 			gbc.weighty = 0;
 			updateP.add(new JLabel("Categoría:"), gbc);
-			categories = new JComboBox<Categoria>();
+			categories = new JComboBox<Categoria>(new ProductCombo());
 			gbc.gridx+=2;
 			gbc.weightx = 1;
 			gbc.weighty = 0;
@@ -256,7 +259,20 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 
 
 	public void mouseClicked(MouseEvent e) {
-
+		try {
+			if (e.getClickCount() == 1) {
+				Object ob = (Object) 2;
+				clave.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
+				nombre.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
+				categories.setSelectedItem(ob);
+				paquete.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3));
+				costo.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 4));
+				precio1.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 5));
+				precio2.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 6));
+			}
+		}catch(ArrayIndexOutOfBoundsException expt) {
+			
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -272,6 +288,51 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 	}
 
 	public void mouseExited(MouseEvent e) {
+		
+	}
+	
+	public class ProductCombo<Categoria> extends AbstractList implements ComboBoxModel {
+		Consulta c = new Consulta();
+		Categoria[] category = (Categoria[]) c.selectCategories();
+		Object ob;
+		
+		public int getSize() {
+			return category.length;
+		}
+
+		public Object getElementAt(int index) {
+			ob = (Object) category[index];
+			return ob;
+		}
+
+		public void setSelectedItem(Object anItem) {
+			
+		}
+
+		public Object getSelectedItem() {
+			return ob;
+		}
+
+		public Object get(int index) {
+			return null;
+		}
+
+		public int size() {
+			
+			return 0;
+		}
+
+		@Override
+		public void addListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void removeListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}
 
