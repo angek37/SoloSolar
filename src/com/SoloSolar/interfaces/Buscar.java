@@ -2,6 +2,7 @@ package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -23,11 +24,8 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.table.AbstractTableModel;
 
-import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Producto;
 import com.SoloSolar.DB.Consulta;
-import com.SoloSolar.interfaces.AltaCategoria.CategoryModel;
-import com.SoloSolar.interfaces.AltaCliente.ClientModel;
 import com.sun.glass.events.KeyEvent;
 
 public class Buscar {
@@ -42,6 +40,9 @@ public class Buscar {
 				dialog.add(new SearchDialog(dialog));
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
+				/*dialog.setModal(true);
+				dialog.setAlwaysOnTop(true);
+				dialog.setModalityType(ModalityType.APPLICATION_MODAL);*/
 				dialog.getRootPane().registerKeyboardAction(e -> {
 					dialog.dispose();
 				}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -51,7 +52,7 @@ public class Buscar {
 
 	public class SearchDialog extends JPanel implements KeyListener {
 		private JDialog dg;
-		private JPanel panelPrincipal, panelBuscar;
+		private JPanel panelBuscar;
 		private JTable table;
 		private JScrollPane jsp;
 		private JTextField buscar;
@@ -61,9 +62,8 @@ public class Buscar {
 			dg = dialog;
 			dg.setIconImage(new ImageIcon("assets/icono.png").getImage());
 			panelBuscar = new JPanel();
-			panelPrincipal = new JPanel();
-			panelBuscar.setBackground(new Color(239, 228, 176));
-			panelPrincipal.setBackground(new Color(239, 228, 16));
+			//panelBuscar.setBackground(new Color(239, 228, 176));
+			panelBuscar.setBackground(new Color(153, 217, 234));
 			buscarLBL = new JLabel("Buscar: ");
 			buscar = new JTextField();
 			table = new JTable(new ProductModel(""));
@@ -136,16 +136,24 @@ public class Buscar {
 		}
 
 		public int getColumnCount() {
-			return 2;
+			return 6;
 		}
 		
 		public String getColumnName(int col) {
 			String aux = "";
 		      switch(col) {
 		      case 0: 
-		    	  return aux = "Nombre";
+		    	  return aux = "Clave";
 		      case 1: 
-		    	  return aux = "Descripción";
+		    	  return aux = "Nombre";
+		      case 2:
+		    	  return aux = "Categoria";
+		      case 3: 
+		    	  return aux = "Costo";
+		      case 4:
+		    	  return aux = "Precio 1";
+		      case 5:
+		    	  return aux = "Precio 2";
 		      }
 			return aux;
 		}
@@ -155,10 +163,22 @@ public class Buscar {
 			   Producto prod = producto[rowIndex];
 			   switch (columnIndex) {
 			   case 0:
-				   value = prod.getNombre();
+				   value = prod.getClave();
 				   break;
 			   case 1:
+				   value = prod.getNombre();
+				   break;
+			   case 2: 
 				   value = prod.getCategoria();
+				   break;
+			   case 3:
+				   value = prod.getCosto();
+				   break;
+			   case 4:
+				   value = prod.getPrecio1();
+				   break;
+			   case 5: 
+				   value = prod.getPrecio2();
 				   break;
 			   }
 	           return value;
