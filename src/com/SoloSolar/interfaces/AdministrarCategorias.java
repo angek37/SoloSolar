@@ -204,7 +204,7 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 					categories.updateUI();
 				}else if (e.getSource() == eliminar) {
 					Categoria substituteCat = (Categoria) categories.getSelectedItem();
-					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar la categoría '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar la categoría '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Borrar Categoría", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					if(reply == JOptionPane.YES_OPTION) {
 						if(in.ChangeCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2), substituteCat.getId())) {
 							if(in.DeleteCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2))) {

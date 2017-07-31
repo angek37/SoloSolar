@@ -91,6 +91,36 @@ public class Insert {
     	
     }
     
+    public boolean UpdateProduct(Producto prod) {
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("update Producto set Nombre = '" + prod.getNombre() + "',"
+            		+ "Categoria = " + prod.getCategoria() + ",Paquete = "+ 
+            			prod.getPaquete()+",Costo = "+ prod.getCosto() +",Precio1 = "+
+            				prod.getPrecio1()+",Precio2 = "+
+            					prod.getPrecio2()+" where Clave = '"+ prod.getClave()+"'");
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean DeleteProduct(String clave) {
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("delete from Producto where Clave = '"+clave+"'");
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    }
+    
     private static void createConnection() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();

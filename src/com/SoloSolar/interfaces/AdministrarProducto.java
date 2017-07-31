@@ -39,6 +39,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 	private JTextField clave, nombre, paquete, costo, precio1, precio2;
 	private JComboBox<Categoria> categories;
 	private JTable table;
+	private JLabel prod;
 	
 	public AdministrarProducto() {
 		setLayout(new BorderLayout());
@@ -220,40 +221,76 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			updateP.add(actualizar, gbc);
 			actualizar.addActionListener(this);
 			
-//			deleteP.setLayout(new GridBagLayout());
-//			GridBagConstraints gbc2 = new GridBagConstraints();
-//			deleteP.setBorder(new CompoundBorder(new TitledBorder("Eliminar producto"), new EmptyBorder(12, 12, 12, 12)));
-//			prod = new JLabel("Productos dentro de esta categoría: ");
-//			gbc2.gridx = 0;
-//			gbc2.gridy = 0;
-//			gbc2.anchor = GridBagConstraints.WEST;
-//			gbc2.gridwidth = 2;
-//			gbc2.fill = GridBagConstraints.HORIZONTAL;
-//			deleteP.add(prod, gbc2);
-//			gbc2.gridwidth = 1;
-//			gbc2.gridy++;
-//			gbc2.weightx = 1;
-//			gbc2.anchor = GridBagConstraints.WEST;
-//			gbc2.insets = new Insets(20, 0, 20, 0);
-//			deleteP.add(new JLabel("Transferir a: "), gbc2);
-//			
-//			categories = new JComboBox<Categoria>(new ProductModel());
-//			gbc2.gridx++;
-//			deleteP.add(categories, gbc2);
-//			
-//			eliminar = new JButton("Eliminar");
-//			gbc2.insets = new Insets(0, 0, 0, 0);
-//			gbc2.gridy++;
-//			deleteP.add(eliminar, gbc2);
-//			eliminar.addActionListener(this);
-//			
+			deleteP.setLayout(new GridBagLayout());
+			GridBagConstraints gbc2 = new GridBagConstraints();
+			deleteP.setBorder(new CompoundBorder(new TitledBorder("Eliminar producto"), new EmptyBorder(12, 12, 12, 12)));
+			prod = new JLabel("Elija un producto");
+			prod.setFont(new Font("Calibri", Font.ITALIC, 12));
+			prod.setForeground(Color.RED);
+			gbc2.gridx = 0;
+			gbc2.gridy = 0;
+			gbc2.anchor = GridBagConstraints.WEST;
+			gbc2.gridwidth = GridBagConstraints.REMAINDER;
+			gbc2.fill = GridBagConstraints.HORIZONTAL;
+			gbc2.weightx = 1;
+			gbc2.insets = new Insets(20, 0, 20, 0);
+			deleteP.add(prod, gbc2);
+			eliminar = new JButton("Eliminar");
+			gbc2.gridwidth = 1;
+			gbc2.gridx=0;
+			gbc2.insets = new Insets(0, 0, 0, 0);
+			gbc2.gridy++;
+			deleteP.add(eliminar, gbc2);
+			eliminar.addActionListener(this);	
 			add(updateP, BorderLayout.CENTER);
-//			add(deleteP, BorderLayout.SOUTH);
+			add(deleteP, BorderLayout.SOUTH);
 		}
 		
 
 		public void actionPerformed(ActionEvent e) {
-			
+			Insert in = new Insert();
+			Producto producto = new Producto();
+			try {
+				if(e.getSource() == actualizar) {
+					producto.setClave(clave.getText());
+					producto.setNombre(nombre.getText());
+					producto.setCategoria(1); // Cambiar
+					producto.setPaquete(Integer.parseInt(paquete.getText()));
+					producto.setCosto(Double.parseDouble(costo.getText()));
+					producto.setPrecio1(Double.parseDouble(precio1.getText()));
+					producto.setPrecio2(Double.parseDouble(precio2.getText()));
+					if(in.UpdateProduct(producto)) {
+						JOptionPane.showMessageDialog(null, "Producto modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+						clave.setText("");
+						nombre.setText("");
+						paquete.setText("");
+						costo.setText("");
+						precio1.setText("");
+						precio2.setText("");
+						table.setModel(new ProductModel());
+					}else {
+						JOptionPane.showMessageDialog(null, "No ha sido posible modificar el producto", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}else if (e.getSource() == eliminar) {
+					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar el producto '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Borrar Producto", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(reply == JOptionPane.YES_OPTION) {
+						if(in.DeleteProduct(clave.getText())) {
+							JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+							clave.setText("");
+							nombre.setText("");
+							paquete.setText("");
+							costo.setText("");
+							precio1.setText("");
+							precio2.setText("");
+							table.setModel(new ProductModel());
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el producto", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			}catch(NumberFormatException | ArrayIndexOutOfBoundsException exp) {
+				JOptionPane.showMessageDialog(null, "No se ha seleccionado un producto", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -261,14 +298,13 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		try {
 			if (e.getClickCount() == 1) {
-				Object ob = (Object) 2;
 				clave.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
 				nombre.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
-				categories.setSelectedItem(ob);
 				paquete.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3));
 				costo.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 4));
 				precio1.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 5));
 				precio2.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 6));
+				prod.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
 			}
 		}catch(ArrayIndexOutOfBoundsException expt) {
 			
