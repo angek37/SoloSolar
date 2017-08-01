@@ -46,7 +46,7 @@ public class General {
 					ex.printStackTrace();
 				}
 				frame = new JFrame("Solo - Solar");
-				frame.setMinimumSize(new Dimension(800, 550));
+				frame.setMinimumSize(new Dimension(860, 550));
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.add(new GeneralPanel(frame));
 				frame.setLocationRelativeTo(null);
