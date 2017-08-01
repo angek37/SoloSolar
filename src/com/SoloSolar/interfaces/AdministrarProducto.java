@@ -37,6 +37,8 @@ import com.SoloSolar.interfaces.AdministrarCategorias.ProductModel;
 
 public class AdministrarProducto extends JPanel implements MouseListener {
 	private JTextField clave, nombre, paquete, costo, precio1, precio2;
+	Consulta c = new Consulta();
+	Categoria[] category = (Categoria[]) c.selectCategories();
 	private JComboBox<Categoria> categories;
 	private JTable table;
 	private JLabel prod;
@@ -152,7 +154,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			gbc.weightx = 1;
 			gbc.weighty = 0;
 			updateP.add(new JLabel("Categoría:"), gbc);
-			categories = new JComboBox<Categoria>(new ProductCombo());
+			categories = new JComboBox<Categoria>(category);
 			gbc.gridx+=2;
 			gbc.weightx = 1;
 			gbc.weighty = 0;
@@ -331,50 +333,4 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		
 	}
-	
-	public class ProductCombo<Categoria> extends AbstractList implements ComboBoxModel {
-		Consulta c = new Consulta();
-		Categoria[] category = (Categoria[]) c.selectCategories();
-		Object ob;
-		
-		public int getSize() {
-			return category.length;
-		}
-
-		public Object getElementAt(int index) {
-			ob = (Object) category[index];
-			return ob;
-		}
-
-		public void setSelectedItem(Object anItem) {
-			
-		}
-
-		public Object getSelectedItem() {
-			return ob;
-		}
-
-		public Object get(int index) {
-			return null;
-		}
-
-		public int size() {
-			
-			return 0;
-		}
-
-		@Override
-		public void addListDataListener(ListDataListener l) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void removeListDataListener(ListDataListener l) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
-
 }

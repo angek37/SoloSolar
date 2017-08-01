@@ -28,6 +28,8 @@ public class AltaProducto extends JPanel implements ActionListener{
 	private JLabel titulo;
 	private JTextField clave, nombre, paquete, costo, precio1, precio2;
 	private JComboBox<Categoria> categories;
+	Consulta c = new Consulta();
+	Categoria[] category = (Categoria[]) c.selectCategories();
 	private JButton registrar;
 	
 	public AltaProducto() {
@@ -68,7 +70,7 @@ public class AltaProducto extends JPanel implements ActionListener{
 		gbc.gridx = 0;
 		gbc.gridy++;
 		add(new JLabel("Categoría:"), gbc);
-		categories = new JComboBox<Categoria>(new ProductModel());
+		categories = new JComboBox<Categoria>(category);
 		categories.setMaximumSize(new Dimension(200, 20));
 		gbc.gridx++;
 		add(categories, gbc);
@@ -137,50 +139,5 @@ public class AltaProducto extends JPanel implements ActionListener{
 				JOptionPane.showMessageDialog(null, "No ha sido posible registrar el producto", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-	}
-	
-	public class ProductModel<Categoria> extends AbstractList implements ComboBoxModel {
-		Consulta c = new Consulta();
-		Categoria[] category = (Categoria[]) c.selectCategories();
-		Object ob;
-		
-		public int getSize() {
-			return category.length;
-		}
-
-		public Object getElementAt(int index) {
-			ob = (Object) category[index];
-			return ob;
-		}
-
-		public void setSelectedItem(Object anItem) {
-			
-		}
-
-		public Object getSelectedItem() {
-			return ob;
-		}
-
-		public Object get(int index) {
-			return null;
-		}
-
-		public int size() {
-			
-			return 0;
-		}
-
-		@Override
-		public void addListDataListener(ListDataListener l) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void removeListDataListener(ListDataListener l) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 }
