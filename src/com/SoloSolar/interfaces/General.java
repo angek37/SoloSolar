@@ -122,7 +122,7 @@ public class General {
 			altaCat.addActionListener(this);
 			// categoria.getPopupMenu().setBorder(new VerticalTextBorder());
 			
-			// Categoria
+			// Proveedor
 			menu.add(proveedor);
 			proveedor.add(altaProv);
 			proveedor.add(adminProv);
@@ -174,6 +174,8 @@ public class General {
 				panelPrincipal.add(new AdministrarProducto());
 			} else if (e.getSource() == altaProv) {
 				panelPrincipal.add(new AltaProveedor());
+			} else if (e.getSource() == adminProv) {
+				panelPrincipal.add(new AdministrarProveedor());
 			}
 
 			panelPrincipal.updateUI();

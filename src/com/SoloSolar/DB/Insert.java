@@ -134,7 +134,48 @@ public class Insert {
             sqlExcept.printStackTrace();
             return false;
         }
-    	
+    }
+    
+    public boolean UpdateSupplier(Proveedor p) {
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("update Proveedor set Nombre = '" + p.getNombre() + "',"
+            		+ "Direccion = '" + p.getDireccion() + "',Telefono = '"+ 
+            			p.getTelefono()+"',Email = '"+ p.getEmail() +"' where id_p = "+ p.getId());
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean DeleteProdProv(int id_pro) {
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("delete from Producto_Proveedor where id_pro = " + id_pro);
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean DeleteSupplier(int id_pro) {
+    	try {
+    		createConnection();
+            stmt = conn.createStatement();
+            stmt.execute("delete from Proveedor where id_p = " + id_pro);
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
     }
     
     private static void createConnection() {
