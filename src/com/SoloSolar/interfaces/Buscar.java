@@ -104,7 +104,7 @@ public class Buscar {
 	        table.setModel(tm);
 	        tr = new TableRowSorter<>(tm);
 	        table.setRowSorter(tr);
-			pdf = new JButton("Descargar PDF", pdfIcon);
+			pdf = new JButton("", pdfIcon);
 			pdf.setMaximumSize(new Dimension(85, 60));
 			pdf.setVerticalTextPosition(SwingConstants.BOTTOM);
 			pdf.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -133,7 +133,7 @@ public class Buscar {
 			jsp = new JScrollPane(table);
 			
 			setLayout(new BorderLayout());
-			add(panelBuscar, BorderLayout.NORTH);
+			add(panelBuscar, BorderLayout.CENTER);
 			panelBuscar.setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.insets = new Insets(8, 8, 8, 8);
@@ -142,21 +142,23 @@ public class Buscar {
 			gbc.gridy = 0;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			panelBuscar.add(buscarLBL, gbc);
+			
 			gbc.gridx++;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.weightx = 2;
 			panelBuscar.add(buscar, gbc);
 			buscar.addKeyListener(this);
 			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 0;
+			panelBuscar.add(pdf, gbc);
+			
 			gbc.gridx = 0;
 			gbc.gridy++;
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.gridwidth = GridBagConstraints.REMAINDER;
 			panelBuscar.add(jsp, gbc);
-			
-			gbc.gridx = 0;
-			gbc.gridy++;
-			panelBuscar.add(pdf, gbc);
 			
 		}
 		
