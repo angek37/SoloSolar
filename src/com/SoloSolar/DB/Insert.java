@@ -121,6 +121,22 @@ public class Insert {
         }
     }
     
+    public boolean InsertSupplier(Proveedor prov) {
+    	try {
+            stmt = conn.createStatement();
+            stmt.execute("insert into Proveedor(Nombre, Direccion, Telefono, Email) values ('" +
+            		prov.getNombre() + "','" + prov.getDireccion() + "','" + prov.getTelefono() + "','" 
+            			+ prov.getEmail() + "')");
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    	
+    }
+    
     private static void createConnection() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();

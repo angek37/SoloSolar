@@ -57,8 +57,8 @@ public class General {
 
 	public class GeneralPanel extends JPanel implements ActionListener {
 		private JMenuBar menu;
-		private JMenu clientes, productos, categoria;
-		private JMenuItem altaClie, modClie, altaProd, altaCat, adminCat, adminProd;
+		private JMenu clientes, productos, categoria, proveedor;
+		private JMenuItem altaClie, modClie, altaProd, altaCat, adminCat, adminProd, altaProv, adminProv;
 		private ImageIcon logo = new ImageIcon(
 				new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
 		private JLabel titulo;
@@ -82,6 +82,7 @@ public class General {
 			clientes = new JMenu("Clientes");
 			productos = new JMenu("Productos");
 			categoria = new JMenu("Categoria");
+			proveedor = new JMenu("Proveedores");
 			titleBar = new JPanel();
 			altaClie = new JMenuItem("Alta Cliente", addC);
 			modClie = new JMenuItem("Administrar Cliente", admC);
@@ -89,6 +90,9 @@ public class General {
 			adminProd = new JMenuItem("Administar Productos");
 			altaCat = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
+			altaProv = new JMenuItem("Alta Proveedor");
+			adminProv = new JMenuItem("Administrar Proveedores");
+			
 			jfp.setIconImage(new ImageIcon("assets/icono.png").getImage());
 			panelPrincipal = new JPanel();
 			panelPrincipal.setBackground(new Color(64, 128, 128));
@@ -117,6 +121,13 @@ public class General {
 			adminCat.addActionListener(this);
 			altaCat.addActionListener(this);
 			// categoria.getPopupMenu().setBorder(new VerticalTextBorder());
+			
+			// Categoria
+			menu.add(proveedor);
+			proveedor.add(altaProv);
+			proveedor.add(adminProv);
+			altaProv.addActionListener(this);
+			adminProv.addActionListener(this);			
 
 			setLayout(new BorderLayout());
 			add(new MenuPanel(), BorderLayout.WEST);
@@ -161,6 +172,8 @@ public class General {
 				panelPrincipal.add(new AltaProducto());
 			} else if (e.getSource() == adminProd) {
 				panelPrincipal.add(new AdministrarProducto());
+			} else if (e.getSource() == altaProv) {
+				panelPrincipal.add(new AltaProveedor());
 			}
 
 			panelPrincipal.updateUI();

@@ -152,6 +152,43 @@ public class Consulta {
         }
     }
     
+    public Proveedor[] selectSupplier(){
+    	createConnection();
+    	Proveedor[] prov = new Proveedor[0];
+    	Proveedor[] aux;
+        try {
+            stmt = conn.createStatement();
+            ResultSet results = stmt.executeQuery("select * from Proveedor");
+            int c = 0;
+            while(results.next()) {
+            	aux = new Proveedor[prov.length];
+            	for(int x = 0; x < prov.length; x++) {
+            		aux[x] = prov[x];
+            	}
+            	prov = new Proveedor[c+1];
+            	for(int x = 0; x < aux.length; x++) {
+            		prov[x] = aux[x];
+            	}
+            	prov[c] = new Proveedor();
+            	prov[c].setId(results.getInt(1));
+            	prov[c].setNombre(results.getString(2));
+            	prov[c].setDireccion(results.getString(3));
+            	prov[c].setTelefono(results.getString(4));
+            	prov[c].setEmail(results.getString(5));
+            	c++;
+            }
+            aux = null;
+            results.close();
+            stmt.close();
+            shutdown();
+            return prov;
+        }
+        catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return null;
+        }
+    }
+    
     public static void shutdown() {
         try {
             if (stmt != null) {

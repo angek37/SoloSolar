@@ -18,17 +18,18 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Categoria;
+import com.SoloSolar.Capsulas.Proveedor;
 import com.SoloSolar.DB.Consulta;
 import com.SoloSolar.DB.Insert;
+import com.SoloSolar.interfaces.AltaCategoria.CategoryModel;
 
-
-public class AltaCategoria extends JPanel implements ActionListener{
-	private JTextField nombre, descripcion;
+public class AltaProveedor extends JPanel implements ActionListener {
+	private JTextField nombre, direccion, telefono, correo;
 	private JButton registrar;
 	private JTable table;
 	private JLabel titulo;
-		
-	public AltaCategoria() {
+	
+	public AltaProveedor() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
@@ -36,7 +37,7 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		gbc.weighty = 0.2;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.insets = new Insets(4,4,4,4);
-		titulo = new JLabel("Registrar nueva Categoría");
+		titulo = new JLabel("Registrar nuevo Proveedor");
 		titulo.setFont(new Font("Calibri", Font.ITALIC, 16));
 		titulo.setForeground(Color.BLUE);
 		add(titulo, gbc);
@@ -46,7 +47,7 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		gbc.gridwidth = 1;
 		gbc.weightx = 1;
 		gbc.weighty = 0.1;
-		add(new JLabel("Nombre de categoría:"), gbc);
+		add(new JLabel("Nombre de proveedor:"), gbc);
 		nombre = new JTextField();
 		gbc.gridx+=2;
 		gbc.weightx = 1;
@@ -59,15 +60,42 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.weightx = 1;
 		gbc.weighty = 0.1;
-		add(new JLabel("Descripción:"), gbc);
-		descripcion = new JTextField();
+		add(new JLabel("Dirección:"), gbc);
+		direccion = new JTextField();
 		gbc.gridx+=2;
 		gbc.weightx = 1;
 		gbc.weighty = 0.1;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridwidth = 2;
-		add(descripcion, gbc);
-		registrar = new JButton("Registrar categoría");
+		add(direccion, gbc);
+		gbc.gridx = 0;
+		gbc.gridy++;
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.weightx = 1;
+		gbc.weighty = 0.1;
+		add(new JLabel("Teléfono:"), gbc);
+		telefono = new JTextField();
+		gbc.gridx+=2;
+		gbc.weightx = 1;
+		gbc.weighty = 0.1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridwidth = 2;
+		add(telefono, gbc);
+		gbc.gridx = 0;
+		gbc.gridy++;
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.weightx = 1;
+		gbc.weighty = 0.1;
+		add(new JLabel("Email:"), gbc);
+		correo = new JTextField();
+		gbc.gridx+=2;
+		gbc.weightx = 1;
+		gbc.weighty = 0.1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridwidth = 2;
+		add(correo, gbc);
+		
+		registrar = new JButton("Registrar proveedor");
 		gbc.gridy++;
 		gbc.weightx = 1;
 		gbc.weighty = 0.1;
@@ -76,7 +104,7 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		add(registrar, gbc);
 		registrar.addActionListener(this);
 		
-		table = new JTable(new CategoryModel());
+		table = new JTable(new SupplierModel());
 		table.setFillsViewportHeight(true);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
@@ -94,25 +122,27 @@ public class AltaCategoria extends JPanel implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		Insert in = new Insert();
-		Categoria cat;
+		Proveedor prov;
 		if(e.getSource() == registrar) {
-			cat = new Categoria(nombre.getText(), descripcion.getText());
-			if(in.InsertCategory(cat)) {
-				JOptionPane.showMessageDialog(null, "Categoria registrada exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+			prov = new Proveedor(nombre.getText(), direccion.getText(), telefono.getText(), correo.getText());
+			if(in.InsertSupplier(prov)) {
+				JOptionPane.showMessageDialog(null, "Proveedor registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
 			}else {
-				JOptionPane.showMessageDialog(null, "No ha sido posible registrar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "No ha sido posible registrar el proveedor", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			nombre.setText("");
-			descripcion.setText("");
-			table.setModel(new CategoryModel());
+			direccion.setText("");
+			telefono.setText("");
+			correo.setText("");
+			table.setModel(new SupplierModel());
 		}
 	}
 	
-	public class CategoryModel extends AbstractTableModel {
+	public class SupplierModel extends AbstractTableModel {
 		Consulta select = new Consulta();
-		Categoria[] category = select.selectCategories();
+		Proveedor[] prov = select.selectSupplier();
 		public int getRowCount() {
-			return category.length;
+			return prov.length;
 		}
 
 		public int getColumnCount() {
@@ -125,20 +155,20 @@ public class AltaCategoria extends JPanel implements ActionListener{
 		      case 0: 
 		    	  return aux = "Nombre";
 		      case 1: 
-		    	  return aux = "Descripción";
+		    	  return aux = "Dirección";
 		      }
 			return aux;
 		}
 		
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			   Object value = null;
-			   Categoria categoria = category[rowIndex];
+			   Proveedor proveedor = prov[rowIndex];
 			   switch (columnIndex) {
 			   case 0:
-				   value = categoria.getNombre();
+				   value = proveedor.getNombre();
 				   break;
 			   case 1:
-				   value = categoria.getDescripcion();
+				   value = proveedor.getDireccion();
 				   break;
 			   }
 	           return value;
