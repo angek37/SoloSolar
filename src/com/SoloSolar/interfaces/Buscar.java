@@ -14,6 +14,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,6 +39,8 @@ import javax.swing.table.TableRowSorter;
 import com.SoloSolar.Capsulas.Producto;
 import com.SoloSolar.DB.Consulta;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.glass.events.KeyEvent;
 
@@ -171,10 +175,21 @@ public class Buscar {
 				int opcion = f.showSaveDialog(this);
 				if(opcion == JFileChooser.APPROVE_OPTION) {
 					File file = f.getSelectedFile();
-					ruta = f.toString();
+					ruta = file.toString();
 				}
 				
-				Document doc = new Document();
+				try {
+					FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
+					Document doc = new Document();
+					PdfWriter.getInstance(doc, archivo);
+					doc.open();
+					doc.add(new Paragraph(ruta));
+					doc.close();
+					
+				} catch (FileNotFoundException | DocumentException e1) {
+					e1.printStackTrace();
+				}
+				
 			}
 		}
 
