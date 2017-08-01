@@ -295,7 +295,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 						}
 					}
 				}
-			}catch(NumberFormatException | ArrayIndexOutOfBoundsException exp) {
+			}catch(NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException exp) {
 				JOptionPane.showMessageDialog(null, "No se ha seleccionado un producto", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
