@@ -164,7 +164,7 @@ public class Buscar {
 		public void keyReleased(java.awt.event.KeyEvent e) {
 			String filtro = buscar.getText();
 	        if(!filtro.equals("")){
-	            tr.setRowFilter(RowFilter.regexFilter(filtro));
+	            tr.setRowFilter(RowFilter.regexFilter("(?i)" + filtro));
 	        }else{
 	            tr.setRowFilter(null);
 	        }
