@@ -224,11 +224,16 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			deleteP.setLayout(new GridBagLayout());
 			GridBagConstraints gbc2 = new GridBagConstraints();
 			deleteP.setBorder(new CompoundBorder(new TitledBorder("Eliminar producto"), new EmptyBorder(12, 12, 12, 12)));
+			gbc2.gridy = 0;
+			gbc2.gridx = 0;
+			gbc2.gridwidth = 1;
+			gbc2.insets = new Insets(0, 0, 0, 30);
+			gbc2.anchor = GridBagConstraints.WEST;
+			deleteP.add(new JLabel("Eliminar:"), gbc2);
 			prod = new JLabel("Elija un producto");
 			prod.setFont(new Font("Calibri", Font.ITALIC, 12));
 			prod.setForeground(Color.RED);
-			gbc2.gridx = 0;
-			gbc2.gridy = 0;
+			gbc2.gridx++;
 			gbc2.anchor = GridBagConstraints.WEST;
 			gbc2.gridwidth = GridBagConstraints.REMAINDER;
 			gbc2.fill = GridBagConstraints.HORIZONTAL;
@@ -237,7 +242,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			deleteP.add(prod, gbc2);
 			eliminar = new JButton("Eliminar");
 			gbc2.gridwidth = 1;
-			gbc2.gridx=0;
+			gbc2.gridx++;
 			gbc2.insets = new Insets(0, 0, 0, 0);
 			gbc2.gridy++;
 			deleteP.add(eliminar, gbc2);
