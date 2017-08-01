@@ -251,17 +251,17 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			eliminar.addActionListener(this);	
 			add(updateP, BorderLayout.CENTER);
 			add(deleteP, BorderLayout.SOUTH);
-		}
-		
+		}	
 
 		public void actionPerformed(ActionEvent e) {
 			Insert in = new Insert();
 			Producto producto = new Producto();
 			try {
 				if(e.getSource() == actualizar) {
+					Categoria cat = (Categoria) categories.getSelectedItem();
 					producto.setClave(clave.getText());
 					producto.setNombre(nombre.getText());
-					producto.setCategoria(1); // Cambiar
+					producto.setCategoria(cat.getId());
 					producto.setPaquete(Integer.parseInt(paquete.getText()));
 					producto.setCosto(Double.parseDouble(costo.getText()));
 					producto.setPrecio1(Double.parseDouble(precio1.getText()));
@@ -300,11 +300,23 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			}
 		}
 	}
-
-
+	
+	public int NumCategory(int ca) {
+		int r = 0;
+		for(int x = 0; x < category.length; x++) {
+			if(category[x].getId() == ca) {
+				r = x;
+				x = category.length;
+				return r;
+			}
+		}
+		return r;
+	}
+	
 	public void mouseClicked(MouseEvent e) {
 		try {
 			if (e.getClickCount() == 1) {
+				categories.setSelectedIndex(NumCategory((Integer)table.getModel().getValueAt(table.getSelectedRow(), 2)));
 				clave.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
 				nombre.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
 				paquete.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3));
