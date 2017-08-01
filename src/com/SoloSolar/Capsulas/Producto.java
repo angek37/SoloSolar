@@ -1,7 +1,7 @@
 package com.SoloSolar.Capsulas;
 
 public class Producto {
-	private String Clave, Nombre;
+	private String Clave, Nombre, categoriaNombre;
 	private int Categoria, Paquete;
 	private Double Costo, Precio1, Precio2;
 	
@@ -62,9 +62,15 @@ public class Producto {
 	public void setPrecio2(Double precio2) {
 		Precio2 = precio2;
 	}
+	public void setCategoriaNombre(String cat) {
+		this.categoriaNombre = cat;
+	}
+	
+	public String getCategoriaNombre() {
+		return categoriaNombre;
+	}
 
 	public String toString() {
 		return Nombre;
 	}
-	
 }

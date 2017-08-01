@@ -7,12 +7,15 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -22,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Producto;
@@ -35,11 +39,12 @@ public class Buscar {
 			@Override
 			public void run() {
 				JDialog dialog = new JDialog(padre, "Solo - Solar (Buscar)");
-				dialog.setMinimumSize(new Dimension(750, 500));
+				dialog.setMinimumSize(new Dimension(750, 545));
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.add(new SearchDialog(dialog));
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
+				dialog.setResizable(false);
 				/*dialog.setModal(true);
 				dialog.setAlwaysOnTop(true);
 				dialog.setModalityType(ModalityType.APPLICATION_MODAL);*/
@@ -50,13 +55,16 @@ public class Buscar {
 		});
 	}
 
-	public class SearchDialog extends JPanel implements KeyListener {
+	public class SearchDialog extends JPanel implements KeyListener, ActionListener {
 		private JDialog dg;
 		private JPanel panelBuscar;
 		private JTable table;
 		private JScrollPane jsp;
 		private JTextField buscar;
 		private JLabel buscarLBL;
+		private JButton pdf;
+		private ImageIcon pdfIcon = new ImageIcon(
+				new ImageIcon("assets/pdf.png").getImage().getScaledInstance(150, 30, Image.SCALE_DEFAULT));
 
 		public SearchDialog(JDialog dialog) {
 			dg = dialog;
@@ -67,6 +75,16 @@ public class Buscar {
 			buscarLBL = new JLabel("Buscar: ");
 			buscar = new JTextField();
 			table = new JTable(new ProductModel(""));
+			pdf = new JButton("Descargar PDF", pdfIcon);
+			pdf.setMaximumSize(new Dimension(85, 60));
+			pdf.setVerticalTextPosition(SwingConstants.BOTTOM);
+			pdf.setHorizontalTextPosition(SwingConstants.CENTER);
+			pdf.setBorder(null);
+			pdf.setToolTipText("Descargar PDF");
+			pdf.setContentAreaFilled(false);
+			pdf.setFocusable(false);
+			pdf.addActionListener(this);
+			add(pdf);
 			table.setFillsViewportHeight(true);
 			table.setShowHorizontalLines(true);
 			table.setShowVerticalLines(true);
@@ -104,7 +122,17 @@ public class Buscar {
 			gbc.gridy++;
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.gridwidth = GridBagConstraints.REMAINDER;
-			panelBuscar.add(jsp, gbc);			
+			panelBuscar.add(jsp, gbc);
+			
+			gbc.gridx = 0;
+			gbc.gridy++;
+			panelBuscar.add(pdf, gbc);
+			
+		}
+		
+		@Override
+		public void actionPerformed(java.awt.event.ActionEvent e) {
+			
 		}
 
 		@Override
@@ -136,7 +164,7 @@ public class Buscar {
 		}
 
 		public int getColumnCount() {
-			return 6;
+			return 5;
 		}
 		
 		public String getColumnName(int col) {
@@ -149,10 +177,8 @@ public class Buscar {
 		      case 2:
 		    	  return aux = "Categoria";
 		      case 3: 
-		    	  return aux = "Costo";
-		      case 4:
 		    	  return aux = "Precio 1";
-		      case 5:
+		      case 4:
 		    	  return aux = "Precio 2";
 		      }
 			return aux;
@@ -169,15 +195,12 @@ public class Buscar {
 				   value = prod.getNombre();
 				   break;
 			   case 2: 
-				   value = prod.getCategoria();
+				   value = prod.getCategoriaNombre();
 				   break;
 			   case 3:
-				   value = prod.getCosto();
-				   break;
-			   case 4:
 				   value = prod.getPrecio1();
 				   break;
-			   case 5: 
+			   case 4:
 				   value = prod.getPrecio2();
 				   break;
 			   }
