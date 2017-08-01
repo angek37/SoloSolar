@@ -80,7 +80,11 @@ public class Buscar {
 			panelBuscar.setBackground(new Color(153, 217, 234));
 			buscarLBL = new JLabel("Buscar: ");
 			buscar = new JTextField();
-			table = new javax.swing.JTable();
+			table = new javax.swing.JTable() {
+				public boolean isCellEditable(int rowIndex, int vColIndex) {
+		            return false;
+		        };
+			};
 			tm = new DefaultTableModel(Consulta.dataProducts(), 
 					new String[]{"Clave", "Nombre", "Categoria", "Precio 1", "Precio2"}) {
 	            public Class getColumnClass(int column) {
@@ -106,6 +110,7 @@ public class Buscar {
 			pdf.setFocusable(false);
 			pdf.addActionListener(this);
 			add(pdf);
+			
 			table.setFillsViewportHeight(true);
 			table.setShowHorizontalLines(true);
 			table.setShowVerticalLines(true);
