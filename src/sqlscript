@@ -6,17 +6,17 @@ create table Usuario (
 
 create table Cliente (
 	id_cus int NOT NULL PRIMARY KEY  GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-	RFC varchar(10),
+	RFC varchar(13),
 	FirstName varchar(32) NOT NULL,
-	SecondName varchar(32),
+	SecondName varchar(32) NOT NULL,
 	Calle varchar(64),
 	Colonia varchar(32),
-	CP int,
+	CP mediumint,
 	Ciudad varchar(32),
 	Estado varchar(32),
 	Email varchar(32),
-	Tel_Celular varchar(20),
-	Tel_Empresa varchar(20)
+	Tel_Celular varchar(12),
+	Tel_Empresa varchar(12)
 )
 
 create table Pedido (
@@ -30,14 +30,14 @@ create table Pedido (
 create table Renglon (
 	id_Renglon int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	Pedido int NOT NULL,
-	id_prod varchar(32) NOT NULL,
+	id_prod varchar(8) NOT NULL,
 	Precio double NOT NULL,
 	Cantidad int NOT NULL
 )
 
 create table Producto (
-	Clave varchar(32) NOT NULL PRIMARY KEY,
-	Nombre varchar(32) NOT NULL,
+	Clave varchar(8) NOT NULL PRIMARY KEY,
+	Nombre varchar(40) NOT NULL,
 	Categoria int NOT NULL,
 	Paquete int,
 	Costo double NOT NULL,
@@ -51,9 +51,23 @@ create table Categoria (
 	Descripcion varchar(64)
 )
 
+create table Proveedor (
+	id_p int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+	Nombre varchar(32) NOT NULL,
+	Direccion varchar(64),
+	Telefono varchar(12),
+	Email varchar(32)
+)
+
+create table Producto_Proveedor (
+	Clave varchar(8) NOT NULL PRIMARY KEY,
+	id_pro int NOT NULL
+)
+
 alter table Pedido add constraint fk_PU foreign key (Agente) references Usuario(Usuario) on delete cascade;
 alter table Pedido add constraint fk_PC foreign key (customer) references Cliente(id_cus) on delete cascade;
 alter table Renglon add constraint fk_RP foreign key (Pedido) references Pedido(id_Pedido) on delete cascade;
 alter table Renglon add constraint fk_RProd foreign key (id_prod) references Producto(Clave) on delete cascade;
 alter table Producto add constraint fk_ProdCat foreign key (Categoria) references Categoria(id_cat) on delete cascade;
-
+alter table Producto_Proveedor add constraint fk_PPp foreign key (Clave) references Producto(Clave) on delete cascade;
+alter table Producto_Proveedor add constraint fk_PPpr foreign key (id_pro) references Proveedor(id_p) on delete cascade;
