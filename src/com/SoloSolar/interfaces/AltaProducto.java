@@ -8,7 +8,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.AbstractList;
+import java.util.Arrays;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
@@ -21,12 +24,13 @@ import javax.swing.event.ListDataListener;
 
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Producto;
+import com.SoloSolar.Capsulas.TextPrompt;
 import com.SoloSolar.DB.Consulta;
 import com.SoloSolar.DB.Insert;
 
-public class AltaProducto extends JPanel implements ActionListener{
+public class AltaProducto extends JPanel implements ActionListener, KeyListener{
 	private JLabel titulo;
-	private JTextField clave, nombre, paquete, costo, precio1, precio2;
+	private JTextField clave, nombre, paquete, costo, precio1, precio2, por1, por2;
 	private JComboBox<Categoria> categories;
 	Consulta c = new Consulta();
 	Categoria[] category = (Categoria[]) c.selectCategories();
@@ -101,6 +105,13 @@ public class AltaProducto extends JPanel implements ActionListener{
 		gbc.ipadx = 160;
 		gbc.gridx++;
 		add(precio1, gbc);
+		por1 = new JTextField();
+		TextPrompt percent = new TextPrompt("%", por1, TextPrompt.Show.FOCUS_LOST);
+		percent.changeAlpha(0.75f);
+		gbc.gridx++;
+		gbc.ipadx = 30;
+		por1.addKeyListener(this);
+		add(por1, gbc);
 		//Fila 7
 		gbc.ipadx = 0;
 		gbc.gridx = 0;
@@ -110,7 +121,15 @@ public class AltaProducto extends JPanel implements ActionListener{
 		gbc.ipadx = 160;
 		gbc.gridx++;
 		add(precio2, gbc);
+		por2 = new JTextField();
+		TextPrompt percent2 = new TextPrompt("%", por2, TextPrompt.Show.FOCUS_LOST);
+		percent2.changeAlpha(0.75f);
+		gbc.gridx++;
+		gbc.ipadx = 30;
+		add(por2, gbc);
+		por2.addKeyListener(this);
 		//Fila 8
+		gbc.gridx--;
 		registrar = new JButton("Guardar Producto");
 		gbc.ipadx = 160;
 		gbc.gridy++;
@@ -137,6 +156,33 @@ public class AltaProducto extends JPanel implements ActionListener{
 				precio2.setText("");
 			}else {
 				JOptionPane.showMessageDialog(null, "No ha sido posible registrar el producto", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	public void keyTyped(KeyEvent e) {
+		
+	}
+
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	public void keyReleased(KeyEvent e) {
+		double r;
+		if(e.getSource() == por1 && !costo.getText().isEmpty()) {
+			try {
+				r = Double.parseDouble(costo.getText())*((Double.parseDouble(por1.getText())/100)+1);
+				precio1.setText(Double.toString(r));
+			}catch(NumberFormatException ex) {
+				por1.setText("");
+			}
+		}else if(e.getSource() == por2 && !costo.getText().isEmpty()) {
+			try {
+				r = Double.parseDouble(costo.getText())*((Double.parseDouble(por2.getText())/100)+1);
+				precio2.setText(Double.toString(r));
+			}catch(NumberFormatException ex) {
+				por2.setText("");
 			}
 		}
 	}
