@@ -13,11 +13,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,6 +36,8 @@ import javax.swing.table.TableRowSorter;
 
 import com.SoloSolar.Capsulas.Producto;
 import com.SoloSolar.DB.Consulta;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.glass.events.KeyEvent;
 
 public class Buscar {
@@ -158,7 +162,18 @@ public class Buscar {
 		
 		@Override
 		public void actionPerformed(java.awt.event.ActionEvent e) {
-			
+			String ruta = "";
+			if(e.getSource() == pdf) {
+				JFileChooser f = new JFileChooser();
+				f.setSelectedFile(new File("reporte"));
+				int opcion = f.showSaveDialog(this);
+				if(opcion == JFileChooser.APPROVE_OPTION) {
+					File file = f.getSelectedFile();
+					ruta = f.toString();
+				}
+				
+				Document doc = new Document();
+			}
 		}
 
 		@Override
