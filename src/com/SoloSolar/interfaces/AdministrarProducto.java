@@ -275,6 +275,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 						precio1.setText("");
 						precio2.setText("");
 						table.setModel(new ProductModel());
+						prod.setText("Elija Producto");
 					}else {
 						JOptionPane.showMessageDialog(null, "No ha sido posible modificar el producto", "Error", JOptionPane.ERROR_MESSAGE);
 					}
@@ -290,6 +291,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 							precio1.setText("");
 							precio2.setText("");
 							table.setModel(new ProductModel());
+							prod.setText("Elija Producto");
 						}else {
 							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el producto", "Error", JOptionPane.ERROR_MESSAGE);
 						}

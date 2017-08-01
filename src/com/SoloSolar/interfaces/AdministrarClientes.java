@@ -354,6 +354,7 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 				emailTF.setText("");
 				celTF.setText("");
 				telEmpTF.setText("");
+				clientes.setText("Elija un cliente");
 				table.setModel(new ClientModel());
 			} else if (e.getSource() == eliminar) {
 				if(ID != 0) {
