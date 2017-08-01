@@ -25,14 +25,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import com.SoloSolar.Capsulas.Producto;
 import com.SoloSolar.DB.Consulta;
 import com.sun.glass.events.KeyEvent;
 
 public class Buscar {
+	TableModel tm;
+    TableRowSorter<TableModel> tr;
 
 	public Buscar(JFrame padre) {
 		EventQueue.invokeLater(new Runnable() {
@@ -74,7 +80,22 @@ public class Buscar {
 			panelBuscar.setBackground(new Color(153, 217, 234));
 			buscarLBL = new JLabel("Buscar: ");
 			buscar = new JTextField();
-			table = new JTable(new ProductModel(""));
+			table = new javax.swing.JTable();
+			tm = new DefaultTableModel(Consulta.dataProducts(), 
+					new String[]{"Clave", "Nombre", "Categoria", "Precio 1", "Precio2"}) {
+	            public Class getColumnClass(int column) {
+	                Class Value;
+	                if (column >= 0 && column < getColumnCount()) {
+	                    Value = getValueAt(0, column).getClass();
+	                } else {
+	                    Value = Object.class;
+	                }
+	                return Value;
+	            }
+	        };
+	        table.setModel(tm);
+	        tr = new TableRowSorter<>(tm);
+	        table.setRowSorter(tr);
 			pdf = new JButton("Descargar PDF", pdfIcon);
 			pdf.setMaximumSize(new Dimension(85, 60));
 			pdf.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -141,70 +162,17 @@ public class Buscar {
 
 		@Override
 		public void keyReleased(java.awt.event.KeyEvent e) {
-			table.setModel(new ProductModel(buscar.getText()));
+			//table.setModel(new ProductModel(buscar.getText()));
+			String filtro = buscar.getText();
+	        if(!filtro.equals("")){
+	            tr.setRowFilter(RowFilter.regexFilter(filtro));
+	        }else{
+	            tr.setRowFilter(null);
+	        }
 		}
 
 		@Override
 		public void keyTyped(java.awt.event.KeyEvent e) {
-		}
-	}
-	
-	public class ProductModel extends AbstractTableModel {
-		String product;
-		Consulta select = new Consulta();
-		Producto[] producto;
-		
-		public ProductModel(String product) {
-			this.product = product;
-			this.producto = select.seekProducts(product);
-		}
-		
-		public int getRowCount() {
-			return producto.length;
-		}
-
-		public int getColumnCount() {
-			return 5;
-		}
-		
-		public String getColumnName(int col) {
-			String aux = "";
-		      switch(col) {
-		      case 0: 
-		    	  return aux = "Clave";
-		      case 1: 
-		    	  return aux = "Nombre";
-		      case 2:
-		    	  return aux = "Categoria";
-		      case 3: 
-		    	  return aux = "Precio 1";
-		      case 4:
-		    	  return aux = "Precio 2";
-		      }
-			return aux;
-		}
-		
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			   Object value = null;
-			   Producto prod = producto[rowIndex];
-			   switch (columnIndex) {
-			   case 0:
-				   value = prod.getClave();
-				   break;
-			   case 1:
-				   value = prod.getNombre();
-				   break;
-			   case 2: 
-				   value = prod.getCategoriaNombre();
-				   break;
-			   case 3:
-				   value = prod.getPrecio1();
-				   break;
-			   case 4:
-				   value = prod.getPrecio2();
-				   break;
-			   }
-	           return value;
 		}
 	}
 }

@@ -70,63 +70,49 @@ public class Consulta {
         }
     }
     
-    public Producto[] seekProducts(String product) {
-    	product = product.toUpperCase();
+    public static int cantidadDatos() {
+    	int cantidad = 0;
     	createConnection();
-    	Producto[] prod = new Producto[0];
-    	Producto[] aux;
     	try {
 			stmt = conn.createStatement();
-			ResultSet results = product.equals("") 
-					? stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PRECIO1, P.PRECIO2 "
-							+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA")
-					: stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PRECIO1, P.PRECIO2 "
-							+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA "
-							+ "WHERE UPPER(P.NOMBRE) LIKE '%" + product + "%' "
-							+ "OR UPPER(P.NOMBRE) LIKE '" + product + "%' "
-							+ "OR UPPER(P.NOMBRE) LIKE '%" + product + "'");
-			int c = 0;
-			/*case 0: 
-		    	  return aux = "Clave";
-		      case 1: 
-		    	  return aux = "Nombre";
-		      case 2:
-		    	  return aux = "Categoria";
-		      case 3: 
-		    	  return aux = "Costo";
-		      case 4:
-		    	  return aux = "Precio 1";
-		      case 5:
-		    	  return aux = "Precio 2";
-		      }*/
-            while(results.next()) {
-            	aux = new Producto[prod.length];
-            	for(int x = 0; x < prod.length; x++) {
-            		aux[x] = prod[x];
-            	}
-            	prod = new Producto[c+1];
-            	for(int x = 0; x < aux.length; x++) {
-            		prod[x] = aux[x];
-            	}
-            	prod[c] = new Producto();
-            	prod[c].setClave(results.getString(1));
-            	prod[c].setNombre(results.getString(2));
-            	prod[c].setCategoriaNombre(results.getString(3));
-            	prod[c].setPrecio1(results.getDouble(4));
-            	prod[c].setPrecio2(results.getDouble(5));
-            	c++;
-            }
-            aux = null;
-            results.close();
-            stmt.close();
-            shutdown();
-            return prod;
+			ResultSet results = stmt.executeQuery("SELECT * FROM PRODUCTO");
+			while(results.next()) {
+				cantidad++;
+			}
+			shutdown();
+			return cantidad;
 		} catch (SQLException sqlExcept) {
 			sqlExcept.printStackTrace();
-			return null;
 		}
+    	return cantidad;
     }
     
+    public static String[][] dataProducts() {
+    	String datos[][] = new String[cantidadDatos()][5];
+    	int count = 0;
+    	createConnection();
+    	try {
+    		stmt = conn.createStatement();
+    		ResultSet results = stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PRECIO1, P.PRECIO2 "
+    				+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA");
+    		while(results.next()) {
+    			datos[count][0] = results.getString(1);
+    			datos[count][1] = results.getString(2);
+    			datos[count][2] = results.getString(3);
+    			datos[count][3] = results.getString(4);
+    			datos[count][4] = results.getString(5);
+    			count++;
+    		}
+			shutdown();
+			return datos;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+			shutdown();
+		}
+    	return datos;
+    }
+    
+        
     public Producto[] selectProducts(){
     	createConnection();
     	Producto[] prod = new Producto[0];
