@@ -113,7 +113,7 @@ public class ClienteBD {
         }
     }
 
-    public boolean DeleteCategory(int id_cus) {
+    public boolean DeleteClient(int id_cus) {
     	createConnection();
     	try {
             stmt = conn.createStatement();

@@ -162,7 +162,6 @@ public class Buscar {
 
 		@Override
 		public void keyReleased(java.awt.event.KeyEvent e) {
-			//table.setModel(new ProductModel(buscar.getText()));
 			String filtro = buscar.getText();
 	        if(!filtro.equals("")){
 	            tr.setRowFilter(RowFilter.regexFilter(filtro));

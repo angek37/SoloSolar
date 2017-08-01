@@ -33,14 +33,15 @@ import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.DB.ClienteBD;
 
 public class AdministrarClientes extends JPanel implements MouseListener {
-	private JComboBox<Cliente> clientes;
 	private JTable table;
 	private JLabel titulo, idLbl, rfcLbl, nombreLbl, apellidosLbl, calleLbl, coloniaLbl, cpLbl, 
 			ciudadLbl, estadoLbl, emailLbl, celLbl, telEmpLbl;
 	private JTextField idTF, rfcTF, nombreTF, apellidosTF, calleTF, coloniaTF, cpTF, 
 			ciudadTF, estadoTF, emailTF, celTF, telEmpTF;
+	private JLabel clientes;
 	ClienteBD select  = new ClienteBD();
 	Cliente[] client = select.selectClientes();
+	private int ID = 0;
 	
 	public AdministrarClientes() {
 		setLayout(new BorderLayout());
@@ -310,9 +311,11 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			gbc2.weightx = 1;
 			gbc2.anchor = GridBagConstraints.WEST;
 			gbc2.insets = new Insets(20, 0, 20, 0);
-			deleteP.add(new JLabel("Selecciona cliente: "), gbc2);
+			deleteP.add(new JLabel("Eliminar cliente: "), gbc2);
 			
-			clientes = new JComboBox<Cliente>(client);
+			clientes = new JLabel("Elija un cliente");
+			clientes.setFont(new Font("Calibri", Font.ITALIC, 12));
+			clientes.setForeground(Color.RED);
 			gbc2.gridx++;
 			deleteP.add(clientes, gbc2);
 			
@@ -352,70 +355,22 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 				celTF.setText("");
 				telEmpTF.setText("");
 				table.setModel(new ClientModel());
-				clientes.setModel(new ClientsModel());
-				clientes.updateUI();
 			} else if (e.getSource() == eliminar) {
-				String val[];
-				val = clientes.getSelectedItem().toString().split(": ");
-				int indexSelect = clientes.getSelectedIndex();
-				int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar el cliente '" + val[1] + "'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-				if(reply == JOptionPane.YES_OPTION) {
-					if(in.DeleteCategory(Integer.parseInt(val[0]))) {
-						JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-						table.setModel(new ClientModel());
-						clientes.setModel(new ClientsModel());
-						clientes.updateUI();
-					}else {
-						JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+				if(ID != 0) {
+					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar el cliente '" + clientes.getText() + "'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(reply == JOptionPane.YES_OPTION) {
+						if(in.DeleteClient(ID)) {
+							JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+							table.setModel(new ClientModel());
+							clientes.setText("Elija un cliente");
+							ID = 0;
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 			}
 		}
-	}
-	
-	public class ClientsModel<Cliente> extends AbstractList implements ComboBoxModel {
-		ClienteBD c = new ClienteBD();
-		Cliente[] clients = (Cliente[]) c.selectClientes();
-		Object ob;
-		
-		public int getSize() {
-			return clients.length;
-		}
-
-		public Object getElementAt(int index) {
-			ob = (Object) clients[index];
-			return ob;
-		}
-
-		public void setSelectedItem(Object anItem) {
-			
-		}
-
-		public Object getSelectedItem() {
-			return ob;
-		}
-
-		public Object get(int index) {
-			return null;
-		}
-
-		public int size() {
-			
-			return 0;
-		}
-
-		@Override
-		public void addListDataListener(ListDataListener l) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void removeListDataListener(ListDataListener l) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -433,6 +388,8 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 				cpTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 9));
 				telEmpTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 10));
 				celTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 11));
+				clientes.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
+				ID = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
 			}
 		}catch(ArrayIndexOutOfBoundsException expt) {
 			
