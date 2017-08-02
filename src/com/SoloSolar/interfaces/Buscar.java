@@ -24,6 +24,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,6 +42,9 @@ import com.SoloSolar.DB.Consulta;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.glass.events.KeyEvent;
 
@@ -78,7 +82,7 @@ public class Buscar {
 		private JLabel buscarLBL;
 		private JButton pdf;
 		private ImageIcon pdfIcon = new ImageIcon(
-				new ImageIcon("assets/pdf.png").getImage().getScaledInstance(150, 30, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/pdfnew.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 
 		public SearchDialog(JDialog dialog) {
 			dg = dialog;
@@ -150,6 +154,7 @@ public class Buscar {
 			gbc.gridx++;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.weightx = 2;
+			gbc.ipady = 6;
 			panelBuscar.add(buscar, gbc);
 			buscar.addKeyListener(this);
 			
@@ -168,7 +173,7 @@ public class Buscar {
 		
 		@Override
 		public void actionPerformed(java.awt.event.ActionEvent e) {
-			String ruta = "";
+			String ruta = "", dataPDF[][] = Consulta.dataPDF(buscar.getText());
 			if(e.getSource() == pdf) {
 				JFileChooser f = new JFileChooser();
 				f.setSelectedFile(new File("reporte"));
@@ -184,8 +189,20 @@ public class Buscar {
 					PdfWriter.getInstance(doc, archivo);
 					doc.open();
 					doc.add(new Paragraph(ruta));
+					int celdas = Consulta.cantidadDatosPDF(buscar.getText());
+					PdfPTable tab = new PdfPTable(5);
+					tab.setTotalWidth(510f);
+					tab.setLockedWidth(true);
+					tab.setHorizontalAlignment(0);
+					tab.getDefaultCell().setBorder(Rectangle.BOTTOM);
+					for(int i = 0; i < Consulta.cantidadDatosPDF(buscar.getText()); i++) {
+						for(int j = 0; j < 5; j++) {
+							tab.addCell(dataPDF[i][j]);
+						}
+					}
+					doc.add(tab);
 					doc.close();
-					
+					JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "¡Exito!", JOptionPane.INFORMATION_MESSAGE);
 				} catch (FileNotFoundException | DocumentException e1) {
 					e1.printStackTrace();
 				}
@@ -201,7 +218,7 @@ public class Buscar {
 		public void keyReleased(java.awt.event.KeyEvent e) {
 			String filtro = buscar.getText();
 	        if(!filtro.equals("")){
-	            tr.setRowFilter(RowFilter.regexFilter("(?i)" + filtro));
+	            tr.setRowFilter(RowFilter.regexFilter("(?i)" + filtro, 0, 1, 2));
 	        }else{
 	            tr.setRowFilter(null);
 	        }
