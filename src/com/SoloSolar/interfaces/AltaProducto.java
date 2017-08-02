@@ -25,6 +25,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Producto;
@@ -240,6 +241,7 @@ public class AltaProducto extends JPanel{
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			DefaultTableModel dtm;
 			if(e.getSource() == addB) {
 				Proveedor prov = (Proveedor) suppliers.getSelectedItem();
 				if(!datos[0][0].equals("")) {
@@ -257,13 +259,17 @@ public class AltaProducto extends JPanel{
 					}
 					datos[cont-1][0] = Integer.toString(prov.getId());
 					datos[cont-1][1] = prov.getNombre();
-					table.repaint();
-					table = new JTable(datos, head);
+					dtm = new DefaultTableModel(datos, head);
+					table.setModel(dtm);
+					//table.repaint();
+					//table = new JTable(datos, head);
 				}else {
 					datos[0][0] = Integer.toString(prov.getId());
 					datos[0][1] = prov.getNombre();
-					table.repaint();
-					table = new JTable(datos, head);
+					dtm = new DefaultTableModel(datos, head);
+					table.setModel(dtm);
+					//table.repaint();
+					//table = new JTable(datos, head);
 				}
 				printArray();
 			}
