@@ -125,7 +125,13 @@ public class Consulta {
     						+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA "
     						+ "WHERE UPPER(P.NOMBRE) LIKE '" + buscar + "%' "
     						+ "OR UPPER(P.NOMBRE) LIKE '%" + buscar + "%' "
-    						+ "OR UPPER(P.NOMBRE) LIKE '" + buscar + "%'");
+    						+ "OR UPPER(P.NOMBRE) LIKE '" + buscar + "%'"
+    						+ "OR UPPER(P.CLAVE) LIKE '" + buscar + "%' "
+    						+ "OR UPPER(P.CLAVE) LIKE '%" + buscar + "%' "
+    						+ "OR UPPER(P.CLAVE) LIKE '" + buscar + "%'"
+    						+ "OR UPPER(C.NOMBRE) LIKE '" + buscar + "%' "
+    						+ "OR UPPER(C.NOMBRE) LIKE '%" + buscar + "%' "
+    						+ "OR UPPER(C.NOMBRE) LIKE '" + buscar + "%'");
 			while(results.next()) {
 				cantidad++;
 			}
@@ -151,7 +157,13 @@ public class Consulta {
     						+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA "
     						+ "WHERE UPPER(P.NOMBRE) LIKE '" + buscar + "%' "
     						+ "OR UPPER(P.NOMBRE) LIKE '%" + buscar + "%' "
-    						+ "OR UPPER(P.NOMBRE) LIKE '" + buscar + "%'");
+    						+ "OR UPPER(P.NOMBRE) LIKE '" + buscar + "%'"
+    						+ "OR UPPER(P.CLAVE) LIKE '" + buscar + "%' "
+    						+ "OR UPPER(P.CLAVE) LIKE '%" + buscar + "%' "
+    						+ "OR UPPER(P.CLAVE) LIKE '" + buscar + "%'"
+    						+ "OR UPPER(C.NOMBRE) LIKE '" + buscar + "%' "
+    						+ "OR UPPER(C.NOMBRE) LIKE '%" + buscar + "%' "
+    						+ "OR UPPER(C.NOMBRE) LIKE '" + buscar + "%'");
     		while(results.next()) {
     			datos[count][0] = results.getString(1);
     			datos[count][1] = results.getString(2);
