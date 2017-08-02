@@ -191,6 +191,31 @@ public class Buscar {
 					doc.add(new Paragraph(ruta));
 					int celdas = Consulta.cantidadDatosPDF(buscar.getText());
 					PdfPTable tab = new PdfPTable(5);
+					PdfPCell cellClave = new PdfPCell(new Paragraph("Clave")),
+							 cellNombre = new PdfPCell(new Paragraph("Nombre")),
+							 cellCat = new PdfPCell(new Paragraph("Categoria")),
+							 cellPre1 = new PdfPCell(new Paragraph("Precio 1")),
+							 cellPre2 = new PdfPCell(new Paragraph("Precio2"));
+					cellClave.setBorderWidthBottom(1f);
+					cellClave.setBorderWidthTop(1f);
+					cellClave.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+					cellNombre.setBorderWidthBottom(1f);
+					cellNombre.setBorderWidthTop(1f);
+					cellNombre.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+					cellCat.setBorderWidthBottom(1f);
+					cellCat.setBorderWidthTop(1f);
+					cellCat.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+					cellPre1.setBorderWidthBottom(1f);
+					cellPre1.setBorderWidthTop(1f);
+					cellPre1.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+					cellPre2.setBorderWidthBottom(1f);
+					cellPre2.setBorderWidthTop(1f);
+					cellPre2.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+					tab.addCell(cellClave);
+					tab.addCell(cellNombre);
+					tab.addCell(cellCat);
+					tab.addCell(cellPre1);
+					tab.addCell(cellPre2);
 					tab.setTotalWidth(510f);
 					tab.setLockedWidth(true);
 					tab.setHorizontalAlignment(0);
