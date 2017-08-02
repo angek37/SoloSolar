@@ -1,17 +1,12 @@
 package com.SoloSolar.interfaces;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import com.SoloSolar.DB.Consulta;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
@@ -21,7 +16,10 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPCellEvent;
+import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPTableEvent;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -73,7 +71,10 @@ public class GenerarPDF {
 			tab.setTotalWidth(510f);
 			tab.setLockedWidth(true);
 			tab.setHorizontalAlignment(0);
-			tab.getDefaultCell().setBorder(Rectangle.BOTTOM);
+			/*tab.getDefaultCell().setBorder(Rectangle.BOTTOM);
+			tab.getDefaultCell().setCellEvent(new RoundedBorder());*/
+	        tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			tab.setTableEvent(new BorderEvent());
 			for(int i = 0; i < Consulta.cantidadDatosPDF(buscar); i++) {
 				for(int j = 0; j < 5; j++) {
 					tab.addCell(getInfo(dataPDF[i][j]));
@@ -86,6 +87,46 @@ public class GenerarPDF {
 			e1.printStackTrace();
 		}
 	}
+	
+	class BorderEvent implements PdfPTableEvent {
+		 
+        protected boolean bottom = true;
+        protected boolean top = true;
+ 
+        public void splitTable(PdfPTable table) {
+    	    bottom = false;
+        }
+ 
+        public void afterSplitTable(PdfPTable table, PdfPRow startRow, int startIdx) {
+        	top = false;
+        }
+ 
+        public void tableLayout(PdfPTable table, float[][] width, float[] height,
+                int headerRows, int rowStart, PdfContentByte[] canvas) {
+            float widths[] = width[0];
+            float y1 = height[0];
+            float y2 = height[height.length - 1];
+            float x1 = widths[0];
+            float x2 = widths[widths.length - 1];
+            PdfContentByte cb = canvas[PdfPTable.LINECANVAS];
+            cb.moveTo(x1, y1);
+            cb.lineTo(x1, y2);
+            cb.moveTo(x2, y1);
+            cb.lineTo(x2, y2);
+            if (top) {
+                cb.moveTo(x1, y1);
+                cb.lineTo(x2, y1);
+            }
+            if (bottom) {
+                cb.moveTo(x1, y2);
+                cb.lineTo(x2, y2);
+            }
+            cb.stroke();
+            cb.resetRGBColorStroke();
+            bottom = true;
+            top = true;
+        }
+    }
 	
 	class MyFooter extends PdfPageEventHelper {
         Font ffont = new Font(Font.FontFamily.UNDEFINED, 12, Font.ITALIC);
