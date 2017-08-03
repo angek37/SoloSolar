@@ -471,6 +471,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		try {
 			if (e.getClickCount() == 1) {
+				datos = c.selectProductSuppliers(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
 				categories.setSelectedIndex(NumCategory((Integer)table.getModel().getValueAt(table.getSelectedRow(), 2)));
 				clave.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
 				nombre.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
@@ -479,6 +480,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 				precio1.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 5));
 				precio2.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 6));
 				prod.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
+				tableS.setModel(new DefaultTableModel(datos, head));
 			}
 		}catch(ArrayIndexOutOfBoundsException expt) {
 			

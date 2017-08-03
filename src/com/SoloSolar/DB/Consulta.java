@@ -258,6 +258,38 @@ public class Consulta {
         }
     }
     
+    public String[][] selectProductSuppliers(String Clave){
+    	createConnection();
+    	String datos[][] = {};
+    	String aux[][];
+    	try {
+            stmt = conn.createStatement();
+            ResultSet results = stmt.executeQuery("select id_pro, Proveedor.Nombre "
+            		+"from Producto_Proveedor join Proveedor on id_pro = id_p where Clave = '" + Clave + "'");
+            int c = 0;
+            while(results.next()) {
+            	aux = new String[datos.length][2];
+            	aux = datos;
+            	datos = new String [c+1][2];
+            	for(int x = 0; x < aux.length; x++) {
+            		datos[x][0] = aux[x][0];
+            		datos[x][1] = aux[x][1];
+            	}
+            	datos[c][0] = Integer.toString(results.getInt(1));
+            	datos[c][1] = results.getString(2);
+            	c++;
+            }
+            results.close();
+            stmt.close();
+            shutdown();
+        }
+        catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return null;
+        }
+    	return datos;
+    }
+    
     public static void shutdown() {
         try {
             if (stmt != null) {
