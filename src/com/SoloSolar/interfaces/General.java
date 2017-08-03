@@ -58,7 +58,7 @@ public class General {
 	public class GeneralPanel extends JPanel implements ActionListener {
 		private JMenuBar menu;
 		private JMenu clientes, productos, categoria, proveedor;
-		private JMenuItem altaClie, modClie, altaProd, altaCat, adminCat, adminProd, altaProv, adminProv;
+		private JMenuItem altaClie, modClie, altaProd, altaCat, adminCat, adminProd, altaProv, adminProv, prodProv;
 		private ImageIcon logo = new ImageIcon(
 				new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
 		private JLabel titulo;
@@ -92,6 +92,7 @@ public class General {
 			adminCat = new JMenuItem("Administrar Categorías");
 			altaProv = new JMenuItem("Alta Proveedor");
 			adminProv = new JMenuItem("Administrar Proveedores");
+			prodProv = new JMenuItem("Productos por Proveedor");
 			
 			jfp.setIconImage(new ImageIcon("assets/icono.png").getImage());
 			panelPrincipal = new JPanel();
@@ -110,9 +111,11 @@ public class General {
 			menu.add(productos);
 			productos.add(altaProd);
 			productos.add(adminProd);
+			productos.add(prodProv);
 			// productos.getPopupMenu().setBorder(new VerticalTextBorder());
 			altaProd.addActionListener(this);
 			adminProd.addActionListener(this);
+			prodProv.addActionListener(this);
 
 			// Categoria
 			menu.add(categoria);
@@ -176,6 +179,8 @@ public class General {
 				panelPrincipal.add(new AltaProveedor());
 			} else if (e.getSource() == adminProv) {
 				panelPrincipal.add(new AdministrarProveedor());
+			} else if (e.getSource() == prodProv) {
+				panelPrincipal.add(new ProductosPorProveedor());
 			}
 
 			panelPrincipal.updateUI();

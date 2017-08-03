@@ -221,6 +221,48 @@ public class Consulta {
         }
     }
     
+    public Producto[] SelectProductsBySupplier(int id_pro) {
+    	createConnection();
+    	Producto[] prod = new Producto[0];
+    	Producto[] aux;
+        try {
+            stmt = conn.createStatement();
+            ResultSet results = stmt.executeQuery("select Producto.Clave, Producto.Nombre, Categoria.Nombre"
+            		+", Paquete, Costo, Precio1, Precio2 from Producto_Proveedor join Producto on "
+            			+"Producto_Proveedor.Clave = Producto.Clave join Categoria on "
+            				+"Producto.Categoria = id_cat where id_pro = "+id_pro);
+            int c = 0;
+            while(results.next()) {
+            	aux = new Producto[prod.length];
+            	for(int x = 0; x < prod.length; x++) {
+            		aux[x] = prod[x];
+            	}
+            	prod = new Producto[c+1];
+            	for(int x = 0; x < aux.length; x++) {
+            		prod[x] = aux[x];
+            	}
+            	prod[c] = new Producto();
+            	prod[c].setClave(results.getString(1));
+            	prod[c].setNombre(results.getString(2));
+            	prod[c].setCategoriaNombre(results.getString(3));
+            	prod[c].setPaquete(results.getInt(4));
+            	prod[c].setCosto(results.getDouble(5));
+            	prod[c].setPrecio1(results.getDouble(6));
+            	prod[c].setPrecio2(results.getDouble(7));
+            	c++;
+            }
+            aux = null;
+            results.close();
+            stmt.close();
+            shutdown();
+            return prod;
+        }
+        catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return null;
+        }
+    }
+    
     public Proveedor[] selectSupplier(){
     	createConnection();
     	Proveedor[] prov = new Proveedor[0];
