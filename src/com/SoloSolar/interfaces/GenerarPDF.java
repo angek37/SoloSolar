@@ -1,10 +1,13 @@
 package com.SoloSolar.interfaces;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 import javax.swing.JOptionPane;
 
 import com.SoloSolar.DB.Consulta;
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
@@ -26,7 +29,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class GenerarPDF {
 	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
 	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 8, Font.NORMAL);
-	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 8, Font.ITALIC);
+	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 8, Font.BOLDITALIC);
 	
 	public GenerarPDF(String ruta, String dataPDF[][], String buscar) {
 		try {
@@ -35,13 +38,17 @@ public class GenerarPDF {
 			PdfWriter writer = PdfWriter.getInstance(doc, archivo);
 			MyFooter m = new MyFooter();
 			writer.setPageEvent(m);
-			Image imagen = Image.getInstance("assets/logo.png");
-			imagen.scaleAbsolute(200, 50);
 			doc.setPageSize(new Rectangle(612, 791));
 			doc.open();
-			doc.add(imagen);
+			PdfPTable t = new PdfPTable(2);
+			doc.add(addHeaderInformation(t));
+			doc.add(getFooter("BLVD. JUAN ALONSO DE TORRES OTE. #202 B COL. VIBAR TEL.: (477)"
+					+ "114 56 37 CEL.: 044 477 136 5097, LEÓN, GTO."));
 			doc.add(new Paragraph("\n"));
 			int celdas = Consulta.cantidadDatosPDF(buscar);
+			PdfPTable table = new PdfPTable(1);
+			doc.add(addTableInformation(table));
+			doc.add(new Paragraph("\n"));
 			PdfPTable tab = new PdfPTable(5);
 			PdfPCell cellClave = new PdfPCell(getHeader("Clave")),
 					 cellNombre = new PdfPCell(getHeader("Nombre")),
@@ -86,6 +93,63 @@ public class GenerarPDF {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	class RoundedBorder implements PdfPCellEvent {
+		@Override
+		public void cellLayout(PdfPCell cell, Rectangle rect, PdfContentByte[] canvas) {
+			PdfContentByte cb = canvas[PdfPTable.BACKGROUNDCANVAS];
+			cb.roundRectangle(
+				rect.getLeft() + 1.5f, 
+				rect.getBottom() + 1.5f, 
+				rect.getWidth() - 3,
+				rect.getHeight() - 3, 4
+		    );
+		    cb.stroke();
+		}
+	}
+	
+	public PdfPTable addHeaderInformation(PdfPTable t) {
+		Image imagen;
+		try {
+			t.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			t.setHorizontalAlignment(0);
+			t.setLockedWidth(true);
+			t.setTotalWidth(510f);
+			imagen = Image.getInstance("assets/logo.png");
+			imagen.scaleAbsolute(150, 30);
+			t.addCell(imagen);
+			t.addCell(new Paragraph("aqui va algo :V"));
+			PdfPTable t2 = new PdfPTable(1);
+			t2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			t2.addCell(getHeader("FELIX ALBERTO RODRIGUEZ ALVAREZ"));
+			t2.addCell(getHeader("R.F.C. ROAF6504089G0"));
+			t2.addCell(getHeader("alberto-426@hotmail.com"));
+			t.addCell(t2);
+			t.addCell(new Paragraph("aqui tambien va algo :v"));
+			return t;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return t;
+	}
+	
+	public PdfPTable addTableInformation (PdfPTable tab) {
+		tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		//tab.setTableEvent(new BorderEvent());
+		tab.getDefaultCell().setCellEvent(new RoundedBorder());
+		tab.setHorizontalAlignment(0);
+		tab.setLockedWidth(true);
+		tab.setTotalWidth(510f);
+		PdfPTable t = new PdfPTable(1);
+		t.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		t.addCell(getInfo("   Nombre ____________________________________________________________________________________________"));
+		t.addCell(getInfo("   Domicilio _________________________________________________________________________________________"));
+		t.addCell(getInfo("   Ciudad ____________________________________________ Telefono ______________________________________"));
+		t.addCell("");
+		tab.addCell(t);
+		
+		return tab;
 	}
 	
 	class BorderEvent implements PdfPTableEvent {
@@ -164,7 +228,7 @@ public class GenerarPDF {
 	private Paragraph getFooter(String texto) {
 		Paragraph p = new Paragraph();
 		Chunk c = new Chunk();
-		p.setAlignment(Element.ALIGN_RIGHT);
+		p.setAlignment(Element.ALIGN_LEFT);
 		c.append(texto);
 		c.setFont(fuenteItalic);
 		p.add(c);
