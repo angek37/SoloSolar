@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.util.AbstractList;
 
 import javax.swing.ComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -27,9 +29,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListDataListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Producto;
+import com.SoloSolar.Capsulas.Proveedor;
 import com.SoloSolar.DB.Consulta;
 import com.SoloSolar.DB.Insert;
 import com.SoloSolar.interfaces.AdministrarCategorias.CategoryModel;
@@ -39,9 +43,15 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 	private JTextField clave, nombre, paquete, costo, precio1, precio2;
 	Consulta c = new Consulta();
 	Categoria[] category = (Categoria[]) c.selectCategories();
+	Proveedor[] supplier = (Proveedor[]) c.selectSupplier();
 	private JComboBox<Categoria> categories;
+	private JComboBox<Proveedor> suppliers;
 	private JTable table;
+	private JTable tableS;
 	private JLabel prod;
+	private String[][] datos = {{"", ""}};
+	private String[] head = {"ID", "Proveedor"};
+	private int cont = 1;
 	
 	public AdministrarProducto() {
 		setLayout(new BorderLayout());
@@ -249,9 +259,10 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			gbc2.gridy++;
 			deleteP.add(eliminar, gbc2);
 			eliminar.addActionListener(this);	
-			add(updateP, BorderLayout.CENTER);
-			add(deleteP, BorderLayout.SOUTH);
-		}	
+			add(updateP, BorderLayout.NORTH);
+			add(deleteP, BorderLayout.CENTER);
+			add(new SuppliersPanel(), BorderLayout.EAST);
+		}
 
 		public void actionPerformed(ActionEvent e) {
 			Insert in = new Insert();
@@ -300,6 +311,148 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			}catch(NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException exp) {
 				JOptionPane.showMessageDialog(null, "No se ha seleccionado un producto", "Error", JOptionPane.ERROR_MESSAGE);
 			}
+		}
+	}
+	
+	public class SuppliersPanel extends JPanel implements ActionListener, MouseListener{
+		JButton addB;
+		private ImageIcon addico = new ImageIcon(
+				new ImageIcon("assets/plus.png").getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT));
+		
+		public SuppliersPanel() {
+			setLayout(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.insets = new Insets(0, 4, 10, 0);
+			gbc.ipady = 5;
+			setBorder(new CompoundBorder(new TitledBorder("Administrar Proveedores"), new EmptyBorder(12, 0, 0, 0)));
+			suppliers = new JComboBox<Proveedor>(supplier);
+			suppliers.setMaximumSize(new Dimension(200, 20));
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			gbc.ipadx = 50;
+			add(suppliers, gbc);
+			addB = new JButton(addico);
+			addB.setBorder(null);
+			addB.setBackground(null);
+			gbc.gridx++;
+			add(addB, gbc);
+			addB.addActionListener(this);
+			tableS = new JTable(datos, head) {
+		        public boolean isCellEditable(int row, int column) {                
+		                return false;               
+		        };
+		    };
+		    tableS.setFillsViewportHeight(true);
+		    tableS.setShowHorizontalLines(true);
+		    tableS.setShowVerticalLines(true);
+		    tableS.getTableHeader().setReorderingAllowed(false);
+		    tableS.setToolTipText("Doble click para eliminar proveedor");
+		    tableS.addMouseListener(this);
+			JScrollPane scrollPane = new JScrollPane(tableS);
+			scrollPane.setPreferredSize(new Dimension(150, 0));
+			gbc.ipady = 100;
+			gbc.gridx = 0;
+			gbc.gridy++;
+			gbc.gridwidth = GridBagConstraints.REMAINDER;
+			gbc.gridheight = GridBagConstraints.REMAINDER;
+			gbc.fill = GridBagConstraints.BOTH;
+			add(scrollPane, gbc);
+		}
+		
+		public boolean isRepeat(int id) {
+			boolean reply = false;
+			for(int x = 0; x < datos.length; x++) {
+				if(datos[x][0].equals(Integer.toString(id))) {
+					reply = true;
+				}
+			}
+			return reply;
+		}
+		
+		public void deleteSupplier(int r) {
+			datos[r][0] = "";
+			datos[r][1] = "";
+			String aux[][] = new String[datos.length-1][2];
+			int c = 0;
+			for(int x = 0; x < datos.length; x++) {
+				if(!datos[x][0].equals("")) {
+					aux[c][0] = datos[x][0];
+					aux[c][1] = datos[x][1];
+					c++;
+				}
+			}
+			datos = new String[aux.length][2];
+			datos = aux;
+			aux = null;
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			DefaultTableModel dtm;
+			if(e.getSource() == addB) {
+				Proveedor prov = (Proveedor) suppliers.getSelectedItem();
+				if(!isRepeat(prov.getId())) {
+					try {
+						if(!datos[0][0].equals("")) {
+							String aux[][] = new String[datos.length][2];
+							aux = datos;
+							cont++;
+							datos = new String[cont][2];
+							for(int x = 0; x < aux.length; x++) {
+								datos[x][0] = aux[x][0];
+								datos[x][1] = aux[x][1];
+							}
+							aux = null;
+							datos[cont-1][0] = Integer.toString(prov.getId());
+							datos[cont-1][1] = prov.getNombre();
+							dtm = new DefaultTableModel(datos, head);
+							tableS.setModel(dtm);
+						}else {
+							datos[0][0] = Integer.toString(prov.getId());
+							datos[0][1] = prov.getNombre();
+							dtm = new DefaultTableModel(datos, head);
+							tableS.setModel(dtm);
+						}
+					}catch(ArrayIndexOutOfBoundsException ex) {
+						cont = 1;
+						datos = new String[1][2];
+						datos[0][0] = "";
+						datos[0][1] = "";
+						datos[0][0] = Integer.toString(prov.getId());
+						datos[0][1] = prov.getNombre();
+						dtm = new DefaultTableModel(datos, head);
+						tableS.setModel(dtm);
+					}
+				}
+			}
+		}
+
+		public void mouseClicked(MouseEvent e) {
+			DefaultTableModel dtm;
+			try {
+				if (e.getClickCount() == 2) {
+					deleteSupplier(table.getSelectedRow());
+					dtm = new DefaultTableModel(datos, head);
+					tableS.setModel(dtm);
+				}
+			}catch(ArrayIndexOutOfBoundsException | NullPointerException expt) {
+				
+			}
+		}
+
+		public void mousePressed(MouseEvent e) {
+			
+		}
+
+		public void mouseReleased(MouseEvent e) {
+			
+		}
+
+		public void mouseEntered(MouseEvent e) {
+			
+		}
+
+		public void mouseExited(MouseEvent e) {
+			
 		}
 	}
 	

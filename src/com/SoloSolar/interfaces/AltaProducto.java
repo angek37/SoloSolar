@@ -53,8 +53,10 @@ public class AltaProducto extends JPanel implements ActionListener{
 	public AltaProducto() { 
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 50, 0, 0);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.weightx = 1;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 //		gbc.fill = GridBagConstraints.HORIZONTAL;
