@@ -111,11 +111,9 @@ public class General {
 			menu.add(productos);
 			productos.add(altaProd);
 			productos.add(adminProd);
-			productos.add(prodProv);
 			// productos.getPopupMenu().setBorder(new VerticalTextBorder());
 			altaProd.addActionListener(this);
 			adminProd.addActionListener(this);
-			prodProv.addActionListener(this);
 
 			// Categoria
 			menu.add(categoria);
@@ -129,6 +127,8 @@ public class General {
 			menu.add(proveedor);
 			proveedor.add(altaProv);
 			proveedor.add(adminProv);
+			proveedor.add(prodProv);
+			prodProv.addActionListener(this);
 			altaProv.addActionListener(this);
 			adminProv.addActionListener(this);			
 
