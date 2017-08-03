@@ -105,6 +105,24 @@ public class Insert {
         }
     }
     
+    public boolean UpdateProductSupplier(String clave, String[][] suppliers) {
+    	try {
+    		createConnection();
+            stmt = conn.createStatement();
+            stmt.execute("delete from Producto_Proveedor where clave = '" + clave 
+            		+"'");
+            for(int x = 0; x < suppliers.length; x++) {
+            	stmt.execute("insert into Producto_Proveedor values('"+ clave +"', " + suppliers[x][0] + ")");
+    		}
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
+    }
+    
     public boolean UpdateProduct(Producto prod) {
     	try {
             stmt = conn.createStatement();
