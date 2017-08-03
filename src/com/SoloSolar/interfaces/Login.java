@@ -48,8 +48,8 @@ public class Login {
 		private JTextField user;
 		private JPasswordField pass;
 		private JButton signin;
-		private ImageIcon access = new ImageIcon(new ImageIcon("assets/login.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));		
-		private ImageIcon erroricon = new ImageIcon(new ImageIcon("assets/error-icon.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));		
+		private ImageIcon erroricon = new ImageIcon(new ImageIcon("assets/error-icon.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));	
+		private ImageIcon loading = new ImageIcon(new ImageIcon("assets/sun-loading.gif").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));		
 		private JFrame JF;
 		
 			public LoginWindow(JFrame frame) {
@@ -84,7 +84,7 @@ public class Login {
 				gbc.weightx = 2;
 				add(signin, gbc);
 	            signin.addActionListener(this);
-				icono = new JLabel(access);
+				icono = new JLabel(loading);
 				gbc.gridx++;
 				gbc.gridy = 0;
 				gbc.gridheight = 3;
@@ -94,7 +94,6 @@ public class Login {
 
 			public void actionPerformed(ActionEvent e) {
 				ConnectionDB c = new ConnectionDB();
-				
 				if(e.getSource() == signin) {
 					if(c.getPassword("Usuario", user.getText()).equals(pass.getText())) {
 						new General();
