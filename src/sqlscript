@@ -60,7 +60,7 @@ create table Proveedor (
 )
 
 create table Producto_Proveedor (
-	Clave varchar(8) NOT NULL PRIMARY KEY,
+	Clave varchar(8) NOT NULL,
 	id_pro int NOT NULL
 )
 

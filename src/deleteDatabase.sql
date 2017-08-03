@@ -8,5 +8,7 @@ drop table Usuario
 drop table Cliente
 drop table Pedido
 drop table Renglon
-drop table Producto
 drop table Categoria
+drop table Producto_Proveedor
+drop table Proveedor
+drop table Producto

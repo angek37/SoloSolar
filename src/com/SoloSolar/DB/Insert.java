@@ -82,13 +82,27 @@ public class Insert {
             stmt.execute("insert into Producto values('" +prod.getClave()+ "','" +prod.getNombre()+ "'," +prod.getCategoria()+ "," 
             		+prod.getPaquete()+ "," +prod.getCosto()+ "," +prod.getPrecio1()+ "," +prod.getPrecio2()+ ")");
             stmt.close();
-            shutdown();
             return true;
         } catch (SQLException sqlExcept) {
             sqlExcept.printStackTrace();
             return false;
         }
     	
+    }
+    
+    public boolean InsertProductSupplier(String clave, String[][] suppliers) {
+    	try {
+            stmt = conn.createStatement();
+            for(int x = 0; x < suppliers.length; x++) {
+            	stmt.execute("insert into Producto_Proveedor values('"+ clave +"', " + suppliers[x][0] + ")");
+    		}
+            stmt.close();
+            shutdown();
+            return true;
+        } catch (SQLException sqlExcept) {
+            sqlExcept.printStackTrace();
+            return false;
+        }
     }
     
     public boolean UpdateProduct(Producto prod) {
