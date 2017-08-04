@@ -12,11 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.util.AbstractList;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -333,43 +330,49 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 		public void actionPerformed(ActionEvent e) {
 			ClienteBD in = new ClienteBD();
 			Cliente cl;
-			if(e.getSource() == actualizar) {
-				cl = new Cliente(Integer.parseInt(idTF.getText()), rfcTF.getText(), nombreTF.getText(), 
-						apellidosTF.getText(), calleTF.getText(), coloniaTF.getText(), cpTF.getText(),
-					ciudadTF.getText(), estadoTF.getText(), emailTF.getText(), celTF.getText(), telEmpTF.getText());
-				if(in.UpdateClient(cl)) {
-					JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-				}else {
-					JOptionPane.showMessageDialog(null, "No ha sido posible modificar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				idTF.setText("");
-				rfcTF.setText("");
-				nombreTF.setText("");
-				apellidosTF.setText("");
-				calleTF.setText("");
-				coloniaTF.setText("");
-				cpTF.setText("");
-				ciudadTF.setText("");
-				estadoTF.setText("");
-				emailTF.setText("");
-				celTF.setText("");
-				telEmpTF.setText("");
-				clientes.setText("Elija un cliente");
-				table.setModel(new ClientModel());
-			} else if (e.getSource() == eliminar) {
-				if(ID != 0) {
-					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar el cliente '" + clientes.getText() + "'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-					if(reply == JOptionPane.YES_OPTION) {
-						if(in.DeleteClient(ID)) {
-							JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-							table.setModel(new ClientModel());
-							clientes.setText("Elija un cliente");
-							ID = 0;
-						}else {
-							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+			try {
+				if(e.getSource() == actualizar) {
+					cl = new Cliente(Integer.parseInt(idTF.getText()), rfcTF.getText(), nombreTF.getText(), 
+							apellidosTF.getText(), calleTF.getText(), coloniaTF.getText(), cpTF.getText(),
+						ciudadTF.getText(), estadoTF.getText(), emailTF.getText(), celTF.getText(), telEmpTF.getText());
+					if(in.UpdateClient(cl)) {
+						JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(null, "No ha sido posible modificar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					idTF.setText("");
+					rfcTF.setText("");
+					nombreTF.setText("");
+					apellidosTF.setText("");
+					calleTF.setText("");
+					coloniaTF.setText("");
+					cpTF.setText("");
+					ciudadTF.setText("");
+					estadoTF.setText("");
+					emailTF.setText("");
+					celTF.setText("");
+					telEmpTF.setText("");
+					clientes.setText("Elija un cliente");
+					table.setModel(new ClientModel());
+				} else if (e.getSource() == eliminar) {
+					if(ID != 0) {
+						int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar el cliente '" + clientes.getText() + "'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+						if(reply == JOptionPane.YES_OPTION) {
+							if(in.DeleteClient(ID)) {
+								JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+								table.setModel(new ClientModel());
+								clientes.setText("Elija un cliente");
+								ID = 0;
+							}else {
+								JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+							}
 						}
+					} else {
+						JOptionPane.showMessageDialog(null, "No se ha seleccionado un cliente", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
+			}catch(NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException exp) {
+				JOptionPane.showMessageDialog(null, "No se ha seleccionado un cliente", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
