@@ -67,9 +67,13 @@ public class General {
 		private ImageIcon userIcon = new ImageIcon(
 				new ImageIcon("assets/User.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		private ImageIcon addC = new ImageIcon(
-				new ImageIcon("assets/add.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/add.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
 		private ImageIcon admC = new ImageIcon(
-				new ImageIcon("assets/admin.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/admin.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+		private ImageIcon addP = new ImageIcon(
+				new ImageIcon("assets/addP.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+		private ImageIcon admP = new ImageIcon(
+				new ImageIcon("assets/admP.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
 
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
@@ -85,8 +89,8 @@ public class General {
 			titleBar = new JPanel();
 			altaClie = new JMenuItem("Alta Cliente", addC);
 			modClie = new JMenuItem("Administrar Cliente", admC);
-			altaProd = new JMenuItem("Alta Producto");
-			adminProd = new JMenuItem("Administar Productos");
+			altaProd = new JMenuItem("Alta Producto", addP);
+			adminProd = new JMenuItem("Administar Productos", admP);
 			altaCat = new JMenuItem("Alta Categoria");
 			adminCat = new JMenuItem("Administrar Categorías");
 			altaProv = new JMenuItem("Alta Proveedor");
@@ -109,6 +113,7 @@ public class General {
 			// Productos
 			menu.add(productos);
 			productos.add(altaProd);
+			productos.addSeparator();
 			productos.add(adminProd);
 			// productos.getPopupMenu().setBorder(new VerticalTextBorder());
 			altaProd.addActionListener(this);
