@@ -136,7 +136,7 @@ public class Venta extends JPanel {
 	
 	public class BotonesP extends JPanel {
 		JCheckBox iva;
-		JButton guardar, exportar;
+		JButton nuevo, guardar, exportar;
 		
 		public BotonesP() {
 			setLayout(new BorderLayout());
@@ -158,6 +158,8 @@ public class Venta extends JPanel {
 		}
 		
 		public class OpcionesPanel extends JPanel implements ActionListener {
+			private ImageIcon newD = new ImageIcon(
+					new ImageIcon("assets/newDocument.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 			private ImageIcon save = new ImageIcon(
 					new ImageIcon("assets/Save.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 			private ImageIcon pdf = new ImageIcon(
@@ -166,6 +168,9 @@ public class Venta extends JPanel {
 			public OpcionesPanel() {
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				setBorder(new CompoundBorder(new TitledBorder(""), new EmptyBorder(0, 0, 0, 0)));
+				nuevo = new JButton("Nuevo", newD);
+				nuevo.addActionListener(this);
+				add(nuevo);
 				exportar = new JButton("Exportar", pdf);
 				exportar.addActionListener(this);
 				add(exportar);
