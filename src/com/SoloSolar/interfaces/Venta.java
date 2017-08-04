@@ -21,12 +21,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
 public class Venta extends JPanel {
 	JTextField total;
+	String[] head = {"Clave", "Nombre de Producto", "Cantidad", "Pack", "L", "Precio", "SubTotal"};
+	String[][] renglones = new String[7][10];
 	
 	public Venta() {
 		setLayout(new BorderLayout());
@@ -110,7 +114,24 @@ public class Venta extends JPanel {
 	}
 	
 	public class TablaP extends JPanel {
+		JTable table;
 		
+		public TablaP() {
+			setLayout(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.insets = new Insets(0, 2, 0 ,2);
+			gbc.weightx = 1;
+			gbc.weighty = 1;
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			gbc.fill = GridBagConstraints.BOTH;
+			table = new JTable(renglones ,head);
+			table.setFillsViewportHeight(true);
+			table.setShowHorizontalLines(true);
+			table.setShowVerticalLines(true);
+			JScrollPane scrollPane = new JScrollPane(table);
+			add(scrollPane, gbc);
+		}
 	}
 	
 	public class BotonesP extends JPanel {
@@ -144,14 +165,17 @@ public class Venta extends JPanel {
 			
 			public OpcionesPanel() {
 				setLayout(new FlowLayout(FlowLayout.CENTER));
+				setBorder(new CompoundBorder(new TitledBorder(""), new EmptyBorder(0, 0, 0, 0)));
 				exportar = new JButton("Exportar", pdf);
+				exportar.addActionListener(this);
 				add(exportar);
 				guardar = new JButton("Guardar", save);
+				guardar.addActionListener(this);
 				add(guardar);
 			}
 			
 			public void actionPerformed(ActionEvent e) {
-								
+				
 			}
 		}
 	}
