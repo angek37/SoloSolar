@@ -3,6 +3,9 @@ package com.SoloSolar.interfaces;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -40,6 +43,9 @@ public class GenerarPDF {
 			writer.setPageEvent(m);
 			doc.setPageSize(new Rectangle(612, 791));
 			doc.open();
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			Date date = new Date();
+			doc.add(getFecha(dateFormat.format(date)));
 			PdfPTable t = new PdfPTable(2);
 			doc.add(addHeaderInformation(t));
 			doc.add(getFooter("BLVD. JUAN ALONSO DE TORRES OTE. #202 B COL. VIBAR TEL.: (477)"
@@ -47,7 +53,7 @@ public class GenerarPDF {
 			doc.add(new Paragraph("\n"));
 			int celdas = Consulta.cantidadDatosPDF(buscar);
 			PdfPTable table = new PdfPTable(1);
-			doc.add(addTableInformation(table));
+			//doc.add(addTableInformation(table));
 			doc.add(new Paragraph("\n"));
 			PdfPTable tab = new PdfPTable(5);
 			PdfPCell cellClave = new PdfPCell(getHeader("Clave")),
@@ -118,15 +124,17 @@ public class GenerarPDF {
 			t.setTotalWidth(510f);
 			imagen = Image.getInstance("assets/logo.png");
 			imagen.scaleAbsolute(150, 30);
-			t.addCell(imagen);
-			t.addCell(new Paragraph("aqui va algo :V"));
+			Phrase img = new Phrase();
+			img.add(new Chunk(imagen, 0, 0));
+			t.addCell(img);
+			t.addCell(new Paragraph(""));
 			PdfPTable t2 = new PdfPTable(1);
 			t2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			t2.addCell(getHeader("FELIX ALBERTO RODRIGUEZ ALVAREZ"));
 			t2.addCell(getHeader("R.F.C. ROAF6504089G0"));
 			t2.addCell(getHeader("alberto-426@hotmail.com"));
 			t.addCell(t2);
-			t.addCell(new Paragraph("aqui tambien va algo :v"));
+			t.addCell(new Paragraph(""));
 			return t;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -197,18 +205,23 @@ public class GenerarPDF {
  
         public void onEndPage(PdfWriter writer, Document document) {
             PdfContentByte cb = writer.getDirectContent();
-            Phrase header = new Phrase("Esta es la fecha alv", ffont);
             Phrase footer = new Phrase("Lista de productos", ffont);
-            ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT,
-                    header,
-                    (document.right() - document.left()) / 2 + document.leftMargin(),
-                    document.top() + 10, 0);
             ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
                     footer,
                     (document.right() - document.left()) / 2 + document.leftMargin(),
                     document.bottom() - 10, 0);
         }
     }
+	
+	private Paragraph getFecha(String texto) {
+		Paragraph p = new Paragraph();
+		Chunk c = new Chunk();
+		p.setAlignment(Element.ALIGN_RIGHT);
+		c.append(texto);
+		c.setFont(fuenteBold);
+		p.add(c);
+		return p;
+	}
 	
 	private Paragraph getHeader(String texto) {
 		Paragraph p = new Paragraph();
