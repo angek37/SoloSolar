@@ -67,23 +67,23 @@ public class General {
 		private ImageIcon userIcon = new ImageIcon(
 				new ImageIcon("assets/User.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		private ImageIcon addC = new ImageIcon(
-				new ImageIcon("assets/add.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/add.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon admC = new ImageIcon(
-				new ImageIcon("assets/admin.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/admin.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon addP = new ImageIcon(
-				new ImageIcon("assets/addP.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/addP.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon admP = new ImageIcon(
-				new ImageIcon("assets/admP.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/admP.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon addCat = new ImageIcon(
-				new ImageIcon("assets/addCat.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/addCat.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon admCat = new ImageIcon(
-				new ImageIcon("assets/admCat.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/admCat.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon addProv = new ImageIcon(
-				new ImageIcon("assets/addProv.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/addProv.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon admProv = new ImageIcon(
-				new ImageIcon("assets/admProv.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/admProv.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon proProv = new ImageIcon(
-				new ImageIcon("assets/proProv.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/proProv.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
@@ -98,7 +98,7 @@ public class General {
 			proveedor = new JMenu("Proveedores");
 			titleBar = new JPanel();
 			altaClie = new JMenuItem("Alta Cliente", addC);
-			modClie = new JMenuItem("Administrar Cliente", admC);
+			modClie = new JMenuItem("Administrar Clientes", admC);
 			altaProd = new JMenuItem("Alta Producto", addP);
 			adminProd = new JMenuItem("Administar Productos", admP);
 			altaCat = new JMenuItem("Alta Categoria", addCat);
