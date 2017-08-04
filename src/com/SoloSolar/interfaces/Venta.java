@@ -15,6 +15,7 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -112,6 +113,7 @@ public class Venta extends JPanel {
 	}
 	
 	public class BotonesP extends JPanel {
+		JCheckBox iva;
 		
 		public BotonesP() {
 			setLayout(new BorderLayout());
@@ -122,8 +124,11 @@ public class Venta extends JPanel {
 			
 			public TotalPanel() {
 				setLayout(new FlowLayout(FlowLayout.RIGHT));
+				iva = new JCheckBox("IVA");
+				add(iva);
 				add(new JLabel("Total:"));
 				total = new JTextField();
+				total.setEnabled(false);
 				total.setPreferredSize(new Dimension(80, 20));
 				add(total);
 			}
