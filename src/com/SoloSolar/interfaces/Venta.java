@@ -70,6 +70,7 @@ public class Venta extends JPanel {
 			gbc.ipadx = 30;
 			gbc.gridx++;
 			add(buscarCliente, gbc);
+			buscarCliente.addActionListener(this);
 			idCliente = new JTextField();
 			idCliente.setEnabled(false);
 			gbc.gridx++;
