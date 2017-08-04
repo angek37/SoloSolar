@@ -11,7 +11,7 @@ create table Cliente (
 	SecondName varchar(32) NOT NULL,
 	Calle varchar(64),
 	Colonia varchar(32),
-	CP mediumint,
+	CP int,
 	Ciudad varchar(32),
 	Estado varchar(32),
 	Email varchar(32),
@@ -21,7 +21,6 @@ create table Cliente (
 
 create table Pedido (
 	id_Pedido int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-	Agente varchar(32) NOT NULL,
 	customer int NOT NULL,
 	Fecha date NOT NULL,
 	Observaciones varchar(64)
@@ -64,7 +63,6 @@ create table Producto_Proveedor (
 	id_pro int NOT NULL
 )
 
-alter table Pedido add constraint fk_PU foreign key (Agente) references Usuario(Usuario) on delete cascade;
 alter table Pedido add constraint fk_PC foreign key (customer) references Cliente(id_cus) on delete cascade;
 alter table Renglon add constraint fk_RP foreign key (Pedido) references Pedido(id_Pedido) on delete cascade;
 alter table Renglon add constraint fk_RProd foreign key (id_prod) references Producto(Clave) on delete cascade;
