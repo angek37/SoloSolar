@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,10 +17,6 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -38,7 +33,7 @@ public class Venta extends JPanel {
 		JTextField pedido, idCliente, nombreCliente, observaciones;
 		JButton buscarCliente;
 		private ImageIcon customerIco = new ImageIcon(
-				new ImageIcon("assets/searchCustomer.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/searchCustomer.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		private JDateChooser datePicker;
@@ -82,13 +77,6 @@ public class Venta extends JPanel {
 			gbc.gridy++;
 			gbc.ipadx = 0;
 			add(new JLabel("Fecha:"), gbc);
-			UtilDateModel model = new UtilDateModel();
-			model.setSelected(true);
-			Properties p = new Properties();
-			p.put("text.today", "Hoy");
-			p.put("text.month", "Mes");
-			p.put("text.year", "Año");
-			JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 			datePicker = new JDateChooser();
 			gbc.ipadx = 90;
 			gbc.gridx++;
