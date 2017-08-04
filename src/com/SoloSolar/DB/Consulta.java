@@ -112,6 +112,45 @@ public class Consulta {
     	return datos;
     }
     
+    public static int cantidadClientes() {
+    	int cantidad = 0;
+    	createConnection();
+    	try {
+			stmt = conn.createStatement();
+			ResultSet results = stmt.executeQuery("SELECT * FROM CLIENTE");
+			while(results.next()) {
+				cantidad++;
+			}
+			shutdown();
+			return cantidad;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+		}
+    	return cantidad;
+    }
+    
+    public static String[][] dataClientes() {
+    	String datos[][] = new String[cantidadClientes()][3];
+    	int count = 0;
+    	createConnection();
+    	try {
+    		stmt = conn.createStatement();
+    		ResultSet results = stmt.executeQuery("SELECT ID_CUS, FIRSTNAME, CIUDAD FROM CLIENTE");
+    		while(results.next()) {
+    			datos[count][0] = results.getString(1);
+    			datos[count][1] = results.getString(2);
+    			datos[count][2] = results.getString(3);
+    			count++;
+    		}
+			shutdown();
+			return datos;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+			shutdown();
+		}
+    	return datos;
+    }
+    
     public static int cantidadDatosPDF(String buscar) {
     	int cantidad = 0;
     	buscar = buscar.toUpperCase();
