@@ -33,7 +33,7 @@ public class Venta extends JPanel {
 	}
 	
 	public class DatosP extends JPanel {
-		JTextField pedido, idCliente, nombreCliente, fecha;
+		JTextField pedido, idCliente, nombreCliente, observaciones;
 		JButton buscarCliente;
 		private ImageIcon customerIco = new ImageIcon(
 				new ImageIcon("assets/searchCustomer.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
@@ -57,7 +57,7 @@ public class Venta extends JPanel {
 			gbc.gridx++;
 			add(pedido, gbc);
 			gbc.gridx++;
-			gbc.ipadx = 0;
+			gbc.ipadx = 20;
 			add(new JLabel("Cliente:"), gbc);
 			buscarCliente = new JButton(customerIco);
 			buscarCliente.setBorder(null);
@@ -88,10 +88,18 @@ public class Venta extends JPanel {
 			p.put("text.year", "Año");
 			JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 			datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-			gbc.ipadx = 80;
+			gbc.ipadx = 90;
 			gbc.gridx++;
 			add(datePicker, gbc);
-			
+			gbc.gridy++;
+			gbc.gridx = 0;
+			gbc.ipadx = 20;
+			add(new JLabel("Observaciones:"), gbc);
+			observaciones = new JTextField();
+			gbc.gridx++;
+			gbc.gridwidth = 4;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			add(observaciones, gbc);
 		}
 		
 	}
