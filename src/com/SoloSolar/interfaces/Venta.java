@@ -6,14 +6,22 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 public class Venta extends JPanel {
 	
@@ -31,13 +39,14 @@ public class Venta extends JPanel {
 				new ImageIcon("assets/searchCustomer.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
+		private JDatePickerImpl datePicker;
 		
 		public DatosP() {
 			setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.insets = new Insets(10, 10, 0, 10);
 			gbc.weightx = 1;
-			gbc.anchor = GridBagConstraints.EAST;
+			gbc.anchor = GridBagConstraints.WEST;
 			gbc.ipady = 8;
 			gbc.gridx = 0;
 			gbc.gridy = 0;
@@ -71,12 +80,40 @@ public class Venta extends JPanel {
 			gbc.gridy++;
 			gbc.ipadx = 0;
 			add(new JLabel("Fecha:"), gbc);
-			fecha = new JTextField(dateFormat.format(date));
+			UtilDateModel model = new UtilDateModel();
+			model.setSelected(true);
+			Properties p = new Properties();
+			p.put("text.today", "Hoy");
+			p.put("text.month", "Mes");
+			p.put("text.year", "Año");
+			JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+			datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 			gbc.ipadx = 80;
 			gbc.gridx++;
-			add(fecha, gbc);
+			add(datePicker, gbc);
+			
 		}
 		
+	}
+	
+	public class DateLabelFormatter extends AbstractFormatter {
+
+	    private String datePattern = "dd/MM/yyyy";
+	    private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
+
+	    public Object stringToValue(String text) throws ParseException {
+	        return dateFormatter.parseObject(text);
+	    }
+
+	    public String valueToString(Object value) throws ParseException {
+	        if (value != null) {
+	            Calendar cal = (Calendar) value;
+	            return dateFormatter.format(cal.getTime());
+	        }
+
+	        return "";
+	    }
+
 	}
 	
 	public class TablaP extends JPanel {
