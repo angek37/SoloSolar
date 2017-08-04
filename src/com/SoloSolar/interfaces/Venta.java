@@ -1,19 +1,23 @@
 package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -21,6 +25,7 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 
 public class Venta extends JPanel {
+	JTextField total;
 	
 	public Venta() {
 		setLayout(new BorderLayout());
@@ -29,19 +34,19 @@ public class Venta extends JPanel {
 		add(new BotonesP(), BorderLayout.SOUTH);
 	}
 	
-	public class DatosP extends JPanel {
+	public class DatosP extends JPanel implements ActionListener{
 		JTextField pedido, idCliente, nombreCliente, observaciones;
 		JButton buscarCliente;
 		private ImageIcon customerIco = new ImageIcon(
 				new ImageIcon("assets/searchCustomer.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date date = new Date();
 		private JDateChooser datePicker;
 		
 		public DatosP() {
 			setLayout(new GridBagLayout());
+			setBorder(new CompoundBorder(new TitledBorder("Datos de Venta"), new EmptyBorder(0, 0, 0, 0)));
 			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.insets = new Insets(10, 10, 0, 10);
+			gbc.insets = new Insets(3, 10, 3, 10);
 			gbc.weightx = 1;
 			gbc.anchor = GridBagConstraints.WEST;
 			gbc.ipady = 8;
@@ -60,6 +65,7 @@ public class Venta extends JPanel {
 			buscarCliente.setBorder(null);
 			buscarCliente.setBackground(null);
 			buscarCliente.setFocusable(false);
+			buscarCliente.setToolTipText("Buscar un Cliente");
 			gbc.ipadx = 30;
 			gbc.gridx++;
 			add(buscarCliente, gbc);
@@ -77,7 +83,7 @@ public class Venta extends JPanel {
 			gbc.gridy++;
 			gbc.ipadx = 0;
 			add(new JLabel("Fecha:"), gbc);
-			datePicker = new JDateChooser();
+			datePicker = new JDateChooser(new Date());
 			gbc.ipadx = 90;
 			gbc.gridx++;
 			add(datePicker, gbc);
@@ -91,27 +97,14 @@ public class Venta extends JPanel {
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			add(observaciones, gbc);
 		}
+
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == buscarCliente) {
+				new BuscarCliente(idCliente, nombreCliente);
+			}
+			
+		}
 		
-	}
-	
-	public class DateLabelFormatter extends AbstractFormatter {
-
-	    private String datePattern = "dd/MM/yyyy";
-	    private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
-
-	    public Object stringToValue(String text) throws ParseException {
-	        return dateFormatter.parseObject(text);
-	    }
-
-	    public String valueToString(Object value) throws ParseException {
-	        if (value != null) {
-	            Calendar cal = (Calendar) value;
-	            return dateFormatter.format(cal.getTime());
-	        }
-
-	        return "";
-	    }
-
 	}
 	
 	public class TablaP extends JPanel {
@@ -120,5 +113,20 @@ public class Venta extends JPanel {
 	
 	public class BotonesP extends JPanel {
 		
+		public BotonesP() {
+			setLayout(new BorderLayout());
+			add(new TotalPanel(), BorderLayout.NORTH);
+		}
+		
+		public class TotalPanel extends JPanel {
+			
+			public TotalPanel() {
+				setLayout(new FlowLayout(FlowLayout.RIGHT));
+				add(new JLabel("Total:"));
+				total = new JTextField();
+				total.setPreferredSize(new Dimension(80, 20));
+				add(total);
+			}
+		}
 	}
 }
