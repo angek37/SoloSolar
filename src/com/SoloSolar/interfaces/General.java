@@ -222,6 +222,7 @@ public class General {
 			venta.setBorder(null);
 			venta.setToolTipText("Registrar una venta");
 			venta.setFocusable(false);
+			venta.addActionListener(this);
 			add(venta);
 			buscar = new JButton("Buscar", search);
 			buscar.setMaximumSize(new Dimension(85, 60));
@@ -259,6 +260,11 @@ public class General {
 				panelPrincipal.updateUI();
 				panelPrincipal.repaint();
 				repaint();
+			} else if (e.getSource() == venta) {
+				panelPrincipal.removeAll();
+				panelPrincipal.add(new Venta());
+				panelPrincipal.updateUI();
+				panelPrincipal.repaint();
 			} else if (e.getSource() == buscar) {
 				Buscar b = new Buscar(frame);
 			} else if (e.getSource() == salir) {
