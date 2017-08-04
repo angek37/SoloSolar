@@ -175,8 +175,32 @@ public class Buscar {
 		public void actionPerformed(java.awt.event.ActionEvent e) {
 			String ruta = "", dataPDF[][] = Consulta.dataPDF(buscar.getText());
 			if(e.getSource() == pdf) {
-				JFileChooser f = new JFileChooser();
-				f.setSelectedFile(new File("reporte"));
+				JFileChooser f = new JFileChooser() {
+					@Override
+					public void approveSelection() {
+						File f = getSelectedFile();
+		                if (f.exists() && getDialogType() == SAVE_DIALOG) {
+		                	int result = JOptionPane.showConfirmDialog(this,
+		                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
+		                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
+
+		                    switch (result){
+		                    	case JOptionPane.YES_OPTION:
+		                    		super.approveSelection();
+		                    		return;
+		                    	case JOptionPane.NO_OPTION:
+		                    		return;
+		                    	case JOptionPane.CLOSED_OPTION:
+		                    		return;
+		                    	case JOptionPane.CANCEL_OPTION:
+		                    		cancelSelection();
+		                    		return;
+		                    }
+		                }
+		                super.approveSelection();
+					}
+				};
+				f.setSelectedFile(new File("Reporte"));
 				int opcion = f.showSaveDialog(this);
 				if(opcion == JFileChooser.APPROVE_OPTION) {
 					File file = f.getSelectedFile();
