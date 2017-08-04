@@ -197,7 +197,12 @@ public class GenerarPDF {
  
         public void onEndPage(PdfWriter writer, Document document) {
             PdfContentByte cb = writer.getDirectContent();
+            Phrase header = new Phrase("Esta es la fecha alv", ffont);
             Phrase footer = new Phrase("Lista de productos", ffont);
+            ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT,
+                    header,
+                    (document.right() - document.left()) / 2 + document.leftMargin(),
+                    document.top() + 10, 0);
             ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
                     footer,
                     (document.right() - document.left()) / 2 + document.leftMargin(),
