@@ -115,14 +115,15 @@ public class Venta extends JPanel {
 	
 	public class BotonesP extends JPanel {
 		JCheckBox iva;
+		JButton guardar, exportar;
 		
 		public BotonesP() {
 			setLayout(new BorderLayout());
 			add(new TotalPanel(), BorderLayout.NORTH);
+			add(new OpcionesPanel(), BorderLayout.SOUTH);
 		}
 		
 		public class TotalPanel extends JPanel {
-			
 			public TotalPanel() {
 				setLayout(new FlowLayout(FlowLayout.RIGHT));
 				iva = new JCheckBox("IVA");
@@ -130,8 +131,27 @@ public class Venta extends JPanel {
 				add(new JLabel("Total:"));
 				total = new JTextField();
 				total.setEnabled(false);
-				total.setPreferredSize(new Dimension(80, 20));
+				total.setPreferredSize(new Dimension(100, 30));
 				add(total);
+			}
+		}
+		
+		public class OpcionesPanel extends JPanel implements ActionListener {
+			private ImageIcon save = new ImageIcon(
+					new ImageIcon("assets/Save.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+			private ImageIcon pdf = new ImageIcon(
+					new ImageIcon("assets/pdf.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+			
+			public OpcionesPanel() {
+				setLayout(new FlowLayout(FlowLayout.CENTER));
+				exportar = new JButton("Exportar", pdf);
+				add(exportar);
+				guardar = new JButton("Guardar", save);
+				add(guardar);
+			}
+			
+			public void actionPerformed(ActionEvent e) {
+								
 			}
 		}
 	}
