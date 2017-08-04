@@ -74,6 +74,16 @@ public class General {
 				new ImageIcon("assets/addP.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
 		private ImageIcon admP = new ImageIcon(
 				new ImageIcon("assets/admP.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+		private ImageIcon addCat = new ImageIcon(
+				new ImageIcon("assets/addCat.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+		private ImageIcon admCat = new ImageIcon(
+				new ImageIcon("assets/admCat.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+		private ImageIcon addProv = new ImageIcon(
+				new ImageIcon("assets/addProv.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+		private ImageIcon admProv = new ImageIcon(
+				new ImageIcon("assets/admProv.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
+		private ImageIcon proProv = new ImageIcon(
+				new ImageIcon("assets/proProv.png").getImage().getScaledInstance(32, 32, Image.SCALE_DEFAULT));
 
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
@@ -91,11 +101,11 @@ public class General {
 			modClie = new JMenuItem("Administrar Cliente", admC);
 			altaProd = new JMenuItem("Alta Producto", addP);
 			adminProd = new JMenuItem("Administar Productos", admP);
-			altaCat = new JMenuItem("Alta Categoria");
-			adminCat = new JMenuItem("Administrar Categorías");
-			altaProv = new JMenuItem("Alta Proveedor");
-			adminProv = new JMenuItem("Administrar Proveedores");
-			prodProv = new JMenuItem("Productos por Proveedor");
+			altaCat = new JMenuItem("Alta Categoria", addCat);
+			adminCat = new JMenuItem("Administrar Categorías", admCat);
+			altaProv = new JMenuItem("Alta Proveedor", addProv);
+			adminProv = new JMenuItem("Administrar Proveedores", admProv);
+			prodProv = new JMenuItem("Productos por Proveedor", proProv);
 			
 			jfp.setIconImage(new ImageIcon("assets/icono.png").getImage());
 			panelPrincipal = new JPanel();
@@ -122,6 +132,7 @@ public class General {
 			// Categoria
 			menu.add(categoria);
 			categoria.add(altaCat);
+			categoria.addSeparator();
 			categoria.add(adminCat);
 			adminCat.addActionListener(this);
 			altaCat.addActionListener(this);
@@ -130,7 +141,9 @@ public class General {
 			// Proveedor
 			menu.add(proveedor);
 			proveedor.add(altaProv);
+			proveedor.addSeparator();
 			proveedor.add(adminProv);
+			proveedor.addSeparator();
 			proveedor.add(prodProv);
 			prodProv.addActionListener(this);
 			altaProv.addActionListener(this);
