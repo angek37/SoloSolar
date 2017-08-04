@@ -1,8 +1,6 @@
 package com.SoloSolar.interfaces;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +8,6 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import com.SoloSolar.DB.Consulta;
-import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;

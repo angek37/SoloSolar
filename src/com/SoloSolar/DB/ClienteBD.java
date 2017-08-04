@@ -5,11 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.apache.derby.jdbc.*;
 
 import javax.swing.JOptionPane;
 
-import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Cliente;
 
 public class ClienteBD {

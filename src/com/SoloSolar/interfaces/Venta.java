@@ -23,6 +23,8 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import com.toedter.calendar.JDateChooser;
+
 public class Venta extends JPanel {
 	
 	public Venta() {
@@ -39,7 +41,7 @@ public class Venta extends JPanel {
 				new ImageIcon("assets/searchCustomer.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
-		private JDatePickerImpl datePicker;
+		private JDateChooser datePicker;
 		
 		public DatosP() {
 			setLayout(new GridBagLayout());
@@ -87,7 +89,7 @@ public class Venta extends JPanel {
 			p.put("text.month", "Mes");
 			p.put("text.year", "Año");
 			JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-			datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+			datePicker = new JDateChooser();
 			gbc.ipadx = 90;
 			gbc.gridx++;
 			add(datePicker, gbc);
