@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.ImageIcon;
@@ -22,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -54,7 +56,7 @@ public class BuscarCliente {
 		this.nombreCliente = nombreCliente;
 	}
 	
-	public class SearchDialog extends JPanel implements KeyListener, ActionListener {
+	public class SearchDialog extends JPanel implements KeyListener, MouseListener {
 		private JDialog dg;
 		private JPanel panelBuscar;
 		private JTable table;
@@ -87,6 +89,7 @@ public class BuscarCliente {
 	            }
 	        };
 	        table.setModel(tm);
+	        table.addMouseListener(this);
 	        tr = new TableRowSorter<>(tm);
 	        table.setRowSorter(tr);
 	        table.setFillsViewportHeight(true);
@@ -132,12 +135,6 @@ public class BuscarCliente {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
 		public void keyPressed(java.awt.event.KeyEvent arg0) {
 			// TODO Auto-generated method stub
 			
@@ -145,12 +142,50 @@ public class BuscarCliente {
 
 		@Override
 		public void keyReleased(java.awt.event.KeyEvent arg0) {
+			String filtro = buscar.getText();
+	        if(!filtro.equals("")){
+	            tr.setRowFilter(RowFilter.regexFilter("(?i)" + filtro, 0, 1, 2));
+	        }else{
+	            tr.setRowFilter(null);
+	        }
+		}
+
+		@Override
+		public void keyTyped(java.awt.event.KeyEvent arg0) {
 			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void keyTyped(java.awt.event.KeyEvent arg0) {
+		public void mouseClicked(MouseEvent e) {
+			if(e.getClickCount() == 2 && !e.isConsumed()) {
+				e.consume();
+				idCliente.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
+				nombreCliente.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 1));
+				dg.dispose();
+			}
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
 		}
