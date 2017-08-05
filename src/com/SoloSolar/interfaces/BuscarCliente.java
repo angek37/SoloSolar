@@ -46,7 +46,7 @@ public class BuscarCliente {
 				dialog.add(new SearchDialog(dialog));
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
-				dialog.setResizable(false);
+				dialog.setAlwaysOnTop(true);
 				dialog.getRootPane().registerKeyboardAction(e -> {
 					dialog.dispose();
 				}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);

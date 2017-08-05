@@ -112,6 +112,32 @@ public class Consulta {
     	return datos;
     }
     
+    public static String[][] dataProductsP() {
+    	String datos[][] = new String[cantidadDatos()][6];
+    	int count = 0;
+    	createConnection();
+    	try {
+    		stmt = conn.createStatement();
+    		ResultSet results = stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PAQUETE, P.PRECIO1,"
+    				+ "P.PRECIO2 FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA");
+    		while(results.next()) {
+    			datos[count][0] = results.getString(1);
+    			datos[count][1] = results.getString(2);
+    			datos[count][2] = results.getString(3);
+    			datos[count][3] = results.getString(4);
+    			datos[count][4] = results.getString(5);
+    			datos[count][5] = results.getString(6);
+    			count++;
+    		}
+			shutdown();
+			return datos;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+			shutdown();
+		}
+    	return datos;
+    }
+    
     public static int cantidadClientes() {
     	int cantidad = 0;
     	createConnection();

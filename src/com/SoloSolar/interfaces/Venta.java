@@ -155,8 +155,9 @@ public class Venta extends JPanel {
 			table.setShowVerticalLines(true);
 			table.addMouseListener(new MouseAdapter() { 
 				public void mouseClicked(MouseEvent e) {
-					if(e.getClickCount() == 2) {
-						new BuscarProducto(renglones, table);
+					if(e.getClickCount() == 2 && !e.isConsumed()) {
+						e.consume();
+						new BuscarProducto(renglones, table, table.getSelectedRow());
 					}
 				}
 			});
