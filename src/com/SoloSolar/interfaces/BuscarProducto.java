@@ -83,7 +83,7 @@ public class BuscarProducto {
 		            return false;
 		        };
 			};
-			tm = new DefaultTableModel(Consulta.dataProductsP(), 
+			tm = new DefaultTableModel(renglones, 
 					new String[]{"Clave", "Nombre", "Categoria", "Pack", "Precio 1", "Precio2"}) {
 	            public Class getColumnClass(int column) {
 	                Class Value;

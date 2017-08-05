@@ -33,6 +33,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.SoloSolar.DB.Consulta;
 import com.toedter.calendar.JDateChooser;
 
 import javafx.scene.control.DatePicker;
@@ -46,6 +47,7 @@ public class Venta extends JPanel {
 	String[] head = {"Clave", "Nombre de Producto", "Cantidad", "Pack", "L", "Precio", "SubTotal"};
 	String[][] renglones = new String[12][7];
 	private JDateChooser datePicker;
+	String[][] datos = Consulta.dataProductsP();
 	
 	public Venta(JFrame frame) {
 		setLayout(new BorderLayout());
@@ -209,7 +211,7 @@ public class Venta extends JPanel {
 						e.consume();
 						int s = table.getSelectedRow();
 						if(s >= 0) {
-							new BuscarProducto(renglones, table, table.getSelectedRow(), padre);
+							new BuscarProducto(datos, table, table.getSelectedRow(), padre);
 						}
 					}
 				}
