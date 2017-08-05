@@ -1,6 +1,7 @@
 package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -243,32 +244,56 @@ public class Venta extends JPanel {
 		}
 		
 		public class TotalPanel extends JPanel implements ActionListener {
+			JTable t;
+			JLabel lbl;
 			public TotalPanel() {
+				t = new JTable(new String[][] {{"Subtotal: $", ""}, {"IVA: $", ""}, {"Total: $", ""}}, 
+							   new String[] {"", ""});
+				t.setBackground(null);
+				t.setFocusable(false);
+				t.setCellSelectionEnabled(false);
+				t.setGridColor(new Color(244, 244, 244));
 				setLayout(new FlowLayout(FlowLayout.RIGHT));
 				iva = new JCheckBox("IVA");
 				iva.addActionListener(this);
-				add(iva);
-				add(new JLabel("Total: $"));
+				lbl = new JLabel("Total: $");
 				total = new JLabel();
 				total.setPreferredSize(new Dimension(100, 30));
+				add(iva);
+				add(lbl);
 				add(total);
 			}
 
 			public void actionPerformed(ActionEvent e) {
 				Double totalIVA;
 				if(e.getSource() == iva) {
+					removeAll();
 					if(iva.isSelected()) {
 						try {
 							totalIVA = totalC;
 							totalIVA *= 1.16;
-							total.setText(Double.toString(round(totalIVA, 1)));
+							t.setValueAt(totalC + "", 0, 1);
+							t.setValueAt((totalC * 0.16) + "", 1, 1);
+							t.setValueAt(String.valueOf(totalIVA).length() > 8 
+										? (totalIVA + "").substring(0, 7) 
+										: totalIVA + "", 2, 1);
+							add(iva);
+							add(t);
 						}catch(NumberFormatException | NullPointerException exp) {
-							JOptionPane.showMessageDialog(null, "Debe existir un total previamente", "No hay total", JOptionPane.INFORMATION_MESSAGE);
+							add(iva);
+							add(lbl);
+							add(total);
 							iva.setSelected(false);
+							JOptionPane.showMessageDialog(null, "Debe existir un total previamente", "No hay total", JOptionPane.INFORMATION_MESSAGE);
 						}
 					} else {
 						total.setText(Double.toString(totalC));
+						add(iva);
+						add(lbl);
+						add(total);
 					}
+					updateUI();
+					repaint();
 				}
 			}
 		}
