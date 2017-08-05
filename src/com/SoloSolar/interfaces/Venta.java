@@ -267,7 +267,7 @@ public class Venta extends JPanel {
 						FormatoTabla();
 					}
 				} else if(e.getSource() == subR) {
-					if(renglones.length > 0) {
+					if(renglones.length > 1) {
 						QuitarRenglon();
 						FormatoTabla();
 					}
