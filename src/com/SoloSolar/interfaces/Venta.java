@@ -34,12 +34,16 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
+import javafx.scene.control.DatePicker;
+
 public class Venta extends JPanel {
+	JTextField pedido, idCliente, nombreCliente, observaciones;
 	JLabel total;
 	Double totalC;
 	JTable table;
 	String[] head = {"Clave", "Nombre de Producto", "Cantidad", "Pack", "L", "Precio", "SubTotal"};
 	String[][] renglones = new String[12][7];
+	private JDateChooser datePicker;
 	
 	public Venta() {
 		setLayout(new BorderLayout());
@@ -49,12 +53,10 @@ public class Venta extends JPanel {
 	}
 	
 	public class DatosP extends JPanel implements ActionListener {
-		JTextField pedido, idCliente, nombreCliente, observaciones;
 		JButton buscarCliente;
 		private ImageIcon customerIco = new ImageIcon(
 				new ImageIcon("assets/searchCustomer.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		private JDateChooser datePicker;
 		
 		public DatosP() {
 			setLayout(new GridBagLayout());
@@ -131,6 +133,17 @@ public class Venta extends JPanel {
 	    return (double) tmp / factor;
 	}
 	
+	public void Total() {
+		double sum = 0;
+		for(int x = 0; x < renglones.length; x++) {
+			if(renglones[x][6] != null) {
+				sum += Double.parseDouble(renglones[x][6]);
+			}
+		}
+		totalC = round(sum, 1);
+		total.setText(Double.toString(round(sum, 1)));
+	}
+	
 	public class TablaP extends JPanel {
 		
 		public TablaP() {
@@ -167,18 +180,6 @@ public class Venta extends JPanel {
 		        };
 			};
 			table.getModel().addTableModelListener(new TableModelListener() {
-				
-				public void Total() {
-					double sum = 0;
-					for(int x = 0; x < renglones.length; x++) {
-						if(renglones[x][6] != null) {
-							sum += Double.parseDouble(renglones[x][6]);
-						}
-					}
-					totalC = round(sum, 1);
-					total.setText(Double.toString(round(sum, 1)));
-				}
-				
 				public void tableChanged(TableModelEvent e) {
 					double r;
 					if(e.getType() == TableModelEvent.UPDATE && e.getColumn() == 2) {
@@ -314,15 +315,6 @@ public class Venta extends JPanel {
 				aux = null;
 			}
 			
-			public void FormatoTabla() {
-				table.setModel(new DefaultTableModel(renglones, head));
-				table.getColumnModel().getColumn(0).setPreferredWidth(27);
-				table.getColumnModel().getColumn(1).setMinWidth(200);
-				table.getColumnModel().getColumn(2).setMaxWidth(60);
-				table.getColumnModel().getColumn(3).setMaxWidth(80);
-				table.getColumnModel().getColumn(4).setMaxWidth(30);
-			}
-
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == addR) {
 					if(renglones.length < 25) {
@@ -336,6 +328,32 @@ public class Venta extends JPanel {
 					}
 				}
 			}
+		}
+		
+		public void FormatoTabla() {
+			table.setModel(new DefaultTableModel(renglones, head));
+			table.getColumnModel().getColumn(0).setPreferredWidth(27);
+			table.getColumnModel().getColumn(1).setMinWidth(200);
+			table.getColumnModel().getColumn(2).setMaxWidth(60);
+			table.getColumnModel().getColumn(3).setMaxWidth(80);
+			table.getColumnModel().getColumn(4).setMaxWidth(30);
+			table.getModel().addTableModelListener(new TableModelListener() {
+				public void tableChanged(TableModelEvent e) {
+					double r;
+					if(e.getType() == TableModelEvent.UPDATE && e.getColumn() == 2) {
+						try {
+							if(!renglones[e.getFirstRow()][2].equalsIgnoreCase("")) {
+								r = Integer.parseInt(renglones[e.getFirstRow()][2]) * Double.parseDouble(renglones[e.getFirstRow()][5]);
+								renglones[e.getFirstRow()][6] = Double.toString(round(r, 1));
+								Total();
+							}
+						}catch(NumberFormatException | NullPointerException exp) {
+							renglones[e.getFirstRow()][2] = null;
+							JOptionPane.showMessageDialog(null, "Error con el campo 'Cantidad'", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			});
 		}
 		
 		public class OpcionesPanel extends JPanel implements ActionListener {
@@ -375,6 +393,21 @@ public class Venta extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == guardar) {
 					Imprimir();
+				} else if(e.getSource() == nuevo) {
+					int reply = JOptionPane.showConfirmDialog(null, "Esta acción eliminará los datos no guardados ¿desea continuar?", "Seleccione una opción", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(reply == JOptionPane.YES_OPTION) {
+						pedido.setText("");
+						idCliente.setText("");
+						nombreCliente.setText("");
+						datePicker = new JDateChooser(new Date());
+						observaciones.setText("");
+						renglones = null;
+						renglones = new String[12][7];
+						FormatoTabla();
+						totalC = 0.0;
+						iva.setSelected(false);
+						total.setText("");
+					}
 				}
 			}
 		}
