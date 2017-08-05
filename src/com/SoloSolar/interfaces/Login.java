@@ -10,6 +10,10 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -43,7 +47,7 @@ public class Login {
         });
 	}
 	
-	public class LoginWindow extends JPanel implements ActionListener {
+	public class LoginWindow extends JPanel implements ActionListener, KeyListener {
 		public JLabel icono;
 		private JTextField user;
 		private JPasswordField pass;
@@ -61,19 +65,24 @@ public class Login {
 				gbc.anchor = GridBagConstraints.EAST;
 				gbc.gridx = 0;
 				gbc.gridy = 0;
+				gbc.ipady = 8;
+				gbc.ipadx = 0;
 				add(new JLabel("Usuario:"), gbc);
 				user = new JTextField();
+				user.addKeyListener(this);
 				gbc.gridx++;
 				gbc.fill = GridBagConstraints.HORIZONTAL;
 				gbc.weightx = 2;
+				gbc.ipadx = 30;
 				add(user, gbc);
-				
 				gbc.anchor = GridBagConstraints.EAST;
 				gbc.gridx = 0;
 				gbc.gridy++;
+				gbc.ipadx = 0;
 				add(new JLabel("Contraseña:"), gbc);
 				pass = new JPasswordField();
-				
+				pass.addKeyListener(this);
+				gbc.ipadx = 30;
 				gbc.gridx++;
 				gbc.fill = GridBagConstraints.HORIZONTAL;
 				gbc.weightx = 2;
@@ -95,6 +104,28 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 				ConnectionDB c = new ConnectionDB();
 				if(e.getSource() == signin) {
+					if(c.getPassword("Usuario", user.getText()).equals(pass.getText())) {
+						new General();
+						JF.setVisible(false);
+					}else {
+						user.setText("");
+						pass.setText("");
+						icono.setIcon(erroricon);
+					}
+				}
+			}
+
+			public void keyTyped(KeyEvent e) {
+				
+			}
+
+			public void keyPressed(KeyEvent e) {
+				
+			}
+
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == 10) {
+					ConnectionDB c = new ConnectionDB();
 					if(c.getPassword("Usuario", user.getText()).equals(pass.getText())) {
 						new General();
 						JF.setVisible(false);
