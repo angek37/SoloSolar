@@ -24,7 +24,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -144,6 +143,8 @@ public class Venta extends JPanel {
 		        	break;
 		        	case 3: r = false;
 		        	break;
+		        	case 4: r = false;
+		        	break;
 		        	case 5: r = false;
 		        	break;
 		        	case 6: r = false;
@@ -212,6 +213,7 @@ public class Venta extends JPanel {
 			
 			public EditRows() {
 				setLayout(new FlowLayout(FlowLayout.LEFT));
+				add(new JLabel("Renglones:"));
 				addR = new JButton(addRico);
 				addR.setBorder(null);
 				addR.setBackground(null);
