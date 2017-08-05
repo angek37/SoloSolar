@@ -22,8 +22,11 @@ import javax.swing.JCheckBox;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -153,6 +156,19 @@ public class Venta extends JPanel {
 		        	return r;
 		        };
 			};
+			table.getModel().addTableModelListener(new TableModelListener() {
+				public void tableChanged(TableModelEvent e) {
+					double r;
+					if(e.getType() == TableModelEvent.UPDATE) {
+						try {
+							r = Integer.parseInt(renglones[e.getFirstRow()][2]) * Double.parseDouble(renglones[e.getFirstRow()][5]);
+							renglones[e.getFirstRow()][6] = Double.toString(r);
+						}catch(NumberFormatException exp) {
+							
+						}
+					}
+				}
+			});
 			table.setFillsViewportHeight(true);
 			table.setShowHorizontalLines(true);
 			table.setShowVerticalLines(true);
