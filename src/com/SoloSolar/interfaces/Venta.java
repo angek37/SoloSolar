@@ -35,7 +35,8 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 
 public class Venta extends JPanel {
-	JTextField total;
+	JLabel total;
+	Double totalC;
 	JTable table;
 	String[] head = {"Clave", "Nombre de Producto", "Cantidad", "Pack", "L", "Precio", "SubTotal"};
 	String[][] renglones = new String[12][7];
@@ -121,6 +122,15 @@ public class Venta extends JPanel {
 		
 	}
 	
+	public double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
+	}
+	
 	public class TablaP extends JPanel {
 		
 		public TablaP() {
@@ -157,14 +167,30 @@ public class Venta extends JPanel {
 		        };
 			};
 			table.getModel().addTableModelListener(new TableModelListener() {
+				
+				public void Total() {
+					double sum = 0;
+					for(int x = 0; x < renglones.length; x++) {
+						if(renglones[x][6] != null) {
+							sum += Double.parseDouble(renglones[x][6]);
+						}
+					}
+					totalC = round(sum, 1);
+					total.setText(Double.toString(round(sum, 1)));
+				}
+				
 				public void tableChanged(TableModelEvent e) {
 					double r;
-					if(e.getType() == TableModelEvent.UPDATE) {
+					if(e.getType() == TableModelEvent.UPDATE && e.getColumn() == 2) {
 						try {
-							r = Integer.parseInt(renglones[e.getFirstRow()][2]) * Double.parseDouble(renglones[e.getFirstRow()][5]);
-							renglones[e.getFirstRow()][6] = Double.toString(r);
-						}catch(NumberFormatException exp) {
-							
+							if(!renglones[e.getFirstRow()][2].equalsIgnoreCase("")) {
+								r = Integer.parseInt(renglones[e.getFirstRow()][2]) * Double.parseDouble(renglones[e.getFirstRow()][5]);
+								renglones[e.getFirstRow()][6] = Double.toString(round(r, 1));
+								Total();
+							}
+						}catch(NumberFormatException | NullPointerException exp) {
+							renglones[e.getFirstRow()][2] = null;
+							JOptionPane.showMessageDialog(null, "Error con el campo 'Cantidad'", "Error", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
@@ -207,16 +233,34 @@ public class Venta extends JPanel {
 			add(new OpcionesPanel(), BorderLayout.SOUTH);
 		}
 		
-		public class TotalPanel extends JPanel {
+		public class TotalPanel extends JPanel implements ActionListener {
 			public TotalPanel() {
 				setLayout(new FlowLayout(FlowLayout.RIGHT));
 				iva = new JCheckBox("IVA");
+				iva.addActionListener(this);
 				add(iva);
-				add(new JLabel("Total:"));
-				total = new JTextField();
-				total.setEnabled(false);
+				add(new JLabel("Total: $"));
+				total = new JLabel();
 				total.setPreferredSize(new Dimension(100, 30));
 				add(total);
+			}
+
+			public void actionPerformed(ActionEvent e) {
+				Double totalIVA;
+				if(e.getSource() == iva) {
+					if(iva.isSelected()) {
+						try {
+							totalIVA = totalC;
+							totalIVA *= 1.16;
+							total.setText(Double.toString(round(totalIVA, 1)));
+						}catch(NumberFormatException | NullPointerException exp) {
+							JOptionPane.showMessageDialog(null, "Debe existir un total previamente", "No hay total", JOptionPane.INFORMATION_MESSAGE);
+							iva.setSelected(false);
+						}
+					} else {
+						total.setText(Double.toString(totalC));
+					}
+				}
 			}
 		}
 		
