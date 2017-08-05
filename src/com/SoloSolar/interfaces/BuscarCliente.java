@@ -17,6 +17,7 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,17 +37,16 @@ public class BuscarCliente {
     TableRowSorter<TableModel> tr;
 	JTextField idCliente, nombreCliente;
 	
-	public BuscarCliente(JTextField idCliente, JTextField nombreCliente) {
+	public BuscarCliente(JTextField idCliente, JTextField nombreCliente, JFrame frame) {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				JDialog dialog = new JDialog();
+				JDialog dialog = new JDialog(frame, "Buscar Cliente");
 				dialog.setMinimumSize(new Dimension(500, 530));
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.add(new SearchDialog(dialog));
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
-				dialog.setAlwaysOnTop(true);
 				dialog.getRootPane().registerKeyboardAction(e -> {
 					dialog.dispose();
 				}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -158,11 +158,14 @@ public class BuscarCliente {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if(e.getClickCount() == 2 && !e.isConsumed()) {
-				e.consume();
-				idCliente.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
-				nombreCliente.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 1));
-				dg.dispose();
+			try {
+				if(e.getClickCount() == 2 && !e.isConsumed()) {
+					e.consume();
+					idCliente.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
+					nombreCliente.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 1));
+					dg.dispose();
+				}
+			} catch(Exception x) {
 			}
 		}
 

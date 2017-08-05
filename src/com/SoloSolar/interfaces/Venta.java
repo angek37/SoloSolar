@@ -19,6 +19,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -38,6 +39,7 @@ import javafx.scene.control.DatePicker;
 
 public class Venta extends JPanel {
 	JTextField pedido, idCliente, nombreCliente, observaciones;
+	JFrame padre;
 	JLabel total;
 	Double totalC;
 	JTable table;
@@ -45,11 +47,12 @@ public class Venta extends JPanel {
 	String[][] renglones = new String[12][7];
 	private JDateChooser datePicker;
 	
-	public Venta() {
+	public Venta(JFrame frame) {
 		setLayout(new BorderLayout());
 		add(new DatosP(), BorderLayout.NORTH);
 		add(new TablaP(), BorderLayout.CENTER);
 		add(new BotonesP(), BorderLayout.SOUTH);
+		this.padre = frame;
 	}
 	
 	public class DatosP extends JPanel implements ActionListener {
@@ -117,7 +120,7 @@ public class Venta extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == buscarCliente) {
-				new BuscarCliente(idCliente, nombreCliente);
+				new BuscarCliente(idCliente, nombreCliente, padre);
 			}
 			
 		}
@@ -204,7 +207,7 @@ public class Venta extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					if(e.getClickCount() == 2 && !e.isConsumed()) {
 						e.consume();
-						new BuscarProducto(renglones, table, table.getSelectedRow());
+						new BuscarProducto(renglones, table, table.getSelectedRow(), padre);
 					}
 				}
 			});

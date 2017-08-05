@@ -279,7 +279,7 @@ public class General {
 				repaint();
 			} else if (e.getSource() == venta) {
 				panelPrincipal.removeAll();
-				panelPrincipal.add(new Venta());
+				panelPrincipal.add(new Venta(frame));
 				panelPrincipal.updateUI();
 				panelPrincipal.repaint();
 			} else if (e.getSource() == buscar) {
