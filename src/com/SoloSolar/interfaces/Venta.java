@@ -207,7 +207,10 @@ public class Venta extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					if(e.getClickCount() == 2 && !e.isConsumed()) {
 						e.consume();
-						new BuscarProducto(renglones, table, table.getSelectedRow(), padre);
+						int s = table.getSelectedRow();
+						if(s >= 0) {
+							new BuscarProducto(renglones, table, table.getSelectedRow(), padre);
+						}
 					}
 				}
 			});
