@@ -158,19 +158,24 @@ public class Venta extends JPanel {
 			table.getColumnModel().getColumn(3).setMaxWidth(80);
 			table.getColumnModel().getColumn(4).setMaxWidth(30);
 			//Editar con un clic
-//			table.setDefaultEditor(table.getColumnClass(0), singleclick);
-//			table.setDefaultEditor(table.getColumnClass(2), singleclick);
-//			table.setDefaultEditor(table.getColumnClass(4), singleclick);
+			table.setDefaultEditor(table.getColumnClass(0), singleclick);
+			table.setDefaultEditor(table.getColumnClass(2), singleclick);
+			table.setDefaultEditor(table.getColumnClass(4), singleclick);
 		}
 	}
 	
 	public class BotonesP extends JPanel {
 		JCheckBox iva;
-		JButton nuevo, guardar, exportar;
+		JButton nuevo, guardar, exportar, addR, subR;;
+		private ImageIcon addRico = new ImageIcon(
+				new ImageIcon("assets/plusR.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+		private ImageIcon subRico = new ImageIcon(
+				new ImageIcon("assets/minusR.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
 		
 		public BotonesP() {
 			setLayout(new BorderLayout());
-			add(new TotalPanel(), BorderLayout.NORTH);
+			add(new TotalPanel(), BorderLayout.EAST);
+			add(new EditRows(), BorderLayout.WEST);
 			add(new OpcionesPanel(), BorderLayout.SOUTH);
 		}
 		
@@ -184,6 +189,24 @@ public class Venta extends JPanel {
 				total.setEnabled(false);
 				total.setPreferredSize(new Dimension(100, 30));
 				add(total);
+			}
+		}
+		
+		public class EditRows extends JPanel {
+			public EditRows() {
+				setLayout(new FlowLayout(FlowLayout.LEFT));
+				addR = new JButton(addRico);
+				addR.setBorder(null);
+				addR.setBackground(null);
+				addR.setFocusable(false);
+				addR.addActionListener(null);
+				add(addR);
+				subR = new JButton(subRico);
+				subR.setBorder(null);
+				subR.setBackground(null);
+				subR.setFocusable(false);
+				subR.addActionListener(null);
+				add(subR);
 			}
 		}
 		
