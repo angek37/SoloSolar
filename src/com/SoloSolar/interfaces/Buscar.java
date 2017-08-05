@@ -39,6 +39,7 @@ import com.sun.glass.events.KeyEvent;
 public class Buscar {
 	TableModel tm;
     TableRowSorter<TableModel> tr;
+    DefaultTableModel cant;
 
 	public Buscar(JFrame padre) {
 		EventQueue.invokeLater(new Runnable() {
@@ -193,9 +194,21 @@ public class Buscar {
 				if(opcion == JFileChooser.APPROVE_OPTION) {
 					File file = f.getSelectedFile();
 					ruta = file.toString();
-					GenerarPDF g = new GenerarPDF(ruta, dataPDF, buscar.getText()); 
+					int renglones = table.getRowCount();
+					String data[][] = dataPDF(renglones);
+					GenerarPDF g = new GenerarPDF(ruta, renglones, data, buscar.getText()); 
 				}
 			}
+		}
+		
+		public String[][] dataPDF(int renglones) {
+			String data[][] = new String[renglones][5];
+			for(int i = 0; i < renglones; i++) {
+				for(int j = 0; j < 5; j++) {
+					data[i][j] = table.getModel().getValueAt(i, j).toString();
+				}
+			}
+			return data;
 		}
 
 		@Override

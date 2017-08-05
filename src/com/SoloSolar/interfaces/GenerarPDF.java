@@ -31,7 +31,7 @@ public class GenerarPDF {
 	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 8, Font.NORMAL);
 	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 8, Font.BOLDITALIC);
 	
-	public GenerarPDF(String ruta, String dataPDF[][], String buscar) {
+	public GenerarPDF(String ruta, int renglones, String dataPDF[][], String buscar) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document();
@@ -48,7 +48,7 @@ public class GenerarPDF {
 			doc.add(getFooter("BLVD. JUAN ALONSO DE TORRES OTE. #202 B COL. VIBAR TEL.: (477)"
 					+ "114 56 37 CEL.: 044 477 136 5097, LEÓN, GTO."));
 			doc.add(new Paragraph("\n"));
-			int celdas = Consulta.cantidadDatosPDF(buscar);
+			//int celdas = Consulta.cantidadDatosPDF(buscar);
 			PdfPTable table = new PdfPTable(1);
 			//doc.add(addTableInformation(table));
 			doc.add(new Paragraph("\n"));
@@ -85,7 +85,7 @@ public class GenerarPDF {
 			tab.getDefaultCell().setCellEvent(new RoundedBorder());*/
 	        tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			tab.setTableEvent(new BorderEvent());
-			for(int i = 0; i < Consulta.cantidadDatosPDF(buscar); i++) {
+			for(int i = 0; i < renglones; i++) {
 				for(int j = 0; j < 5; j++) {
 					tab.addCell(getInfo(dataPDF[i][j]));
 				}
