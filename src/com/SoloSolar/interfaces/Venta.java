@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,7 +42,7 @@ public class Venta extends JPanel {
 		add(new BotonesP(), BorderLayout.SOUTH);
 	}
 	
-	public class DatosP extends JPanel implements ActionListener{
+	public class DatosP extends JPanel implements ActionListener {
 		JTextField pedido, idCliente, nombreCliente, observaciones;
 		JButton buscarCliente;
 		private ImageIcon customerIco = new ImageIcon(
@@ -134,6 +136,8 @@ public class Venta extends JPanel {
 		        public boolean isCellEditable(int row, int column) {
 		        	boolean r = true;
 		        	switch(column) {
+		        	case 0: r = false;
+		        	break;
 		        	case 1: r = false;
 		        	break;
 		        	case 3: r = false;
@@ -149,6 +153,13 @@ public class Venta extends JPanel {
 			table.setFillsViewportHeight(true);
 			table.setShowHorizontalLines(true);
 			table.setShowVerticalLines(true);
+			table.addMouseListener(new MouseAdapter() { 
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 2) {
+						new BuscarProducto(renglones, table);
+					}
+				}
+			});
 			JScrollPane scrollPane = new JScrollPane(table);
 			add(scrollPane, gbc);
 			//Ancho de columnas
