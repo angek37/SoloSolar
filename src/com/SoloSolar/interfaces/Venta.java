@@ -22,7 +22,9 @@ import javax.swing.JCheckBox;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,6 +34,7 @@ import com.toedter.calendar.JDateChooser;
 
 public class Venta extends JPanel {
 	JTextField total;
+	JTable table;
 	String[] head = {"Clave", "Nombre de Producto", "Cantidad", "Pack", "L", "Precio", "SubTotal"};
 	String[][] renglones = new String[12][7];
 	
@@ -117,7 +120,6 @@ public class Venta extends JPanel {
 	}
 	
 	public class TablaP extends JPanel {
-		JTable table;
 		
 		public TablaP() {
 			setLayout(new GridBagLayout());
@@ -153,6 +155,7 @@ public class Venta extends JPanel {
 			table.setFillsViewportHeight(true);
 			table.setShowHorizontalLines(true);
 			table.setShowVerticalLines(true);
+			table.setToolTipText("Doble clic para buscar un producto");
 			table.addMouseListener(new MouseAdapter() { 
 				public void mouseClicked(MouseEvent e) {
 					if(e.getClickCount() == 2) {
@@ -177,11 +180,7 @@ public class Venta extends JPanel {
 	
 	public class BotonesP extends JPanel {
 		JCheckBox iva;
-		JButton nuevo, guardar, exportar, addR, subR;;
-		private ImageIcon addRico = new ImageIcon(
-				new ImageIcon("assets/plusR.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
-		private ImageIcon subRico = new ImageIcon(
-				new ImageIcon("assets/minusR.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+		JButton nuevo, guardar, exportar;
 		
 		public BotonesP() {
 			setLayout(new BorderLayout());
@@ -203,25 +202,81 @@ public class Venta extends JPanel {
 			}
 		}
 		
-		public class EditRows extends JPanel {
+		public class EditRows extends JPanel implements ActionListener {
+			JButton addR, subR;
+			private ImageIcon addRico = new ImageIcon(
+					new ImageIcon("assets/plusR.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+			private ImageIcon subRico = new ImageIcon(
+					new ImageIcon("assets/minusR.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+			
 			public EditRows() {
 				setLayout(new FlowLayout(FlowLayout.LEFT));
 				addR = new JButton(addRico);
 				addR.setBorder(null);
 				addR.setBackground(null);
 				addR.setFocusable(false);
-				addR.addActionListener(null);
+				addR.setToolTipText("Agregar Renglón");
+				addR.addActionListener(this);
 				add(addR);
 				subR = new JButton(subRico);
 				subR.setBorder(null);
 				subR.setBackground(null);
 				subR.setFocusable(false);
-				subR.addActionListener(null);
+				subR.setToolTipText("Quitar Renglón");
+				subR.addActionListener(this);
 				add(subR);
+			}
+			
+			public void AgregaRenglon() {
+				String[][] aux;
+				aux = renglones;
+				renglones = new String[aux.length+1][7];
+				for(int x = 0; x < aux.length; x++) {
+					for(int y = 0; y < aux[x].length; y++) {
+						renglones[x][y] = aux[x][y];
+					}
+				}
+				aux = null;
+			}
+			
+			public void QuitarRenglon() {
+				String[][] aux;
+				aux = renglones;
+				renglones = new String[aux.length-1][7];
+				for(int x = 0; x < renglones.length; x++) {
+					for(int y = 0; y < aux[x].length; y++) {
+						renglones[x][y] = aux[x][y];
+					}
+				}
+				aux = null;
+			}
+			
+			public void FormatoTabla() {
+				table.setModel(new DefaultTableModel(renglones, head));
+				table.getColumnModel().getColumn(0).setPreferredWidth(27);
+				table.getColumnModel().getColumn(1).setMinWidth(200);
+				table.getColumnModel().getColumn(2).setMaxWidth(60);
+				table.getColumnModel().getColumn(3).setMaxWidth(80);
+				table.getColumnModel().getColumn(4).setMaxWidth(30);
+			}
+
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == addR) {
+					if(renglones.length < 25) {
+						AgregaRenglon();
+						FormatoTabla();
+					}
+				} else if(e.getSource() == subR) {
+					if(renglones.length > 0) {
+						QuitarRenglon();
+						FormatoTabla();
+					}
+				}
 			}
 		}
 		
 		public class OpcionesPanel extends JPanel implements ActionListener {
+			
 			private ImageIcon newD = new ImageIcon(
 					new ImageIcon("assets/newDocument.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 			private ImageIcon save = new ImageIcon(
@@ -245,6 +300,7 @@ public class Venta extends JPanel {
 			
 			public void Imprimir() {
 				for(int x = 0; x < renglones.length; x++) {
+					System.out.print(x+ " ");
 					for(int y = 0; y < renglones[x].length; y++) {
 						System.out.print(renglones[x][y] + "\t");
 					}
