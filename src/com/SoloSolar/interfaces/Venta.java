@@ -274,11 +274,9 @@ public class Venta extends JPanel {
 						try {
 							totalIVA = totalC;
 							totalIVA *= 1.16;
-							t.setValueAt(totalC + "", 0, 1);
-							t.setValueAt((totalC * 0.16) + "", 1, 1);
-							t.setValueAt(String.valueOf(totalIVA).length() > 8 
-										? (totalIVA + "").substring(0, 7) 
-										: totalIVA + "", 2, 1);
+							t.setValueAt(round(totalC, 1) + "", 0, 1);
+							t.setValueAt(round(totalC * 0.16, 1) + "", 1, 1);
+							t.setValueAt(round(totalIVA, 1) + "", 2, 1); 
 							add(iva);
 							add(t);
 						}catch(NumberFormatException | NullPointerException exp) {
@@ -289,7 +287,7 @@ public class Venta extends JPanel {
 							JOptionPane.showMessageDialog(null, "Debe existir un total previamente", "No hay total", JOptionPane.INFORMATION_MESSAGE);
 						}
 					} else {
-						total.setText(Double.toString(totalC));
+						total.setText(Double.toString(round(totalC, 1)));
 						add(iva);
 						add(lbl);
 						add(total);
