@@ -25,7 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -182,7 +182,7 @@ public class Venta extends JPanel {
 		        	break;
 		        	}
 		        	return r;
-		        };
+		        }
 			};
 			table.getModel().addTableModelListener(new TableModelListener() {
 				public void tableChanged(TableModelEvent e) {
@@ -339,7 +339,7 @@ public class Venta extends JPanel {
 		}
 		
 		public void FormatoTabla() {
-			table.setModel(new DefaultTableModel(renglones, head));
+			table.setModel(new TableModel());
 			table.getColumnModel().getColumn(0).setPreferredWidth(27);
 			table.getColumnModel().getColumn(1).setMinWidth(200);
 			table.getColumnModel().getColumn(2).setMaxWidth(60);
@@ -419,5 +419,50 @@ public class Venta extends JPanel {
 				}
 			}
 		}
+	}
+	
+public class TableModel extends AbstractTableModel {
+		
+		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+			renglones[rowIndex][columnIndex] = (String)aValue;
+		}
+
+		public int getRowCount() {
+			return renglones.length;
+		}
+		
+		public String getColumnName(int col) {
+			return head[col];
+		}
+		
+		public boolean isCellEditable(int row, int column) {
+        	boolean r = true;
+        	switch(column) {
+        	case 0: r = false;
+        	break;
+        	case 1: r = false;
+        	break;
+        	case 3: r = false;
+        	break;
+        	case 4: r = false;
+        	break;
+        	case 5: r = false;
+        	break;
+        	case 6: r = false;
+        	break;
+        	}
+        	return r;
+        }
+
+		public int getColumnCount() {
+			return 7;
+		}
+		
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			Object obj;
+			obj = renglones[rowIndex][columnIndex];
+			return obj;
+		}
+		
 	}
 }
