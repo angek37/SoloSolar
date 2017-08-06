@@ -496,7 +496,7 @@ public class Venta extends JPanel {
 			                super.approveSelection();
 						}
 					};
-					f.setSelectedFile(new File("Reporte"));
+					f.setSelectedFile(new File("Reporte Ventas"));
 					int opcion = f.showSaveDialog(padre);
 					if(opcion == JFileChooser.APPROVE_OPTION) {
 						dataPDF = dataPDF(table.getRowCount());
