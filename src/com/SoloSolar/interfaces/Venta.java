@@ -215,6 +215,7 @@ public class Venta extends JPanel {
 						int s = table.getSelectedRow();
 						if(s >= 0) {
 							new BuscarProducto(datos, table, table.getSelectedRow(), padre);
+							table.clearSelection();
 						}
 					}
 				}
@@ -397,7 +398,6 @@ public class Venta extends JPanel {
 					if(table.getModel().getValueAt(i, 0) != null && 
 							!String.valueOf(table.getModel().getValueAt(i, 0)).equals("") ) {
 						data[i][j] = table.getModel().getValueAt(i, j) + "";
-						System.out.println(i + " " + j);
 					}
 				}
 			}
