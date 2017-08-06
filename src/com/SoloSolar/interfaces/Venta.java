@@ -405,9 +405,9 @@ public class Venta extends JPanel {
 			return data;
 		}
 		
-		public boolean datosCompletos(int renglones) {
+		public boolean datosCompletos() {
 			boolean correcto = true;
-			String data[][] = dataPDF(renglones);
+			String data[][] = dataPDF(table.getRowCount());
 			
 			for(int i = 0; i < data.length; i++) {
 				for(int j = 0; j < data[i].length; j++) {
@@ -496,7 +496,7 @@ public class Venta extends JPanel {
 				} else if(e.getSource() == exportar) {
 					int renglones = table.getRowCount();
 					if(rengReales(renglones) >= 1) {
-						if(datosCompletos(renglones)) {
+						if(datosCompletos()) {
 							JFileChooser f = new JFileChooser() {
 								@Override
 								public void approveSelection() {
