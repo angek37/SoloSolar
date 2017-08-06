@@ -25,12 +25,12 @@ import com.itextpdf.text.pdf.PdfPTableEvent;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
-public class GenerarPDF {
+public class GenerarPDFVentas {
 	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
 	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 8, Font.NORMAL);
 	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 8, Font.BOLDITALIC);
 	
-	public GenerarPDF(String ruta, int renglones, String dataPDF[][]) {
+	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][]) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document();
@@ -50,32 +50,43 @@ public class GenerarPDF {
 			PdfPTable table = new PdfPTable(1);
 			//doc.add(addTableInformation(table));
 			doc.add(new Paragraph("\n"));
-			PdfPTable tab = new PdfPTable(5);
+			PdfPTable tab = new PdfPTable(7);
 			PdfPCell cellClave = new PdfPCell(getHeader("Clave")),
 					 cellNombre = new PdfPCell(getHeader("Nombre")),
-					 cellCat = new PdfPCell(getHeader("Categoria")),
-					 cellPre1 = new PdfPCell(getHeader("Precio 1")),
-					 cellPre2 = new PdfPCell(getHeader("Precio 2"));
+					 cellCant = new PdfPCell(getHeader("Cantidad")),
+					 cellPack = new PdfPCell(getHeader("Pack")),
+					 cellL = new PdfPCell(getHeader("L")),
+					 cellPrec = new PdfPCell(getHeader("Precio")),
+					 cellSub = new PdfPCell(getHeader("Subtotal"));
+			
 			cellClave.setBorderWidthBottom(1f);
 			cellClave.setBorderWidthTop(1f);
 			cellClave.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 			cellNombre.setBorderWidthBottom(1f);
 			cellNombre.setBorderWidthTop(1f);
 			cellNombre.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
-			cellCat.setBorderWidthBottom(1f);
-			cellCat.setBorderWidthTop(1f);
-			cellCat.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
-			cellPre1.setBorderWidthBottom(1f);
-			cellPre1.setBorderWidthTop(1f);
-			cellPre1.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
-			cellPre2.setBorderWidthBottom(1f);
-			cellPre2.setBorderWidthTop(1f);
-			cellPre2.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellCant.setBorderWidthBottom(1f);
+			cellCant.setBorderWidthTop(1f);
+			cellCant.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellPack.setBorderWidthBottom(1f);
+			cellPack.setBorderWidthTop(1f);
+			cellPack.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellL.setBorderWidthBottom(1f);
+			cellL.setBorderWidthTop(1f);
+			cellL.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellPrec.setBorderWidthBottom(1f);
+			cellPrec.setBorderWidthTop(1f);
+			cellPrec.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellSub.setBorderWidthBottom(1f);
+			cellSub.setBorderWidthTop(1f);
+			cellSub.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
 			tab.addCell(cellClave);
 			tab.addCell(cellNombre);
-			tab.addCell(cellCat);
-			tab.addCell(cellPre1);
-			tab.addCell(cellPre2);
+			tab.addCell(cellCant);
+			tab.addCell(cellPack);
+			tab.addCell(cellL);
+			tab.addCell(cellPrec);
+			tab.addCell(cellSub);
 			tab.setTotalWidth(510f);
 			tab.setLockedWidth(true);
 			tab.setHorizontalAlignment(0);
@@ -84,7 +95,7 @@ public class GenerarPDF {
 	        tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			tab.setTableEvent(new BorderEvent());
 			for(int i = 0; i < renglones; i++) {
-				for(int j = 0; j < 5; j++) {
+				for(int j = 0; j < 7; j++) {
 					tab.addCell(getInfo(dataPDF[i][j]));
 				}
 			}

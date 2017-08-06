@@ -162,7 +162,7 @@ public class Buscar {
 		
 		@Override
 		public void actionPerformed(java.awt.event.ActionEvent e) {
-			String ruta = "", dataPDF[][] = Consulta.dataPDF(buscar.getText());
+			String ruta = "";
 			if(e.getSource() == pdf) {
 				JFileChooser f = new JFileChooser() {
 					@Override
@@ -195,8 +195,12 @@ public class Buscar {
 					File file = f.getSelectedFile();
 					ruta = file.toString();
 					int renglones = table.getRowCount();
-					String data[][] = dataPDF(renglones);
-					GenerarPDF g = new GenerarPDF(ruta, renglones, data, buscar.getText()); 
+					if(renglones >= 1) {
+						String data[][] = dataPDF(renglones);
+						GenerarPDF g = new GenerarPDF(ruta, renglones, data);
+					} else {
+						JOptionPane.showMessageDialog(dg, "No hay datos para crear PDF", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}
 		}

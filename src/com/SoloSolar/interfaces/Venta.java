@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -389,8 +391,37 @@ public class Venta extends JPanel {
 			});
 		}
 		
+		public String[][] dataPDF(int renglones) {
+			int reng = rengReales(renglones);
+			String data[][] = new String[reng][7];
+			for(int i = 0; i < renglones; i++) {
+				for(int j = 0; j < 7; j++) {
+					if(table.getModel().getValueAt(i, 0) != null && 
+							!String.valueOf(table.getModel().getValueAt(i, 0)).equals("") ) {
+						data[i][j] = table.getModel().getValueAt(i, j) + "";
+						System.out.println(i + " " + j);
+					}
+				}
+			}
+			return data;
+		}
+		
+		public int rengReales(int reng) {
+			int rengReales = 0;
+			for(int i = 0; i < reng; i++) {
+				for(int j = 0; j < 7; j++) {
+					if(table.getModel().getValueAt(i, 0) != null && 
+						!String.valueOf(table.getModel().getValueAt(i, 0)).equals("") ) {
+						rengReales++;
+						j = 7;
+					}
+				}
+			}
+			return rengReales;
+		}
+		
 		public class OpcionesPanel extends JPanel implements ActionListener {
-			
+			private String ruta, dataPDF[][];
 			private ImageIcon newD = new ImageIcon(
 					new ImageIcon("assets/newDocument.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 			private ImageIcon save = new ImageIcon(
@@ -440,6 +471,46 @@ public class Venta extends JPanel {
 						totalC = 0.0;
 						iva.setSelected(false);
 						total.setText("");
+					}
+				} else if(e.getSource() == exportar) {
+					JFileChooser f = new JFileChooser() {
+						@Override
+						public void approveSelection() {
+							File f = getSelectedFile();
+			                if (f.exists() && getDialogType() == SAVE_DIALOG) {
+			                	int result = JOptionPane.showConfirmDialog(this,
+			                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
+			                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
+
+			                    switch (result){
+			                    	case JOptionPane.YES_OPTION:
+			                    		super.approveSelection();
+			                    		return;
+			                    	case JOptionPane.NO_OPTION:
+			                    		return;
+			                    	case JOptionPane.CLOSED_OPTION:
+			                    		return;
+			                    	case JOptionPane.CANCEL_OPTION:
+			                    		cancelSelection();
+			                    		return;
+			                    }
+			                }
+			                super.approveSelection();
+						}
+					};
+					f.setSelectedFile(new File("Reporte"));
+					int opcion = f.showSaveDialog(padre);
+					if(opcion == JFileChooser.APPROVE_OPTION) {
+						dataPDF = dataPDF(table.getRowCount());
+						File file = f.getSelectedFile();
+						ruta = file.toString();
+						int renglones = table.getRowCount();
+						if(rengReales(renglones) >= 1) {
+							String data[][] = dataPDF(renglones);
+							GenerarPDFVentas g = new GenerarPDFVentas(ruta, rengReales(renglones), data);
+						} else {
+							JOptionPane.showMessageDialog(padre, "No hay datos para exportar", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
+						}
 					}
 				}
 			}
