@@ -547,6 +547,7 @@ public class TableModel extends AbstractTableModel {
 		
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 			renglones[rowIndex][columnIndex] = (String)aValue;
+			fireTableCellUpdated(rowIndex, columnIndex);
 		}
 
 		public int getRowCount() {
