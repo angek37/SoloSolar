@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultCellEditor;
@@ -524,13 +525,18 @@ public class Venta extends JPanel {
 							f.setSelectedFile(new File("Reporte Ventas"));
 							int opcion = f.showSaveDialog(padre);
 							if(opcion == JFileChooser.APPROVE_OPTION) {
+								String fecha = datePicker.getCalendar().get(Calendar.DAY_OF_MONTH) 
+										+ "/" + (datePicker.getCalendar().get(Calendar.MONTH) + 1)
+										+ "/" + datePicker.getCalendar().get(Calendar.YEAR);
+								String informacionAdicional[] = {observaciones.getText(), pedido.getText(), 
+										nombreCliente.getText(), fecha};
 								dataPDF = dataPDF(table.getRowCount());
 								File file = f.getSelectedFile();
 								ruta = file.toString();
 								String data[][] = dataPDF(renglones);
 								int cantidades = cantidades(data);
 								GenerarPDFVentas g = new GenerarPDFVentas(ruta, rengReales(renglones), 
-										data, cantidades, round(totalC, 1));
+										data, cantidades, round(totalC, 1), informacionAdicional);
 							}
 						} else {
 							JOptionPane.showMessageDialog(padre, "Llenar todos los datos antes de exportar", "Datos vacios", JOptionPane.INFORMATION_MESSAGE);

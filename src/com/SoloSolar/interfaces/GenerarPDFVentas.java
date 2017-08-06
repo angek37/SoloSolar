@@ -30,7 +30,8 @@ public class GenerarPDFVentas {
 	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 7, Font.NORMAL);
 	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 7, Font.BOLDITALIC);
 	
-	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][], int cantidades, double total) {
+	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][], int cantidades, double total,
+			String infAd[]) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document();
@@ -43,13 +44,25 @@ public class GenerarPDFVentas {
 			Date date = new Date();
 			doc.add(getFecha(dateFormat.format(date)));
 			PdfPTable t = new PdfPTable(2);
-			doc.add(addHeaderInformation(t));
+			doc.add(addHeaderInformation(t, infAd));
 			doc.add(getFooter("BLVD. JUAN ALONSO DE TORRES OTE. #202 B COL. VIBAR TEL.: (477)"
 					+ "114 56 37 CEL.: 044 477 136 5097, LEÓN, GTO."));
 			doc.add(new Paragraph("\n"));
+			PdfPTable observaciones = new PdfPTable(1);
+			observaciones.setTotalWidth(510f);
+			observaciones.setLockedWidth(true);
+			observaciones.setHorizontalAlignment(0);
+			observaciones.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			observaciones.getDefaultCell().setCellEvent(new RoundedBorder());
+			PdfPTable camp = new PdfPTable(1);
+			camp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			camp.addCell(getHeader("Observaciones: "));
+			camp.addCell(getInfo(infAd[0]));
+			observaciones.addCell(camp);
+			doc.add(observaciones);
+			doc.add(new Paragraph("\n"));
 			PdfPTable table = new PdfPTable(1);
 			//doc.add(addTableInformation(table));
-			doc.add(new Paragraph("\n"));
 			PdfPTable tab = new PdfPTable(7);
 			tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
 			PdfPCell cellClave = new PdfPCell(getHeader("Clave")),
@@ -136,7 +149,7 @@ public class GenerarPDFVentas {
 		}
 	}
 	
-	public PdfPTable addHeaderInformation(PdfPTable t) {
+	public PdfPTable addHeaderInformation(PdfPTable t, String infAd[]) {
 		Image imagen;
 		try {
 			t.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -155,7 +168,15 @@ public class GenerarPDFVentas {
 			t2.addCell(getHeader("R.F.C. ROAF6504089G0"));
 			t2.addCell(getHeader("alberto-426@hotmail.com"));
 			t.addCell(t2);
-			t.addCell(new Paragraph(""));
+			PdfPTable t3 = new PdfPTable(2);
+			t3.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			t3.addCell(getHeader("Pedido No:"));
+			t3.addCell(getHeader(infAd[1]));
+			t3.addCell(getHeader("Cliente: "));
+			t3.addCell(getHeader(infAd[2]));
+			t3.addCell(getHeader("Fecha del pedido: "));
+			t3.addCell(getHeader(infAd[3]));
+			t.addCell(t3);
 			return t;
 		} catch (Exception e) {
 			e.printStackTrace();
