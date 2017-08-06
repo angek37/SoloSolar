@@ -404,6 +404,20 @@ public class Venta extends JPanel {
 			return data;
 		}
 		
+		public boolean datosCompletos(int renglones) {
+			boolean correcto = true;
+			String data[][] = dataPDF(renglones);
+			
+			for(int i = 0; i < data.length; i++) {
+				for(int j = 0; j < data[i].length; j++) {
+					if(data[i][j] == null || data[i][j].equals("") || data[i][j].equals("null")) {
+						correcto = false;
+					}
+				}
+			}
+			return correcto;
+		}
+		
 		public int rengReales(int reng) {
 			int rengReales = 0;
 			for(int i = 0; i < reng; i++) {
@@ -416,6 +430,14 @@ public class Venta extends JPanel {
 				}
 			}
 			return rengReales;
+		}
+		
+		public int cantidades(String data[][]) {
+			int res = 0;
+			for(int i = 0; i < data.length; i++) {
+				res += Integer.parseInt(data[i][2]);
+			}
+			return res;
 		}
 		
 		public class OpcionesPanel extends JPanel implements ActionListener {
@@ -473,39 +495,45 @@ public class Venta extends JPanel {
 				} else if(e.getSource() == exportar) {
 					int renglones = table.getRowCount();
 					if(rengReales(renglones) >= 1) {
-						JFileChooser f = new JFileChooser() {
-							@Override
-							public void approveSelection() {
-								File f = getSelectedFile();
-				                if (f.exists() && getDialogType() == SAVE_DIALOG) {
-				                	int result = JOptionPane.showConfirmDialog(this,
-				                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
-				                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
-	
-				                    switch (result){
-				                    	case JOptionPane.YES_OPTION:
-				                    		super.approveSelection();
-				                    		return;
-				                    	case JOptionPane.NO_OPTION:
-				                    		return;
-				                    	case JOptionPane.CLOSED_OPTION:
-				                    		return;
-				                    	case JOptionPane.CANCEL_OPTION:
-				                    		cancelSelection();
-				                    		return;
-				                    }
-				                }
-				                super.approveSelection();
+						if(datosCompletos(renglones)) {
+							JFileChooser f = new JFileChooser() {
+								@Override
+								public void approveSelection() {
+									File f = getSelectedFile();
+					                if (f.exists() && getDialogType() == SAVE_DIALOG) {
+					                	int result = JOptionPane.showConfirmDialog(this,
+					                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
+					                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
+		
+					                    switch (result){
+					                    	case JOptionPane.YES_OPTION:
+					                    		super.approveSelection();
+					                    		return;
+					                    	case JOptionPane.NO_OPTION:
+					                    		return;
+					                    	case JOptionPane.CLOSED_OPTION:
+					                    		return;
+					                    	case JOptionPane.CANCEL_OPTION:
+					                    		cancelSelection();
+					                    		return;
+					                    }
+					                }
+					                super.approveSelection();
+								}
+							};
+							f.setSelectedFile(new File("Reporte Ventas"));
+							int opcion = f.showSaveDialog(padre);
+							if(opcion == JFileChooser.APPROVE_OPTION) {
+								dataPDF = dataPDF(table.getRowCount());
+								File file = f.getSelectedFile();
+								ruta = file.toString();
+								String data[][] = dataPDF(renglones);
+								int cantidades = cantidades(data);
+								GenerarPDFVentas g = new GenerarPDFVentas(ruta, rengReales(renglones), 
+										data, cantidades, round(totalC, 1));
 							}
-						};
-						f.setSelectedFile(new File("Reporte Ventas"));
-						int opcion = f.showSaveDialog(padre);
-						if(opcion == JFileChooser.APPROVE_OPTION) {
-							dataPDF = dataPDF(table.getRowCount());
-							File file = f.getSelectedFile();
-							ruta = file.toString();
-							String data[][] = dataPDF(renglones);
-							GenerarPDFVentas g = new GenerarPDFVentas(ruta, rengReales(renglones), data);
+						} else {
+							JOptionPane.showMessageDialog(padre, "Llenar todos los datos antes de exportar", "Datos vacios", JOptionPane.INFORMATION_MESSAGE);
 						}
 					} else {
 						JOptionPane.showMessageDialog(padre, "No hay datos para exportar", "¡Error!", JOptionPane.INFORMATION_MESSAGE);

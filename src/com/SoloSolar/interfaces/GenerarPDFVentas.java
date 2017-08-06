@@ -26,11 +26,11 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class GenerarPDFVentas {
-	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
-	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 8, Font.NORMAL);
-	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 8, Font.BOLDITALIC);
+	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 7, Font.BOLD);
+	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 7, Font.NORMAL);
+	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 7, Font.BOLDITALIC);
 	
-	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][]) {
+	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][], int cantidades, double total) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document();
@@ -51,35 +51,36 @@ public class GenerarPDFVentas {
 			//doc.add(addTableInformation(table));
 			doc.add(new Paragraph("\n"));
 			PdfPTable tab = new PdfPTable(7);
+			tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
 			PdfPCell cellClave = new PdfPCell(getHeader("Clave")),
 					 cellNombre = new PdfPCell(getHeader("Nombre")),
 					 cellCant = new PdfPCell(getHeader("Cantidad")),
 					 cellPack = new PdfPCell(getHeader("Pack")),
 					 cellL = new PdfPCell(getHeader("L")),
 					 cellPrec = new PdfPCell(getHeader("Precio")),
-					 cellSub = new PdfPCell(getHeader("Subtotal"));
+					 cellSub = new PdfPCell(getHeader("Total"));
 			
 			cellClave.setBorderWidthBottom(1f);
 			cellClave.setBorderWidthTop(1f);
-			cellClave.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellClave.setBorder(Rectangle.BOTTOM);
 			cellNombre.setBorderWidthBottom(1f);
 			cellNombre.setBorderWidthTop(1f);
-			cellNombre.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellNombre.setBorder(Rectangle.BOTTOM);
 			cellCant.setBorderWidthBottom(1f);
 			cellCant.setBorderWidthTop(1f);
-			cellCant.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellCant.setBorder(Rectangle.BOTTOM);
 			cellPack.setBorderWidthBottom(1f);
 			cellPack.setBorderWidthTop(1f);
-			cellPack.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellPack.setBorder(Rectangle.BOTTOM);
 			cellL.setBorderWidthBottom(1f);
 			cellL.setBorderWidthTop(1f);
-			cellL.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellL.setBorder(Rectangle.BOTTOM);
 			cellPrec.setBorderWidthBottom(1f);
 			cellPrec.setBorderWidthTop(1f);
-			cellPrec.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellPrec.setBorder(Rectangle.BOTTOM);
 			cellSub.setBorderWidthBottom(1f);
 			cellSub.setBorderWidthTop(1f);
-			cellSub.setBorder(Rectangle.BOTTOM | Rectangle.TOP);
+			cellSub.setBorder(Rectangle.BOTTOM);
 			tab.addCell(cellClave);
 			tab.addCell(cellNombre);
 			tab.addCell(cellCant);
@@ -92,7 +93,7 @@ public class GenerarPDFVentas {
 			tab.setHorizontalAlignment(0);
 			/*tab.getDefaultCell().setBorder(Rectangle.BOTTOM);
 			tab.getDefaultCell().setCellEvent(new RoundedBorder());*/
-	        tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			tab.setTableEvent(new BorderEvent());
 			for(int i = 0; i < renglones; i++) {
 				for(int j = 0; j < 7; j++) {
@@ -100,6 +101,20 @@ public class GenerarPDFVentas {
 				}
 			}
 			doc.add(tab);
+			PdfPTable tabResults = new PdfPTable(7);
+			tabResults.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
+			tabResults.setTotalWidth(510f);
+			tabResults.setLockedWidth(true);
+			tabResults.setHorizontalAlignment(0);
+			tabResults.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			tabResults.addCell(getHeader("Productos encontrados: "));
+			tabResults.addCell(getHeader(renglones + ""));
+			tabResults.addCell(getHeader(cantidades + ""));
+			tabResults.addCell(getHeader(""));
+			tabResults.addCell(getHeader(""));
+			tabResults.addCell(getHeader(""));
+			tabResults.addCell(getHeader(total + ""));
+			doc.add(tabResults);
 			doc.close();
 			JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "¡Exito!", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e1) {
@@ -187,10 +202,11 @@ public class GenerarPDFVentas {
             float x1 = widths[0];
             float x2 = widths[widths.length - 1];
             PdfContentByte cb = canvas[PdfPTable.LINECANVAS];
+            cb.setLineWidth(1f);
             cb.moveTo(x1, y1);
-            cb.lineTo(x1, y2);
+            //cb.lineTo(x1, y2);
             cb.moveTo(x2, y1);
-            cb.lineTo(x2, y2);
+            //cb.lineTo(x2, y2);
             if (top) {
                 cb.moveTo(x1, y1);
                 cb.lineTo(x2, y1);
