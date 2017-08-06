@@ -471,44 +471,44 @@ public class Venta extends JPanel {
 						total.setText("");
 					}
 				} else if(e.getSource() == exportar) {
-					JFileChooser f = new JFileChooser() {
-						@Override
-						public void approveSelection() {
-							File f = getSelectedFile();
-			                if (f.exists() && getDialogType() == SAVE_DIALOG) {
-			                	int result = JOptionPane.showConfirmDialog(this,
-			                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
-			                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
-
-			                    switch (result){
-			                    	case JOptionPane.YES_OPTION:
-			                    		super.approveSelection();
-			                    		return;
-			                    	case JOptionPane.NO_OPTION:
-			                    		return;
-			                    	case JOptionPane.CLOSED_OPTION:
-			                    		return;
-			                    	case JOptionPane.CANCEL_OPTION:
-			                    		cancelSelection();
-			                    		return;
-			                    }
-			                }
-			                super.approveSelection();
-						}
-					};
-					f.setSelectedFile(new File("Reporte Ventas"));
-					int opcion = f.showSaveDialog(padre);
-					if(opcion == JFileChooser.APPROVE_OPTION) {
-						dataPDF = dataPDF(table.getRowCount());
-						File file = f.getSelectedFile();
-						ruta = file.toString();
-						int renglones = table.getRowCount();
-						if(rengReales(renglones) >= 1) {
+					int renglones = table.getRowCount();
+					if(rengReales(renglones) >= 1) {
+						JFileChooser f = new JFileChooser() {
+							@Override
+							public void approveSelection() {
+								File f = getSelectedFile();
+				                if (f.exists() && getDialogType() == SAVE_DIALOG) {
+				                	int result = JOptionPane.showConfirmDialog(this,
+				                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
+				                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
+	
+				                    switch (result){
+				                    	case JOptionPane.YES_OPTION:
+				                    		super.approveSelection();
+				                    		return;
+				                    	case JOptionPane.NO_OPTION:
+				                    		return;
+				                    	case JOptionPane.CLOSED_OPTION:
+				                    		return;
+				                    	case JOptionPane.CANCEL_OPTION:
+				                    		cancelSelection();
+				                    		return;
+				                    }
+				                }
+				                super.approveSelection();
+							}
+						};
+						f.setSelectedFile(new File("Reporte Ventas"));
+						int opcion = f.showSaveDialog(padre);
+						if(opcion == JFileChooser.APPROVE_OPTION) {
+							dataPDF = dataPDF(table.getRowCount());
+							File file = f.getSelectedFile();
+							ruta = file.toString();
 							String data[][] = dataPDF(renglones);
 							GenerarPDFVentas g = new GenerarPDFVentas(ruta, rengReales(renglones), data);
-						} else {
-							JOptionPane.showMessageDialog(padre, "No hay datos para exportar", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
 						}
+					} else {
+						JOptionPane.showMessageDialog(padre, "No hay datos para exportar", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}

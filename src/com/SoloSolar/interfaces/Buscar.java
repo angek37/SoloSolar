@@ -45,7 +45,7 @@ public class Buscar {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				JDialog dialog = new JDialog(padre, "Solo - Solar (Buscar)");
+				JDialog dialog = new JDialog(padre, "Solo - Solar (Buscar)", true);
 				dialog.setMinimumSize(new Dimension(750, 545));
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.add(new SearchDialog(dialog));
@@ -164,43 +164,43 @@ public class Buscar {
 		public void actionPerformed(java.awt.event.ActionEvent e) {
 			String ruta = "";
 			if(e.getSource() == pdf) {
-				JFileChooser f = new JFileChooser() {
-					@Override
-					public void approveSelection() {
-						File f = getSelectedFile();
-		                if (f.exists() && getDialogType() == SAVE_DIALOG) {
-		                	int result = JOptionPane.showConfirmDialog(this,
-		                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
-		                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
-
-		                    switch (result){
-		                    	case JOptionPane.YES_OPTION:
-		                    		super.approveSelection();
-		                    		return;
-		                    	case JOptionPane.NO_OPTION:
-		                    		return;
-		                    	case JOptionPane.CLOSED_OPTION:
-		                    		return;
-		                    	case JOptionPane.CANCEL_OPTION:
-		                    		cancelSelection();
-		                    		return;
-		                    }
-		                }
-		                super.approveSelection();
-					}
-				};
-				f.setSelectedFile(new File("Reporte"));
-				int opcion = f.showSaveDialog(this);
-				if(opcion == JFileChooser.APPROVE_OPTION) {
-					File file = f.getSelectedFile();
-					ruta = file.toString();
-					int renglones = table.getRowCount();
-					if(renglones >= 1) {
+				int renglones = table.getRowCount();
+				if(renglones >= 1) {
+					JFileChooser f = new JFileChooser() {
+						@Override
+						public void approveSelection() {
+							File f = getSelectedFile();
+			                if (f.exists() && getDialogType() == SAVE_DIALOG) {
+			                	int result = JOptionPane.showConfirmDialog(this,
+			                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
+			                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
+	
+			                    switch (result){
+			                    	case JOptionPane.YES_OPTION:
+			                    		super.approveSelection();
+			                    		return;
+			                    	case JOptionPane.NO_OPTION:
+			                    		return;
+			                    	case JOptionPane.CLOSED_OPTION:
+			                    		return;
+			                    	case JOptionPane.CANCEL_OPTION:
+			                    		cancelSelection();
+			                    		return;
+			                    }
+			                }
+			                super.approveSelection();
+						}
+					};
+					f.setSelectedFile(new File("Reporte"));
+					int opcion = f.showSaveDialog(this);
+					if(opcion == JFileChooser.APPROVE_OPTION) {
+						File file = f.getSelectedFile();
+						ruta = file.toString();
 						String data[][] = dataPDF(renglones);
 						GenerarPDF g = new GenerarPDF(ruta, renglones, data);
-					} else {
-						JOptionPane.showMessageDialog(dg, "No hay datos para crear PDF", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
 					}
+				} else {
+					JOptionPane.showMessageDialog(dg, "No hay datos para crear PDF", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		}

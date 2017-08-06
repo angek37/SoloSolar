@@ -7,8 +7,6 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -41,7 +39,7 @@ public class BuscarCliente {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				JDialog dialog = new JDialog(frame, "Buscar Cliente");
+				JDialog dialog = new JDialog(frame, "Buscar Cliente", true);
 				dialog.setMinimumSize(new Dimension(500, 530));
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.add(new SearchDialog(dialog));
