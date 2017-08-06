@@ -15,7 +15,6 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPCellEvent;
@@ -36,8 +35,30 @@ public class GenerarPDFVentas {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document();
 			PdfWriter writer = PdfWriter.getInstance(doc, archivo);
-			MyFooter m = new MyFooter();
-			writer.setPageEvent(m);
+			PdfPCell cTF = new PdfPCell(getHeader("Realizó"));
+			cTF.setBorderWidthBottom(1f);
+			cTF.setBorderWidthTop(1f);
+			cTF.setBorder(Rectangle.TOP);
+			PdfPTable tableFooter = new PdfPTable(5);
+			tableFooter.setTotalWidth(510f);
+			tableFooter.setLockedWidth(true);
+			tableFooter.setHorizontalAlignment(0);
+			tableFooter.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			tableFooter.addCell(cTF);
+			tableFooter.addCell(new Paragraph(" "));
+			cTF = new PdfPCell(getHeader("Revisó"));
+			cTF.setBorderWidthBottom(1f);
+			cTF.setBorderWidthTop(1f);
+			cTF.setBorder(Rectangle.TOP);
+			tableFooter.addCell(cTF);
+			tableFooter.addCell(new Paragraph(" "));
+			cTF = new PdfPCell(getHeader("Autorizó"));
+			cTF.setBorderWidthBottom(1f);
+			cTF.setBorderWidthTop(1f);
+			cTF.setBorder(Rectangle.TOP);
+			tableFooter.addCell(cTF);
+			FooterTable ft = new FooterTable(tableFooter);
+			writer.setPageEvent(ft);
 			doc.setPageSize(new Rectangle(612, 791));
 			doc.open();
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -243,16 +264,13 @@ public class GenerarPDFVentas {
         }
     }
 	
-	class MyFooter extends PdfPageEventHelper {
-        Font ffont = new Font(Font.FontFamily.UNDEFINED, 12, Font.ITALIC);
- 
+	public class FooterTable extends PdfPageEventHelper {
+        protected PdfPTable footer;
+        public FooterTable(PdfPTable footer) {
+            this.footer = footer;
+        }
         public void onEndPage(PdfWriter writer, Document document) {
-            PdfContentByte cb = writer.getDirectContent();
-            Phrase footer = new Phrase("Lista de productos", ffont);
-            ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
-                    footer,
-                    (document.right() - document.left()) / 2 + document.leftMargin(),
-                    document.bottom() - 10, 0);
+            footer.writeSelectedRows(0, -1, 36, 64, writer.getDirectContent());
         }
     }
 	
