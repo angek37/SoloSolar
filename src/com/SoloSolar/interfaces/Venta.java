@@ -1,6 +1,7 @@
 package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +21,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -212,6 +215,7 @@ public class Venta extends JPanel {
 						int s = table.getSelectedRow();
 						if(s >= 0) {
 							new BuscarProducto(datos, table, table.getSelectedRow(), padre);
+							table.clearSelection();
 						}
 					}
 				}
@@ -243,32 +247,54 @@ public class Venta extends JPanel {
 		}
 		
 		public class TotalPanel extends JPanel implements ActionListener {
+			JTable t;
+			JLabel lbl;
 			public TotalPanel() {
+				t = new JTable(new String[][] {{"Subtotal: $", ""}, {"IVA: $", ""}, {"Total: $", ""}}, 
+							   new String[] {"", ""});
+				t.setBackground(null);
+				t.setFocusable(false);
+				t.setCellSelectionEnabled(false);
+				t.setGridColor(new Color(244, 244, 244));
 				setLayout(new FlowLayout(FlowLayout.RIGHT));
 				iva = new JCheckBox("IVA");
 				iva.addActionListener(this);
-				add(iva);
-				add(new JLabel("Total: $"));
+				lbl = new JLabel("Total: $");
 				total = new JLabel();
 				total.setPreferredSize(new Dimension(100, 30));
+				add(iva);
+				add(lbl);
 				add(total);
 			}
 
 			public void actionPerformed(ActionEvent e) {
 				Double totalIVA;
 				if(e.getSource() == iva) {
+					removeAll();
 					if(iva.isSelected()) {
 						try {
 							totalIVA = totalC;
 							totalIVA *= 1.16;
-							total.setText(Double.toString(round(totalIVA, 1)));
+							t.setValueAt(round(totalC, 1) + "", 0, 1);
+							t.setValueAt(round(totalC * 0.16, 1) + "", 1, 1);
+							t.setValueAt(round(totalIVA, 1) + "", 2, 1); 
+							add(iva);
+							add(t);
 						}catch(NumberFormatException | NullPointerException exp) {
-							JOptionPane.showMessageDialog(null, "Debe existir un total previamente", "No hay total", JOptionPane.INFORMATION_MESSAGE);
+							add(iva);
+							add(lbl);
+							add(total);
 							iva.setSelected(false);
+							JOptionPane.showMessageDialog(null, "Debe existir un total previamente", "No hay total", JOptionPane.INFORMATION_MESSAGE);
 						}
 					} else {
-						total.setText(Double.toString(totalC));
+						total.setText(Double.toString(round(totalC, 1)));
+						add(iva);
+						add(lbl);
+						add(total);
 					}
+					updateUI();
+					repaint();
 				}
 			}
 		}
@@ -364,8 +390,36 @@ public class Venta extends JPanel {
 			});
 		}
 		
+		public String[][] dataPDF(int renglones) {
+			int reng = rengReales(renglones);
+			String data[][] = new String[reng][7];
+			for(int i = 0; i < renglones; i++) {
+				for(int j = 0; j < 7; j++) {
+					if(table.getModel().getValueAt(i, 0) != null && 
+							!String.valueOf(table.getModel().getValueAt(i, 0)).equals("") ) {
+						data[i][j] = table.getModel().getValueAt(i, j) + "";
+					}
+				}
+			}
+			return data;
+		}
+		
+		public int rengReales(int reng) {
+			int rengReales = 0;
+			for(int i = 0; i < reng; i++) {
+				for(int j = 0; j < 7; j++) {
+					if(table.getModel().getValueAt(i, 0) != null && 
+						!String.valueOf(table.getModel().getValueAt(i, 0)).equals("") ) {
+						rengReales++;
+						j = 7;
+					}
+				}
+			}
+			return rengReales;
+		}
+		
 		public class OpcionesPanel extends JPanel implements ActionListener {
-			
+			private String ruta, dataPDF[][];
 			private ImageIcon newD = new ImageIcon(
 					new ImageIcon("assets/newDocument.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 			private ImageIcon save = new ImageIcon(
@@ -415,6 +469,46 @@ public class Venta extends JPanel {
 						totalC = 0.0;
 						iva.setSelected(false);
 						total.setText("");
+					}
+				} else if(e.getSource() == exportar) {
+					JFileChooser f = new JFileChooser() {
+						@Override
+						public void approveSelection() {
+							File f = getSelectedFile();
+			                if (f.exists() && getDialogType() == SAVE_DIALOG) {
+			                	int result = JOptionPane.showConfirmDialog(this,
+			                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
+			                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
+
+			                    switch (result){
+			                    	case JOptionPane.YES_OPTION:
+			                    		super.approveSelection();
+			                    		return;
+			                    	case JOptionPane.NO_OPTION:
+			                    		return;
+			                    	case JOptionPane.CLOSED_OPTION:
+			                    		return;
+			                    	case JOptionPane.CANCEL_OPTION:
+			                    		cancelSelection();
+			                    		return;
+			                    }
+			                }
+			                super.approveSelection();
+						}
+					};
+					f.setSelectedFile(new File("Reporte Ventas"));
+					int opcion = f.showSaveDialog(padre);
+					if(opcion == JFileChooser.APPROVE_OPTION) {
+						dataPDF = dataPDF(table.getRowCount());
+						File file = f.getSelectedFile();
+						ruta = file.toString();
+						int renglones = table.getRowCount();
+						if(rengReales(renglones) >= 1) {
+							String data[][] = dataPDF(renglones);
+							GenerarPDFVentas g = new GenerarPDFVentas(ruta, rengReales(renglones), data);
+						} else {
+							JOptionPane.showMessageDialog(padre, "No hay datos para exportar", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
+						}
 					}
 				}
 			}
