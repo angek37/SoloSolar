@@ -266,7 +266,30 @@ public class Insert {
     		 return false;
     	 }
      }
-    
+     
+     public boolean UpdateRowsOrder(int id, String[][] datos) {
+    	 try {
+    		 createConnection();
+    		 stmt = conn.createStatement();
+    		 stmt.execute("delete from Renglon where Pedido = "+id);
+    		 for(int x = 0; x < datos.length; x++) {
+    			 if(datos[x][0] != null && datos[x][2] != null) {
+    				 if(!datos[x][2].equals("")) {
+    					 stmt.execute("insert into Renglon(Pedido, id_prod, Precio, Cantidad) "
+        						 +"values("+id+",'"+datos[x][0]+"',"+
+        						 	datos[x][5]+","+datos[x][2]+")");
+    				 }
+    			 }
+    		 }
+    		 stmt.close();
+    		 shutdown();
+    		 return true;
+    	 }catch(SQLException sqlExcept) {
+    		 sqlExcept.printStackTrace();
+    		 return false;
+    	 }
+     }
+     
     private static void createConnection() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
