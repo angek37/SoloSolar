@@ -1,5 +1,6 @@
 package com.SoloSolar.interfaces;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -151,6 +152,9 @@ public class GenerarPDFVentas {
 			doc.add(tabResults);
 			doc.close();
 			JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "¡Exito!", JOptionPane.INFORMATION_MESSAGE);
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "No se puede crear el archivo. \nYa existe uno con el mismo nombre y esta en uso", 
+					"El archivo ya existe", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

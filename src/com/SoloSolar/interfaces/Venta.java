@@ -394,21 +394,27 @@ public class Venta extends JPanel {
 		public String[][] dataPDF(int renglones) {
 			int reng = rengReales(renglones);
 			String data[][] = new String[reng][7];
+			int index = 0;
+			boolean aumentar = false;
 			for(int i = 0; i < renglones; i++) {
+				aumentar = false;
 				for(int j = 0; j < 7; j++) {
 					if(table.getModel().getValueAt(i, 0) != null && 
 							!String.valueOf(table.getModel().getValueAt(i, 0)).equals("") ) {
-						data[i][j] = table.getModel().getValueAt(i, j) + "";
+						data[index][j] = table.getModel().getValueAt(i, j) + "";
+						aumentar = true;
 					}
+				}
+				if(aumentar) {
+					index++;
 				}
 			}
 			return data;
 		}
 		
-		public boolean datosCompletos() {
+		public boolean datosCompletos(int renglones) {
 			boolean correcto = true;
-			String data[][] = dataPDF(table.getRowCount());
-			
+			String data[][] = dataPDF(renglones);
 			for(int i = 0; i < data.length; i++) {
 				for(int j = 0; j < data[i].length; j++) {
 					if(data[i][j] == null || data[i][j].equals("") || data[i][j].equals("null")) {
@@ -496,7 +502,7 @@ public class Venta extends JPanel {
 				} else if(e.getSource() == exportar) {
 					int renglones = table.getRowCount();
 					if(rengReales(renglones) >= 1) {
-						if(datosCompletos()) {
+						if(datosCompletos(renglones)) {
 							JFileChooser f = new JFileChooser() {
 								@Override
 								public void approveSelection() {
