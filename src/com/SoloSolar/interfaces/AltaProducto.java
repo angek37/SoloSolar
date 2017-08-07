@@ -93,7 +93,7 @@ public class AltaProducto extends JPanel implements ActionListener{
 			gbc.gridx = 0;
 			gbc.gridy++;
 			gbc.gridwidth = 1;
-			gbc.insets = new Insets(0, 4, 20, 55);
+			gbc.insets = new Insets(0, 4, 20, 0);
 			gbc.anchor = GridBagConstraints.WEST;
 			add(new JLabel("Clave:"), gbc);
 			clave = new JTextField();
@@ -109,6 +109,16 @@ public class AltaProducto extends JPanel implements ActionListener{
 			gbc.ipadx = 300;
 			gbc.gridx++;
 			add(nombre, gbc);
+			gbc.gridy++;
+			gbc.gridx = 0;
+			gbc.ipadx = 0;
+			add(new JLabel("Categoría:"), gbc);
+			categories = new JComboBox<Categoria>(category);
+			categories.setMaximumSize(new Dimension(200, 20));
+			gbc.anchor = GridBagConstraints.WEST;
+			gbc.gridx++;
+			gbc.ipadx = 50;
+			add(categories, gbc);
 		}
 	}
 	
@@ -116,21 +126,11 @@ public class AltaProducto extends JPanel implements ActionListener{
 		public DatosPanel() {
 			setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.insets = new Insets(0, 4, 20, 0);
+			gbc.insets = new Insets(0, 4, 20, 5);
 			gbc.anchor = GridBagConstraints.WEST;
 			gbc.ipady = 5;
 			gbc.gridx = 0;
 			gbc.gridy = 0;
-			add(new JLabel("Categoría:"), gbc);
-			categories = new JComboBox<Categoria>(category);
-			categories.setMaximumSize(new Dimension(200, 20));
-			gbc.anchor = GridBagConstraints.EAST;
-			gbc.gridx++;
-			gbc.ipadx = 50;
-			add(categories, gbc);
-			gbc.anchor = GridBagConstraints.WEST;
-			gbc.ipadx = 0;
-			gbc.gridx = 0;
 			gbc.gridy++;
 			add(new JLabel("Paquete:"), gbc);
 			paquete = new JTextField();
@@ -338,7 +338,7 @@ public class AltaProducto extends JPanel implements ActionListener{
 		public void mouseClicked(MouseEvent e) {
 			DefaultTableModel dtm;
 			try {
-				if (e.getClickCount() == 2) {
+				if (e.getClickCount() == 2 && !datos[0][0].equals("")) {
 					deleteSupplier(table.getSelectedRow());
 					dtm = new DefaultTableModel(datos, head);
 					table.setModel(dtm);
@@ -375,7 +375,24 @@ public class AltaProducto extends JPanel implements ActionListener{
 					Integer.parseInt(paquete.getText()), Double.parseDouble(costo.getText()), 
 					Double.parseDouble(precio1.getText()), Double.parseDouble(precio2.getText()));
 			if(i.InsertProduct(p)){
-				if(i.InsertProductSupplier(clave.getText(), datos)) {
+				if(!datos[0][0].equals("")) {
+					if(i.InsertProductSupplier(clave.getText(), datos)) {
+						JOptionPane.showMessageDialog(null, "Producto registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+						clave.setText("");
+						nombre.setText("");
+						paquete.setText("");
+						costo.setText("");
+						precio1.setText("");
+						precio2.setText("");
+						por1.setText("");
+						por2.setText("");
+						datos = null;
+						datos = new String[1][2];
+						datos[0][0] = "";
+						datos[0][1] = "";
+						table.setModel(new DefaultTableModel(datos, head));
+					}
+				}else {
 					JOptionPane.showMessageDialog(null, "Producto registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
 					clave.setText("");
 					nombre.setText("");
@@ -385,11 +402,6 @@ public class AltaProducto extends JPanel implements ActionListener{
 					precio2.setText("");
 					por1.setText("");
 					por2.setText("");
-					datos = null;
-					datos = new String[1][2];
-					datos[0][0] = "";
-					datos[0][1] = "";
-					table.setModel(new DefaultTableModel(datos, head));
 				}
 			}else {
 				JOptionPane.showMessageDialog(null, "No ha sido posible registrar el producto", "Error", JOptionPane.ERROR_MESSAGE);
