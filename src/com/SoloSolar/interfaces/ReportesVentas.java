@@ -49,12 +49,12 @@ public class ReportesVentas {
 			@Override
 			public void run() {
 				JDialog dialog = new JDialog(padre, "Reporte Ganancias");
-				dialog.setMinimumSize(new Dimension(750, 545));
+				dialog.setMinimumSize(new Dimension(750, 550));
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.add(new SearchDialog(dialog));
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
-				dialog.setResizable(false);
+				//dialog.setResizable(false);
 				/*dialog.setModal(true);
 				dialog.setAlwaysOnTop(true);
 				dialog.setModalityType(ModalityType.APPLICATION_MODAL);*/
@@ -73,10 +73,12 @@ public class ReportesVentas {
 		private JScrollPane jsp;
 		private JTextField pedidoI, pedidoF;
 		private JLabel inicio, fin, filtro;
-		private JButton pdf;
+		private JButton pdf, filter;
 		private JComboBox filtros;
 		private ImageIcon pdfIcon = new ImageIcon(
 				new ImageIcon("assets/pdfnew.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		private ImageIcon filterIcon = new ImageIcon(
+				new ImageIcon("assets/filter.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 
 		public SearchDialog(JDialog dialog) {
 			dg = dialog;
@@ -98,8 +100,8 @@ public class ReportesVentas {
 		        };
 			};
 
-			tm = new DefaultTableModel(new String[][] {{"", "", "", "", "", ""}}, 
-					new String[]{"Producto", "Cantidad", "Costo", "Precio", "Total", "Ganancia"}) {
+			tm = new DefaultTableModel(Consulta.dataVentas(), 
+					new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
 	            public Class getColumnClass(int column) {
 	                Class Value;
 	                if (column >= 0 && column < getColumnCount()) {
@@ -113,6 +115,16 @@ public class ReportesVentas {
 	        table.setModel(tm);
 	        tr = new TableRowSorter<>(tm);
 	        table.setRowSorter(tr);
+	        filter = new JButton("Filtrar", filterIcon);
+			filter.setMaximumSize(new Dimension(65, 40));
+			filter.setVerticalTextPosition(SwingConstants.BOTTOM);
+			filter.setHorizontalTextPosition(SwingConstants.CENTER);
+			filter.setBorder(null);
+			filter.setToolTipText("Descargar PDF");
+			filter.setContentAreaFilled(false);
+			filter.setFocusable(false);
+			filter.addActionListener(this);
+			
 			pdf = new JButton("", pdfIcon);
 			pdf.setMaximumSize(new Dimension(85, 60));
 			pdf.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -193,6 +205,11 @@ public class ReportesVentas {
 			gbc.weightx = 1;
 			panelBuscar.add(filtros, gbc);
 			filtros.addItemListener(this);
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 0;
+			panelBuscar.add(filter, gbc);
 			
 			gbc.gridx++;
 			gbc.fill = GridBagConstraints.HORIZONTAL;

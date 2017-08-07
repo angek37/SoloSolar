@@ -161,7 +161,7 @@ public class BuscarProducto {
 				tabla.setValueAt(table.getModel().getValueAt(table.getSelectedRow(), 3), renglon, 3);
 				tabla.setValueAt(sel, renglon, 4);
 				tabla.setValueAt(sel.equals("1") 
-						?  table.getModel().getValueAt(table.getSelectedRow(), 4) 
+						? table.getModel().getValueAt(table.getSelectedRow(), 4) 
 						: table.getModel().getValueAt(table.getSelectedRow(), 5), renglon, 5);
 				dg.dispose();
 			}
