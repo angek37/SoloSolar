@@ -1,32 +1,272 @@
 ----------------------------------------------------------------
-Mon Aug 07 01:13:19 CDT 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-015d-bb53-842c-000006b7da00 
-on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
-Loaded from file:/C:/Users/Usuario/eclipse-workspace/Solo-Solar/db/derby.jar
+Mon Aug 07 01:32:27 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_101-b13
-user.dir=C:\Users\Usuario\eclipse-workspace\Solo-Solar
-os.name=Windows 8.1
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
 os.arch=amd64
-os.version=6.3
+os.version=4.12.3-1-ARCH
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Mon Aug 07 01:13:20 CDT 2017:
-Shutting down instance a816c00e-015d-bb53-842c-000006b7da00 on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Mon Aug 07 01:32:28 CDT 2017:
+Shutting down instance a816c00e-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 ----------------------------------------------------------------
-Mon Aug 07 01:13:20 CDT 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 08264012-015d-bb53-842c-000006b7da00 
-on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
-Loaded from file:/C:/Users/Usuario/eclipse-workspace/Solo-Solar/db/derby.jar
+Mon Aug 07 01:33:38 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 08264012-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_101-b13
-user.dir=C:\Users\Usuario\eclipse-workspace\Solo-Solar
-os.name=Windows 8.1
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
 os.arch=amd64
-os.version=6.3
+os.version=4.12.3-1-ARCH
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Mon Aug 07 01:13:20 CDT 2017:
-Shutting down instance 08264012-015d-bb53-842c-000006b7da00 on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Mon Aug 07 01:33:40 CDT 2017:
+Shutting down instance 08264012-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:33:40 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 6839c016-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:33:40 CDT 2017:
+Shutting down instance 6839c016-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:33:43 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance c851401a-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:33:43 CDT 2017:
+Shutting down instance c851401a-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:33:43 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 286cc01e-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:33:43 CDT 2017:
+Shutting down instance 286cc01e-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:33:53 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 888c4022-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:33:53 CDT 2017:
+Shutting down instance 888c4022-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:33:58 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance e8afc026-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:33:58 CDT 2017:
+Shutting down instance e8afc026-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:33:59 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 48d7402a-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:33:59 CDT 2017:
+Shutting down instance 48d7402a-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:34:06 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a902c02e-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:34:06 CDT 2017:
+Shutting down instance a902c02e-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:34:08 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 09324032-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:34:08 CDT 2017:
+Shutting down instance 09324032-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:34:09 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 6965c036-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:34:10 CDT 2017:
+Shutting down instance 6965c036-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:34:32 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance c99d403a-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:34:32 CDT 2017:
+Shutting down instance c99d403a-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:34:34 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 29d8c03e-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:34:34 CDT 2017:
+Shutting down instance 29d8c03e-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:34:38 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 8a184042-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:34:38 CDT 2017:
+Shutting down instance 8a184042-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:34:38 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance ea5bc046-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:34:39 CDT 2017:
+Shutting down instance ea5bc046-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:35:05 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 4aa3404a-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:35:06 CDT 2017:
+Shutting down instance 4aa3404a-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:35:30 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance fb160050-015d-bb65-08e0-0000069ebe50 
+on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_121-b13
+user.dir=/mnt/Shared/workspace/Solo-Solar
+os.name=Linux
+os.arch=amd64
+os.version=4.12.3-1-ARCH
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:35:30 CDT 2017:
+Shutting down instance fb160050-015d-bb65-08e0-0000069ebe50 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
