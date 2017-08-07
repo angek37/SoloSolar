@@ -224,6 +224,17 @@ public class AltaCliente extends JPanel implements ActionListener {
 			c.setTelefono(celTF.getText());
 			c.setTelEmp(telEmpTF.getText());
 			ClienteBD.InsertCliente(c);
+			nombreTF.setText("");
+			apellidosTF.setText("");
+			rfcTF.setText("");
+			emailTF.setText("");
+			calleTF.setText("");
+			coloniaTF.setText("");
+			estadoTF.setText("");
+			ciudadTF.setText("");
+			cpTF.setText("");
+			celTF.setText("");
+			telEmpTF.setText("");
 			table.setModel(new ClientModel());
 		}
 	}

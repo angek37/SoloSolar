@@ -98,8 +98,8 @@ public class ReportesVentas {
 		        };
 			};
 
-			tm = new DefaultTableModel(new String[][] {{"", "", "", "", "", "", "", ""}}, 
-					new String[]{"No Pedido", "Fecha", "Producto", "Cantidad", "Costo", "Precio", "Total", "Ganancia"}) {
+			tm = new DefaultTableModel(new String[][] {{"", "", "", "", "", ""}}, 
+					new String[]{"Producto", "Cantidad", "Costo", "Precio", "Total", "Ganancia"}) {
 	            public Class getColumnClass(int column) {
 	                Class Value;
 	                if (column >= 0 && column < getColumnCount()) {
