@@ -236,6 +236,7 @@ public class Venta extends JPanel {
 			table.setFillsViewportHeight(true);
 			table.setShowHorizontalLines(true);
 			table.setShowVerticalLines(true);
+			table.getTableHeader().setReorderingAllowed(false);
 			table.setToolTipText("Doble clic para buscar un producto");
 			table.addMouseListener(new MouseAdapter() { 
 				public void mouseClicked(MouseEvent e) {
