@@ -263,6 +263,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			Validaciones v = new Validaciones();
 			Insert in = new Insert();
 			Producto producto = new Producto();
 			try {
@@ -275,25 +276,27 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 					producto.setCosto(Double.parseDouble(costo.getText()));
 					producto.setPrecio1(Double.parseDouble(precio1.getText()));
 					producto.setPrecio2(Double.parseDouble(precio2.getText()));
-					if(in.UpdateProduct(producto)) {
-						if(in.UpdateProductSupplier(clave.getText(), datos)) {
-							JOptionPane.showMessageDialog(null, "Producto modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-							clave.setText("");
-							nombre.setText("");
-							paquete.setText("");
-							costo.setText("");
-							precio1.setText("");
-							precio2.setText("");
-							table.setModel(new ProductModel());
-							prod.setText("Elija Producto");
-							datos = null;
-							datos = new String[1][2];
-							datos[0][0] = "";
-							datos[0][1] = "";
-							tableS.setModel(new DefaultTableModel(datos, head));
+					if(v.validarProducto(producto)) {
+						if(in.UpdateProduct(producto)) {
+							if(in.UpdateProductSupplier(clave.getText(), datos)) {
+								JOptionPane.showMessageDialog(null, "Producto modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+								clave.setText("");
+								nombre.setText("");
+								paquete.setText("");
+								costo.setText("");
+								precio1.setText("");
+								precio2.setText("");
+								table.setModel(new ProductModel());
+								prod.setText("Elija Producto");
+								datos = null;
+								datos = new String[1][2];
+								datos[0][0] = "";
+								datos[0][1] = "";
+								tableS.setModel(new DefaultTableModel(datos, head));
+							}
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible modificar el producto", "Error", JOptionPane.ERROR_MESSAGE);
 						}
-					}else {
-						JOptionPane.showMessageDialog(null, "No ha sido posible modificar el producto", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}else if (e.getSource() == eliminar) {
 					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar el producto '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Borrar Producto", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

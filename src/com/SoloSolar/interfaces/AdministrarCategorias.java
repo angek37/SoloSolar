@@ -186,22 +186,25 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 		
 
 		public void actionPerformed(ActionEvent e) {
+			Validaciones v = new Validaciones();
 			Insert in = new Insert();
 			Categoria cat;
 			try {
 				if(e.getSource() == actualizar) {
 					cat = new Categoria(Integer.parseInt(id.getText()), nombre.getText(), descripcion.getText());
-					if(in.UpdateCategory(cat)) {
-						JOptionPane.showMessageDialog(null, "Categoria modificada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-					}else {
-						JOptionPane.showMessageDialog(null, "No ha sido posible modificar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+					if(v.validarCategorias(cat)) {
+						if(in.UpdateCategory(cat)) {
+							nombre.setText("");
+							descripcion.setText("");
+							id.setText("");
+							table.setModel(new CategoryModel());
+							categories.setModel(new ProductModel());
+							categories.updateUI();
+							JOptionPane.showMessageDialog(null, "Categoria modificada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible modificar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+						}
 					}
-					nombre.setText("");
-					descripcion.setText("");
-					id.setText("");
-					table.setModel(new CategoryModel());
-					categories.setModel(new ProductModel());
-					categories.updateUI();
 				}else if (e.getSource() == eliminar) {
 					Categoria substituteCat = (Categoria) categories.getSelectedItem();
 					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar la categoría '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Borrar Categoría", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

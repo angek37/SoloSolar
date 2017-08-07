@@ -93,18 +93,21 @@ public class AltaCategoria extends JPanel implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		Validaciones v = new Validaciones();
 		Insert in = new Insert();
 		Categoria cat;
 		if(e.getSource() == registrar) {
 			cat = new Categoria(nombre.getText(), descripcion.getText());
-			if(in.InsertCategory(cat)) {
-				JOptionPane.showMessageDialog(null, "Categoria registrada exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
-			}else {
-				JOptionPane.showMessageDialog(null, "No ha sido posible registrar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+			if(v.validarCategorias(cat)) {
+				if(in.InsertCategory(cat)) {
+					JOptionPane.showMessageDialog(null, "Categoria registrada exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+					nombre.setText("");
+					descripcion.setText("");
+					table.setModel(new CategoryModel());
+				}else {
+					JOptionPane.showMessageDialog(null, "No ha sido posible registrar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
-			nombre.setText("");
-			descripcion.setText("");
-			table.setModel(new CategoryModel());
 		}
 	}
 	
