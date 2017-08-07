@@ -10,6 +10,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -207,6 +209,26 @@ public class Venta extends JPanel {
 					}
 				}
 			});
+			table.addKeyListener(new KeyListener() {
+				public void keyTyped(KeyEvent e) {
+					if(e.getKeyChar() == KeyEvent.VK_DELETE || e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+						for(int x = 0; x < 7; x++) {
+							renglones[table.getSelectedRow()][x] = null;
+						}
+						FormatoTabla();
+						Total();
+					}
+				}
+
+				public void keyPressed(KeyEvent e) {
+					
+				}
+
+				public void keyReleased(KeyEvent e) {
+					
+				}
+				
+			});
 			table.setFillsViewportHeight(true);
 			table.setShowHorizontalLines(true);
 			table.setShowVerticalLines(true);
@@ -367,32 +389,6 @@ public class Venta extends JPanel {
 			}
 		}
 		
-		public void FormatoTabla() {
-			table.setModel(new TableModel());
-			table.getColumnModel().getColumn(0).setPreferredWidth(27);
-			table.getColumnModel().getColumn(1).setMinWidth(200);
-			table.getColumnModel().getColumn(2).setMaxWidth(60);
-			table.getColumnModel().getColumn(3).setMaxWidth(80);
-			table.getColumnModel().getColumn(4).setMaxWidth(30);
-			table.getModel().addTableModelListener(new TableModelListener() {
-				public void tableChanged(TableModelEvent e) {
-					double r;
-					if(e.getType() == TableModelEvent.UPDATE && e.getColumn() == 2) {
-						try {
-							if(!renglones[e.getFirstRow()][2].equalsIgnoreCase("")) {
-								r = Integer.parseInt(renglones[e.getFirstRow()][2]) * Double.parseDouble(renglones[e.getFirstRow()][5]);
-								renglones[e.getFirstRow()][6] = Double.toString(round(r, 1));
-								Total();
-							}
-						}catch(NumberFormatException | NullPointerException exp) {
-							renglones[e.getFirstRow()][2] = null;
-							JOptionPane.showMessageDialog(null, "Error con el campo 'Cantidad'", "Error", JOptionPane.ERROR_MESSAGE);
-						}
-					}
-				}
-			});
-		}
-		
 		public String[][] dataPDF(int renglones) {
 			int reng = rengReales(renglones);
 			String data[][] = new String[reng][7];
@@ -470,17 +466,6 @@ public class Venta extends JPanel {
 				guardar = new JButton("Guardar", save);
 				guardar.addActionListener(this);
 				add(guardar);
-			}
-			
-			public void Imprimir() {
-				for(int x = 0; x < renglones.length; x++) {
-					System.out.print(x+ " ");
-					for(int y = 0; y < renglones[x].length; y++) {
-						System.out.print(renglones[x][y] + "\t");
-					}
-					System.out.print("\n");
-				}
-				System.out.println("\n\n");
 			}
 			
 			public void actionPerformed(ActionEvent e) {
@@ -573,7 +558,44 @@ public class Venta extends JPanel {
 		}
 	}
 	
-public class TableModel extends AbstractTableModel {
+	public void Imprimir() {
+		for(int x = 0; x < renglones.length; x++) {
+			System.out.print(x+ " ");
+			for(int y = 0; y < renglones[x].length; y++) {
+				System.out.print(renglones[x][y] + "\t");
+			}
+			System.out.print("\n");
+		}
+		System.out.println("\n\n");
+	}
+	
+	public void FormatoTabla() {
+		table.setModel(new TableModel());
+		table.getColumnModel().getColumn(0).setPreferredWidth(27);
+		table.getColumnModel().getColumn(1).setMinWidth(200);
+		table.getColumnModel().getColumn(2).setMaxWidth(60);
+		table.getColumnModel().getColumn(3).setMaxWidth(80);
+		table.getColumnModel().getColumn(4).setMaxWidth(30);
+		table.getModel().addTableModelListener(new TableModelListener() {
+			public void tableChanged(TableModelEvent e) {
+				double r;
+				if(e.getType() == TableModelEvent.UPDATE && e.getColumn() == 2) {
+					try {
+						if(!renglones[e.getFirstRow()][2].equalsIgnoreCase("")) {
+							r = Integer.parseInt(renglones[e.getFirstRow()][2]) * Double.parseDouble(renglones[e.getFirstRow()][5]);
+							renglones[e.getFirstRow()][6] = Double.toString(round(r, 1));
+							Total();
+						}
+					}catch(NumberFormatException | NullPointerException exp) {
+						renglones[e.getFirstRow()][2] = null;
+						JOptionPane.showMessageDialog(null, "Error con el campo 'Cantidad'", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+	}
+	
+	public class TableModel extends AbstractTableModel {
 		
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 			renglones[rowIndex][columnIndex] = (String)aValue;
