@@ -236,9 +236,11 @@ public class Insert {
     		 stmt = conn.createStatement();
     		 for(int x = 0; x < datos.length; x++) {
     			 if(datos[x][0] != null && datos[x][2] != null) {
-    				 stmt.execute("insert into Renglon(Pedido, id_prod, Precio, Cantidad) "
-    						 +"values("+id_pedido+",'"+datos[x][0]+"',"+
-    						 	datos[x][5]+","+datos[x][2]+")");
+    				 if(!datos[x][2].equals("")) {
+    					 stmt.execute("insert into Renglon(Pedido, id_prod, Precio, Cantidad) "
+        						 +"values("+id_pedido+",'"+datos[x][0]+"',"+
+        						 	datos[x][5]+","+datos[x][2]+")");
+    				 }
     			 }
     		 }
     		 stmt.close();
