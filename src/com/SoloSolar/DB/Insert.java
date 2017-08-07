@@ -215,8 +215,8 @@ public class Insert {
     	 try {
     		 createConnection();
              stmt = conn.createStatement();
-             stmt.executeUpdate("insert into Pedido(customer, Fecha, Observaciones) values"
-            		 +"("+p.getCustomer()+",'"+p.getFecha()+"','"+p.getObservaciones()+"')", Statement.RETURN_GENERATED_KEYS);
+             stmt.executeUpdate("insert into Pedido(customer, Fecha, IVA, Observaciones) values"
+            		 +"("+p.getCustomer()+",'"+p.getFecha()+"', "+p.getIva()+",'"+p.getObservaciones()+"')", Statement.RETURN_GENERATED_KEYS);
              ResultSet r = stmt.getGeneratedKeys();
              while(r.next()) {
             	 id = Integer.parseInt(Long.toString(r.getLong(1)));
@@ -257,7 +257,7 @@ public class Insert {
     		 createConnection();
     		 stmt = conn.createStatement();
     		 stmt.execute("update Pedido set customer = "+p.getCustomer()+", Fecha = '"
-    				 +p.getFecha()+"', Observaciones = '"+p.getObservaciones()+"' where id_Pedido = "+p.getId());
+    				 +p.getFecha()+"', IVA = "+p.getIva()+", Observaciones = '"+p.getObservaciones()+"' where id_Pedido = "+p.getId());
     		 stmt.close();
     		 shutdown();
     		 return true;
@@ -266,7 +266,30 @@ public class Insert {
     		 return false;
     	 }
      }
-    
+     
+     public boolean UpdateRowsOrder(int id, String[][] datos) {
+    	 try {
+    		 createConnection();
+    		 stmt = conn.createStatement();
+    		 stmt.execute("delete from Renglon where Pedido = "+id);
+    		 for(int x = 0; x < datos.length; x++) {
+    			 if(datos[x][0] != null && datos[x][2] != null) {
+    				 if(!datos[x][2].equals("")) {
+    					 stmt.execute("insert into Renglon(Pedido, id_prod, Precio, Cantidad) "
+        						 +"values("+id+",'"+datos[x][0]+"',"+
+        						 	datos[x][5]+","+datos[x][2]+")");
+    				 }
+    			 }
+    		 }
+    		 stmt.close();
+    		 shutdown();
+    		 return true;
+    	 }catch(SQLException sqlExcept) {
+    		 sqlExcept.printStackTrace();
+    		 return false;
+    	 }
+     }
+     
     private static void createConnection() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();

@@ -56,6 +56,7 @@ public class Venta extends JPanel {
 	String[][] renglones = new String[12][7];
 	private JDateChooser datePicker;
 	String[][] datos = Consulta.dataProductsP();
+	boolean isEdited = false;
 	
 	public Venta(JFrame frame) {
 		setLayout(new BorderLayout());
@@ -201,11 +202,14 @@ public class Venta extends JPanel {
 								r = Integer.parseInt(renglones[e.getFirstRow()][2]) * Double.parseDouble(renglones[e.getFirstRow()][5]);
 								renglones[e.getFirstRow()][6] = Double.toString(round(r, 1));
 								Total();
+								isEdited = true;
 							}
 						}catch(NumberFormatException | NullPointerException exp) {
 							renglones[e.getFirstRow()][2] = null;
 							JOptionPane.showMessageDialog(null, "Error con el campo 'Cantidad'", "Error", JOptionPane.ERROR_MESSAGE);
 						}
+					} else if(e.getType() == TableModelEvent.UPDATE) {
+						isEdited = true;
 					}
 				}
 			});
@@ -476,12 +480,13 @@ public class Venta extends JPanel {
 				if(e.getSource() == guardar) {
 					if(pedido.getText().equals("")) {
 						sqldate = new java.sql.Date(datePicker.getDate().getTime());
-						p = new Pedido(Integer.parseInt(idCliente.getText()), sqldate.toString(), observaciones.getText());
+						p = new Pedido(Integer.parseInt(idCliente.getText()), sqldate.toString(), iva.isSelected(), observaciones.getText());
 						id = in.InsertOrder(p);
 						if(id != -1) {
 							pedido.setText(""+id);
 							if(in.InsertRowsOrder(id, renglones)) {
-								JOptionPane.showMessageDialog(null, "La venta se ha guardado exitosamente", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(null, "El pedido se ha guardado exitosamente", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
+								isEdited = false;
 							}else {
 								JOptionPane.showMessageDialog(null, "Ha ocurrido un error al guardar", "¡Error!", JOptionPane.ERROR_MESSAGE);
 							}
@@ -490,9 +495,20 @@ public class Venta extends JPanel {
 						}
 					}else {
 						sqldate = new java.sql.Date(datePicker.getDate().getTime());
-						p = new Pedido(Integer.parseInt(pedido.getText()), Integer.parseInt(idCliente.getText()), sqldate.toString(), observaciones.getText());
+						p = new Pedido(Integer.parseInt(pedido.getText()), Integer.parseInt(idCliente.getText()), sqldate.toString(), iva.isSelected(), observaciones.getText());
 						if(in.UpdateOrder(p)) {
-							System.out.println("Correcto");
+							if(isEdited) {
+								if(in.UpdateRowsOrder(p.getId(), renglones)) {
+									JOptionPane.showMessageDialog(null, "El pedido se ha guardado exitosamente", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
+									isEdited = false;
+								}else {
+									JOptionPane.showMessageDialog(null, "No ha sido posible modificar los renglones", "¡Error!", JOptionPane.ERROR_MESSAGE);
+								}
+							}else {
+								JOptionPane.showMessageDialog(null, "El pedido se ha guardado exitosamente", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
+							}
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible crear el pedido", "¡Error!", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				} else if(e.getSource() == nuevo) {
@@ -592,11 +608,14 @@ public class Venta extends JPanel {
 							r = Integer.parseInt(renglones[e.getFirstRow()][2]) * Double.parseDouble(renglones[e.getFirstRow()][5]);
 							renglones[e.getFirstRow()][6] = Double.toString(round(r, 1));
 							Total();
+							isEdited = true;
 						}
 					}catch(NumberFormatException | NullPointerException exp) {
 						renglones[e.getFirstRow()][2] = null;
 						JOptionPane.showMessageDialog(null, "Error con el campo 'Cantidad'", "Error", JOptionPane.ERROR_MESSAGE);
 					}
+				}else if(e.getType() == TableModelEvent.UPDATE) {
+					isEdited = true;
 				}
 			}
 		});
