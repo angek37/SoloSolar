@@ -208,13 +208,15 @@ public class General {
 	}
 
 	public class MenuPanel extends JPanel implements ActionListener {
-		private JButton bienvenida, venta, reporte, buscar, salir;
+		private JButton bienvenida, venta, gananciasRep, reporte, buscar, salir;
 		private ImageIcon home = new ImageIcon(
 				new ImageIcon("assets/home.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
 		private ImageIcon purchase = new ImageIcon(
 				new ImageIcon("assets/cashier.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
 		private ImageIcon search = new ImageIcon(
 				new ImageIcon("assets/research.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
+		private ImageIcon ganancias = new ImageIcon(
+				new ImageIcon("assets/ganancias.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
 		private ImageIcon reports = new ImageIcon(
 				new ImageIcon("assets/newspaper.png").getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
 		private ImageIcon exit = new ImageIcon(
@@ -250,13 +252,23 @@ public class General {
 			buscar.setFocusable(false);
 			buscar.addActionListener(this);
 			add(buscar);
-			reporte = new JButton("Reportes", reports);
+			gananciasRep = new JButton("Ganancias", ganancias);
+			gananciasRep.setMaximumSize(new Dimension(85, 60));
+			gananciasRep.setVerticalTextPosition(SwingConstants.BOTTOM);
+			gananciasRep.setHorizontalTextPosition(SwingConstants.CENTER);
+			gananciasRep.setBorder(null);
+			gananciasRep.setToolTipText("Reporte de ganancias");
+			gananciasRep.setFocusable(false);
+			gananciasRep.addActionListener(this);
+			add(gananciasRep);
+			reporte = new JButton("Productos", reports);
 			reporte.setMaximumSize(new Dimension(85, 60));
 			reporte.setVerticalTextPosition(SwingConstants.BOTTOM);
 			reporte.setHorizontalTextPosition(SwingConstants.CENTER);
 			reporte.setBorder(null);
 			reporte.setToolTipText("Crear reporte");
 			reporte.setFocusable(false);
+			reporte.addActionListener(this);
 			add(reporte);
 			salir = new JButton("Salir", exit);
 			salir.setMaximumSize(new Dimension(85, 60));
@@ -290,6 +302,10 @@ public class General {
 				if (reply == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
+			} else if(e.getSource() == gananciasRep) {
+				new ReportesVentas(frame);
+			} else if(e.getSource() == reporte) {
+				
 			}
 		}
 

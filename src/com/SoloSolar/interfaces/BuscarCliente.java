@@ -39,7 +39,7 @@ public class BuscarCliente {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				JDialog dialog = new JDialog(frame, "Buscar Cliente", true);
+				JDialog dialog = new JDialog(frame, "Buscar Cliente");
 				dialog.setMinimumSize(new Dimension(500, 530));
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.add(new SearchDialog(dialog));
