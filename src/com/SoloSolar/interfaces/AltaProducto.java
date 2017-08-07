@@ -382,6 +382,7 @@ public class AltaProducto extends JPanel implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		Validaciones v = new Validaciones();
 		Insert i = new Insert();
 		Categoria c;
 		Producto p;
@@ -390,9 +391,26 @@ public class AltaProducto extends JPanel implements ActionListener{
 			p = new Producto(clave.getText(), nombre.getText(), c.getId(), 
 					Integer.parseInt(paquete.getText()), Double.parseDouble(costo.getText()), 
 					Double.parseDouble(precio1.getText()), Double.parseDouble(precio2.getText()));
-			if(i.InsertProduct(p)){
-				if(!datos[0][0].equals("")) {
-					if(!isEmpty()) {
+			if(v.validarProducto(p)) {
+				if(i.InsertProduct(p)){
+					if(!datos[0][0].equals("")) {
+						if(!isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Producto registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+							clave.setText("");
+							nombre.setText("");
+							paquete.setText("");
+							costo.setText("");
+							precio1.setText("");
+							precio2.setText("");
+							por1.setText("");
+							por2.setText("");
+							datos = null;
+							datos = new String[1][2];
+							datos[0][0] = "";
+							datos[0][1] = "";
+							table.setModel(new DefaultTableModel(datos, head));
+						}
+					}else {
 						JOptionPane.showMessageDialog(null, "Producto registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
 						clave.setText("");
 						nombre.setText("");
@@ -402,27 +420,11 @@ public class AltaProducto extends JPanel implements ActionListener{
 						precio2.setText("");
 						por1.setText("");
 						por2.setText("");
-						datos = null;
-						datos = new String[1][2];
-						datos[0][0] = "";
-						datos[0][1] = "";
-						table.setModel(new DefaultTableModel(datos, head));
 					}
 				}else {
-					JOptionPane.showMessageDialog(null, "Producto registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
-					clave.setText("");
-					nombre.setText("");
-					paquete.setText("");
-					costo.setText("");
-					precio1.setText("");
-					precio2.setText("");
-					por1.setText("");
-					por2.setText("");
+					JOptionPane.showMessageDialog(null, "No ha sido posible registrar el producto", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-			}else {
-				JOptionPane.showMessageDialog(null, "No ha sido posible registrar el producto", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
-	
 }

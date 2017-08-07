@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 import com.SoloSolar.Capsulas.Cliente;
+import com.SoloSolar.Capsulas.Producto;
 
 public class Validaciones {
 	
@@ -45,6 +46,57 @@ public class Validaciones {
 			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
 		}
 		return clienteCorrecto;
+	}
+	
+	public boolean validarProducto(Producto p) {
+		boolean clienteCorrecto = true;
+		String mensajeErrores = "Favor de corregir los siguientes datos: ";
+		
+		if(validarCamposNoVacios(p.getClave())) {
+			mensajeErrores += "\nLa clave no puede estar vacia";
+			clienteCorrecto = false;
+		}
+		if(validarCamposNoVacios(p.getNombre())) {
+			mensajeErrores += "\nEl producto no puede estar vacio";
+			clienteCorrecto = false;
+		}
+		if(validarSoloNumerosNoVacios(String.valueOf(p.getPaquete()))) {
+			mensajeErrores += "\nEl paquete solo puede ser numeros (No vacios)";
+			clienteCorrecto = false;
+		}
+		if(validarSoloNumerosNoVacios(String.valueOf(p.getCosto()))) {
+			mensajeErrores += "\nEl costo solo puede ser numeros (No vacios)";
+			clienteCorrecto = false;
+		}
+		if(validarSoloNumerosNoVacios(String.valueOf(p.getPrecio1()))) {
+			mensajeErrores += "\nEl precio 1 solo puede ser numeros (No vacios)";
+			clienteCorrecto = false;
+		}
+		if(validarSoloNumerosNoVacios(String.valueOf(p.getPrecio2()))) {
+			mensajeErrores += "\nEl precio 2 solo puede ser numeros (No vacios)";
+			clienteCorrecto = false;
+		}
+		if(!clienteCorrecto) {
+			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
+		}
+		return clienteCorrecto;
+	}
+	
+	public boolean validarCamposNoVacios(String cadena) {
+		return cadena.equals("") ? true : false;
+	}
+	
+	public boolean validarSoloNumerosNoVacios(String num) {
+		if(!num.equals("")) {
+			String expReg = "[0-9.]+";
+			
+			Pattern pattern = Pattern.compile(expReg);
+			
+			Matcher matcher = pattern.matcher(num);
+			return !matcher.matches();
+		} else {
+			return true;
+		}
 	}
 	
 	public boolean validarSoloNumerosVacios(String num) {
