@@ -79,8 +79,6 @@ public class GenerarPDF {
 			tab.setTotalWidth(510f);
 			tab.setLockedWidth(true);
 			tab.setHorizontalAlignment(0);
-			/*tab.getDefaultCell().setBorder(Rectangle.BOTTOM);
-			tab.getDefaultCell().setCellEvent(new RoundedBorder());*/
 	        tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			tab.setTableEvent(new BorderEvent());
 			for(int i = 0; i < renglones; i++) {
