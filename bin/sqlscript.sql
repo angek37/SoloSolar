@@ -23,11 +23,11 @@ create table Pedido (
 	id_Pedido int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	customer int NOT NULL,
 	Fecha date NOT NULL,
+	IVA boolean NOT NULL,
 	Observaciones varchar(64)
 )
 
 create table Renglon (
-	id_Renglon int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	Pedido int NOT NULL,
 	id_prod varchar(8) NOT NULL,
 	Precio double NOT NULL,
@@ -69,3 +69,5 @@ alter table Renglon add constraint fk_RProd foreign key (id_prod) references Pro
 alter table Producto add constraint fk_ProdCat foreign key (Categoria) references Categoria(id_cat) on delete cascade;
 alter table Producto_Proveedor add constraint fk_PPp foreign key (Clave) references Producto(Clave) on delete cascade;
 alter table Producto_Proveedor add constraint fk_PPpr foreign key (id_pro) references Proveedor(id_p) on delete cascade;
+
+insert into Usuario values ('admin', '123', 'Alberto Rodríguez')
