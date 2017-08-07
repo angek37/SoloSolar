@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
+import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.Capsulas.Producto;
 
@@ -74,6 +75,24 @@ public class Validaciones {
 		}
 		if(validarSoloNumerosNoVacios(String.valueOf(p.getPrecio2()))) {
 			mensajeErrores += "\nEl precio 2 solo puede ser numeros (No vacios)";
+			clienteCorrecto = false;
+		}
+		if(!clienteCorrecto) {
+			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
+		}
+		return clienteCorrecto;
+	}
+	
+	public boolean validarCategorias(Categoria c) {
+		boolean clienteCorrecto = true;
+		String mensajeErrores = "Favor de corregir los siguientes datos: ";
+		
+		if(validarCamposNoVacios(c.getNombre())) {
+			mensajeErrores += "\nEl nombre no puede estar vacio";
+			clienteCorrecto = false;
+		}
+		if(validarCamposNoVacios(c.getDescripcion())) {
+			mensajeErrores += "\nLa descripcion no puede estar vacia";
 			clienteCorrecto = false;
 		}
 		if(!clienteCorrecto) {
