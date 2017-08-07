@@ -48,6 +48,7 @@ import javafx.scene.control.DatePicker;
 
 public class Venta extends JPanel {
 	JTextField pedido, idCliente, nombreCliente, observaciones;
+	JCheckBox iva;
 	JFrame padre;
 	JLabel total;
 	Double totalC;
@@ -64,6 +65,30 @@ public class Venta extends JPanel {
 		add(new TablaP(), BorderLayout.CENTER);
 		add(new BotonesP(), BorderLayout.SOUTH);
 		this.padre = frame;
+	}
+	
+	public Venta(JFrame frame, Pedido p, String[][] renglones) {
+		this.renglones = renglones;
+		pedido = new JTextField();
+		idCliente = new JTextField();
+		nombreCliente = new JTextField();
+		observaciones = new JTextField();
+		iva = new JCheckBox("IVA");
+		
+		pedido.setText(Integer.toString(p.getId()));
+		idCliente.setText(Integer.toString(p.getCustomer()));
+		nombreCliente.setText(p.getClienteString());
+		observaciones.setText(p.getObservaciones());
+		if(p.getIva()) {
+			iva.doClick();
+		}
+		
+		setLayout(new BorderLayout());
+		add(new DatosP(), BorderLayout.NORTH);
+		add(new TablaP(), BorderLayout.CENTER);
+		add(new BotonesP(), BorderLayout.SOUTH);
+		this.padre = frame;
+		Total();
 	}
 	
 	public class DatosP extends JPanel implements ActionListener {
@@ -83,7 +108,9 @@ public class Venta extends JPanel {
 			gbc.gridx = 0;
 			gbc.gridy = 0;
 			add(new JLabel("Pedido:"), gbc);
-			pedido = new JTextField();
+			if(pedido == null) {
+				pedido = new JTextField();
+			}
 			pedido.setEnabled(false);
 			gbc.ipadx = 80;
 			gbc.gridx++;
@@ -100,12 +127,16 @@ public class Venta extends JPanel {
 			gbc.gridx++;
 			add(buscarCliente, gbc);
 			buscarCliente.addActionListener(this);
-			idCliente = new JTextField();
+			if(idCliente == null) {
+				idCliente = new JTextField();
+			}
 			idCliente.setEnabled(false);
 			gbc.gridx++;
 			gbc.ipadx = 80;
 			add(idCliente, gbc);
-			nombreCliente = new JTextField();
+			if(nombreCliente == null) {
+				nombreCliente = new JTextField();
+			}
 			nombreCliente.setEnabled(false);
 			gbc.ipadx = 300;
 			gbc.gridx++;
@@ -122,7 +153,9 @@ public class Venta extends JPanel {
 			gbc.gridx = 0;
 			gbc.ipadx = 20;
 			add(new JLabel("Observaciones:"), gbc);
-			observaciones = new JTextField();
+			if(observaciones == null) {
+				observaciones = new JTextField();
+			}
 			gbc.gridx++;
 			gbc.gridwidth = 4;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -266,7 +299,6 @@ public class Venta extends JPanel {
 	}
 	
 	public class BotonesP extends JPanel {
-		JCheckBox iva;
 		JButton nuevo, guardar, exportar;
 		
 		public BotonesP() {
@@ -287,7 +319,9 @@ public class Venta extends JPanel {
 				t.setCellSelectionEnabled(false);
 				t.setGridColor(new Color(244, 244, 244));
 				setLayout(new FlowLayout(FlowLayout.RIGHT));
-				iva = new JCheckBox("IVA");
+				if(iva == null) {
+					iva = new JCheckBox("IVA");
+				}
 				iva.addActionListener(this);
 				lbl = new JLabel("Total: $");
 				total = new JLabel();

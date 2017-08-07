@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,8 +26,12 @@ import com.SoloSolar.DB.Insert;
 
 public class ListaPedidos extends JPanel {
 	JTable table;
+	JFrame frame;
+	JPanel principal;
 	
-	public ListaPedidos() {
+	public ListaPedidos(JPanel principal, JFrame frame) {
+		this.frame = frame;
+		this.principal = principal;
 		setLayout(new BorderLayout());
 		JLabel titulo = new JLabel("Lista de Pedidos");
 		titulo.setFont(new Font("Calibri", Font.ITALIC, 16));
@@ -86,9 +91,16 @@ public class ListaPedidos extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			Insert in = new Insert();
+			Consulta c = new Consulta();
 			try {
 				if(e.getSource() == editar) {
-					
+					Pedido p = c.selectOrder(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+					String[][] renglones = c.selectRowsOrder(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+					principal.removeAll();
+					principal.add(new Venta(frame, p, renglones));
+					principal.updateUI();
+					principal.repaint();
+					repaint();
 				}else if(e.getSource() == eliminar) {
 					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar el pedido '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Borrar Pedido", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					if(reply == JOptionPane.YES_OPTION) {

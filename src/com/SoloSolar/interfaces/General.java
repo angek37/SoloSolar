@@ -206,7 +206,7 @@ public class General {
 			} else if (e.getSource() == prodProv) {
 				panelPrincipal.add(new ProductosPorProveedor());
 			} else if (e.getSource() == listPed) {
-				panelPrincipal.add(new ListaPedidos());
+				panelPrincipal.add(new ListaPedidos(panelPrincipal, frame));
 			}
 
 			panelPrincipal.updateUI();

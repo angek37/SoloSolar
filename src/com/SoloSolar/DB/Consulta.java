@@ -535,7 +535,7 @@ public class Consulta {
     	Pedido[] aux;
     	try {
     		stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery("select id_Pedido, Fecha, customer, CLIENTE.FIRSTNAME || ' ' || CLIENTE.SECONDNAME "
+            ResultSet results = stmt.executeQuery("select id_Pedido, Fecha, customer, CLIENTE.FIRSTNAME || ' ' || CLIENTE.SECONDNAME, IVA "
             		+"from PEDIDO join CLIENTE on customer = id_cus order by Fecha desc");
             while(results.next()) {
             	aux = p;
@@ -548,13 +548,18 @@ public class Consulta {
             	p[aux.length].setFecha(results.getString(2));
             	p[aux.length].setCustomer(results.getInt(3));
             	p[aux.length].setClienteString(results.getString(4));
+            	p[aux.length].setIva(results.getBoolean(5));
             }
             results.close();
             
             for(int x = 0; x < p.length; x++) {
             	results = stmt.executeQuery("select SUM(Cantidad*Precio) from Renglon where Pedido = "+p[x].getId());
                 while(results.next()) {
-                	p[x].setTotal(results.getDouble(1));
+                	if(p[x].getIva()) {
+                		p[x].setTotal(round(1.16*results.getDouble(1),1));
+                	}else {
+                		p[x].setTotal(round(results.getDouble(1),1));
+                	}
                 }
                 results.close();
             }
@@ -562,6 +567,64 @@ public class Consulta {
             stmt.close();
             shutdown();
             return p;
+    	}catch(SQLException sqlExcept) {
+    		sqlExcept.printStackTrace();
+            return null;
+    	}
+    }
+    
+    public Pedido selectOrder(String id_pedido) {
+    	Pedido p = new Pedido();
+    	try {
+    		createConnection();
+    		stmt = conn.createStatement();
+            ResultSet results = stmt.executeQuery("select customer, Fecha, IVA, Observaciones,"+
+            		" Cliente.FirstName || ' ' || Cliente.SecondName from Pedido join Cliente on customer = id_cus where id_Pedido = "+id_pedido);
+            while(results.next()) {
+            	p.setCustomer(results.getInt(1));
+            	p.setFecha(results.getString(2));
+            	p.setIva(results.getBoolean(3));
+            	p.setObservaciones(results.getString(4));
+            	p.setClienteString(results.getString(5));
+            }
+            p.setId(Integer.parseInt(id_pedido));
+            results.close();        
+            stmt.close();
+            shutdown();
+            return p;
+    	}catch(SQLException sqlExcept) {
+    		sqlExcept.printStackTrace();
+            return null;
+    	}
+    }
+    
+    public String[][] selectRowsOrder(String id_pedido) {
+    	String[][] renglones = new String[0][0];
+    	String[][] aux;
+    	try {
+    		createConnection();
+    		stmt = conn.createStatement();
+            ResultSet results = stmt.executeQuery("select id_prod, Nombre, Cantidad, Paquete, Precio, Cantidad*Precio"+
+            		" from Renglon join Producto on id_prod = Clave where Pedido = "+id_pedido);
+            while(results.next()) {
+            	aux = renglones;
+            	renglones = new String[aux.length+1][7];
+            	for(int x = 0; x < aux.length; x++) {
+            		for(int y = 0; y < aux[x].length; y++) {
+            			renglones[x][y] = aux[x][y];
+            		}
+            	}
+            	renglones[aux.length][0] = results.getString(1);
+            	renglones[aux.length][1] = results.getString(2);
+            	renglones[aux.length][2] = Integer.toString(results.getInt(3));
+            	renglones[aux.length][3] = Integer.toString(results.getInt(4));
+            	renglones[aux.length][5] = Double.toString(results.getDouble(5));
+            	renglones[aux.length][6] = Double.toString(round(results.getDouble(6), 1));
+            }
+            results.close();        
+            stmt.close();
+            shutdown();
+            return renglones;
     	}catch(SQLException sqlExcept) {
     		sqlExcept.printStackTrace();
             return null;

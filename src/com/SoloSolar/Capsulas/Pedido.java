@@ -14,6 +14,7 @@ public class Pedido {
 		super();
 		this.customer = customer;
 		this.fecha = fecha;
+		this.iva = iva;
 		this.observaciones = observaciones;
 	}
 	
@@ -22,6 +23,7 @@ public class Pedido {
 		this.id = id;
 		this.customer = customer;
 		this.fecha = fecha;
+		this.iva = iva;
 		this.observaciones = observaciones;
 	}
 	
