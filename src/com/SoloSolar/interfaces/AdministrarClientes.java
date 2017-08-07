@@ -328,6 +328,7 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 		
 
 		public void actionPerformed(ActionEvent e) {
+			Validaciones v = new Validaciones();
 			ClienteBD in = new ClienteBD();
 			Cliente cl;
 			try {
@@ -335,25 +336,27 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 					cl = new Cliente(Integer.parseInt(idTF.getText()), rfcTF.getText(), nombreTF.getText(), 
 							apellidosTF.getText(), calleTF.getText(), coloniaTF.getText(), cpTF.getText(),
 						ciudadTF.getText(), estadoTF.getText(), emailTF.getText(), celTF.getText(), telEmpTF.getText());
-					if(in.UpdateClient(cl)) {
-						JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-					}else {
-						JOptionPane.showMessageDialog(null, "No ha sido posible modificar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+					if(v.validarCliente(cl)) {
+						if(in.UpdateClient(cl)) {
+							JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+							idTF.setText("");
+							rfcTF.setText("");
+							nombreTF.setText("");
+							apellidosTF.setText("");
+							calleTF.setText("");
+							coloniaTF.setText("");
+							cpTF.setText("");
+							ciudadTF.setText("");
+							estadoTF.setText("");
+							emailTF.setText("");
+							celTF.setText("");
+							telEmpTF.setText("");
+							clientes.setText("Elija un cliente");
+							table.setModel(new ClientModel());
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible modificar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+						}
 					}
-					idTF.setText("");
-					rfcTF.setText("");
-					nombreTF.setText("");
-					apellidosTF.setText("");
-					calleTF.setText("");
-					coloniaTF.setText("");
-					cpTF.setText("");
-					ciudadTF.setText("");
-					estadoTF.setText("");
-					emailTF.setText("");
-					celTF.setText("");
-					telEmpTF.setText("");
-					clientes.setText("Elija un cliente");
-					table.setModel(new ClientModel());
 				} else if (e.getSource() == eliminar) {
 					if(ID != 0) {
 						int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar el cliente '" + clientes.getText() + "'?", "Cerrar Sistema", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
