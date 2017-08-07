@@ -215,8 +215,8 @@ public class Insert {
     	 try {
     		 createConnection();
              stmt = conn.createStatement();
-             stmt.executeUpdate("insert into Pedido(customer, Fecha, Observaciones) values"
-            		 +"("+p.getCustomer()+",'"+p.getFecha()+"','"+p.getObservaciones()+"')", Statement.RETURN_GENERATED_KEYS);
+             stmt.executeUpdate("insert into Pedido(customer, Fecha, IVA, Observaciones) values"
+            		 +"("+p.getCustomer()+",'"+p.getFecha()+"', "+p.getIva()+",'"+p.getObservaciones()+"')", Statement.RETURN_GENERATED_KEYS);
              ResultSet r = stmt.getGeneratedKeys();
              while(r.next()) {
             	 id = Integer.parseInt(Long.toString(r.getLong(1)));
@@ -257,7 +257,7 @@ public class Insert {
     		 createConnection();
     		 stmt = conn.createStatement();
     		 stmt.execute("update Pedido set customer = "+p.getCustomer()+", Fecha = '"
-    				 +p.getFecha()+"', Observaciones = '"+p.getObservaciones()+"' where id_Pedido = "+p.getId());
+    				 +p.getFecha()+"', IVA = "+p.getIva()+", Observaciones = '"+p.getObservaciones()+"' where id_Pedido = "+p.getId());
     		 stmt.close();
     		 shutdown();
     		 return true;

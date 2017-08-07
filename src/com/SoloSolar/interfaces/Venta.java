@@ -480,7 +480,7 @@ public class Venta extends JPanel {
 				if(e.getSource() == guardar) {
 					if(pedido.getText().equals("")) {
 						sqldate = new java.sql.Date(datePicker.getDate().getTime());
-						p = new Pedido(Integer.parseInt(idCliente.getText()), sqldate.toString(), observaciones.getText());
+						p = new Pedido(Integer.parseInt(idCliente.getText()), sqldate.toString(), iva.isSelected(), observaciones.getText());
 						id = in.InsertOrder(p);
 						if(id != -1) {
 							pedido.setText(""+id);
@@ -495,7 +495,7 @@ public class Venta extends JPanel {
 						}
 					}else {
 						sqldate = new java.sql.Date(datePicker.getDate().getTime());
-						p = new Pedido(Integer.parseInt(pedido.getText()), Integer.parseInt(idCliente.getText()), sqldate.toString(), observaciones.getText());
+						p = new Pedido(Integer.parseInt(pedido.getText()), Integer.parseInt(idCliente.getText()), sqldate.toString(), iva.isSelected(), observaciones.getText());
 						if(in.UpdateOrder(p)) {
 							if(isEdited) {
 								if(in.UpdateRowsOrder(p.getId(), renglones)) {
