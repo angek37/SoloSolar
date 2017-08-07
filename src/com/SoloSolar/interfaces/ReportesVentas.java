@@ -30,19 +30,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 import com.SoloSolar.DB.Consulta;
 import com.sun.glass.events.KeyEvent;
 import com.toedter.calendar.JDateChooser;
 
 public class ReportesVentas {
-	TableModel tm;
-    TableRowSorter<TableModel> tr;
+	DefaultTableModel dm;
     
 	public ReportesVentas(JFrame padre) {
 		EventQueue.invokeLater(new Runnable() {
@@ -95,27 +91,12 @@ public class ReportesVentas {
 			filtros.addItemListener(this);
 			//panelBuscar.setBackground(new Color(239, 228, 176));
 			panelBuscar.setBackground(new Color(153, 217, 234));
-			table = new javax.swing.JTable() {
+			table = new javax.swing.JTable(Consulta.dataVentas(), 
+					new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
 				public boolean isCellEditable(int rowIndex, int vColIndex) {
 		            return false;
 		        };
-			};
-
-			tm = new DefaultTableModel(Consulta.dataVentas(), 
-					new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
-	            public Class getColumnClass(int column) {
-	                Class Value;
-	                if (column >= 0 && column < getColumnCount()) {
-	                    Value = getValueAt(0, column).getClass();
-	                } else {
-	                    Value = Object.class;
-	                }
-	                return Value;
-	            }
-	        };
-	        table.setModel(tm);
-	        tr = new TableRowSorter<>(tm);
-	        table.setRowSorter(tr);
+			};			
 	        filter = new JButton("Filtrar", filterIcon);
 			filter.setMaximumSize(new Dimension(65, 40));
 			filter.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -265,23 +246,12 @@ public class ReportesVentas {
 					JOptionPane.showMessageDialog(dg, "No hay datos para crear PDF", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			} else if(e.getSource() == filter) {
-				System.out.println("entra un cingo aqui");
 				if (filtros.getSelectedIndex() == 0) {
 					if(dateChooserI.getDate() == null || dateChooserF.getDate() == null ||
 							dateChooserF.getDate().equals("") || dateChooserI.getDate().equals("")) {
-						tm = new DefaultTableModel(Consulta.dataVentas(), 
-								new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
-				            public Class getColumnClass(int column) {
-				                Class Value;
-				                if (column >= 0 && column < getColumnCount()) {
-				                    Value = getValueAt(0, column).getClass();
-				                } else {
-				                    Value = Object.class;
-				                }
-				                return Value;
-				            }
-				        };
-				        table.setModel(tm);
+						dm = new DefaultTableModel(Consulta.dataVentas(), 
+								new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
+				        table.setModel(dm);
 					} else {
 						String fechaI =  dateChooserI.getCalendar().get(Calendar.YEAR)
 								+ "-" + (dateChooserI.getCalendar().get(Calendar.MONTH) + 1)
@@ -291,19 +261,9 @@ public class ReportesVentas {
 								+ "-" + dateChooserF.getCalendar().get(Calendar.DAY_OF_MONTH);
 						String dataVentas[][] = Consulta.dataVentasFecha(fechaI, fechaF);
 						if(dataVentas.length > 0) {
-							tm = new DefaultTableModel(dataVentas, 
-									new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
-					            public Class getColumnClass(int column) {
-					                Class Value;
-					                if (column >= 0 && column < getColumnCount()) {
-					                    Value = getValueAt(0, column).getClass();
-					                } else {
-					                    Value = Object.class;
-					                }
-					                return Value;
-					            }
-					        };
-					        table.setModel(tm);
+							dm = new DefaultTableModel(dataVentas, 
+									new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
+					        table.setModel(dm);
 						} else {
 							JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
 						}
@@ -311,41 +271,20 @@ public class ReportesVentas {
 				} else {
 					if(pedidoF.getText() == null || pedidoI.getText() == null ||
 							pedidoF.equals("") || pedidoI.equals("")) {
-						tm = new DefaultTableModel(Consulta.dataVentas(), 
-								new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
-				            public Class getColumnClass(int column) {
-				                Class Value;
-				                if (column >= 0 && column < getColumnCount()) {
-				                    Value = getValueAt(0, column).getClass();
-				                } else {
-				                    Value = Object.class;
-				                }
-				                return Value;
-				            }
-				        };
-				        table.setModel(tm);
+						dm = new DefaultTableModel(Consulta.dataVentas(), 
+								new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
+				        table.setModel(dm);
 					} else {
 						String inicio = pedidoI.getText();
 						String fin = pedidoF.getText();
 						String[][] dataPedido = Consulta.dataVentasPedido(inicio, fin);
 						if(dataPedido.length > 0) {
-							tm = new DefaultTableModel(dataPedido, 
-									new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
-					            public Class getColumnClass(int column) {
-					                Class Value;
-					                if (column >= 0 && column < getColumnCount()) {
-					                    Value = getValueAt(0, column).getClass();
-					                } else {
-					                    Value = Object.class;
-					                }
-					                return Value;
-					            }
-					        };
-					        table.setModel(tm);
+							dm = new DefaultTableModel(dataPedido, 
+									new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
+					        table.setModel(dm);
 						} else {
 							JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
 						}
-						table.setModel(tm);
 					}
 				}
 			}
