@@ -529,6 +529,45 @@ public class Consulta {
     	return datos;
     }
     
+    public Pedido[] selectOrders() {
+    	createConnection();
+    	Pedido[] p = new Pedido[0];
+    	Pedido[] aux;
+    	try {
+    		stmt = conn.createStatement();
+            ResultSet results = stmt.executeQuery("select id_Pedido, Fecha, customer, CLIENTE.FIRSTNAME || ' ' || CLIENTE.SECONDNAME "
+            		+"from PEDIDO join CLIENTE on customer = id_cus order by Fecha desc");
+            while(results.next()) {
+            	aux = p;
+            	p = new Pedido[aux.length+1];
+            	for(int x = 0; x < aux.length; x++) {
+            		p[x] = aux[x];
+            	}
+            	p[aux.length] = new Pedido();
+            	p[aux.length].setId(results.getInt(1));
+            	p[aux.length].setFecha(results.getString(2));
+            	p[aux.length].setCustomer(results.getInt(3));
+            	p[aux.length].setClienteString(results.getString(4));
+            }
+            results.close();
+            
+            for(int x = 0; x < p.length; x++) {
+            	results = stmt.executeQuery("select SUM(Cantidad*Precio) from Renglon where Pedido = "+p[x].getId());
+                while(results.next()) {
+                	p[x].setTotal(results.getDouble(1));
+                }
+                results.close();
+            }
+                                    
+            stmt.close();
+            shutdown();
+            return p;
+    	}catch(SQLException sqlExcept) {
+    		sqlExcept.printStackTrace();
+            return null;
+    	}
+    }
+    
     public static void shutdown() {
         try {
             if (stmt != null) {

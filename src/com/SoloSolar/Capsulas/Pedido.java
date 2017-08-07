@@ -3,7 +3,12 @@ package com.SoloSolar.Capsulas;
 public class Pedido {
 	int id, customer;
 	boolean iva;
-	String fecha, observaciones;
+	String fecha, observaciones, clienteString;
+	double total;
+	
+	public Pedido() {
+		super();
+	}
 	
 	public Pedido(int customer, String fecha, boolean iva, String observaciones) {
 		super();
@@ -60,4 +65,21 @@ public class Pedido {
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
 	}
+
+	public String getClienteString() {
+		return clienteString;
+	}
+
+	public void setClienteString(String clienteString) {
+		this.clienteString = clienteString;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+	
 }
