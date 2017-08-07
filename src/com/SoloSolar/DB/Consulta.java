@@ -115,9 +115,10 @@ public class Consulta {
     	createConnection();
     	try {
 			stmt = conn.createStatement();
-			ResultSet results = stmt.executeQuery("SELECT P.ID_PEDIDO, P.AGENTE, P.CUSTOMER, "
-					+ "P.FECHA, P.OBSERVACIONES, R.PRECIO, R.CANTIDAD FROM PEDIDO AS P JOIN RENGLONES AS R "
-					+ "ON P.ID_PEDIDO = R.PEDIDO");
+			ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE " 
+					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
+					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+					+ "GROUP BY PR.NOMBRE");
 			while(results.next()) {
 				cantidad++;
 			}
@@ -130,22 +131,38 @@ public class Consulta {
     }
     
     public static String[][] dataVentas() {
-    	String datos[][] = new String[cantidadDatos()][5];
+    	String datos[][] = new String[cantidadVentas()][6];
+    	Statement stmt2;
     	int count = 0;
     	createConnection();
     	try {
     		stmt = conn.createStatement();
-    		ResultSet results = stmt.executeQuery("SELECT P.ID_PEDIDO, PR.NOMBRE, P.FECHA, R.CANTIDAD, R.PRECIO "
-    				+ "FROM PEDIDO AS P JOIN RENGLONES AS R ON P.ID_PEDIDO = R.PEDIDO "
-    				+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD");
+    		stmt2 = conn.createStatement();
+    		ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE, SUM(R.CANTIDAD) " 
+					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
+					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
+    		double precio = 0;
     		while(results.next()) {
+    			precio = 0;
     			datos[count][0] = results.getString(1);
     			datos[count][1] = results.getString(2);
-    			datos[count][2] = results.getString(3);
-    			datos[count][3] = results.getString(4);
-    			datos[count][4] = results.getString(5);
+    			ResultSet data = stmt2.executeQuery("SELECT SUM(R.CANTIDAD), PR.NOMBRE, PR.COSTO , R.PRECIO "  
+    					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "  
+    					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+    					+ "WHERE PR.NOMBRE = '" + results.getString(1) + "' "
+    					+ "GROUP BY PR.NOMBRE, PR.COSTO, R.PRECIO");
+    			while(data.next()) {
+    				datos[count][2] = data.getString(3);
+    				precio = precio + (Double.parseDouble(data.getString(1)) * Double.parseDouble(data.getString(4)));
+    			}
+    			data.close();
+    			datos[count][3] = round(precio, 1) + "";
+    			datos[count][4] = round((Double.parseDouble(datos[count][3]) - 
+    					(Double.parseDouble(datos[count][1]) * Double.parseDouble(datos[count][2]))), 1) + "";
     			count++;
     		}
+    		results.close();
 			shutdown();
 			return datos;
 		} catch (SQLException sqlExcept) {
@@ -154,6 +171,100 @@ public class Consulta {
 		}
     	return datos;
     }
+    
+    public static String[][] dataVentasFecha(String inicio, String fin) {
+    	String datos[][] = new String[cantidadVentas()][6];
+    	Statement stmt2;
+    	int count = 0;
+    	createConnection();
+    	try {
+    		stmt = conn.createStatement();
+    		stmt2 = conn.createStatement();
+    		ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE, SUM(R.CANTIDAD) " 
+					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
+					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
+    		double precio = 0;
+    		while(results.next()) {
+    			precio = 0;
+    			datos[count][0] = results.getString(1);
+    			datos[count][1] = results.getString(2);
+    			ResultSet data = stmt2.executeQuery("SELECT SUM(R.CANTIDAD), PR.NOMBRE, PR.COSTO , R.PRECIO "  
+    					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "  
+    					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+    					+ "WHERE PR.NOMBRE = '" + results.getString(1) + "' "
+    					+ "GROUP BY PR.NOMBRE, PR.COSTO, R.PRECIO");
+    			while(data.next()) {
+    				datos[count][2] = data.getString(3);
+    				precio = precio + (Double.parseDouble(data.getString(1)) * Double.parseDouble(data.getString(4)));
+    			}
+    			data.close();
+    			datos[count][3] = round(precio, 1) + "";
+    			datos[count][4] = round((Double.parseDouble(datos[count][3]) - 
+    					(Double.parseDouble(datos[count][1]) * Double.parseDouble(datos[count][2]))), 1) + "";
+    			count++;
+    		}
+    		results.close();
+			shutdown();
+			return datos;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+			shutdown();
+		}
+    	return datos;
+    }
+    
+    public static String[][] dataVentasPedido(String inicio, String fin) {
+    	String datos[][] = new String[cantidadVentas()][6];
+    	Statement stmt2;
+    	int count = 0;
+    	createConnection();
+    	try {
+    		stmt = conn.createStatement();
+    		stmt2 = conn.createStatement();
+    		ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE, SUM(R.CANTIDAD) " 
+					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
+					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
+    		double precio = 0;
+    		while(results.next()) {
+    			precio = 0;
+    			datos[count][0] = results.getString(1);
+    			datos[count][1] = results.getString(2);
+    			ResultSet data = stmt2.executeQuery("SELECT SUM(R.CANTIDAD), PR.NOMBRE, PR.COSTO , R.PRECIO "  
+    					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "  
+    					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+    					+ "WHERE PR.NOMBRE = '" + results.getString(1) + "' "
+    					+ "GROUP BY PR.NOMBRE, PR.COSTO, R.PRECIO");
+    			while(data.next()) {
+    				datos[count][2] = data.getString(3);
+    				System.out.println(data.getString(1) + " " + data.getString(4));
+    				precio = precio + (Double.parseDouble(data.getString(1)) * Double.parseDouble(data.getString(4)));
+    			}
+    			data.close();
+    			datos[count][3] = round(precio, 1) + "";
+    			datos[count][4] = round((Double.parseDouble(datos[count][3]) - 
+    					(Double.parseDouble(datos[count][1]) * Double.parseDouble(datos[count][2]))), 1) + "";
+    			count++;
+    		}
+    		results.close();
+			shutdown();
+			return datos;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+			shutdown();
+		}
+    	return datos;
+    }
+    
+    public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
+	}
     
     public static String[][] dataProductsP() {
     	String datos[][] = new String[cantidadDatos()][6];
