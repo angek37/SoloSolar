@@ -338,7 +338,7 @@ public class AltaProducto extends JPanel implements ActionListener{
 		public void mouseClicked(MouseEvent e) {
 			DefaultTableModel dtm;
 			try {
-				if (e.getClickCount() == 2 && !datos[0][0].equals("")) {
+				if (e.getClickCount() == 2) {
 					deleteSupplier(table.getSelectedRow());
 					dtm = new DefaultTableModel(datos, head);
 					table.setModel(dtm);
@@ -364,6 +364,22 @@ public class AltaProducto extends JPanel implements ActionListener{
 			
 		}
 	}
+	
+	public boolean isEmpty() {
+		boolean r = false;
+		for(int x = 0; x < datos.length; x++) {
+			for(int y = 0; y < datos[x].length; y++) {
+				if(datos[x][y] != null) {
+					if(datos[x][y].equals("")) {
+						r = true;
+					}
+				}else {
+					r = true;
+				}
+			}
+		}
+		return r;
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		Insert i = new Insert();
@@ -376,7 +392,7 @@ public class AltaProducto extends JPanel implements ActionListener{
 					Double.parseDouble(precio1.getText()), Double.parseDouble(precio2.getText()));
 			if(i.InsertProduct(p)){
 				if(!datos[0][0].equals("")) {
-					if(i.InsertProductSupplier(clave.getText(), datos)) {
+					if(!isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Producto registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
 						clave.setText("");
 						nombre.setText("");
