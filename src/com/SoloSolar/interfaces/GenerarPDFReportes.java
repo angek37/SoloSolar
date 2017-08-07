@@ -105,10 +105,15 @@ public class GenerarPDFReportes {
 			tab.getDefaultCell().setCellEvent(new RoundedBorder());*/
 			tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			tab.setTableEvent(new BorderEvent());
+			int productos = 0;
+			double total = 0, ganancias = 0;
 			for(int i = 0; i < renglones; i++) {
 				for(int j = 0; j < 5; j++) {
 					tab.addCell(getInfo(dataPDF[i][j]));
 				}
+				productos += Integer.parseInt(dataPDF[i][1]);
+				total += Double.parseDouble(dataPDF[i][3]);
+				ganancias += Double.parseDouble(dataPDF[i][4]);
 			}
 			doc.add(tab);
 			PdfPTable tabResults = new PdfPTable(5);
@@ -118,10 +123,10 @@ public class GenerarPDFReportes {
 			tabResults.setHorizontalAlignment(0);
 			tabResults.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			tabResults.addCell(getHeader("Totales: "));
-			tabResults.addCell(getHeader(renglones + ""));
+			tabResults.addCell(getHeader(productos + ""));
 			tabResults.addCell(getHeader(""));
-			tabResults.addCell(getHeader(""));
-			tabResults.addCell(getHeader(""));
+			tabResults.addCell(getHeader(total + ""));
+			tabResults.addCell(getHeader(ganancias + ""));
 			doc.add(tabResults);
 			doc.close();
 			JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "¡Exito!", JOptionPane.INFORMATION_MESSAGE);
