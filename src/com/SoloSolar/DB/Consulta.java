@@ -115,7 +115,9 @@ public class Consulta {
     	createConnection();
     	try {
 			stmt = conn.createStatement();
-			ResultSet results = stmt.executeQuery("SELECT * FROM PEDIDO AS P");
+			ResultSet results = stmt.executeQuery("SELECT P.ID_PEDIDO, P.AGENTE, P.CUSTOMER, "
+					+ "P.FECHA, P.OBSERVACIONES, R.PRECIO, R.CANTIDAD FROM PEDIDO AS P JOIN RENGLONES AS R "
+					+ "ON P.ID_PEDIDO = R.PEDIDO");
 			while(results.next()) {
 				cantidad++;
 			}
@@ -133,8 +135,9 @@ public class Consulta {
     	createConnection();
     	try {
     		stmt = conn.createStatement();
-    		ResultSet results = stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PRECIO1, P.PRECIO2 "
-    				+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA");
+    		ResultSet results = stmt.executeQuery("SELECT P.ID_PEDIDO, PR.NOMBRE, P.FECHA, R.CANTIDAD, R.PRECIO "
+    				+ "FROM PEDIDO AS P JOIN RENGLONES AS R ON P.ID_PEDIDO = R.PEDIDO "
+    				+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD");
     		while(results.next()) {
     			datos[count][0] = results.getString(1);
     			datos[count][1] = results.getString(2);

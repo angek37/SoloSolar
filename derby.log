@@ -1,0 +1,32 @@
+----------------------------------------------------------------
+Mon Aug 07 01:13:19 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-015d-bb53-842c-000006b7da00 
+on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Usuario/eclipse-workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_101-b13
+user.dir=C:\Users\Usuario\eclipse-workspace\Solo-Solar
+os.name=Windows 8.1
+os.arch=amd64
+os.version=6.3
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:13:20 CDT 2017:
+Shutting down instance a816c00e-015d-bb53-842c-000006b7da00 on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+----------------------------------------------------------------
+Mon Aug 07 01:13:20 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 08264012-015d-bb53-842c-000006b7da00 
+on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Usuario/eclipse-workspace/Solo-Solar/db/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_101-b13
+user.dir=C:\Users\Usuario\eclipse-workspace\Solo-Solar
+os.name=Windows 8.1
+os.arch=amd64
+os.version=6.3
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Aug 07 01:13:20 CDT 2017:
+Shutting down instance 08264012-015d-bb53-842c-000006b7da00 on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 

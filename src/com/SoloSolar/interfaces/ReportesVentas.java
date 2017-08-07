@@ -35,6 +35,7 @@ import javax.swing.table.TableRowSorter;
 
 import com.SoloSolar.DB.Consulta;
 import com.sun.glass.events.KeyEvent;
+import com.toedter.calendar.JDateChooser;
 
 public class ReportesVentas {
 	TableModel tm;
@@ -63,11 +64,12 @@ public class ReportesVentas {
 	
 	public class SearchDialog extends JPanel implements KeyListener, ActionListener {
 		private JDialog dg;
+		private JDateChooser dateChooserI, dateChooserF;
 		private JPanel panelBuscar;
 		private JTable table;
 		private JScrollPane jsp;
-		private JTextField buscar;
-		private JLabel buscarLBL;
+		private JTextField buscar, pedidoI, pedidoF;
+		private JLabel buscarLBL, inicio, fin;
 		private JButton pdf;
 		private ImageIcon pdfIcon = new ImageIcon(
 				new ImageIcon("assets/pdfnew.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
@@ -76,6 +78,12 @@ public class ReportesVentas {
 			dg = dialog;
 			dg.setIconImage(new ImageIcon("assets/icono.png").getImage());
 			panelBuscar = new JPanel();
+			dateChooserI = new JDateChooser();
+			dateChooserF = new JDateChooser();
+			pedidoI = new JTextField();
+			pedidoF = new JTextField();
+			inicio = new JLabel("Inicio: ");
+			fin = new JLabel("Fin: ");
 			//panelBuscar.setBackground(new Color(239, 228, 176));
 			panelBuscar.setBackground(new Color(153, 217, 234));
 			buscarLBL = new JLabel("Buscar: ");
@@ -85,8 +93,9 @@ public class ReportesVentas {
 		            return false;
 		        };
 			};
-			tm = new DefaultTableModel(Consulta.dataProducts(), 
-					new String[]{"Clave", "Nombre", "Categoria", "Precio 1", "Precio2"}) {
+
+			tm = new DefaultTableModel(new String[][] {{"", "", "", "", "", "", "", ""}}, 
+					new String[]{"No Pedido", "Fecha", "Producto", "Cantidad", "Costo", "Precio", "Total", "Ganancia"}) {
 	            public Class getColumnClass(int column) {
 	                Class Value;
 	                if (column >= 0 && column < getColumnCount()) {
