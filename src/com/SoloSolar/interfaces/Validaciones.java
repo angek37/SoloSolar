@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.Capsulas.Producto;
+import com.SoloSolar.Capsulas.Proveedor;
 
 public class Validaciones {
 	
@@ -93,6 +94,32 @@ public class Validaciones {
 		}
 		if(validarCamposNoVacios(c.getDescripcion())) {
 			mensajeErrores += "\nLa descripcion no puede estar vacia";
+			clienteCorrecto = false;
+		}
+		if(!clienteCorrecto) {
+			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
+		}
+		return clienteCorrecto;
+	}
+	
+	public boolean validarProveedores(Proveedor p) {
+		boolean clienteCorrecto = true;
+		String mensajeErrores = "Favor de corregir los siguientes datos: ";
+		
+		if(validarCamposNoVacios(p.getNombre())) {
+			mensajeErrores += "\nEl nombre no puede estar vacio";
+			clienteCorrecto = false;
+		}
+		if(validarCamposNoVacios(p.getDireccion())) {
+			mensajeErrores += "\nLa direccion no puede estar vacia";
+			clienteCorrecto = false;
+		}
+		if(validarSoloNumerosVacios(p.getTelefono())) {
+			mensajeErrores += "\nEl telefono no puede contener letras.";
+			clienteCorrecto = false;
+		}
+		if(validarEmail(p.getEmail())) {
+			mensajeErrores += "\nEl email debe ser (Ejemplo): email@example.com";
 			clienteCorrecto = false;
 		}
 		if(!clienteCorrecto) {

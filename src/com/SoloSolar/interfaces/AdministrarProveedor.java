@@ -174,22 +174,25 @@ public class AdministrarProveedor extends JPanel implements MouseListener {
 		}
 		
 		public void actionPerformed(ActionEvent e) {
+			Validaciones v = new Validaciones();
 			Insert i = new Insert();
 			Proveedor p;
 			try {
 				if(e.getSource() == actualizar) {
 					p = new Proveedor(Integer.parseInt(id.getText()), nombre.getText(), direccion.getText(), telefono.getText(), correo.getText());
-					if(i.UpdateSupplier(p)) {
-						JOptionPane.showMessageDialog(null, "El proveedor ha sido actualizado", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-						table.setModel(new SupplierModel());
-						id.setText("");
-						nombre.setText("");
-						direccion.setText("");
-						telefono.setText("");
-						correo.setText("");
-						prov.setText("Elija un proveedor");
-					}else {
-						JOptionPane.showMessageDialog(null, "No ha sido posible actualizar el proveedor", "Error", JOptionPane.ERROR_MESSAGE);
+					if(v.validarProveedores(p)) {
+						if(i.UpdateSupplier(p)) {
+							JOptionPane.showMessageDialog(null, "El proveedor ha sido actualizado", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+							table.setModel(new SupplierModel());
+							id.setText("");
+							nombre.setText("");
+							direccion.setText("");
+							telefono.setText("");
+							correo.setText("");
+							prov.setText("Elija un proveedor");
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible actualizar el proveedor", "Error", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}else if (e.getSource() == eliminar) {
 					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar el proveedor '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Borrar Proveedor", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

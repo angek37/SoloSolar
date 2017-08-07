@@ -17,11 +17,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
-import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Proveedor;
 import com.SoloSolar.DB.Consulta;
 import com.SoloSolar.DB.Insert;
-import com.SoloSolar.interfaces.AltaCategoria.CategoryModel;
 
 public class AltaProveedor extends JPanel implements ActionListener {
 	private JTextField nombre, direccion, telefono, correo;
@@ -121,20 +119,23 @@ public class AltaProveedor extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		Validaciones v = new Validaciones();
 		Insert in = new Insert();
 		Proveedor prov;
 		if(e.getSource() == registrar) {
 			prov = new Proveedor(nombre.getText(), direccion.getText(), telefono.getText(), correo.getText());
-			if(in.InsertSupplier(prov)) {
-				JOptionPane.showMessageDialog(null, "Proveedor registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
-			}else {
-				JOptionPane.showMessageDialog(null, "No ha sido posible registrar el proveedor", "Error", JOptionPane.ERROR_MESSAGE);
+			if(v.validarProveedores(prov)) {
+				if(in.InsertSupplier(prov)) {
+					nombre.setText("");
+					direccion.setText("");
+					telefono.setText("");
+					correo.setText("");
+					table.setModel(new SupplierModel());
+					JOptionPane.showMessageDialog(null, "Proveedor registrado exitosamente", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "No ha sido posible registrar el proveedor", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
-			nombre.setText("");
-			direccion.setText("");
-			telefono.setText("");
-			correo.setText("");
-			table.setModel(new SupplierModel());
 		}
 	}
 	
