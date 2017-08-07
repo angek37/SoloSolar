@@ -36,7 +36,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.SoloSolar.Capsulas.Pedido;
 import com.SoloSolar.DB.Consulta;
+import com.SoloSolar.DB.Insert;
 import com.toedter.calendar.JDateChooser;
 
 import javafx.scene.control.DatePicker;
@@ -309,13 +311,6 @@ public class Venta extends JPanel {
 			public EditRows() {
 				setLayout(new FlowLayout(FlowLayout.LEFT));
 				add(new JLabel("Renglones:"));
-				addR = new JButton(addRico);
-				addR.setBorder(null);
-				addR.setBackground(null);
-				addR.setFocusable(false);
-				addR.setToolTipText("Agregar Renglón");
-				addR.addActionListener(this);
-				add(addR);
 				subR = new JButton(subRico);
 				subR.setBorder(null);
 				subR.setBackground(null);
@@ -323,6 +318,13 @@ public class Venta extends JPanel {
 				subR.setToolTipText("Quitar Renglón");
 				subR.addActionListener(this);
 				add(subR);
+				addR = new JButton(addRico);
+				addR.setBorder(null);
+				addR.setBackground(null);
+				addR.setFocusable(false);
+				addR.setToolTipText("Agregar Renglón");
+				addR.addActionListener(this);
+				add(addR);
 			}
 			
 			public void AgregaRenglon() {
@@ -475,15 +477,31 @@ public class Venta extends JPanel {
 			}
 			
 			public void actionPerformed(ActionEvent e) {
+				Pedido p;
+				Insert in = new Insert();
+				int id;
 				if(e.getSource() == guardar) {
-					Imprimir();
+					if(pedido.getText().equals("")) {
+						java.sql.Date sqldate = new java.sql.Date(datePicker.getDate().getTime());
+						p = new Pedido(Integer.parseInt(idCliente.getText()), sqldate.toString(), observaciones.getText());
+						id = in.InsertOrder(p);
+						if(id != -1) {
+							pedido.setText(""+id);
+							if(in.InsertRowsOrder(id, renglones)) {
+								JOptionPane.showMessageDialog(null, "La venta se ha guardado exitosamente", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
+							}else {
+								JOptionPane.showMessageDialog(null, "Ha ocurrido un error al guardar", "¡Error!", JOptionPane.ERROR_MESSAGE);
+							}
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible crear el pedido", "¡Error!", JOptionPane.ERROR_MESSAGE);
+						}
+					}
 				} else if(e.getSource() == nuevo) {
 					int reply = JOptionPane.showConfirmDialog(null, "Esta acción eliminará los datos no guardados ¿desea continuar?", "Seleccione una opción", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					if(reply == JOptionPane.YES_OPTION) {
 						pedido.setText("");
 						idCliente.setText("");
 						nombreCliente.setText("");
-						datePicker = new JDateChooser(new Date());
 						observaciones.setText("");
 						renglones = null;
 						renglones = new String[12][7];

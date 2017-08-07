@@ -210,6 +210,46 @@ public class Insert {
         }
     }
     
+     public int InsertOrder(Pedido p) {
+    	 int id = -1;
+    	 try {
+    		 createConnection();
+             stmt = conn.createStatement();
+             stmt.executeUpdate("insert into Pedido(customer, Fecha, Observaciones) values"
+            		 +"("+p.getCustomer()+",'"+p.getFecha()+"','"+p.getObservaciones()+"')", Statement.RETURN_GENERATED_KEYS);
+             ResultSet r = stmt.getGeneratedKeys();
+             while(r.next()) {
+            	 id = Integer.parseInt(Long.toString(r.getLong(1)));
+             }
+             stmt.close();
+             shutdown();
+             return id;
+    	 }catch(SQLException sqlExcept) {
+    		 sqlExcept.printStackTrace();
+    		 return -1;
+    	 }
+     }
+     
+     public boolean InsertRowsOrder(int id_pedido, String datos[][]) {
+    	 try {
+    		 createConnection();
+    		 stmt = conn.createStatement();
+    		 for(int x = 0; x < datos.length; x++) {
+    			 if(datos[x][0] != null && datos[x][2] != null) {
+    				 stmt.execute("insert into Renglon(Pedido, id_prod, Precio, Cantidad) "
+    						 +"values("+id_pedido+",'"+datos[x][0]+"',"+
+    						 	datos[x][5]+","+datos[x][2]+")");
+    			 }
+    		 }
+    		 stmt.close();
+    		 shutdown();
+    		 return true;
+    	 }catch(SQLException sqlExcept) {
+    		 sqlExcept.printStackTrace();
+    		 return false;
+    	 }
+     }
+    
     private static void createConnection() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
