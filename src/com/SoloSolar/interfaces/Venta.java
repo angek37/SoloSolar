@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultCellEditor;
@@ -395,12 +396,19 @@ public class Venta extends JPanel {
 		public String[][] dataPDF(int renglones) {
 			int reng = rengReales(renglones);
 			String data[][] = new String[reng][7];
+			int index = 0;
+			boolean aumentar = false;
 			for(int i = 0; i < renglones; i++) {
+				aumentar = false;
 				for(int j = 0; j < 7; j++) {
 					if(table.getModel().getValueAt(i, 0) != null && 
 							!String.valueOf(table.getModel().getValueAt(i, 0)).equals("") ) {
-						data[i][j] = table.getModel().getValueAt(i, j) + "";
+						data[index][j] = table.getModel().getValueAt(i, j) + "";
+						aumentar = true;
 					}
+				}
+				if(aumentar) {
+					index++;
 				}
 			}
 			return data;
@@ -409,7 +417,6 @@ public class Venta extends JPanel {
 		public boolean datosCompletos(int renglones) {
 			boolean correcto = true;
 			String data[][] = dataPDF(renglones);
-			
 			for(int i = 0; i < data.length; i++) {
 				for(int j = 0; j < data[i].length; j++) {
 					if(data[i][j] == null || data[i][j].equals("") || data[i][j].equals("null")) {
@@ -542,13 +549,18 @@ public class Venta extends JPanel {
 							f.setSelectedFile(new File("Reporte Ventas"));
 							int opcion = f.showSaveDialog(padre);
 							if(opcion == JFileChooser.APPROVE_OPTION) {
+								String fecha = datePicker.getCalendar().get(Calendar.DAY_OF_MONTH) 
+										+ "/" + (datePicker.getCalendar().get(Calendar.MONTH) + 1)
+										+ "/" + datePicker.getCalendar().get(Calendar.YEAR);
+								String informacionAdicional[] = {observaciones.getText(), pedido.getText(), 
+										nombreCliente.getText(), fecha};
 								dataPDF = dataPDF(table.getRowCount());
 								File file = f.getSelectedFile();
 								ruta = file.toString();
 								String data[][] = dataPDF(renglones);
 								int cantidades = cantidades(data);
 								GenerarPDFVentas g = new GenerarPDFVentas(ruta, rengReales(renglones), 
-										data, cantidades, round(totalC, 1));
+										data, cantidades, round(totalC, 1), informacionAdicional);
 							}
 						} else {
 							JOptionPane.showMessageDialog(padre, "Llenar todos los datos antes de exportar", "Datos vacios", JOptionPane.INFORMATION_MESSAGE);

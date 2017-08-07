@@ -1,5 +1,6 @@
 package com.SoloSolar.interfaces;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,6 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPCellEvent;
@@ -30,26 +30,61 @@ public class GenerarPDFVentas {
 	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 7, Font.NORMAL);
 	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 7, Font.BOLDITALIC);
 	
-	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][], int cantidades, double total) {
+	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][], int cantidades, double total,
+			String infAd[]) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document();
 			PdfWriter writer = PdfWriter.getInstance(doc, archivo);
-			MyFooter m = new MyFooter();
-			writer.setPageEvent(m);
+			PdfPCell cTF = new PdfPCell(getHeader("Realizó"));
+			cTF.setBorderWidthBottom(1f);
+			cTF.setBorderWidthTop(1f);
+			cTF.setBorder(Rectangle.TOP);
+			PdfPTable tableFooter = new PdfPTable(5);
+			tableFooter.setTotalWidth(510f);
+			tableFooter.setLockedWidth(true);
+			tableFooter.setHorizontalAlignment(0);
+			tableFooter.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			tableFooter.addCell(cTF);
+			tableFooter.addCell(new Paragraph(" "));
+			cTF = new PdfPCell(getHeader("Revisó"));
+			cTF.setBorderWidthBottom(1f);
+			cTF.setBorderWidthTop(1f);
+			cTF.setBorder(Rectangle.TOP);
+			tableFooter.addCell(cTF);
+			tableFooter.addCell(new Paragraph(" "));
+			cTF = new PdfPCell(getHeader("Autorizó"));
+			cTF.setBorderWidthBottom(1f);
+			cTF.setBorderWidthTop(1f);
+			cTF.setBorder(Rectangle.TOP);
+			tableFooter.addCell(cTF);
+			FooterTable ft = new FooterTable(tableFooter);
+			writer.setPageEvent(ft);
 			doc.setPageSize(new Rectangle(612, 791));
 			doc.open();
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
 			doc.add(getFecha(dateFormat.format(date)));
 			PdfPTable t = new PdfPTable(2);
-			doc.add(addHeaderInformation(t));
+			doc.add(addHeaderInformation(t, infAd));
 			doc.add(getFooter("BLVD. JUAN ALONSO DE TORRES OTE. #202 B COL. VIBAR TEL.: (477)"
 					+ "114 56 37 CEL.: 044 477 136 5097, LEÓN, GTO."));
 			doc.add(new Paragraph("\n"));
+			PdfPTable observaciones = new PdfPTable(1);
+			observaciones.setTotalWidth(510f);
+			observaciones.setLockedWidth(true);
+			observaciones.setHorizontalAlignment(0);
+			observaciones.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			observaciones.getDefaultCell().setCellEvent(new RoundedBorder());
+			PdfPTable camp = new PdfPTable(1);
+			camp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			camp.addCell(getHeader("Observaciones: "));
+			camp.addCell(getInfo(infAd[0]));
+			observaciones.addCell(camp);
+			doc.add(observaciones);
+			doc.add(new Paragraph("\n"));
 			PdfPTable table = new PdfPTable(1);
 			//doc.add(addTableInformation(table));
-			doc.add(new Paragraph("\n"));
 			PdfPTable tab = new PdfPTable(7);
 			tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
 			PdfPCell cellClave = new PdfPCell(getHeader("Clave")),
@@ -117,6 +152,9 @@ public class GenerarPDFVentas {
 			doc.add(tabResults);
 			doc.close();
 			JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "¡Exito!", JOptionPane.INFORMATION_MESSAGE);
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "No se puede crear el archivo. \nYa existe uno con el mismo nombre y esta en uso", 
+					"El archivo ya existe", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -136,7 +174,7 @@ public class GenerarPDFVentas {
 		}
 	}
 	
-	public PdfPTable addHeaderInformation(PdfPTable t) {
+	public PdfPTable addHeaderInformation(PdfPTable t, String infAd[]) {
 		Image imagen;
 		try {
 			t.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -155,7 +193,15 @@ public class GenerarPDFVentas {
 			t2.addCell(getHeader("R.F.C. ROAF6504089G0"));
 			t2.addCell(getHeader("alberto-426@hotmail.com"));
 			t.addCell(t2);
-			t.addCell(new Paragraph(""));
+			PdfPTable t3 = new PdfPTable(2);
+			t3.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			t3.addCell(getHeader("Pedido No:"));
+			t3.addCell(getHeader(infAd[1]));
+			t3.addCell(getHeader("Cliente: "));
+			t3.addCell(getHeader(infAd[2]));
+			t3.addCell(getHeader("Fecha del pedido: "));
+			t3.addCell(getHeader(infAd[3]));
+			t.addCell(t3);
 			return t;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -222,16 +268,13 @@ public class GenerarPDFVentas {
         }
     }
 	
-	class MyFooter extends PdfPageEventHelper {
-        Font ffont = new Font(Font.FontFamily.UNDEFINED, 12, Font.ITALIC);
- 
+	public class FooterTable extends PdfPageEventHelper {
+        protected PdfPTable footer;
+        public FooterTable(PdfPTable footer) {
+            this.footer = footer;
+        }
         public void onEndPage(PdfWriter writer, Document document) {
-            PdfContentByte cb = writer.getDirectContent();
-            Phrase footer = new Phrase("Lista de productos", ffont);
-            ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
-                    footer,
-                    (document.right() - document.left()) / 2 + document.leftMargin(),
-                    document.bottom() - 10, 0);
+            footer.writeSelectedRows(0, -1, 36, 64, writer.getDirectContent());
         }
     }
 	
