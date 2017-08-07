@@ -48,9 +48,19 @@ public class ListaPedidos extends JPanel {
 			table.setFillsViewportHeight(true);
 			table.setShowHorizontalLines(true);
 			table.setShowVerticalLines(true);
+			table.getTableHeader().setReorderingAllowed(false);
+			FormatoTabla();
 			JScrollPane scrollPane = new JScrollPane(table);
 			add(scrollPane, gbc);
 		}
+	}
+	
+	public void FormatoTabla() {
+		table.getColumnModel().getColumn(0).setMaxWidth(60);
+		table.getColumnModel().getColumn(1).setMinWidth(60);
+		table.getColumnModel().getColumn(2).setMaxWidth(60);
+		table.getColumnModel().getColumn(3).setMinWidth(200);
+		table.getColumnModel().getColumn(4).setMinWidth(20);
 	}
 	
 	public class OptionsPanel extends JPanel implements ActionListener{
