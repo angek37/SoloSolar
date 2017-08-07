@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.derby.jdbc.*;
-
 import com.SoloSolar.Capsulas.*;
 
 
@@ -112,6 +110,48 @@ public class Consulta {
     	return datos;
     }
     
+    public static int cantidadVentas() {
+    	int cantidad = 0;
+    	createConnection();
+    	try {
+			stmt = conn.createStatement();
+			ResultSet results = stmt.executeQuery("SELECT * FROM PEDIDO AS P");
+			while(results.next()) {
+				cantidad++;
+			}
+			shutdown();
+			return cantidad;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+		}
+    	return cantidad;
+    }
+    
+    public static String[][] dataVentas() {
+    	String datos[][] = new String[cantidadDatos()][5];
+    	int count = 0;
+    	createConnection();
+    	try {
+    		stmt = conn.createStatement();
+    		ResultSet results = stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PRECIO1, P.PRECIO2 "
+    				+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA");
+    		while(results.next()) {
+    			datos[count][0] = results.getString(1);
+    			datos[count][1] = results.getString(2);
+    			datos[count][2] = results.getString(3);
+    			datos[count][3] = results.getString(4);
+    			datos[count][4] = results.getString(5);
+    			count++;
+    		}
+			shutdown();
+			return datos;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+			shutdown();
+		}
+    	return datos;
+    }
+    
     public static String[][] dataProductsP() {
     	String datos[][] = new String[cantidadDatos()][6];
     	int count = 0;
@@ -176,76 +216,6 @@ public class Consulta {
 		}
     	return datos;
     }
-    
-    public static int cantidadDatosPDF(String buscar) {
-    	int cantidad = 0;
-    	buscar = buscar.toUpperCase();
-    	createConnection();
-    	try {
-			stmt = conn.createStatement();
-			ResultSet results = buscar.equals("")  
-    				? stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PRECIO1, P.PRECIO2 "
-    						+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA")
-    				: stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PRECIO1, P.PRECIO2 "
-    						+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA "
-    						+ "WHERE UPPER(P.NOMBRE) LIKE '" + buscar + "%' "
-    						+ "OR UPPER(P.NOMBRE) LIKE '%" + buscar + "%' "
-    						+ "OR UPPER(P.NOMBRE) LIKE '" + buscar + "%'"
-    						+ "OR UPPER(P.CLAVE) LIKE '" + buscar + "%' "
-    						+ "OR UPPER(P.CLAVE) LIKE '%" + buscar + "%' "
-    						+ "OR UPPER(P.CLAVE) LIKE '" + buscar + "%'"
-    						+ "OR UPPER(C.NOMBRE) LIKE '" + buscar + "%' "
-    						+ "OR UPPER(C.NOMBRE) LIKE '%" + buscar + "%' "
-    						+ "OR UPPER(C.NOMBRE) LIKE '" + buscar + "%'");
-			while(results.next()) {
-				cantidad++;
-			}
-			shutdown();
-			return cantidad;
-		} catch (SQLException sqlExcept) {
-			sqlExcept.printStackTrace();
-		}
-    	return cantidad;
-    }
-    
-    public static String[][] dataPDF(String buscar) {
-    	String datos[][] = new String[cantidadDatos()][5];
-    	buscar = buscar.toUpperCase();
-    	int count = 0;
-    	createConnection();
-    	try {
-    		stmt = conn.createStatement();
-    		ResultSet results = buscar.equals("")  
-    				? stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PRECIO1, P.PRECIO2 "
-    						+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA")
-    				: stmt.executeQuery("SELECT P.CLAVE, P.NOMBRE, C.NOMBRE, P.PRECIO1, P.PRECIO2 "
-    						+ "FROM PRODUCTO AS P JOIN CATEGORIA AS C ON C.ID_CAT = P.CATEGORIA "
-    						+ "WHERE UPPER(P.NOMBRE) LIKE '" + buscar + "%' "
-    						+ "OR UPPER(P.NOMBRE) LIKE '%" + buscar + "%' "
-    						+ "OR UPPER(P.NOMBRE) LIKE '" + buscar + "%'"
-    						+ "OR UPPER(P.CLAVE) LIKE '" + buscar + "%' "
-    						+ "OR UPPER(P.CLAVE) LIKE '%" + buscar + "%' "
-    						+ "OR UPPER(P.CLAVE) LIKE '" + buscar + "%'"
-    						+ "OR UPPER(C.NOMBRE) LIKE '" + buscar + "%' "
-    						+ "OR UPPER(C.NOMBRE) LIKE '%" + buscar + "%' "
-    						+ "OR UPPER(C.NOMBRE) LIKE '" + buscar + "%'");
-    		while(results.next()) {
-    			datos[count][0] = results.getString(1);
-    			datos[count][1] = results.getString(2);
-    			datos[count][2] = results.getString(3);
-    			datos[count][3] = results.getString(4);
-    			datos[count][4] = results.getString(5);
-    			count++;
-    		}
-			shutdown();
-			return datos;
-		} catch (SQLException sqlExcept) {
-			sqlExcept.printStackTrace();
-			shutdown();
-		}
-    	return datos;
-    }
-    
         
     public Producto[] selectProducts(){
     	createConnection();
