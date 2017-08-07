@@ -103,7 +103,6 @@ public class BuscarProducto {
 			table.setShowHorizontalLines(true);
 			table.setShowVerticalLines(true);
 			table.getTableHeader().setReorderingAllowed(false);
-			table.setValueAt("aosidjjo", 0, 1);
 			table.addMouseMotionListener(new MouseMotionAdapter() {
 				public void mouseMoved(MouseEvent e) {
 					int row = table.rowAtPoint(e.getPoint());
