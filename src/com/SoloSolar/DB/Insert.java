@@ -290,6 +290,19 @@ public class Insert {
     	 }
      }
      
+     public boolean DeleteOrder(String id) {
+    	 try {
+    		 stmt = conn.createStatement();
+    		 stmt.execute("delete from Renglon where Pedido = "+id);
+    		 stmt.execute("delete from Pedido where id_Pedido = "+id);
+    		 shutdown();
+    		 return true;
+    	 }catch(SQLException sqlExcept) {
+    		 sqlExcept.printStackTrace();
+    		 return false;
+    	 }
+     }
+     
     private static void createConnection() {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();

@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,6 +21,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.SoloSolar.Capsulas.Pedido;
 import com.SoloSolar.DB.Consulta;
+import com.SoloSolar.DB.Insert;
 
 public class ListaPedidos extends JPanel {
 	JTable table;
@@ -83,10 +85,24 @@ public class ListaPedidos extends JPanel {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == editar) {
-				
-			}else if(e.getSource() == eliminar) {
-				
+			Insert in = new Insert();
+			try {
+				if(e.getSource() == editar) {
+					
+				}else if(e.getSource() == eliminar) {
+					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar el pedido '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Borrar Pedido", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(reply == JOptionPane.YES_OPTION) {
+						if(in.DeleteOrder(table.getModel().getValueAt(table.getSelectedRow(), 0).toString())) {
+							JOptionPane.showMessageDialog(null, "El pedido se ha eliminado de forma correcta", "¡Pedido Eliminado!", JOptionPane.INFORMATION_MESSAGE);
+							table.setModel(new TableOrderModel());
+							FormatoTabla();
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el pedido", "¡Error!", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			}catch(ArrayIndexOutOfBoundsException except) {
+				JOptionPane.showMessageDialog(null, "No se ha seleccionado un pedido", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
