@@ -62,6 +62,7 @@ public class ReportesVentas {
 	}
 	
 	public class SearchDialog extends JPanel implements ActionListener, ItemListener {
+		private String reporte = "Sin filtro.";
 		private JDialog dg;
 		private JDateChooser dateChooserI, dateChooserF;
 		private JPanel panelBuscar;
@@ -82,6 +83,8 @@ public class ReportesVentas {
 			panelBuscar = new JPanel();
 			dateChooserI = new JDateChooser();
 			dateChooserF = new JDateChooser();
+			dateChooserI.getDateEditor().setEnabled(false);
+			dateChooserF.getDateEditor().setEnabled(false);
 			pedidoI = new JTextField();
 			pedidoF = new JTextField();
 			inicio = new JLabel("Inicio: ");
@@ -116,6 +119,7 @@ public class ReportesVentas {
 			pdf.setContentAreaFilled(false);
 			pdf.setFocusable(false);
 			pdf.addActionListener(this);
+			pdf.setEnabled(false);
 			add(pdf);
 			
 			table.setFillsViewportHeight(true);
@@ -234,13 +238,13 @@ public class ReportesVentas {
 			                super.approveSelection();
 						}
 					};
-					f.setSelectedFile(new File("Reporte"));
+					f.setSelectedFile(new File("Reporte Ganancias"));
 					int opcion = f.showSaveDialog(this);
 					if(opcion == JFileChooser.APPROVE_OPTION) {
 						File file = f.getSelectedFile();
 						ruta = file.toString();
 						String data[][] = dataPDF(renglones);
-						GenerarPDF g = new GenerarPDF(ruta, renglones, data);
+						GenerarPDFReportes g = new GenerarPDFReportes(ruta, renglones, data, reporte);
 					}
 				} else {
 					JOptionPane.showMessageDialog(dg, "No hay datos para crear PDF", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
@@ -252,6 +256,8 @@ public class ReportesVentas {
 						dm = new DefaultTableModel(Consulta.dataVentas(), 
 								new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
 				        table.setModel(dm);
+				        reporte = "Sin filtro.";
+				        pdf.setEnabled(false);
 					} else {
 						String fechaI =  dateChooserI.getCalendar().get(Calendar.YEAR)
 								+ "-" + (dateChooserI.getCalendar().get(Calendar.MONTH) + 1)
@@ -260,12 +266,18 @@ public class ReportesVentas {
 								+ "-" + (dateChooserF.getCalendar().get(Calendar.MONTH) + 1)
 								+ "-" + dateChooserF.getCalendar().get(Calendar.DAY_OF_MONTH);
 						String dataVentas[][] = Consulta.dataVentasFecha(fechaI, fechaF);
-						if(dataVentas.length > 0) {
-							dm = new DefaultTableModel(dataVentas, 
-									new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
-					        table.setModel(dm);
+						if(fechaI.compareTo(fechaF) <= 0) {
+							if(dataVentas.length > 0) {
+								dm = new DefaultTableModel(dataVentas, 
+										new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
+						        table.setModel(dm);
+						        reporte = "Reporte por fecha de " + fechaI + " a " + fechaF;
+						        pdf.setEnabled(true);
+							} else {
+								JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "La fecha inicial debe ser antes de la fecha final", "¡Error!", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				} else {
@@ -274,16 +286,24 @@ public class ReportesVentas {
 						dm = new DefaultTableModel(Consulta.dataVentas(), 
 								new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
 				        table.setModel(dm);
+				        reporte = "Sin filtro.";
+				        pdf.setEnabled(false);
 					} else {
 						String inicio = pedidoI.getText();
 						String fin = pedidoF.getText();
 						String[][] dataPedido = Consulta.dataVentasPedido(inicio, fin);
-						if(dataPedido.length > 0) {
-							dm = new DefaultTableModel(dataPedido, 
-									new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
-					        table.setModel(dm);
+						if(Integer.parseInt(inicio) <= Integer.parseInt(fin)) {
+							if(dataPedido.length > 0) {
+								dm = new DefaultTableModel(dataPedido, 
+										new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"});
+						        table.setModel(dm);
+						        reporte = "Reporte por numero de pedido de " + inicio + " a " + fin;
+						        pdf.setEnabled(true);
+							} else {
+								JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "El numero de pedido inicial debe ser antes del numero de pedido final", "¡Error!", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}

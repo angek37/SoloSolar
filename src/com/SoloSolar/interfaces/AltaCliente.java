@@ -210,6 +210,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		Validaciones v = new Validaciones();
 		Cliente c = new Cliente();
 		if(e.getSource() == guardar) {
 			c.setNombre(nombreTF.getText());
@@ -223,19 +224,21 @@ public class AltaCliente extends JPanel implements ActionListener {
 			c.setCP(cpTF.getText());
 			c.setTelefono(celTF.getText());
 			c.setTelEmp(telEmpTF.getText());
-			ClienteBD.InsertCliente(c);
-			nombreTF.setText("");
-			apellidosTF.setText("");
-			rfcTF.setText("");
-			emailTF.setText("");
-			calleTF.setText("");
-			coloniaTF.setText("");
-			estadoTF.setText("");
-			ciudadTF.setText("");
-			cpTF.setText("");
-			celTF.setText("");
-			telEmpTF.setText("");
-			table.setModel(new ClientModel());
+			if(v.validarCliente(c)) {
+				ClienteBD.InsertCliente(c);
+				nombreTF.setText("");
+				apellidosTF.setText("");
+				rfcTF.setText("");
+				emailTF.setText("");
+				calleTF.setText("");
+				coloniaTF.setText("");
+				estadoTF.setText("");
+				ciudadTF.setText("");
+				cpTF.setText("");
+				celTF.setText("");
+				telEmpTF.setText("");
+				table.setModel(new ClientModel());
+			}
 		}
 	}
 	
