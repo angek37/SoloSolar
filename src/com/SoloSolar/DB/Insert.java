@@ -251,6 +251,21 @@ public class Insert {
     		 return false;
     	 }
      }
+     
+     public boolean UpdateOrder(Pedido p) {
+    	 try {
+    		 createConnection();
+    		 stmt = conn.createStatement();
+    		 stmt.execute("update Pedido set customer = "+p.getCustomer()+", Fecha = '"
+    				 +p.getFecha()+"', Observaciones = '"+p.getObservaciones()+"' where id_Pedido = "+p.getId());
+    		 stmt.close();
+    		 shutdown();
+    		 return true;
+    	 }catch(SQLException sqlExcept) {
+    		 sqlExcept.printStackTrace();
+    		 return false;
+    	 }
+     }
     
     private static void createConnection() {
         try {
