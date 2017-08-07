@@ -1,65 +1,109 @@
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Mon Aug 07 02:37:00 CDT 2017:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-015d-bba0-1fa4-000006b43d40 
 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+=======
+Mon Aug 07 02:06:24 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-015d-bb84-1c90-00000699e748 
+on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Usuario/eclipse-workspace/Solo-Solar/db/derby.jar
+>>>>>>> branch 'master' of git@gitlab.com:angek37/Solo-Solar.git
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_121-b13
-user.dir=/mnt/Shared/workspace/Solo-Solar
-os.name=Linux
+java.runtime.version=1.8.0_101-b13
+user.dir=C:\Users\Usuario\eclipse-workspace\Solo-Solar
+os.name=Windows 8.1
 os.arch=amd64
-os.version=4.12.3-1-ARCH
+os.version=6.3
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Mon Aug 07 02:37:01 CDT 2017:
 Shutting down instance a816c00e-015d-bba0-1fa4-000006b43d40 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+=======
+Mon Aug 07 02:06:25 CDT 2017:
+Shutting down instance a816c00e-015d-bb84-1c90-00000699e748 on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+>>>>>>> branch 'master' of git@gitlab.com:angek37/Solo-Solar.git
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Mon Aug 07 02:37:01 CDT 2017:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 08264012-015d-bba0-1fa4-000006b43d40 
 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+=======
+Mon Aug 07 02:06:26 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 08264012-015d-bb84-1c90-00000699e748 
+on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Usuario/eclipse-workspace/Solo-Solar/db/derby.jar
+>>>>>>> branch 'master' of git@gitlab.com:angek37/Solo-Solar.git
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_121-b13
-user.dir=/mnt/Shared/workspace/Solo-Solar
-os.name=Linux
+java.runtime.version=1.8.0_101-b13
+user.dir=C:\Users\Usuario\eclipse-workspace\Solo-Solar
+os.name=Windows 8.1
 os.arch=amd64
-os.version=4.12.3-1-ARCH
+os.version=6.3
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Mon Aug 07 02:37:01 CDT 2017:
 Shutting down instance 08264012-015d-bba0-1fa4-000006b43d40 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+=======
+Mon Aug 07 02:06:27 CDT 2017:
+Shutting down instance 08264012-015d-bb84-1c90-00000699e748 on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+>>>>>>> branch 'master' of git@gitlab.com:angek37/Solo-Solar.git
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Mon Aug 07 02:37:03 CDT 2017:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 6839c016-015d-bba0-1fa4-000006b43d40 
 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+=======
+Mon Aug 07 02:06:49 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 6839c016-015d-bb84-1c90-00000699e748 
+on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Usuario/eclipse-workspace/Solo-Solar/db/derby.jar
+>>>>>>> branch 'master' of git@gitlab.com:angek37/Solo-Solar.git
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_121-b13
-user.dir=/mnt/Shared/workspace/Solo-Solar
-os.name=Linux
+java.runtime.version=1.8.0_101-b13
+user.dir=C:\Users\Usuario\eclipse-workspace\Solo-Solar
+os.name=Windows 8.1
 os.arch=amd64
-os.version=4.12.3-1-ARCH
+os.version=6.3
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Mon Aug 07 02:37:03 CDT 2017:
 Shutting down instance 6839c016-015d-bba0-1fa4-000006b43d40 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+=======
+Mon Aug 07 02:06:51 CDT 2017:
+Shutting down instance 6839c016-015d-bb84-1c90-00000699e748 on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+>>>>>>> branch 'master' of git@gitlab.com:angek37/Solo-Solar.git
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Mon Aug 07 02:37:04 CDT 2017:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance c851401a-015d-bba0-1fa4-000006b43d40 
 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 Loaded from file:/mnt/Shared/workspace/Solo-Solar/db/derby.jar
+=======
+Mon Aug 07 02:06:51 CDT 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance c851401a-015d-bb84-1c90-00000699e748 
+on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Usuario/eclipse-workspace/Solo-Solar/db/derby.jar
+>>>>>>> branch 'master' of git@gitlab.com:angek37/Solo-Solar.git
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_121-b13
-user.dir=/mnt/Shared/workspace/Solo-Solar
-os.name=Linux
+java.runtime.version=1.8.0_101-b13
+user.dir=C:\Users\Usuario\eclipse-workspace\Solo-Solar
+os.name=Windows 8.1
 os.arch=amd64
-os.version=4.12.3-1-ARCH
+os.version=6.3
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Mon Aug 07 02:37:04 CDT 2017:
 Shutting down instance c851401a-015d-bba0-1fa4-000006b43d40 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 ----------------------------------------------------------------
@@ -158,3 +202,7 @@ Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
 Mon Aug 07 02:37:55 CDT 2017:
 Shutting down instance 6965c036-015d-bba0-1fa4-000006b43d40 on database directory /mnt/Shared/workspace/Solo-Solar/db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+=======
+Mon Aug 07 02:06:51 CDT 2017:
+Shutting down instance c851401a-015d-bb84-1c90-00000699e748 on database directory C:\Users\Usuario\eclipse-workspace\Solo-Solar\db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+>>>>>>> branch 'master' of git@gitlab.com:angek37/Solo-Solar.git

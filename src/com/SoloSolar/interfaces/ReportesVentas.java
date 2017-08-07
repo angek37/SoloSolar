@@ -9,6 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -16,6 +18,7 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -62,15 +65,16 @@ public class ReportesVentas {
 		});
 	}
 	
-	public class SearchDialog extends JPanel implements KeyListener, ActionListener {
+	public class SearchDialog extends JPanel implements KeyListener, ActionListener, ItemListener {
 		private JDialog dg;
 		private JDateChooser dateChooserI, dateChooserF;
 		private JPanel panelBuscar;
 		private JTable table;
 		private JScrollPane jsp;
-		private JTextField buscar, pedidoI, pedidoF;
-		private JLabel buscarLBL, inicio, fin;
+		private JTextField pedidoI, pedidoF;
+		private JLabel inicio, fin, filtro;
 		private JButton pdf;
+		private JComboBox filtros;
 		private ImageIcon pdfIcon = new ImageIcon(
 				new ImageIcon("assets/pdfnew.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 
@@ -84,18 +88,18 @@ public class ReportesVentas {
 			pedidoF = new JTextField();
 			inicio = new JLabel("Inicio: ");
 			fin = new JLabel("Fin: ");
+			filtro = new JLabel("Filtro por: ");
+			filtros = new JComboBox(new String[] {"Fecha", "No. Pedido"});
 			//panelBuscar.setBackground(new Color(239, 228, 176));
 			panelBuscar.setBackground(new Color(153, 217, 234));
-			buscarLBL = new JLabel("Buscar: ");
-			buscar = new JTextField();
 			table = new javax.swing.JTable() {
 				public boolean isCellEditable(int rowIndex, int vColIndex) {
 		            return false;
 		        };
 			};
 
-			tm = new DefaultTableModel(new String[][] {{"", "", "", "", "", "", "", ""}}, 
-					new String[]{"No Pedido", "Fecha", "Producto", "Cantidad", "Costo", "Precio", "Total", "Ganancia"}) {
+			tm = new DefaultTableModel(new String[][] {{"", "", "", "", "", ""}}, 
+					new String[]{"Producto", "Cantidad", "Costo", "Precio", "Total", "Ganancia"}) {
 	            public Class getColumnClass(int column) {
 	                Class Value;
 	                if (column >= 0 && column < getColumnCount()) {
@@ -136,7 +140,10 @@ public class ReportesVentas {
 				}
 			});
 			jsp = new JScrollPane(table);
-			
+			armado(true);
+		}
+		
+		public void armado(boolean fecha) {
 			setLayout(new BorderLayout());
 			add(panelBuscar, BorderLayout.CENTER);
 			panelBuscar.setLayout(new GridBagLayout());
@@ -146,14 +153,46 @@ public class ReportesVentas {
 			gbc.gridx = 0;
 			gbc.gridy = 0;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
-			panelBuscar.add(buscarLBL, gbc);
+			panelBuscar.add(inicio, gbc);
 			
 			gbc.gridx++;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
-			gbc.weightx = 2;
+			gbc.weightx = 1;
 			gbc.ipady = 6;
-			panelBuscar.add(buscar, gbc);
-			buscar.addKeyListener(this);
+			if(fecha) {
+				panelBuscar.add(dateChooserI, gbc);
+			} else {
+				panelBuscar.add(pedidoI, gbc);
+			}
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 0;
+			gbc.ipady = 6;
+			panelBuscar.add(fin, gbc);
+			pedidoI.addKeyListener(this);
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 1;
+			gbc.ipady = 6;
+			if(fecha) {
+				panelBuscar.add(dateChooserF, gbc);
+			} else {
+				panelBuscar.add(pedidoF, gbc);
+			}
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 0;
+			gbc.ipady = 6;
+			panelBuscar.add(filtro, gbc);
+			
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 1;
+			panelBuscar.add(filtros, gbc);
+			filtros.addItemListener(this);
 			
 			gbc.gridx++;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -165,7 +204,6 @@ public class ReportesVentas {
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.gridwidth = GridBagConstraints.REMAINDER;
 			panelBuscar.add(jsp, gbc);
-			
 		}
 		
 		@Override
@@ -229,16 +267,31 @@ public class ReportesVentas {
 
 		@Override
 		public void keyReleased(java.awt.event.KeyEvent e) {
-			String filtro = buscar.getText();
+			/*String filtro = buscar.getText();
 	        if(!filtro.equals("")){
 	            tr.setRowFilter(RowFilter.regexFilter("(?i)" + filtro, 0, 1, 2));
 	        }else{
 	            tr.setRowFilter(null);
-	        }
+	        }*/
 		}
 
 		@Override
 		public void keyTyped(java.awt.event.KeyEvent e) {
+		}
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {	
+			if(e.getSource() == filtros) {
+				panelBuscar.removeAll();
+				if (filtros.getSelectedIndex() == 0) {
+					armado(true);
+				} else {
+					armado(false);
+				}
+				panelBuscar.updateUI();
+				panelBuscar.repaint();
+				repaint();
+			}
 		}
 	}
 }
