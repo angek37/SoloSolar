@@ -471,10 +471,11 @@ public class Venta extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Pedido p;
 				Insert in = new Insert();
+				java.sql.Date sqldate;
 				int id;
 				if(e.getSource() == guardar) {
 					if(pedido.getText().equals("")) {
-						java.sql.Date sqldate = new java.sql.Date(datePicker.getDate().getTime());
+						sqldate = new java.sql.Date(datePicker.getDate().getTime());
 						p = new Pedido(Integer.parseInt(idCliente.getText()), sqldate.toString(), observaciones.getText());
 						id = in.InsertOrder(p);
 						if(id != -1) {
@@ -486,6 +487,12 @@ public class Venta extends JPanel {
 							}
 						}else {
 							JOptionPane.showMessageDialog(null, "No ha sido posible crear el pedido", "¡Error!", JOptionPane.ERROR_MESSAGE);
+						}
+					}else {
+						sqldate = new java.sql.Date(datePicker.getDate().getTime());
+						p = new Pedido(Integer.parseInt(pedido.getText()), Integer.parseInt(idCliente.getText()), sqldate.toString(), observaciones.getText());
+						if(in.UpdateOrder(p)) {
+							System.out.println("Correcto");
 						}
 					}
 				} else if(e.getSource() == nuevo) {
