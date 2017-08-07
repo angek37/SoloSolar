@@ -131,7 +131,7 @@ public class Consulta {
     }
     
     public static String[][] dataVentas() {
-    	String datos[][] = new String[cantidadVentas()][6];
+    	String datos[][] = new String[cantidadVentas()][5];
     	Statement stmt2;
     	int count = 0;
     	createConnection();
@@ -170,10 +170,31 @@ public class Consulta {
 			shutdown();
 		}
     	return datos;
+    }
+    
+    public static int cantidadVentasFechas(String inicio, String fin) {
+    	int cantidad = 0;
+    	createConnection();
+    	try {
+			stmt = conn.createStatement();
+			ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE, SUM(R.CANTIDAD) " 
+					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
+					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+					+ "WHERE P.FECHA >= '" + inicio + "' AND P.FECHA <= '" + fin + "'"
+					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
+			while(results.next()) {
+				cantidad++;
+			}
+			shutdown();
+			return cantidad;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+		}
+    	return cantidad;
     }
     
     public static String[][] dataVentasFecha(String inicio, String fin) {
-    	String datos[][] = new String[cantidadVentas()][6];
+    	String datos[][] = new String[cantidadVentasFechas(inicio, fin)][5];
     	Statement stmt2;
     	int count = 0;
     	createConnection();
@@ -183,6 +204,7 @@ public class Consulta {
     		ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE, SUM(R.CANTIDAD) " 
 					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
 					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+					+ "WHERE P.FECHA >= '" + inicio + "' AND P.FECHA <= '" + fin + "'"
 					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
     		double precio = 0;
     		while(results.next()) {
@@ -193,6 +215,7 @@ public class Consulta {
     					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "  
     					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
     					+ "WHERE PR.NOMBRE = '" + results.getString(1) + "' "
+    							+ "AND P.FECHA >= '" + inicio + "' AND P.FECHA <= '" + fin + "'"
     					+ "GROUP BY PR.NOMBRE, PR.COSTO, R.PRECIO");
     			while(data.next()) {
     				datos[count][2] = data.getString(3);
@@ -214,8 +237,30 @@ public class Consulta {
     	return datos;
     }
     
+    public static int cantidadVentasPedido(String inicio, String fin) {
+    	int cantidad = 0;
+    	createConnection();
+    	try {
+			stmt = conn.createStatement();
+			ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE, SUM(R.CANTIDAD) " 
+					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
+					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+					+ "WHERE P.ID_PEDIDO >= " + Integer.parseInt(inicio) + " "
+						+ "AND P.ID_PEDIDO <= " + Integer.parseInt(fin) + " "
+					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
+			while(results.next()) {
+				cantidad++;
+			}
+			shutdown();
+			return cantidad;
+		} catch (SQLException sqlExcept) {
+			sqlExcept.printStackTrace();
+		}
+    	return cantidad;
+    }
+    
     public static String[][] dataVentasPedido(String inicio, String fin) {
-    	String datos[][] = new String[cantidadVentas()][6];
+    	String datos[][] = new String[cantidadVentasPedido(inicio, fin)][5];
     	Statement stmt2;
     	int count = 0;
     	createConnection();
@@ -225,6 +270,8 @@ public class Consulta {
     		ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE, SUM(R.CANTIDAD) " 
 					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
 					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
+					+ "WHERE P.ID_PEDIDO >= " + Integer.parseInt(inicio) + " "
+						+ "AND P.ID_PEDIDO <= " + Integer.parseInt(fin) + " "
 					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
     		double precio = 0;
     		while(results.next()) {
@@ -235,10 +282,11 @@ public class Consulta {
     					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "  
     					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
     					+ "WHERE PR.NOMBRE = '" + results.getString(1) + "' "
+    					+ "AND P.ID_PEDIDO >= " + Integer.parseInt(inicio) + " "
+    					+ "AND P.ID_PEDIDO <= " + Integer.parseInt(fin) + " "
     					+ "GROUP BY PR.NOMBRE, PR.COSTO, R.PRECIO");
     			while(data.next()) {
     				datos[count][2] = data.getString(3);
-    				System.out.println(data.getString(1) + " " + data.getString(4));
     				precio = precio + (Double.parseDouble(data.getString(1)) * Double.parseDouble(data.getString(4)));
     			}
     			data.close();

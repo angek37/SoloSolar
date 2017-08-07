@@ -11,10 +11,10 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
+import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -65,7 +65,7 @@ public class ReportesVentas {
 		});
 	}
 	
-	public class SearchDialog extends JPanel implements KeyListener, ActionListener, ItemListener {
+	public class SearchDialog extends JPanel implements ActionListener, ItemListener {
 		private JDialog dg;
 		private JDateChooser dateChooserI, dateChooserF;
 		private JPanel panelBuscar;
@@ -92,6 +92,7 @@ public class ReportesVentas {
 			fin = new JLabel("Fin: ");
 			filtro = new JLabel("Filtro por: ");
 			filtros = new JComboBox(new String[] {"Fecha", "No. Pedido"});
+			filtros.addItemListener(this);
 			//panelBuscar.setBackground(new Color(239, 228, 176));
 			panelBuscar.setBackground(new Color(153, 217, 234));
 			table = new javax.swing.JTable() {
@@ -182,7 +183,6 @@ public class ReportesVentas {
 			gbc.weightx = 0;
 			gbc.ipady = 6;
 			panelBuscar.add(fin, gbc);
-			pedidoI.addKeyListener(this);
 			
 			gbc.gridx++;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -204,7 +204,6 @@ public class ReportesVentas {
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.weightx = 1;
 			panelBuscar.add(filtros, gbc);
-			filtros.addItemListener(this);
 			
 			gbc.gridx++;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -265,6 +264,90 @@ public class ReportesVentas {
 				} else {
 					JOptionPane.showMessageDialog(dg, "No hay datos para crear PDF", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
 				}
+			} else if(e.getSource() == filter) {
+				System.out.println("entra un cingo aqui");
+				if (filtros.getSelectedIndex() == 0) {
+					if(dateChooserI.getDate() == null || dateChooserF.getDate() == null ||
+							dateChooserF.getDate().equals("") || dateChooserI.getDate().equals("")) {
+						tm = new DefaultTableModel(Consulta.dataVentas(), 
+								new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
+				            public Class getColumnClass(int column) {
+				                Class Value;
+				                if (column >= 0 && column < getColumnCount()) {
+				                    Value = getValueAt(0, column).getClass();
+				                } else {
+				                    Value = Object.class;
+				                }
+				                return Value;
+				            }
+				        };
+				        table.setModel(tm);
+					} else {
+						String fechaI =  dateChooserI.getCalendar().get(Calendar.YEAR)
+								+ "-" + (dateChooserI.getCalendar().get(Calendar.MONTH) + 1)
+								+ "-" + dateChooserI.getCalendar().get(Calendar.DAY_OF_MONTH);
+						String fechaF =  dateChooserF.getCalendar().get(Calendar.YEAR)
+								+ "-" + (dateChooserF.getCalendar().get(Calendar.MONTH) + 1)
+								+ "-" + dateChooserF.getCalendar().get(Calendar.DAY_OF_MONTH);
+						String dataVentas[][] = Consulta.dataVentasFecha(fechaI, fechaF);
+						if(dataVentas.length > 0) {
+							tm = new DefaultTableModel(dataVentas, 
+									new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
+					            public Class getColumnClass(int column) {
+					                Class Value;
+					                if (column >= 0 && column < getColumnCount()) {
+					                    Value = getValueAt(0, column).getClass();
+					                } else {
+					                    Value = Object.class;
+					                }
+					                return Value;
+					            }
+					        };
+					        table.setModel(tm);
+						} else {
+							JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+				} else {
+					if(pedidoF.getText() == null || pedidoI.getText() == null ||
+							pedidoF.equals("") || pedidoI.equals("")) {
+						tm = new DefaultTableModel(Consulta.dataVentas(), 
+								new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
+				            public Class getColumnClass(int column) {
+				                Class Value;
+				                if (column >= 0 && column < getColumnCount()) {
+				                    Value = getValueAt(0, column).getClass();
+				                } else {
+				                    Value = Object.class;
+				                }
+				                return Value;
+				            }
+				        };
+				        table.setModel(tm);
+					} else {
+						String inicio = pedidoI.getText();
+						String fin = pedidoF.getText();
+						String[][] dataPedido = Consulta.dataVentasPedido(inicio, fin);
+						if(dataPedido.length > 0) {
+							tm = new DefaultTableModel(dataPedido, 
+									new String[]{"Producto", "Cantidad", "Costo", "Total", "Ganancia"}) {
+					            public Class getColumnClass(int column) {
+					                Class Value;
+					                if (column >= 0 && column < getColumnCount()) {
+					                    Value = getValueAt(0, column).getClass();
+					                } else {
+					                    Value = Object.class;
+					                }
+					                return Value;
+					            }
+					        };
+					        table.setModel(tm);
+						} else {
+							JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+						}
+						table.setModel(tm);
+					}
+				}
 			}
 		}
 		
@@ -276,24 +359,6 @@ public class ReportesVentas {
 				}
 			}
 			return data;
-		}
-
-		@Override
-		public void keyPressed(java.awt.event.KeyEvent e) {
-		}
-
-		@Override
-		public void keyReleased(java.awt.event.KeyEvent e) {
-			/*String filtro = buscar.getText();
-	        if(!filtro.equals("")){
-	            tr.setRowFilter(RowFilter.regexFilter("(?i)" + filtro, 0, 1, 2));
-	        }else{
-	            tr.setRowFilter(null);
-	        }*/
-		}
-
-		@Override
-		public void keyTyped(java.awt.event.KeyEvent e) {
 		}
 
 		@Override
