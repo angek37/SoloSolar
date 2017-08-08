@@ -64,7 +64,7 @@ create table Proveedor (
 	Estado varchar(32),
 	Email varchar(32),
 	Celular varchar(12),
-	Telefono varchar(12),
+	Telefono varchar(12)
 )
 
 create table Producto_Proveedor (
