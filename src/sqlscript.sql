@@ -1,15 +1,17 @@
 create table Usuario (
 	Usuario varchar(32) NOT NULL PRIMARY KEY,
 	password varchar(32) NOT NULL,
-	Nombre varchar(64)
+	Nombre varchar(64),
+	RFC varchar(13)
 )
 
 create table Cliente (
 	id_cus int NOT NULL PRIMARY KEY  GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	RFC varchar(13),
 	FirstName varchar(32) NOT NULL,
-	SecondName varchar(32) NOT NULL,
+	LastName varchar(32) NOT NULL,
 	Calle varchar(64),
+	Numero varchar(8),
 	Colonia varchar(32),
 	CP int,
 	Ciudad varchar(32),
@@ -31,7 +33,8 @@ create table Renglon (
 	Pedido int NOT NULL,
 	id_prod varchar(8) NOT NULL,
 	Precio double NOT NULL,
-	Cantidad int NOT NULL
+	Cantidad int NOT NULL,
+	Lista int NOT NULL
 )
 
 create table Producto (
@@ -53,9 +56,15 @@ create table Categoria (
 create table Proveedor (
 	id_p int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	Nombre varchar(32) NOT NULL,
-	Direccion varchar(64),
+	Calle varchar(32),
+	Numero varchar(8),
+	Colonia varchar(32),
+	CP int,
+	Ciudad varchar(32),
+	Estado varchar(32),
+	Email varchar(32),
+	Celular varchar(12),
 	Telefono varchar(12),
-	Email varchar(32)
 )
 
 create table Producto_Proveedor (
@@ -70,4 +79,4 @@ alter table Producto add constraint fk_ProdCat foreign key (Categoria) reference
 alter table Producto_Proveedor add constraint fk_PPp foreign key (Clave) references Producto(Clave) on delete cascade;
 alter table Producto_Proveedor add constraint fk_PPpr foreign key (id_pro) references Proveedor(id_p) on delete cascade;
 
-insert into Usuario values ('admin', '123', 'Alberto Rodríguez')
+insert into Usuario values ('admin', '123', 'Alberto Rodríguez', '')
