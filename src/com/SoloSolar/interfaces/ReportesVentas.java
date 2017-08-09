@@ -45,7 +45,7 @@ public class ReportesVentas {
 			@Override
 			public void run() {
 				JDialog dialog = new JDialog(padre, "Reporte Ganancias");
-				dialog.setMinimumSize(new Dimension(750, 550));
+				dialog.setMinimumSize(new Dimension(800, 550));
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.add(new SearchDialog(dialog));
 				dialog.setLocationRelativeTo(null);
@@ -69,9 +69,9 @@ public class ReportesVentas {
 		private JTable table;
 		private JScrollPane jsp;
 		private JTextField pedidoI, pedidoF;
-		private JLabel inicio, fin, filtro;
+		private JLabel inicio, fin, filtro, preciol;
 		private JButton pdf, filter;
-		private JComboBox filtros;
+		private JComboBox filtros, precio;
 		private ImageIcon pdfIcon = new ImageIcon(
 				new ImageIcon("assets/pdfnew.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		private ImageIcon filterIcon = new ImageIcon(
@@ -87,9 +87,11 @@ public class ReportesVentas {
 			dateChooserF.getDateEditor().setEnabled(false);
 			pedidoI = new JTextField();
 			pedidoF = new JTextField();
+			preciol = new JLabel("Precio: ");
 			inicio = new JLabel("Inicio: ");
 			fin = new JLabel("Fin: ");
 			filtro = new JLabel("Filtro por: ");
+			precio = new JComboBox(new String[] {"1", "2"});
 			filtros = new JComboBox(new String[] {"Fecha", "No. Pedido"});
 			filtros.addItemListener(this);
 			//panelBuscar.setBackground(new Color(239, 228, 176));
@@ -184,6 +186,16 @@ public class ReportesVentas {
 			gbc.ipady = 6;
 			if(fecha) {
 				panelBuscar.add(dateChooserF, gbc);
+				
+				gbc.gridx++;
+				gbc.fill = GridBagConstraints.HORIZONTAL;
+				gbc.weightx = 0;
+				panelBuscar.add(preciol, gbc);
+				
+				gbc.gridx++;
+				gbc.fill = GridBagConstraints.HORIZONTAL;
+				gbc.weightx = 1;
+				panelBuscar.add(precio, gbc);
 			} else {
 				panelBuscar.add(pedidoF, gbc);
 			}

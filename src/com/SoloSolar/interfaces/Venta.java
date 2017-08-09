@@ -596,7 +596,7 @@ public class Venta extends JPanel {
 										+ "/" + (datePicker.getCalendar().get(Calendar.MONTH) + 1)
 										+ "/" + datePicker.getCalendar().get(Calendar.YEAR);
 								String informacionAdicional[] = {observaciones.getText(), pedido.getText(), 
-										nombreCliente.getText(), fecha};
+										nombreCliente.getText(), fecha, idCliente.getText()};
 								dataPDF = dataPDF(table.getRowCount());
 								File file = f.getSelectedFile();
 								ruta = file.toString();
