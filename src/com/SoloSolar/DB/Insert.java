@@ -275,9 +275,9 @@ public class Insert {
     		 for(int x = 0; x < datos.length; x++) {
     			 if(datos[x][0] != null && datos[x][2] != null) {
     				 if(!datos[x][2].equals("")) {
-    					 stmt.execute("insert into Renglon(Pedido, id_prod, Precio, Cantidad) "
+    					 stmt.execute("insert into Renglon(Pedido, id_prod, Precio, Cantidad, Lista) "
         						 +"values("+id+",'"+datos[x][0]+"',"+
-        						 	datos[x][5]+","+datos[x][2]+")");
+        						 	datos[x][5]+","+datos[x][2]+", "+datos[x][4]+")");
     				 }
     			 }
     		 }
