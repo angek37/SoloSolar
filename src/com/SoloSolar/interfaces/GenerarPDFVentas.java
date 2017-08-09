@@ -8,8 +8,11 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
+import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.Capsulas.Usuario;
+import com.SoloSolar.DB.ClienteBD;
 import com.SoloSolar.DB.UsuarioBD;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
@@ -67,7 +70,9 @@ public class GenerarPDFVentas {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
 			doc.add(getFecha(dateFormat.format(date)));
+			doc.add(new Paragraph(" "));
 			PdfPTable t = new PdfPTable(2);
+			t.setWidths(new float[] {2, 4});
 			doc.add(addHeaderInformation(t, infAd));
 			doc.add(getFooter("BLVD. JUAN ALONSO DE TORRES OTE. #202 B COL. VIBAR TEL.: (477)"
 					+ "114 56 37 CEL.: 044 477 136 5097, LEÓN, GTO."));
@@ -178,6 +183,7 @@ public class GenerarPDFVentas {
 	
 	public PdfPTable addHeaderInformation(PdfPTable t, String infAd[]) {
 		Usuario u = UsuarioBD.Datos();
+		Cliente c = ClienteBD.getCliente(Integer.parseInt(infAd[4]));
 		Image imagen;
 		try {
 			t.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -189,22 +195,48 @@ public class GenerarPDFVentas {
 			Phrase img = new Phrase();
 			img.add(new Chunk(imagen, 0, 0));
 			t.addCell(img);
-			t.addCell(new Paragraph(""));
+			PdfPTable tc = new PdfPTable(4);
+			tc.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			tc.addCell(getHeader("Nombre:"));
+			tc.addCell(getInfo(c.getNombre()));
+			tc.addCell(getHeader("Apellidos: "));
+			tc.addCell(getInfo(c.getApellidos()));
+			tc.addCell(getHeader("RFC: "));
+			tc.addCell(getInfo(c.getRFC()));
+			tc.addCell(getHeader("Email:"));
+			tc.addCell(getInfo(c.getEmail()));
+			tc.addCell(getHeader("Calle: "));
+			tc.addCell(getInfo(c.getCalle()));
+			tc.addCell(getHeader("Colonia: "));
+			tc.addCell(getInfo(c.getColonia()));
+			PdfPCell cB = new PdfPCell();
+			cB.setBorder(Rectangle.LEFT | Rectangle.TOP | Rectangle.RIGHT);
+			cB.addElement(tc);
+			t.addCell(cB);
 			PdfPTable t2 = new PdfPTable(1);
 			t2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			t2.addCell(getHeader(u.getNombre()));
 			t2.addCell(getHeader("R.F.C. " + u.getRFC()));
 			t2.addCell(getHeader("alberto-426@hotmail.com"));
 			t.addCell(t2);
-			PdfPTable t3 = new PdfPTable(2);
+			PdfPTable t3 = new PdfPTable(4);
 			t3.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			t3.addCell(getHeader("Pedido No:"));
-			t3.addCell(getHeader(infAd[1]));
-			t3.addCell(getHeader("Cliente: "));
-			t3.addCell(getHeader(infAd[2]));
-			t3.addCell(getHeader("Fecha del pedido: "));
-			t3.addCell(getHeader(infAd[3]));
-			t.addCell(t3);
+			t3.addCell(getHeader("No. direccion:"));
+			t3.addCell(getInfo(c.getNoDir()));
+			t3.addCell(getHeader("Estado: "));
+			t3.addCell(getInfo(c.getEstado()));
+			t3.addCell(getHeader("Ciudad: "));
+			t3.addCell(getInfo(c.getCiudad()));
+			t3.addCell(getHeader("Codigo postal:"));
+			t3.addCell(getInfo(c.getCP()));
+			t3.addCell(getHeader("Telefono empresa: "));
+			t3.addCell(getInfo(c.getTelEmp()));
+			t3.addCell(getHeader("Telefono celular: "));
+			t3.addCell(getInfo(c.getTelefono()));
+			cB = new PdfPCell();
+			cB.setBorder(Rectangle.LEFT | Rectangle.BOTTOM | Rectangle.RIGHT);
+			cB.addElement(t3);
+			t.addCell(cB);
 			return t;
 		} catch (Exception e) {
 			e.printStackTrace();

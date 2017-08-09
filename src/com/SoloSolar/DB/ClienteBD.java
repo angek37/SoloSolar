@@ -36,6 +36,35 @@ public class ClienteBD {
     	shutdown();
     }
     
+    public static Cliente getCliente(int id) {
+    	Cliente c = new Cliente();
+    	createConnection();
+    	try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT RFC, FIRSTNAME, LASTNAME, CALLE, NUMERO, COLONIA, CP, CIUDAD, "
+					+ "ESTADO, EMAIL, TEL_CELULAR, TEL_EMPRESA FROM CLIENTE WHERE ID_CUS = " + id);
+			while(rs.next()) {
+				c.setRFC(rs.getString(1));
+				c.setNombre(rs.getString(2));
+				c.setApellidos(rs.getString(3));
+				c.setCalle(rs.getString(4));
+				c.setNoDir(rs.getString(5));
+				c.setColonia(rs.getString(6));
+				c.setCP(rs.getString(7));
+				c.setCiudad(rs.getString(8));
+				c.setEstado(rs.getString(9));
+				c.setEmail(rs.getString(10));
+				c.setTelefono(rs.getString(11));
+				c.setTelEmp(rs.getString(12));
+			}
+			shutdown();
+			return c;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	return c;
+    }
+    
     public Cliente[] selectClientes(){
     	createConnection();
     	Cliente[] cl = new Cliente[0];
