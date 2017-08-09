@@ -23,21 +23,24 @@ import com.SoloSolar.Capsulas.Usuario;
 import com.SoloSolar.DB.UsuarioBD;
 
 public class ModificarUsuario extends JPanel implements ActionListener, MouseListener {
-	private JLabel nombreLBL, usuarioLBL, passwordLBL, titulo;
-	private JTextField nombreTF, usuarioTF;
+	private JLabel nombreLBL, usuarioLBL, passwordLBL, titulo, rfcLBL;
+	private JTextField nombreTF, usuarioTF, rfcTF;
 	private JPasswordField passwordTF;
 	private JPanel panelN, panelC, panelS;
 	private JButton guardar, activarCambios, verPass;
 	private char defaultEchoChar;
-	private ImageIcon ver = new ImageIcon(new ImageIcon("assets/eye.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+	private ImageIcon ver = new ImageIcon(
+			new ImageIcon("assets/eye.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
 	
 	public ModificarUsuario () {
 		titulo = new JLabel("Modificar Usuario");
 		nombreLBL = new JLabel("Nombre: ");
 		usuarioLBL = new JLabel("Usuario: ");
+		rfcLBL = new JLabel("RFC: ");
 		passwordLBL = new JLabel("Contraseña: ");
 		nombreTF = new JTextField();
 		usuarioTF = new JTextField();
+		rfcTF = new JTextField();
 		passwordTF = new JPasswordField();
 		guardar = new JButton("Modificar");
 		activarCambios = new JButton("Habilitar Campos");
@@ -49,6 +52,7 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 		nombreTF.setEditable(false);
 		usuarioTF.setEditable(false);
 		passwordTF.setEditable(false);
+		rfcTF.setEditable(false);
 		defaultEchoChar = passwordTF.getEchoChar();
 		panelN = new JPanel();
 		panelC = new JPanel();
@@ -57,6 +61,7 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 		passwordTF.setText(us.getPassword());
 		nombreTF.setText(us.getNombre());
 		usuarioTF.setText(us.getUsuario());
+		rfcTF.setText(us.getRFC());
 		
 		titulo.setFont(new Font("Calibri", Font.ITALIC, 24));
 		titulo.setForeground(Color.BLUE);
@@ -86,7 +91,7 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 		
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
+		gbc.weightx = 0;
 		panelC.add(usuarioLBL, gbc);
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -96,7 +101,16 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 		gbc.gridx = 0;
 		gbc.gridy++;
 		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
+		gbc.weightx = 0;
+		panelC.add(rfcLBL, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(rfcTF, gbc);
+		
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 0;
 		panelC.add(passwordLBL, gbc);
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -105,7 +119,7 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 		
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
+		gbc.weightx = 0;
 		panelC.add(verPass, gbc);
 		verPass.addMouseListener(this);
 		
@@ -119,16 +133,19 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 				nombreTF.setEditable(true);
 				usuarioTF.setEditable(true);
 				passwordTF.setEditable(true);
+				rfcTF.setEditable(true);
 			} else {
 				activarCambios.setText("Habilitar Campos");
 				nombreTF.setEditable(false);
 				usuarioTF.setEditable(false);
 				passwordTF.setEditable(false);
+				rfcTF.setEditable(false);
 			}
 		} else if(e.getSource() == guardar) {
 			 u.setNombre(nombreTF.getText());
 			 u.setUsuario(usuarioTF.getText());
 			 u.setPassword(String.valueOf(passwordTF.getPassword()));
+			 u.setRFC(rfcTF.getText());
 			 UsuarioBD.ModificarUsuario(u);
 		}
 	}
