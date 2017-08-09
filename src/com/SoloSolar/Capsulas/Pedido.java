@@ -1,10 +1,13 @@
 package com.SoloSolar.Capsulas;
 
+import java.util.Date;
+
 public class Pedido {
 	int id, customer;
 	boolean iva;
 	String fecha, observaciones, clienteString;
 	double total;
+	Date date;
 	
 	public Pedido() {
 		super();
@@ -83,5 +86,15 @@ public class Pedido {
 	public void setTotal(double total) {
 		this.total = total;
 	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
+	
 	
 }

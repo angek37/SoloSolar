@@ -544,7 +544,7 @@ public class Consulta {
     	Pedido[] aux;
     	try {
     		stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery("select id_Pedido, Fecha, customer, CLIENTE.FIRSTNAME || ' ' || CLIENTE.SECONDNAME, IVA "
+            ResultSet results = stmt.executeQuery("select id_Pedido, Fecha, customer, CLIENTE.FIRSTNAME || ' ' || CLIENTE.LASTNAME, IVA "
             		+"from PEDIDO join CLIENTE on customer = id_cus order by Fecha desc");
             while(results.next()) {
             	aux = p;
@@ -588,10 +588,11 @@ public class Consulta {
     		createConnection();
     		stmt = conn.createStatement();
             ResultSet results = stmt.executeQuery("select customer, Fecha, IVA, Observaciones,"+
-            		" Cliente.FirstName || ' ' || Cliente.SecondName from Pedido join Cliente on customer = id_cus where id_Pedido = "+id_pedido);
+            		" Cliente.FirstName || ' ' || Cliente.LastName from Pedido join Cliente on customer = id_cus where id_Pedido = "+id_pedido);
             while(results.next()) {
             	p.setCustomer(results.getInt(1));
             	p.setFecha(results.getString(2));
+            	p.setDate(results.getTimestamp(2));
             	p.setIva(results.getBoolean(3));
             	p.setObservaciones(results.getString(4));
             	p.setClienteString(results.getString(5));
@@ -613,7 +614,7 @@ public class Consulta {
     	try {
     		createConnection();
     		stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery("select id_prod, Nombre, Cantidad, Paquete, Precio, Cantidad*Precio"+
+            ResultSet results = stmt.executeQuery("select id_prod, Nombre, Cantidad, Paquete, Lista, Precio, Cantidad*Precio"+
             		" from Renglon join Producto on id_prod = Clave where Pedido = "+id_pedido);
             while(results.next()) {
             	aux = renglones;
@@ -627,8 +628,9 @@ public class Consulta {
             	renglones[aux.length][1] = results.getString(2);
             	renglones[aux.length][2] = Integer.toString(results.getInt(3));
             	renglones[aux.length][3] = Integer.toString(results.getInt(4));
-            	renglones[aux.length][5] = Double.toString(results.getDouble(5));
-            	renglones[aux.length][6] = Double.toString(round(results.getDouble(6), 1));
+            	renglones[aux.length][4] = Integer.toString(results.getInt(5));
+            	renglones[aux.length][5] = Double.toString(results.getDouble(6));
+            	renglones[aux.length][6] = Double.toString(round(results.getDouble(7), 1));
             }
             results.close();        
             stmt.close();
