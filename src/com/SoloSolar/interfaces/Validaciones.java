@@ -160,7 +160,7 @@ public class Validaciones {
 	
 	public boolean validarSoloLetrasNoVacio(String nombre) {
 		if(!nombre.equals("")) {
-			String expReg = "[a-zA-Z]+";
+			String expReg = "[a-zA-Z ]+";
 			
 			Pattern pattern = Pattern.compile(expReg);
 				
