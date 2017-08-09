@@ -32,7 +32,7 @@ public class GenerarPDFReportes {
 	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 7, Font.NORMAL);
 	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 7, Font.BOLDITALIC);
 	
-	public GenerarPDFReportes(String ruta, int renglones, String dataPDF[][], String filtroReporte) {
+	public GenerarPDFReportes(String ruta, int renglones, String dataPDF[][], String filtroReporte, double ivaReport) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document();
@@ -127,8 +127,26 @@ public class GenerarPDFReportes {
 			tabResults.addCell(getHeader("Totales: "));
 			tabResults.addCell(getHeader(productos + ""));
 			tabResults.addCell(getHeader(""));
-			tabResults.addCell(getHeader(total + ""));
-			tabResults.addCell(getHeader(ganancias + ""));
+			System.out.println(ivaReport);
+			if(ivaReport == 0) {
+				tabResults.addCell(getHeader(total + ""));
+				tabResults.addCell(getHeader(ganancias + ""));
+			} else {
+				PdfPTable pet = new PdfPTable(1);
+				pet.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				pet.addCell(getHeader(total + ""));
+				pet.addCell(getHeader("IVA: "));
+				pet.addCell(getHeader("Total: "));
+				tabResults.addCell(pet);
+				PdfPTable piva = new PdfPTable(1);
+				piva.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				piva.addCell(getHeader(round(ganancias, 1) + ""));
+				piva.addCell(getInfo(round(ivaReport, 1) + ""));
+				double totalt = ivaReport + total;
+				piva.addCell(getInfo(round(totalt, 1) + ""));
+				tabResults.addCell(piva);
+			}
+			
 			doc.add(tabResults);
 			doc.close();
 			JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "¡Exito!", JOptionPane.INFORMATION_MESSAGE);
@@ -138,6 +156,15 @@ public class GenerarPDFReportes {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	public double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 	
 	class RoundedBorder implements PdfPCellEvent {

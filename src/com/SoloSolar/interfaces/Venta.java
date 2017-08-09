@@ -603,7 +603,8 @@ public class Venta extends JPanel {
 								String data[][] = dataPDF(renglones);
 								int cantidades = cantidades(data);
 								GenerarPDFVentas g = new GenerarPDFVentas(ruta, rengReales(renglones), 
-										data, cantidades, round(totalC, 1), informacionAdicional);
+										data, cantidades, round(totalC, 1), informacionAdicional,
+										!iva.isSelected());
 							}
 						} else {
 							JOptionPane.showMessageDialog(padre, "Llenar todos los datos antes de exportar", "Datos vacios", JOptionPane.INFORMATION_MESSAGE);

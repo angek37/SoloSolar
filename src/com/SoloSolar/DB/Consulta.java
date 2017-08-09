@@ -172,7 +172,7 @@ public class Consulta {
     	return datos;
     }
     
-    public static int cantidadVentasFechas(String inicio, String fin) {
+    public static int cantidadVentasFechas(String inicio, String fin, int precioSel) {
     	int cantidad = 0;
     	createConnection();
     	try {
@@ -180,8 +180,8 @@ public class Consulta {
 			ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE, SUM(R.CANTIDAD) " 
 					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
 					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
-					+ "WHERE P.FECHA >= '" + inicio + "' AND P.FECHA <= '" + fin + "'"
-					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
+					+ "WHERE P.FECHA >= '" + inicio + "' AND P.FECHA <= '" + fin + "' AND R.LISTA = " + precioSel
+					+ " GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
 			while(results.next()) {
 				cantidad++;
 			}
@@ -193,8 +193,8 @@ public class Consulta {
     	return cantidad;
     }
     
-    public static String[][] dataVentasFecha(String inicio, String fin) {
-    	String datos[][] = new String[cantidadVentasFechas(inicio, fin)][5];
+    public static String[][] dataVentasFecha(String inicio, String fin, int precioSel) {
+    	String datos[][] = new String[cantidadVentasFechas(inicio, fin, precioSel)][6];
     	Statement stmt2;
     	int count = 0;
     	createConnection();
@@ -204,27 +204,32 @@ public class Consulta {
     		ResultSet results = stmt.executeQuery("SELECT PR.NOMBRE, SUM(R.CANTIDAD) " 
 					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO " 
 					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
-					+ "WHERE P.FECHA >= '" + inicio + "' AND P.FECHA <= '" + fin + "'"
-					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
-    		double precio = 0;
+					+ "WHERE P.FECHA >= '" + inicio + "' AND P.FECHA <= '" + fin + "' AND R.LISTA = " + precioSel
+					+ " GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
+    		double precio = 0, iva = 0;
     		while(results.next()) {
-    			precio = 0;
+    			iva = precio = 0;
     			datos[count][0] = results.getString(1);
     			datos[count][1] = results.getString(2);
-    			ResultSet data = stmt2.executeQuery("SELECT SUM(R.CANTIDAD), PR.NOMBRE, PR.COSTO , R.PRECIO "  
+    			ResultSet data = stmt2.executeQuery("SELECT SUM(R.CANTIDAD), PR.NOMBRE, PR.COSTO , R.PRECIO, P.IVA "  
     					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "  
     					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
-    					+ "WHERE PR.NOMBRE = '" + results.getString(1) + "' "
-    							+ "AND P.FECHA >= '" + inicio + "' AND P.FECHA <= '" + fin + "'"
-    					+ "GROUP BY PR.NOMBRE, PR.COSTO, R.PRECIO");
+    					+ "WHERE PR.NOMBRE = '" + results.getString(1) + "'  "
+    							+ "AND P.FECHA >= '" + inicio + "' AND P.FECHA <= '" + fin + "' "
+    							+ "AND R.LISTA = " + precioSel + " "
+    					+ "GROUP BY PR.NOMBRE, PR.COSTO, R.PRECIO, P.IVA");
     			while(data.next()) {
     				datos[count][2] = data.getString(3);
     				precio = precio + (Double.parseDouble(data.getString(1)) * Double.parseDouble(data.getString(4)));
+    				if(data.getString(5).equals("true")) {
+    					iva = iva + ((Double.parseDouble(data.getString(1)) * Double.parseDouble(data.getString(4))) * 0.16);
+    				}
     			}
     			data.close();
     			datos[count][3] = round(precio, 1) + "";
     			datos[count][4] = round((Double.parseDouble(datos[count][3]) - 
     					(Double.parseDouble(datos[count][1]) * Double.parseDouble(datos[count][2]))), 1) + "";
+    			datos[count][5] = round(iva, 1) + "";
     			count++;
     		}
     		results.close();
@@ -260,7 +265,7 @@ public class Consulta {
     }
     
     public static String[][] dataVentasPedido(String inicio, String fin) {
-    	String datos[][] = new String[cantidadVentasPedido(inicio, fin)][5];
+    	String datos[][] = new String[cantidadVentasPedido(inicio, fin)][6];
     	Statement stmt2;
     	int count = 0;
     	createConnection();
@@ -273,26 +278,30 @@ public class Consulta {
 					+ "WHERE P.ID_PEDIDO >= " + Integer.parseInt(inicio) + " "
 						+ "AND P.ID_PEDIDO <= " + Integer.parseInt(fin) + " "
 					+ "GROUP BY PR.NOMBRE ORDER BY SUM(R.CANTIDAD) DESC");
-    		double precio = 0;
+    		double precio = 0, iva = 0;
     		while(results.next()) {
     			precio = 0;
     			datos[count][0] = results.getString(1);
     			datos[count][1] = results.getString(2);
-    			ResultSet data = stmt2.executeQuery("SELECT SUM(R.CANTIDAD), PR.NOMBRE, PR.COSTO , R.PRECIO "  
+    			ResultSet data = stmt2.executeQuery("SELECT SUM(R.CANTIDAD), PR.NOMBRE, PR.COSTO , R.PRECIO, P.IVA "  
     					+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "  
     					+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "
     					+ "WHERE PR.NOMBRE = '" + results.getString(1) + "' "
     					+ "AND P.ID_PEDIDO >= " + Integer.parseInt(inicio) + " "
     					+ "AND P.ID_PEDIDO <= " + Integer.parseInt(fin) + " "
-    					+ "GROUP BY PR.NOMBRE, PR.COSTO, R.PRECIO");
+    					+ "GROUP BY PR.NOMBRE, PR.COSTO, R.PRECIO, P.IVA");
     			while(data.next()) {
     				datos[count][2] = data.getString(3);
     				precio = precio + (Double.parseDouble(data.getString(1)) * Double.parseDouble(data.getString(4)));
+    				if(data.getString(5).equals("true")) {
+    					iva = iva + ((Double.parseDouble(data.getString(1)) * Double.parseDouble(data.getString(4))) * 0.16);
+    				}
     			}
     			data.close();
     			datos[count][3] = round(precio, 1) + "";
     			datos[count][4] = round((Double.parseDouble(datos[count][3]) - 
     					(Double.parseDouble(datos[count][1]) * Double.parseDouble(datos[count][2]))), 1) + "";
+    			datos[count][5] = round(iva, 1) + "";
     			count++;
     		}
     		results.close();
