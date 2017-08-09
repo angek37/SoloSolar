@@ -137,6 +137,15 @@ public class ReportesVentas {
 					}
 				}
 			});
+			table.getColumnModel().getColumn(1).setMaxWidth(150);
+			table.getColumnModel().getColumn(1).setMinWidth(150);
+			table.getColumnModel().getColumn(2).setMaxWidth(100);
+			table.getColumnModel().getColumn(2).setMinWidth(100);
+			table.getColumnModel().getColumn(3).setMaxWidth(100);
+			table.getColumnModel().getColumn(3).setMinWidth(100);
+			table.getColumnModel().getColumn(4).setMaxWidth(100);
+			table.getColumnModel().getColumn(4).setMinWidth(100);
+			
 			jsp = new JScrollPane(table);
 			armado(true);
 		}

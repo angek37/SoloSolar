@@ -32,6 +32,10 @@ public class Validaciones {
 			mensajeErrores += "\nEl email debe ser (Ejemplo): email@example.com";
 			clienteCorrecto = false;
 		}
+		if(validarSoloNumerosVacios(c.getNoDir())) {
+			mensajeErrores += "\nEl numero de direccion debe ser numero";
+			clienteCorrecto = false;
+		}
 		if(validarLongitud(c.getCP(), 5)) {
 			mensajeErrores += "\nEl codigo postal debe ser de 5 digitos";
 			clienteCorrecto = false;
@@ -160,7 +164,7 @@ public class Validaciones {
 	
 	public boolean validarSoloLetrasNoVacio(String nombre) {
 		if(!nombre.equals("")) {
-			String expReg = "[a-zA-Z]+";
+			String expReg = "[a-zA-Z ]+";
 			
 			Pattern pattern = Pattern.compile(expReg);
 				

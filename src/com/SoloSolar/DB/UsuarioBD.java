@@ -22,7 +22,8 @@ public class UsuarioBD {
             stmt = conn.createStatement();
             stmt.executeUpdate("UPDATE USUARIO SET NOMBRE = '" + us.getNombre() + "', "
             		+ "USUARIO = '" + us.getUsuario() + "', "
-            		+ "PASSWORD = '" + us.getPassword() + "'");
+            		+ "PASSWORD = '" + us.getPassword() + "', "
+            		+ "RFC = '" + us.getRFC() + "'");
             
             stmt.close();
             JOptionPane.showMessageDialog(null, "Usuario modificado exitosamente");
@@ -44,6 +45,7 @@ public class UsuarioBD {
 				u.setUsuario(rs.getString(1));
 				u.setPassword(rs.getString(2));
 				u.setNombre(rs.getString(3));
+				u.setRFC(rs.getString(4));
 			}
     	} catch (SQLException e) {
 			e.printStackTrace();

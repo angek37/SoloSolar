@@ -2,7 +2,7 @@ package com.SoloSolar.Capsulas;
 
 public class Usuario {
 
-	private String nombre, password, usuario;
+	private String nombre, password, usuario, rfc;
 	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
@@ -26,5 +26,13 @@ public class Usuario {
 	
 	public String getUsuario() {
 		return usuario;
+	}
+	
+	public void setRFC(String rfc) {
+		this.rfc = rfc;
+	}
+	
+	public String getRFC() {
+		return rfc;
 	}
 }

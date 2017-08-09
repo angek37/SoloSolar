@@ -20,11 +20,11 @@ public class ClienteBD {
     	try
         {
             stmt = conn.createStatement();
-            stmt.execute("INSERT INTO CLIENTE(RFC, FIRSTNAME, SECONDNAME, CALLE, COLONIA, CP, CIUDAD, ESTADO, EMAIL,"
+            stmt.execute("INSERT INTO CLIENTE(RFC, FIRSTNAME, LASTNAME, CALLE, NUMERO, COLONIA, CP, CIUDAD, ESTADO, EMAIL,"
             		+ "TEL_CELULAR, TEL_EMPRESA) VALUES ('" + cli.getRFC() + "', '" + cli.getNombre() + "',"
-            		+ "'" + cli.getApellidos() +  "', '" + cli.getCalle() + "', '" + cli.getColonia() + "', "
-            		+ Integer.parseInt(cli.getCP()) + ", '" + cli.getCiudad() + "', '" + cli.getEstado() + "', "
-            		+ "'" + cli.getEmail() + "', '" + cli.getTelefono() + "', '"
+            		+ "'" + cli.getApellidos() +  "', '" + cli.getCalle() + "', '" + cli.getNoDir() + "', '" 
+            		+ cli.getColonia() + "', " + Integer.parseInt(cli.getCP()) + ", '" + cli.getCiudad() + "', '" 
+            		+ cli.getEstado() + "', " + "'" + cli.getEmail() + "', '" + cli.getTelefono() + "', '"
         			+ cli.getTelEmp() + "')");
             stmt.close();
             JOptionPane.showMessageDialog(null, "Cliente registrado exitosamente");
@@ -60,13 +60,14 @@ public class ClienteBD {
             	cl[c].setNombre(results.getString(3)); // NOMBRE
             	cl[c].setApellidos(results.getString(4)); // APELLIDOS
             	cl[c].setCalle(results.getString(5)); // CALLE
-            	cl[c].setColonia(results.getString(6)); // COLONIA
-            	cl[c].setCP(results.getString(7)); // CP 
-            	cl[c].setCiudad(results.getString(8)); // CIUDAD
-            	cl[c].setEstado(results.getString(9)); // ESTADO
-            	cl[c].setEmail(results.getString(10));// EMAIL 
-            	cl[c].setTelefono(results.getString(11));// TELEFONO
-            	cl[c].setTelEmp(results.getString(12));// TELEFONO
+            	cl[c].setNoDir(results.getString(6)); // NUMERO
+            	cl[c].setColonia(results.getString(7)); // COLONIA
+            	cl[c].setCP(results.getString(8)); // CP 
+            	cl[c].setCiudad(results.getString(9)); // CIUDAD
+            	cl[c].setEstado(results.getString(10)); // ESTADO
+            	cl[c].setEmail(results.getString(11));// EMAIL 
+            	cl[c].setTelefono(results.getString(12));// TELEFONO
+            	cl[c].setTelEmp(results.getString(13));// TELEFONO
             	c++;
             }
             aux = null;
@@ -86,11 +87,12 @@ public class ClienteBD {
     	try {
     		stmt = conn.createStatement();
             stmt.execute("UPDATE CLIENTE SET RFC = '" + cli.getRFC() + "', FIRSTNAME = '" + cli.getNombre() + "',"
-                    	+ "SECONDNAME = '" + cli.getApellidos() +  "', CALLE = '" + cli.getCalle() + "', "
+                    	+ "LASTNAME = '" + cli.getApellidos() +  "', CALLE = '" + cli.getCalle() + "', "
                     	+ "COLONIA = '" + cli.getColonia() + "', CP = " + Integer.parseInt(cli.getCP()) + ", "
                     	+ "CIUDAD = '" + cli.getCiudad() + "', ESTADO = '" + cli.getEstado() + "', "
                     	+ "EMAIL = '" + cli.getEmail() + "', TEL_CELULAR = '" + cli.getTelefono() + "', "
-                    	+ "TEL_EMPRESA = '" + cli.getTelEmp() + "' WHERE ID_CUS = "+ cli.getId());
+                    	+ "TEL_EMPRESA = '" + cli.getTelEmp() + "', NUMERO = '" + cli.getNoDir() 
+                    	+ "' WHERE ID_CUS = "+ cli.getId());
             stmt.close();
             shutdown();
             return true;

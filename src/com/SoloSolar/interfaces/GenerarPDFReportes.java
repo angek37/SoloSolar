@@ -8,6 +8,8 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
+import com.SoloSolar.Capsulas.Usuario;
+import com.SoloSolar.DB.UsuarioBD;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
@@ -153,13 +155,14 @@ public class GenerarPDFReportes {
 	}
 	
 	public PdfPTable addHeaderInformation(PdfPTable t, String filtroReporte) {
+		Usuario u = UsuarioBD.Datos();
 		Image imagen;
 		try {
 			t.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			t.setHorizontalAlignment(0);
 			t.setLockedWidth(true);
 			t.setTotalWidth(510f);
-			imagen = Image.getInstance("assets/logo.png");
+			imagen = Image.getInstance("assets/logoPDF.png");
 			imagen.scaleAbsolute(150, 30);
 			Phrase img = new Phrase();
 			img.add(new Chunk(imagen, 0, 0));
@@ -167,8 +170,8 @@ public class GenerarPDFReportes {
 			t.addCell(new Paragraph(""));
 			PdfPTable t2 = new PdfPTable(1);
 			t2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			t2.addCell(getHeader("FELIX ALBERTO RODRIGUEZ ALVAREZ"));
-			t2.addCell(getHeader("R.F.C. ROAF6504089G0"));
+			t2.addCell(getHeader(u.getNombre()));
+			t2.addCell(getHeader("R.F.C. " + u.getRFC()));
 			t2.addCell(getHeader("alberto-426@hotmail.com"));
 			t.addCell(t2);
 			t.addCell(getHeader(filtroReporte));

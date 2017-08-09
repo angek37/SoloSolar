@@ -2,14 +2,14 @@ package com.SoloSolar.Capsulas;
 
 public class Cliente {
 	private int id;
-	private String rfc, nombre, apellidos, calle, colonia, cp, ciudad, estado, email, telefono, telEmp;
+	private String rfc, nombre, apellidos, calle, colonia, cp, ciudad, estado, email, telefono, telEmp, noDir;
 	
 	public Cliente() {
 		
 	}
 	
 	public Cliente(String rfc, String nombre, String apellidos, String calle, String colonia, String cp, String ciudad,
-			String estado, String email, String telefono, String telEmp) {
+			String estado, String email, String telefono, String telEmp, String noDir) {
 		super();
 		this.rfc = rfc;
 		this.nombre = nombre;
@@ -22,12 +22,13 @@ public class Cliente {
 		this.email = email;
 		this.telefono = telefono;
 		this.telEmp = telEmp;
+		this.noDir = noDir;
 	}
 
 
 
 	public Cliente(int id, String rfc, String nombre, String apellidos, String calle, String colonia, String cp,
-			String ciudad, String estado, String email, String telefono, String telEmp) {
+			String ciudad, String estado, String email, String telefono, String telEmp, String noDir) {
 		super();
 		this.id = id;
 		this.rfc = rfc;
@@ -41,6 +42,7 @@ public class Cliente {
 		this.email = email;
 		this.telefono = telefono;
 		this.telEmp = telEmp;
+		this.noDir = noDir;
 	}
 
 	public void setId(int id) {
@@ -137,6 +139,14 @@ public class Cliente {
 	
 	public String getTelEmp() {
 		return telEmp;
+	}
+	
+	public void setNoDir(String noDir) {
+		this.noDir = noDir;
+	}
+	
+	public String getNoDir() {
+		return noDir;
 	}
 	
 	public String toString() {

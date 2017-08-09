@@ -105,6 +105,9 @@ public class BuscarCliente {
 					}
 				}
 			});
+			table.getColumnModel().getColumn(0).setMaxWidth(120);
+			table.getColumnModel().getColumn(2).setMaxWidth(150);
+			table.getColumnModel().getColumn(2).setMinWidth(150);
 			jsp = new JScrollPane(table);
 			
 			setLayout(new BorderLayout());
