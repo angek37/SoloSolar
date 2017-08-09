@@ -95,6 +95,7 @@ public class ListaPedidos extends JPanel {
 			try {
 				if(e.getSource() == editar) {
 					Pedido p = c.selectOrder(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+					p.setTotal((Double)table.getModel().getValueAt(table.getSelectedRow(), 4));
 					String[][] renglones = c.selectRowsOrder(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
 					principal.removeAll();
 					principal.add(new Venta(frame, p, renglones));

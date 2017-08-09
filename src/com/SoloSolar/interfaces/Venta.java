@@ -74,13 +74,15 @@ public class Venta extends JPanel {
 		nombreCliente = new JTextField();
 		observaciones = new JTextField();
 		iva = new JCheckBox("IVA");
+		total = new JLabel();
+		total.setPreferredSize(new Dimension(100, 30));
 		
 		pedido.setText(Integer.toString(p.getId()));
 		idCliente.setText(Integer.toString(p.getCustomer()));
 		nombreCliente.setText(p.getClienteString());
 		observaciones.setText(p.getObservaciones());
 		if(p.getIva()) {
-			iva.doClick();
+			iva.setSelected(true);
 		}
 		
 		setLayout(new BorderLayout());
@@ -89,6 +91,7 @@ public class Venta extends JPanel {
 		add(new BotonesP(), BorderLayout.SOUTH);
 		this.padre = frame;
 		Total();
+		total.setText(Double.toString(p.getTotal()));
 	}
 	
 	public class DatosP extends JPanel implements ActionListener {
@@ -323,8 +326,10 @@ public class Venta extends JPanel {
 				}
 				iva.addActionListener(this);
 				lbl = new JLabel("Total: $");
-				total = new JLabel();
-				total.setPreferredSize(new Dimension(100, 30));
+				if(total == null) {
+					total = new JLabel();
+					total.setPreferredSize(new Dimension(100, 30));
+				}
 				add(iva);
 				add(lbl);
 				add(total);
