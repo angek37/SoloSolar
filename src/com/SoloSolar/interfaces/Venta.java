@@ -95,7 +95,6 @@ public class Venta extends JPanel {
 		JButton buscarCliente;
 		private ImageIcon customerIco = new ImageIcon(
 				new ImageIcon("assets/searchCustomer.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		
 		public DatosP() {
 			setLayout(new GridBagLayout());

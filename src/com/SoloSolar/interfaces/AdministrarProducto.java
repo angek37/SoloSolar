@@ -325,7 +325,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 	public class SuppliersPanel extends JPanel implements ActionListener, MouseListener{
 		JButton addB;
 		private ImageIcon addico = new ImageIcon(
-				new ImageIcon("assets/plus.png").getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT));
+				new ImageIcon("assets/plusR.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
 		
 		public SuppliersPanel() {
 			setLayout(new GridBagLayout());
