@@ -49,7 +49,7 @@ public class BuscarProducto {
 				dialog.add(new SearchDialog(dialog));
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
-				dialog.setResizable(false);
+				dialog.setResizable(true);
 				dialog.getRootPane().registerKeyboardAction(e -> {
 					dialog.dispose();
 				}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -114,6 +114,12 @@ public class BuscarProducto {
 					}
 				}
 			});
+			table.getColumnModel().getColumn(0).setMaxWidth(120);
+			table.getColumnModel().getColumn(2).setMaxWidth(150);
+			table.getColumnModel().getColumn(2).setMinWidth(150);
+			table.getColumnModel().getColumn(3).setMaxWidth(130);
+			table.getColumnModel().getColumn(4).setMaxWidth(130);
+			table.getColumnModel().getColumn(5).setMaxWidth(130);
 			jsp = new JScrollPane(table);
 			
 			setLayout(new BorderLayout());

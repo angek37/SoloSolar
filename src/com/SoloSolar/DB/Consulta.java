@@ -363,11 +363,11 @@ public class Consulta {
     	createConnection();
     	try {
     		stmt = conn.createStatement();
-    		ResultSet results = stmt.executeQuery("SELECT ID_CUS, FIRSTNAME, CIUDAD FROM CLIENTE");
+    		ResultSet results = stmt.executeQuery("SELECT ID_CUS, FIRSTNAME, LASTNAME, CIUDAD FROM CLIENTE");
     		while(results.next()) {
     			datos[count][0] = results.getString(1);
-    			datos[count][1] = results.getString(2);
-    			datos[count][2] = results.getString(3);
+    			datos[count][1] = results.getString(2) + " " + results.getString(3);
+    			datos[count][2] = results.getString(4);
     			count++;
     		}
 			shutdown();

@@ -127,6 +127,11 @@ public class Buscar {
 					}
 				}
 			});
+			//table.getColumnModel().getColumn(1).setMinWidth(200);
+			table.getColumnModel().getColumn(0).setMaxWidth(120);
+			table.getColumnModel().getColumn(2).setMaxWidth(200);
+			table.getColumnModel().getColumn(3).setMaxWidth(150);
+			table.getColumnModel().getColumn(4).setMaxWidth(150);
 			jsp = new JScrollPane(table);
 			
 			setLayout(new BorderLayout());
