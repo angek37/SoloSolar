@@ -15,8 +15,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,7 +42,6 @@ import com.SoloSolar.DB.Consulta;
 import com.SoloSolar.DB.Insert;
 import com.toedter.calendar.JDateChooser;
 
-import javafx.scene.control.DatePicker;
 
 public class Venta extends JPanel {
 	JTextField pedido, idCliente, nombreCliente, observaciones;
@@ -76,6 +73,8 @@ public class Venta extends JPanel {
 		iva = new JCheckBox("IVA");
 		total = new JLabel();
 		total.setPreferredSize(new Dimension(100, 30));
+		Date selectedDate = p.getDate();
+		datePicker = new JDateChooser(selectedDate);
 		
 		pedido.setText(Integer.toString(p.getId()));
 		idCliente.setText(Integer.toString(p.getCustomer()));
@@ -147,7 +146,9 @@ public class Venta extends JPanel {
 			gbc.gridy++;
 			gbc.ipadx = 0;
 			add(new JLabel("Fecha:"), gbc);
-			datePicker = new JDateChooser(new Date());
+			if(datePicker == null) {
+				datePicker = new JDateChooser(new Date());
+			}
 			gbc.ipadx = 90;
 			gbc.gridx++;
 			add(datePicker, gbc);
@@ -563,6 +564,7 @@ public class Venta extends JPanel {
 						totalC = 0.0;
 						iva.setSelected(false);
 						total.setText("");
+						datePicker.setDate(new Date());
 					}
 				} else if(e.getSource() == exportar) {
 					int renglones = table.getRowCount();

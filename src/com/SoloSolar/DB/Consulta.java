@@ -583,6 +583,7 @@ public class Consulta {
             while(results.next()) {
             	p.setCustomer(results.getInt(1));
             	p.setFecha(results.getString(2));
+            	p.setDate(results.getTimestamp(2));
             	p.setIva(results.getBoolean(3));
             	p.setObservaciones(results.getString(4));
             	p.setClienteString(results.getString(5));
