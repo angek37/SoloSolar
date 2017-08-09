@@ -36,7 +36,7 @@ public class GenerarPDFVentas {
 	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 7, Font.BOLDITALIC);
 	
 	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][], int cantidades, double total,
-			String infAd[]) {
+			String infAd[], boolean ivaSel) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document();
@@ -154,8 +154,23 @@ public class GenerarPDFVentas {
 			tabResults.addCell(getHeader(cantidades + ""));
 			tabResults.addCell(getHeader(""));
 			tabResults.addCell(getHeader(""));
-			tabResults.addCell(getHeader(""));
-			tabResults.addCell(getHeader(total + ""));
+			if(ivaSel) {
+				tabResults.addCell(getHeader(""));
+				tabResults.addCell(getHeader(total + ""));
+			} else {
+				PdfPTable pet = new PdfPTable(1);
+				pet.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				pet.addCell(getHeader(" "));
+				pet.addCell(getHeader("IVA: "));
+				pet.addCell(getHeader("Total: "));
+				tabResults.addCell(pet);
+				PdfPTable piva = new PdfPTable(1);
+				piva.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				piva.addCell(getHeader(round(total, 1) + ""));
+				piva.addCell(getInfo(round(total * 0.16, 1) + ""));
+				piva.addCell(getInfo(round(total + (total * 0.16), 1) + ""));
+				tabResults.addCell(piva);
+			}
 			doc.add(tabResults);
 			doc.close();
 			JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "¡Exito!", JOptionPane.INFORMATION_MESSAGE);
@@ -165,6 +180,15 @@ public class GenerarPDFVentas {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	public double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 	
 	class RoundedBorder implements PdfPCellEvent {

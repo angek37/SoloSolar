@@ -39,6 +39,7 @@ import com.toedter.calendar.JDateChooser;
 
 public class ReportesVentas {
 	DefaultTableModel dm;
+	double ivaReport = 0;
     
 	public ReportesVentas(JFrame padre) {
 		EventQueue.invokeLater(new Runnable() {
@@ -265,7 +266,7 @@ public class ReportesVentas {
 						File file = f.getSelectedFile();
 						ruta = file.toString();
 						String data[][] = dataPDF(renglones);
-						GenerarPDFReportes g = new GenerarPDFReportes(ruta, renglones, data, reporte);
+						GenerarPDFReportes g = new GenerarPDFReportes(ruta, renglones, data, reporte, ivaReport);
 					}
 				} else {
 					JOptionPane.showMessageDialog(dg, "No hay datos para crear PDF", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
@@ -286,7 +287,8 @@ public class ReportesVentas {
 						String fechaF =  dateChooserF.getCalendar().get(Calendar.YEAR)
 								+ "-" + (dateChooserF.getCalendar().get(Calendar.MONTH) + 1)
 								+ "-" + dateChooserF.getCalendar().get(Calendar.DAY_OF_MONTH);
-						String dataVentas[][] = Consulta.dataVentasFecha(fechaI, fechaF);
+						int precioSel = Integer.parseInt(precio.getSelectedItem().toString());
+						String dataVentas[][] = Consulta.dataVentasFecha(fechaI, fechaF, precioSel);
 						if(fechaI.compareTo(fechaF) <= 0) {
 							if(dataVentas.length > 0) {
 								dm = new DefaultTableModel(dataVentas, 
@@ -294,6 +296,9 @@ public class ReportesVentas {
 						        table.setModel(dm);
 						        reporte = "Reporte por fecha de " + fechaI + " a " + fechaF;
 						        pdf.setEnabled(true);
+						        for(int i = 0; i < dataVentas.length; i++) {
+						        	ivaReport = ivaReport + Double.parseDouble(dataVentas[i][5]);
+						        }
 							} else {
 								JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
 							}
@@ -320,6 +325,9 @@ public class ReportesVentas {
 						        table.setModel(dm);
 						        reporte = "Reporte por numero de pedido de " + inicio + " a " + fin;
 						        pdf.setEnabled(true);
+						        for(int i = 0; i < dataPedido.length; i++) {
+						        	ivaReport = ivaReport + Double.parseDouble(dataPedido[i][5]);
+						        }
 							} else {
 								JOptionPane.showMessageDialog(null, "No se encontraron datos", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
 							}
@@ -328,6 +336,14 @@ public class ReportesVentas {
 						}
 					}
 				}
+				table.getColumnModel().getColumn(1).setMaxWidth(150);
+				table.getColumnModel().getColumn(1).setMinWidth(150);
+				table.getColumnModel().getColumn(2).setMaxWidth(100);
+				table.getColumnModel().getColumn(2).setMinWidth(100);
+				table.getColumnModel().getColumn(3).setMaxWidth(100);
+				table.getColumnModel().getColumn(3).setMinWidth(100);
+				table.getColumnModel().getColumn(4).setMaxWidth(100);
+				table.getColumnModel().getColumn(4).setMinWidth(100);
 			}
 		}
 		
