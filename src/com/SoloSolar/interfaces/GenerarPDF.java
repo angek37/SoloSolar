@@ -115,8 +115,8 @@ public class GenerarPDF {
 			t.setHorizontalAlignment(0);
 			t.setLockedWidth(true);
 			t.setTotalWidth(510f);
-			imagen = Image.getInstance("assets/logo.png");
-			imagen.scaleAbsolute(150, 30);
+			imagen = Image.getInstance("assets/logoPDF.png");
+			imagen.scaleAbsolute(200, 40);
 			Phrase img = new Phrase();
 			img.add(new Chunk(imagen, 0, 0));
 			t.addCell(img);

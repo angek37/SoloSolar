@@ -181,7 +181,7 @@ public class GenerarPDFVentas {
 			t.setHorizontalAlignment(0);
 			t.setLockedWidth(true);
 			t.setTotalWidth(510f);
-			imagen = Image.getInstance("assets/logo.png");
+			imagen = Image.getInstance("assets/logoPDF.png");
 			imagen.scaleAbsolute(150, 30);
 			Phrase img = new Phrase();
 			img.add(new Chunk(imagen, 0, 0));
