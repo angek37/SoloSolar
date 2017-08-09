@@ -25,9 +25,9 @@ import com.SoloSolar.DB.ClienteBD;
 public class AltaCliente extends JPanel implements ActionListener {
 	private JLabel titulo;
 	private JLabel rfcLbl, nombreLbl, apellidosLbl, calleLbl, coloniaLbl, cpLbl, 
-					ciudadLbl, estadoLbl, emailLbl, celLbl, telEmpLbl;
+					ciudadLbl, estadoLbl, emailLbl, celLbl, telEmpLbl, noDirLbl;
 	private JTextField rfcTF, nombreTF, apellidosTF, calleTF, coloniaTF, cpTF, 
-					ciudadTF, estadoTF, emailTF, celTF, telEmpTF;
+					ciudadTF, estadoTF, emailTF, celTF, telEmpTF, noDirTF;
 	private JPanel panelN, panelC, panelS;
 	private JTable table;
 	private JButton guardar;
@@ -45,6 +45,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 		emailLbl = new JLabel("Email: ");
 		celLbl = new JLabel("Telefono Celular: ");
 		telEmpLbl = new JLabel("Telefono Empresa: ");
+		noDirLbl = new JLabel("No. Dirección: ");
 		rfcTF = new JTextField();
 		nombreTF = new JTextField();
 		apellidosTF = new JTextField();
@@ -56,6 +57,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 		emailTF = new JTextField();
 		celTF = new JTextField();
 		telEmpTF = new JTextField();
+		noDirTF = new JTextField();
 		guardar = new JButton("Guardar");
 		panelN = new JPanel();
 		panelC = new JPanel();
@@ -131,13 +133,23 @@ public class AltaCliente extends JPanel implements ActionListener {
 		gbc.gridy++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
+		panelC.add(noDirLbl, gbc);
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 2;
+		panelC.add(noDirTF, gbc);
+		
+		gbc.gridx++;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 1;
 		panelC.add(estadoLbl, gbc);
 		gbc.gridx++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 2;
 		panelC.add(estadoTF, gbc);
 		
-		gbc.gridx++;
+		gbc.gridx = 0;
+		gbc.gridy++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
 		panelC.add(ciudadLbl, gbc);
@@ -146,8 +158,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 		gbc.weightx = 2;
 		panelC.add(ciudadTF, gbc);
 		
-		gbc.gridx = 0;
-		gbc.gridy++;
+		gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
 		panelC.add(cpLbl, gbc);
@@ -156,7 +167,8 @@ public class AltaCliente extends JPanel implements ActionListener {
 		gbc.weightx = 2;
 		panelC.add(cpTF, gbc);
 		
-		gbc.gridx++;
+		gbc.gridx = 0;
+		gbc.gridy++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
 		panelC.add(telEmpLbl, gbc);
@@ -165,8 +177,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 		gbc.weightx = 2;
 		panelC.add(telEmpTF, gbc);
 		
-		gbc.gridx = 0;
-		gbc.gridy++;
+		gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 1;
 		panelC.add(celLbl, gbc);
@@ -175,7 +186,6 @@ public class AltaCliente extends JPanel implements ActionListener {
 		gbc.weightx = 2;
 		panelC.add(celTF, gbc);
 		
-		gbc.gridx = gbc.gridx + 2;
 		gbc.gridy++;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 1;
@@ -224,6 +234,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 			c.setCP(cpTF.getText());
 			c.setTelefono(celTF.getText());
 			c.setTelEmp(telEmpTF.getText());
+			c.setNoDir(noDirTF.getText());
 			if(v.validarCliente(c)) {
 				ClienteBD.InsertCliente(c);
 				nombreTF.setText("");
@@ -237,6 +248,7 @@ public class AltaCliente extends JPanel implements ActionListener {
 				cpTF.setText("");
 				celTF.setText("");
 				telEmpTF.setText("");
+				noDirTF.setText("");
 				table.setModel(new ClientModel());
 			}
 		}

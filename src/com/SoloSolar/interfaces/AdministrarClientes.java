@@ -32,10 +32,9 @@ import com.SoloSolar.DB.ClienteBD;
 public class AdministrarClientes extends JPanel implements MouseListener {
 	private JTable table;
 	private JLabel titulo, idLbl, rfcLbl, nombreLbl, apellidosLbl, calleLbl, coloniaLbl, cpLbl, 
-			ciudadLbl, estadoLbl, emailLbl, celLbl, telEmpLbl;
+			ciudadLbl, estadoLbl, emailLbl, celLbl, telEmpLbl, noDirLbl, clientes;
 	private JTextField idTF, rfcTF, nombreTF, apellidosTF, calleTF, coloniaTF, cpTF, 
-			ciudadTF, estadoTF, emailTF, celTF, telEmpTF;
-	private JLabel clientes;
+			ciudadTF, estadoTF, emailTF, celTF, telEmpTF, noDirTF;
 	ClienteBD select  = new ClienteBD();
 	Cliente[] client = select.selectClientes();
 	private int ID = 0;
@@ -125,6 +124,9 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 				   case 11:
 					   value = cliente.getTelefono();
 					   break;
+				   case 12: 
+					   value = cliente.getNoDir();
+					   break;
 			   }
 	           return value;
 		}
@@ -152,6 +154,7 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			emailLbl = new JLabel("Email: ");
 			celLbl = new JLabel("Telefono Celular: ");
 			telEmpLbl = new JLabel("Telefono Empresa: ");
+			noDirLbl = new JLabel("No. Dirección: ");
 			actualizar = new JButton("Actualizar");
 			idTF = new JTextField();
 			rfcTF = new JTextField();
@@ -164,6 +167,7 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			estadoTF = new JTextField();
 			emailTF = new JTextField();
 			celTF = new JTextField();
+			noDirTF = new JTextField();
 			telEmpTF = new JTextField();
 			idTF.setEditable(false);
 				
@@ -241,14 +245,23 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			gbc.gridx++;
 			gbc.fill = GridBagConstraints.NONE;
 			gbc.weightx = 1;
+			updateP.add(noDirLbl, gbc);
+			gbc.gridx++;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.weightx = 2;
+			updateP.add(noDirTF, gbc);
+			
+			gbc.gridx = 0;
+			gbc.gridy++;
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.weightx = 1;
 			updateP.add(estadoLbl, gbc);
 			gbc.gridx++;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.weightx = 2;
 			updateP.add(estadoTF, gbc);
 			
-			gbc.gridx = 0;
-			gbc.gridy++;
+			gbc.gridx++;
 			gbc.fill = GridBagConstraints.NONE;
 			gbc.weightx = 1;
 			updateP.add(ciudadLbl, gbc);
@@ -257,7 +270,8 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			gbc.weightx = 2;
 			updateP.add(ciudadTF, gbc);
 			
-			gbc.gridx++;
+			gbc.gridx = 0;
+			gbc.gridy++;
 			gbc.fill = GridBagConstraints.NONE;
 			gbc.weightx = 1;
 			updateP.add(cpLbl, gbc);
@@ -266,8 +280,7 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			gbc.weightx = 2;
 			updateP.add(cpTF, gbc);
 			
-			gbc.gridx = 0;
-			gbc.gridy++;
+			gbc.gridx++;
 			gbc.fill = GridBagConstraints.NONE;
 			gbc.weightx = 1;
 			updateP.add(telEmpLbl, gbc);
@@ -276,7 +289,8 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			gbc.weightx = 2;
 			updateP.add(telEmpTF, gbc);
 			
-			gbc.gridx++;
+			gbc.gridx = 0;
+			gbc.gridy++;
 			gbc.fill = GridBagConstraints.NONE;
 			gbc.weightx = 1;
 			updateP.add(celLbl, gbc);
@@ -285,11 +299,8 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			gbc.weightx = 2;
 			updateP.add(celTF, gbc);
 			
-			gbc.gridy++;
-			gbc.weightx = 1;
-			gbc.weighty = 0;
+			gbc.gridx = 3;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
-			gbc.gridwidth = 2;
 			updateP.add(actualizar, gbc);
 			actualizar.addActionListener(this);
 			
@@ -334,8 +345,9 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			try {
 				if(e.getSource() == actualizar) {
 					cl = new Cliente(Integer.parseInt(idTF.getText()), rfcTF.getText(), nombreTF.getText(), 
-							apellidosTF.getText(), calleTF.getText(), coloniaTF.getText(), cpTF.getText(),
-						ciudadTF.getText(), estadoTF.getText(), emailTF.getText(), celTF.getText(), telEmpTF.getText());
+						apellidosTF.getText(), calleTF.getText(), coloniaTF.getText(), cpTF.getText(),
+						ciudadTF.getText(), estadoTF.getText(), emailTF.getText(), celTF.getText(), telEmpTF.getText(),
+						noDirTF.getText());
 					if(v.validarCliente(cl)) {
 						if(in.UpdateClient(cl)) {
 							JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
@@ -351,6 +363,7 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 							emailTF.setText("");
 							celTF.setText("");
 							telEmpTF.setText("");
+							noDirTF.setText("");
 							clientes.setText("Elija un cliente");
 							table.setModel(new ClientModel());
 						}else {
@@ -395,6 +408,7 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 				cpTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 9));
 				telEmpTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 10));
 				celTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 11));
+				noDirTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 12));
 				clientes.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
 				ID = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
 			}
