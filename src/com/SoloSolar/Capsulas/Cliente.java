@@ -3,6 +3,7 @@ package com.SoloSolar.Capsulas;
 public class Cliente {
 	private int id;
 	private String rfc, nombre, apellidos, calle, colonia, cp, ciudad, estado, email, telefono, telEmp, noDir;
+	private Double saldo;
 	
 	public Cliente() {
 		
@@ -152,4 +153,13 @@ public class Cliente {
 	public String toString() {
 		return id + ": " +  nombre;
 	}
+
+	public Double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
+	}
+	
 }

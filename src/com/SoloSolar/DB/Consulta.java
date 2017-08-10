@@ -572,7 +572,7 @@ public class Consulta {
                 }
                 results.close();
             }
-                                    
+            aux = null;
             stmt.close();
             shutdown();
             return p;
@@ -635,7 +635,59 @@ public class Consulta {
             results.close();        
             stmt.close();
             shutdown();
+            aux = null;
             return renglones;
+    	}catch(SQLException sqlExcept) {
+    		sqlExcept.printStackTrace();
+            return null;
+    	}
+    }
+    
+    public Cliente[] selectCustomers() {
+    	Cliente[] c = new Cliente[0];
+    	Cliente[] aux;
+    	Double subtotal = 0.0;
+    	Double total = 0.0;
+    	Statement stmt2;
+    	Statement stmt3;
+    	try {
+    		createConnection();
+    		stmt = conn.createStatement();
+    		stmt2 = conn.createStatement();
+    		stmt3 = conn.createStatement();
+    		ResultSet results = stmt.executeQuery("select id_cus, LastName || ' ' || FirstName"
+    				+", Tel_Celular, Tel_Empresa from Cliente");
+    		while(results.next()) {
+    			aux = c;
+    			c = new Cliente[c.length+1];
+    			for(int x = 0; x < aux.length; x++) {
+    				c[x] = aux[x];
+    			}
+    			c[aux.length] = new Cliente();
+    			c[aux.length].setId(results.getInt(1));
+    			c[aux.length].setNombre(results.getString(2));
+    			c[aux.length].setTelefono(results.getString(3));
+    			c[aux.length].setTelEmp(results.getString(4));
+    			ResultSet pedidos = stmt2.executeQuery("select id_Pedido from Pedido where customer = "+c[aux.length].getId());
+    			while(pedidos.next()) {
+    				ResultSet totalOrder = stmt3.executeQuery("select Precio*Cantidad from Renglon where Pedido = "+pedidos.getInt(1));
+    				while(totalOrder.next()) {
+    					subtotal += totalOrder.getDouble(1);
+    				}
+    				totalOrder.close();
+    				total += subtotal;
+    				subtotal = 0.0;
+    			}
+    			pedidos.close();
+    			c[aux.length].setSaldo(round(total,1));
+    			total = 0.0;
+    		}
+    		results.close();
+    		stmt.close();
+    		stmt2.close();
+    		stmt3.close();
+    		shutdown();
+    		return c;
     	}catch(SQLException sqlExcept) {
     		sqlExcept.printStackTrace();
             return null;

@@ -57,7 +57,7 @@ public class General {
 	public class GeneralPanel extends JPanel implements ActionListener {
 		private JMenuBar menu;
 		private JMenu pedidos, clientes, productos, categoria, proveedor;
-		private JMenuItem altaClie, modClie, altaProd, altaCat, adminCat, adminProd, altaProv, adminProv, prodProv, listPed;
+		private JMenuItem altaClie, modClie, altaProd, altaCat, adminCat, adminProd, altaProv, adminProv, prodProv, listPed, cliPed;
 		private ImageIcon logo = new ImageIcon(
 				new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
 		private JLabel titulo;
@@ -101,6 +101,7 @@ public class General {
 			proveedor = new JMenu("Proveedores");
 			titleBar = new JPanel();
 			listPed = new JMenuItem("Lista de Pedidos", OrderList);
+			cliPed = new JMenuItem("Pedidos por Cliente");
 			altaClie = new JMenuItem("Alta Cliente", addC);
 			modClie = new JMenuItem("Administrar Clientes", admC);
 			altaProd = new JMenuItem("Alta Producto", addP);
@@ -118,7 +119,9 @@ public class General {
 			// Pedidos
 			menu.add(pedidos);
 			pedidos.add(listPed);
+			pedidos.add(cliPed);
 			listPed.addActionListener(this);
+			cliPed.addActionListener(this);
 
 			// Clientes
 			menu.add(clientes);
@@ -209,6 +212,8 @@ public class General {
 				panelPrincipal.add(new ProductosPorProveedor());
 			} else if (e.getSource() == listPed) {
 				panelPrincipal.add(new ListaPedidos(panelPrincipal, frame));
+			} else if (e.getSource() == cliPed) {
+				panelPrincipal.add(new PedidosPorCliente());
 			}
 
 			panelPrincipal.updateUI();
