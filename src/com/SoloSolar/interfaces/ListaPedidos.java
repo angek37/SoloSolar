@@ -9,9 +9,11 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -122,12 +124,75 @@ public class ListaPedidos extends JPanel {
 						}
 					}
 				}else if(e.getSource() == pdf) {
-					
+					String ruta = "";
+					int renglones = table.getRowCount();
+					if(rengReales(renglones) >= 1) {
+						JFileChooser f = new JFileChooser() {
+							@Override
+							public void approveSelection() {
+								File f = getSelectedFile();
+				                if (f.exists() && getDialogType() == SAVE_DIALOG) {
+				                	int result = JOptionPane.showConfirmDialog(this,
+				                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
+				                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
+	
+				                    switch (result){
+				                    	case JOptionPane.YES_OPTION:
+				                    		super.approveSelection();
+				                    		return;
+				                    	case JOptionPane.NO_OPTION:
+				                    		return;
+				                    	case JOptionPane.CLOSED_OPTION:
+				                    		return;
+				                    	case JOptionPane.CANCEL_OPTION:
+				                    		cancelSelection();
+				                    		return;
+				                    }
+				                }
+				                super.approveSelection();
+							}
+						};
+						f.setSelectedFile(new File("Reporte Lista Pedidos"));
+						int opcion = f.showSaveDialog(frame);
+						if(opcion == JFileChooser.APPROVE_OPTION) {
+							String[][] dataPDF = dataPDF(table.getRowCount());
+							File file = f.getSelectedFile();
+							ruta = file.toString();
+							String data[][] = dataPDF(renglones);
+							GenerarPDFListas g = new GenerarPDFListas(ruta, renglones, data);
+						}
+					} else {
+						JOptionPane.showMessageDialog(frame, "No hay datos para exportar", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}catch(ArrayIndexOutOfBoundsException except) {
 				JOptionPane.showMessageDialog(null, "No se ha seleccionado un pedido", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
+	}
+	
+	public String[][] dataPDF(int renglones) {
+		String data[][] = new String[renglones][5];
+		for(int i = 0; i < renglones; i++) {
+			for(int j = 0; j < 5; j++) {
+				data[i][j] = table.getModel().getValueAt(i, j).toString();
+			}
+		}
+		return data;
+	}
+	
+	public int rengReales(int reng) {
+		int rengReales = 0;
+		for(int i = 0; i < reng; i++) {
+			for(int j = 0; j < 7; j++) {
+				if(table.getModel().getValueAt(i, 0) != null && 
+					!String.valueOf(table.getModel().getValueAt(i, 0)).equals("") ) {
+					rengReales++;
+					j = 7;
+				}
+			}
+		}
+		return rengReales;
 	}
 	
 	public class TableOrderModel extends AbstractTableModel {

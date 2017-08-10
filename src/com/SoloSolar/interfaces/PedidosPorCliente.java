@@ -12,9 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -161,9 +164,7 @@ public class PedidosPorCliente extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			try {
-				if(e.getSource() == pdf) {
-					
-				} else if(e.getSource() == editar){
+				if(e.getSource() == editar){
 					Pedido pedido = c.selectOrder(pedidos.getModel().getValueAt(pedidos.getSelectedRow(), 0).toString());
 					pedido.setTotal((Double)pedidosDatos[pedidos.getSelectedRow()].getTotal());
 					String[][] renglones = c.selectRowsOrder(pedidos.getModel().getValueAt(pedidos.getSelectedRow(), 0).toString());
@@ -184,11 +185,80 @@ public class PedidosPorCliente extends JPanel {
 							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el pedido", "¡Error!", JOptionPane.ERROR_MESSAGE);
 						}
 					}
+				} else if(e.getSource() == pdf) {
+					String ruta = "";
+					int renglones = clientes.getRowCount();
+					if(rengReales(renglones) >= 1) {
+						JFileChooser f = new JFileChooser() {
+							@Override
+							public void approveSelection() {
+								File f = getSelectedFile();
+				                if (f.exists() && getDialogType() == SAVE_DIALOG) {
+				                	int result = JOptionPane.showConfirmDialog(this,
+				                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
+				                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
+	
+				                    switch (result){
+				                    	case JOptionPane.YES_OPTION:
+				                    		super.approveSelection();
+				                    		return;
+				                    	case JOptionPane.NO_OPTION:
+				                    		return;
+				                    	case JOptionPane.CLOSED_OPTION:
+				                    		return;
+				                    	case JOptionPane.CANCEL_OPTION:
+				                    		cancelSelection();
+				                    		return;
+				                    }
+				                }
+				                super.approveSelection();
+							}
+						};
+						f.setSelectedFile(new File("Reporte Ventas"));
+						int opcion = f.showSaveDialog(frame);
+						if(opcion == JFileChooser.APPROVE_OPTION) {
+							String[][] dataPDF = dataPDF(clientes.getRowCount());
+							File file = f.getSelectedFile();
+							ruta = file.toString();
+							String data[][] = dataPDF(renglones);
+							GenerarPDFListas g = new GenerarPDFListas(ruta, renglones, data);
+						}
+					} else {
+						JOptionPane.showMessageDialog(frame, "No hay datos para exportar", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}catch(ArrayIndexOutOfBoundsException excep){
 				JOptionPane.showMessageDialog(null, "Seleccione un pedido", "No hay pedido seleccionado", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
+	}
+	
+	public String[][] dataPDF(int renglones) {
+		int reng = rengReales(renglones);
+		String data[][] = new String[reng][7];
+		int index = 0;
+		boolean aumentar = false;
+		for(int i = 0; i < renglones; i++) {
+			aumentar = false;
+			for(int j = 0; j < 7; j++) {
+				data[index][j] = clientes.getModel().getValueAt(i, j) + "";
+			}
+		}
+		return data;
+	}
+	
+	public int rengReales(int reng) {
+		int rengReales = 0;
+		for(int i = 0; i < reng; i++) {
+			for(int j = 0; j < 7; j++) {
+				if(clientes.getModel().getValueAt(i, 0) != null && 
+					!String.valueOf(clientes.getModel().getValueAt(i, 0)).equals("") ) {
+					rengReales++;
+					j = 7;
+				}
+			}
+		}
+		return rengReales;
 	}
 	
 	public class ClientesModel extends AbstractTableModel {
