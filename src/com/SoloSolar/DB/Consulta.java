@@ -655,8 +655,8 @@ public class Consulta {
     		stmt = conn.createStatement();
     		stmt2 = conn.createStatement();
     		stmt3 = conn.createStatement();
-    		ResultSet results = stmt.executeQuery("select id_cus, LastName || ' ' || FirstName"
-    				+", Tel_Celular, Tel_Empresa from Cliente");
+    		ResultSet results = stmt.executeQuery("select id_cus, LastName || ' ' || FirstName as Nombre"
+    				+", Tel_Celular, Tel_Empresa from Cliente order by Nombre asc");
     		while(results.next()) {
     			aux = c;
     			c = new Cliente[c.length+1];

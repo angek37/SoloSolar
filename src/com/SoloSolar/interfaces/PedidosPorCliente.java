@@ -49,6 +49,8 @@ public class PedidosPorCliente extends JPanel {
 			clientes.getTableHeader().setReorderingAllowed(false);
 			JScrollPane scrollPane = new JScrollPane(clientes);
 			add(scrollPane, gbc);
+			clientes.getColumnModel().getColumn(0).setMaxWidth(50);
+			clientes.getColumnModel().getColumn(1).setMinWidth(170);
 		}
 	}
 	
@@ -106,7 +108,7 @@ public class PedidosPorCliente extends JPanel {
 			break;
 			case 1: obj = clientes[rowIndex].getNombre();
 			break;
-			case 2: obj = clientes[rowIndex].getSaldo();
+			case 2: obj = "$ "+clientes[rowIndex].getSaldo();
 			break;
 			case 3: obj = clientes[rowIndex].getTelefono();
 			break;
