@@ -582,6 +582,48 @@ public class Consulta {
     	}
     }
     
+    public Pedido[] selectOrders(String customer) {
+    	createConnection();
+    	Pedido[] p = new Pedido[0];
+    	Pedido[] aux;
+    	try {
+    		stmt = conn.createStatement();
+            ResultSet results = stmt.executeQuery("select id_Pedido, Fecha, IVA "
+            		+"from PEDIDO where customer = "+customer+" order by Fecha desc");
+            while(results.next()) {
+            	aux = p;
+            	p = new Pedido[aux.length+1];
+            	for(int x = 0; x < aux.length; x++) {
+            		p[x] = aux[x];
+            	}
+            	p[aux.length] = new Pedido();
+            	p[aux.length].setId(results.getInt(1));
+            	p[aux.length].setFecha(results.getString(2));
+            	p[aux.length].setIva(results.getBoolean(3));
+            }
+            results.close();
+            
+            for(int x = 0; x < p.length; x++) {
+            	results = stmt.executeQuery("select SUM(Cantidad*Precio) from Renglon where Pedido = "+p[x].getId());
+                while(results.next()) {
+                	if(p[x].getIva()) {
+                		p[x].setTotal(round(1.16*results.getDouble(1),1));
+                	}else {
+                		p[x].setTotal(round(results.getDouble(1),1));
+                	}
+                }
+                results.close();
+            }
+            aux = null;
+            stmt.close();
+            shutdown();
+            return p;
+    	}catch(SQLException sqlExcept) {
+    		sqlExcept.printStackTrace();
+            return null;
+    	}
+    }
+    
     public Pedido selectOrder(String id_pedido) {
     	Pedido p = new Pedido();
     	try {
