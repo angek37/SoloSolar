@@ -10,10 +10,9 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,6 +36,8 @@ public class PedidosPorCliente extends JPanel {
 	JPanel principal;
 	Consulta c = new Consulta();
 	Pedido[] pedidosDatos = new Pedido[0];
+	int ID = 0;
+	String total = "";
 	
 	public PedidosPorCliente(JPanel principal, JFrame frame) {
 		this.principal = principal;
@@ -79,34 +80,20 @@ public class PedidosPorCliente extends JPanel {
 			add(scrollPane, gbc);
 			clientes.getColumnModel().getColumn(0).setMaxWidth(50);
 			clientes.getColumnModel().getColumn(1).setMinWidth(170);
-			clientes.addMouseListener(new MouseListener() {
+			clientes.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					if(e.getClickCount() == 1) {
 						try {
+							ID = Integer.parseInt(String.valueOf(clientes.getModel().getValueAt(clientes.getSelectedRow(), 0)));
+							total = String.valueOf(clientes.getModel().getValueAt(clientes.getSelectedRow(), 2));
 							pedidosDatos = c.selectOrders(""+clientes.getModel().getValueAt(clientes.getSelectedRow(), 0));
 							pedidos.setModel(new PedidosModel());
+							
 						}catch(ArrayIndexOutOfBoundsException exp) {
 							
 						}
 					}
 				}
-
-				public void mousePressed(MouseEvent e) {
-					
-				}
-
-				public void mouseReleased(MouseEvent e) {
-					
-				}
-
-				public void mouseEntered(MouseEvent e) {
-					
-				}
-
-				public void mouseExited(MouseEvent e) {
-					
-				}
-				
 			});
 		}
 	}
@@ -187,8 +174,8 @@ public class PedidosPorCliente extends JPanel {
 					}
 				} else if(e.getSource() == pdf) {
 					String ruta = "";
-					int renglones = clientes.getRowCount();
-					if(rengReales(renglones) >= 1) {
+					int renglones = pedidos.getRowCount();
+					if(renglones >= 1) {
 						JFileChooser f = new JFileChooser() {
 							@Override
 							public void approveSelection() {
@@ -214,14 +201,14 @@ public class PedidosPorCliente extends JPanel {
 				                super.approveSelection();
 							}
 						};
-						f.setSelectedFile(new File("Reporte Ventas"));
+						f.setSelectedFile(new File("Reporte Pedidos por Cliente"));
 						int opcion = f.showSaveDialog(frame);
 						if(opcion == JFileChooser.APPROVE_OPTION) {
-							String[][] dataPDF = dataPDF(clientes.getRowCount());
+							String[][] dataPDF = dataPDF(pedidos.getRowCount());
 							File file = f.getSelectedFile();
 							ruta = file.toString();
 							String data[][] = dataPDF(renglones);
-							GenerarPDFListas g = new GenerarPDFListas(ruta, renglones, data);
+							GenerarPDFPxC g = new GenerarPDFPxC(ruta, renglones, data, ID, total);
 						}
 					} else {
 						JOptionPane.showMessageDialog(frame, "No hay datos para exportar", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
@@ -234,14 +221,10 @@ public class PedidosPorCliente extends JPanel {
 	}
 	
 	public String[][] dataPDF(int renglones) {
-		int reng = rengReales(renglones);
-		String data[][] = new String[reng][7];
-		int index = 0;
-		boolean aumentar = false;
+		String data[][] = new String[renglones][3];
 		for(int i = 0; i < renglones; i++) {
-			aumentar = false;
-			for(int j = 0; j < 7; j++) {
-				data[index][j] = clientes.getModel().getValueAt(i, j) + "";
+			for(int j = 0; j < 3; j++) {
+				data[i][j] = pedidos.getModel().getValueAt(i, j).toString();
 			}
 		}
 		return data;

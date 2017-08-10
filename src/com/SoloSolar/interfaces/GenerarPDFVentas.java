@@ -296,7 +296,7 @@ public class GenerarPDFVentas {
 			t.addCell(t2);
 			PdfPTable t3 = new PdfPTable(2);
 			t3.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			t3.addCell(getHeader("No. direccion:" + c.getNoDir()));
+			t3.addCell(getHeader("No. direccion: " + c.getNoDir()));
 			//t3.addCell(getInfo(c.getNoDir()));
 			t3.addCell(getHeader("Estado: " + c.getEstado()));
 			//t3.addCell(getInfo(c.getEstado()));
