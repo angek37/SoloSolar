@@ -72,9 +72,9 @@ public class GenerarPDFVentas {
 			camp.addCell(getInfo(infAd[0]));
 			observaciones.addCell(camp);
 			doc.add(observaciones);
-			doc.add(new Paragraph("\n"));
 			PdfPTable table = new PdfPTable(1);
 			doc.add(getFecha("No. Pedido: " + infAd[1]));
+			doc.add(new Paragraph("\n"));
 			//doc.add(addTableInformation(table));
 			PdfPTable tab = new PdfPTable(7);
 			tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
@@ -223,9 +223,9 @@ public class GenerarPDFVentas {
 		PdfPTable c31 = new PdfPTable(2);
 		c31.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 		c31.addCell(new Paragraph(""));
-		c31.addCell(getArial("En____________________________"));
+		c31.addCell(getArial("En_______________________"));
 		c3.addCell(c31);
-		c3.addCell(getArial("a_____________ de___________________ de___________"));
+		c3.addCell(getArial("a__________ de_________________________ de___________"));
 		pagare.addCell(c3);
 		pagare.addCell(getArial(""
 		+ "  Debo(emos) y pagaré(mos) incodicionalmente por este pagaré a la orden de:_________________________________________________"));
