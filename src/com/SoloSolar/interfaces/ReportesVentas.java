@@ -92,7 +92,7 @@ public class ReportesVentas {
 			inicio = new JLabel("Inicio: ");
 			fin = new JLabel("Fin: ");
 			filtro = new JLabel("Filtro por: ");
-			precio = new JComboBox(new String[] {"1", "2"});
+			precio = new JComboBox(new String[] {"1", "2", "Todos"});
 			filtros = new JComboBox(new String[] {"Fecha", "No. Pedido"});
 			filtros.addItemListener(this);
 			//panelBuscar.setBackground(new Color(239, 228, 176));
@@ -287,8 +287,13 @@ public class ReportesVentas {
 						String fechaF =  dateChooserF.getCalendar().get(Calendar.YEAR)
 								+ "-" + (dateChooserF.getCalendar().get(Calendar.MONTH) + 1)
 								+ "-" + dateChooserF.getCalendar().get(Calendar.DAY_OF_MONTH);
-						int precioSel = Integer.parseInt(precio.getSelectedItem().toString());
-						String dataVentas[][] = Consulta.dataVentasFecha(fechaI, fechaF, precioSel);
+						String dataVentas[][];
+						if(precio.getSelectedItem().equals("Todos")) {
+							dataVentas = Consulta.dataVentasFechaSF(fechaI, fechaF);
+						} else {
+							int precioSel = Integer.parseInt(precio.getSelectedItem().toString());
+							dataVentas = Consulta.dataVentasFecha(fechaI, fechaF, precioSel);
+						}
 						if(fechaI.compareTo(fechaF) <= 0) {
 							if(dataVentas.length > 0) {
 								dm = new DefaultTableModel(dataVentas, 

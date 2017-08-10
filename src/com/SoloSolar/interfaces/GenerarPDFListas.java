@@ -39,10 +39,10 @@ public class GenerarPDFListas {
 	private Font pagare = new Font(Font.getFamily("Arial"), 8, Font.NORMAL);
 	private Font pagare2 = new Font(Font.getFamily("Arial"), 12, Font.NORMAL);
 	private Font pagare3 = new Font(Font.getFamily("Arial"), 10, Font.NORMAL);
-	double total, cantidades;
+	double total;
+	int cantidades;
 	
-	public GenerarPDFListas(String ruta, int renglones, String dataPDF[][], int idC, int idP,
-			Pedido p) {
+	public GenerarPDFListas(String ruta, int renglones, String dataPDF[][], int idC, int idP, Pedido p) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document(PageSize.A4, 36, 36, 36, 36);
@@ -57,7 +57,6 @@ public class GenerarPDFListas {
 			doc.add(getFecha(dateFormat.format(date)));
 			doc.add(new Paragraph(" "));
 			PdfPTable t = new PdfPTable(2);
-			t.setWidths(new float[] {2, 4});
 			doc.add(addHeaderInformation(t, idC));
 			doc.add(getFooter("BLVD. JUAN ALONSO DE TORRES OTE. #202 B COL. VIBAR TEL.: (477)"
 					+ "114 56 37 CEL.: 044 477 136 5097, LEÓN, GTO."));
@@ -127,6 +126,8 @@ public class GenerarPDFListas {
 				for(int j = 0; j < dataPDF[i].length; j++) {
 					tab.addCell(getInfo(dataPDF[i][j]));
 				}
+				cantidades = cantidades + Integer.parseInt(dataPDF[i][2]);
+				total = total + Double.parseDouble(dataPDF[i][6]);
 			}
 			doc.add(tab);
 			PdfPTable tabResults = new PdfPTable(7);
@@ -136,11 +137,11 @@ public class GenerarPDFListas {
 			tabResults.setHorizontalAlignment(0);
 			tabResults.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			tabResults.addCell(getHeader("Productos encontrados: "));
-			tabResults.addCell(getHeader(renglones + ""));
+			tabResults.addCell(getHeader(dataPDF.length + ""));
 			tabResults.addCell(getHeader(cantidades + ""));
 			tabResults.addCell(getHeader(""));
 			tabResults.addCell(getHeader(""));
-			if(p.getIva()) {
+			if(!p.getIva()) {
 				tabResults.addCell(getHeader(""));
 				tabResults.addCell(getHeader(total + ""));
 			} else {
@@ -272,20 +273,11 @@ public class GenerarPDFListas {
 			Phrase img = new Phrase();
 			img.add(new Chunk(imagen, 0, 0));
 			t.addCell(img);
-			PdfPTable tc = new PdfPTable(2);
+			PdfPTable tc = new PdfPTable(1);
 			tc.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			tc.addCell(getHeader("Nombre: " + c.getNombre()));
-			//tc.addCell(getInfo(c.getNombre());
-			tc.addCell(getHeader("Apellidos: " + c.getApellidos()));
-			//tc.addCell(getInfo(c.getApellidos()));
+			tc.addCell(getHeader(c.getNombre() + " " + c.getApellidos()));
 			tc.addCell(getHeader("RFC: " + c.getRFC()));
-			//tc.addCell(getInfo(c.getRFC()));
-			tc.addCell(getHeader("Email: " + c.getEmail()));
-			//tc.addCell(getInfo(c.getEmail()));
-			tc.addCell(getHeader("Calle: " + c.getCalle()));
-			//tc.addCell(getInfo(c.getCalle()));
-			tc.addCell(getHeader("Colonia: " + c.getColonia()));
-			//tc.addCell(getInfo(c.getColonia()));
+			tc.addCell(getHeader(c.getEmail()));
 			PdfPCell cB = new PdfPCell();
 			cB.setBorder(Rectangle.LEFT | Rectangle.TOP | Rectangle.RIGHT);
 			cB.addElement(tc);
@@ -296,20 +288,11 @@ public class GenerarPDFListas {
 			t2.addCell(getHeader("R.F.C. " + u.getRFC()));
 			t2.addCell(getHeader("alberto-426@hotmail.com"));
 			t.addCell(t2);
-			PdfPTable t3 = new PdfPTable(2);
+			PdfPTable t3 = new PdfPTable(1);
 			t3.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			t3.addCell(getHeader("No. direccion: " + c.getNoDir()));
-			//t3.addCell(getInfo(c.getNoDir()));
-			t3.addCell(getHeader("Estado: " + c.getEstado()));
-			//t3.addCell(getInfo(c.getEstado()));
-			t3.addCell(getHeader("Ciudad: " + c.getCiudad()));
-			//t3.addCell(getInfo(c.getCiudad()));
-			t3.addCell(getHeader("Codigo postal: " + c.getCP()));
-			//t3.addCell(getInfo(c.getCP()));
-			t3.addCell(getHeader("Telefono empresa: " + c.getTelEmp()));
-			//t3.addCell(getInfo(c.getTelEmp()));
-			t3.addCell(getHeader("Telefono celular: " + c.getTelefono()));
-			//t3.addCell(getInfo(c.getTelefono()));
+			t3.addCell(getHeader("Direccion: " + c.getCalle() + " " + c.getNoDir() + " " + c.getColonia() + " (" + c.getCP() +")"));
+			t3.addCell(getHeader(c.getEstado() + ", " + c.getCiudad()));
+			t3.addCell(getHeader(c.getTelEmp() + ", " + c.getTelefono()));
 			cB = new PdfPCell();
 			cB.setBorder(Rectangle.LEFT | Rectangle.BOTTOM | Rectangle.RIGHT);
 			cB.addElement(t3);

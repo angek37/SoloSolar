@@ -126,7 +126,8 @@ public class ListaPedidos extends JPanel {
 				}else if(e.getSource() == pdf) {
 					int id = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 2) + "");
 					int ped = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0) + "");
-					Pedido p = Consulta.getPedido(id);
+					System.out.println(id + " " + ped);
+					Pedido p = Consulta.getPedido(ped);
 					boolean iva = false;
 					String ruta = "";
 					int renglones = table.getRowCount();
@@ -155,7 +156,7 @@ public class ListaPedidos extends JPanel {
 			                super.approveSelection();
 						}
 					};
-					f.setSelectedFile(new File("Reporte Lista Pedidos"));
+					f.setSelectedFile(new File("Pedido " + ped));
 					int opcion = f.showSaveDialog(frame);
 					if(opcion == JFileChooser.APPROVE_OPTION) {
 						String[][] dataPDF = Consulta.getPedidoCompleto(ped);
