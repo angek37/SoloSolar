@@ -48,6 +48,7 @@ public class PedidosPorCliente extends JPanel {
 			setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.weightx = 1;
+			gbc.weighty = 1;
 			gbc.anchor = GridBagConstraints.WEST;
 			titulo = new JLabel("Pedidos por Cliente");
 			titulo.setFont(new Font("Calibri", Font.ITALIC, 16));

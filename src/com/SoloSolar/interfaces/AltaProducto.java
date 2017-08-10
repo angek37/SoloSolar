@@ -299,38 +299,42 @@ public class AltaProducto extends JPanel implements ActionListener{
 			DefaultTableModel dtm;
 			if(e.getSource() == addB) {
 				Proveedor prov = (Proveedor) suppliers.getSelectedItem();
-				if(!isRepeat(prov.getId())) {
-					try {
-						if(!datos[0][0].equals("")) {
-							String aux[][] = new String[datos.length][2];
-							aux = datos;
-							cont++;
-							datos = new String[cont][2];
-							for(int x = 0; x < aux.length; x++) {
-								datos[x][0] = aux[x][0];
-								datos[x][1] = aux[x][1];
+				try {
+					if(!isRepeat(prov.getId())) {
+						try {
+							if(!datos[0][0].equals("")) {
+								String aux[][] = new String[datos.length][2];
+								aux = datos;
+								cont++;
+								datos = new String[cont][2];
+								for(int x = 0; x < aux.length; x++) {
+									datos[x][0] = aux[x][0];
+									datos[x][1] = aux[x][1];
+								}
+								aux = null;
+								datos[cont-1][0] = Integer.toString(prov.getId());
+								datos[cont-1][1] = prov.getNombre();
+								dtm = new DefaultTableModel(datos, head);
+								table.setModel(dtm);
+							}else {
+								datos[0][0] = Integer.toString(prov.getId());
+								datos[0][1] = prov.getNombre();
+								dtm = new DefaultTableModel(datos, head);
+								table.setModel(dtm);
 							}
-							aux = null;
-							datos[cont-1][0] = Integer.toString(prov.getId());
-							datos[cont-1][1] = prov.getNombre();
-							dtm = new DefaultTableModel(datos, head);
-							table.setModel(dtm);
-						}else {
+						}catch(ArrayIndexOutOfBoundsException ex) {
+							cont = 1;
+							datos = new String[1][2];
+							datos[0][0] = "";
+							datos[0][1] = "";
 							datos[0][0] = Integer.toString(prov.getId());
 							datos[0][1] = prov.getNombre();
 							dtm = new DefaultTableModel(datos, head);
 							table.setModel(dtm);
 						}
-					}catch(ArrayIndexOutOfBoundsException ex) {
-						cont = 1;
-						datos = new String[1][2];
-						datos[0][0] = "";
-						datos[0][1] = "";
-						datos[0][0] = Integer.toString(prov.getId());
-						datos[0][1] = prov.getNombre();
-						dtm = new DefaultTableModel(datos, head);
-						table.setModel(dtm);
 					}
+				}catch(NullPointerException ex) {
+					JOptionPane.showMessageDialog(null,"No hay proveedor seleccionado","¡Error!",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
