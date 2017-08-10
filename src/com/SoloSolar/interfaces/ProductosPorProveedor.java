@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -75,13 +76,17 @@ public class ProductosPorProveedor extends JPanel implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == buscar) {
-			Proveedor prov = (Proveedor) suppliers.getSelectedItem();
-			nombre.setText(prov.getNombre());
-			direccion.setText(prov.getDireccion()+" "+prov.getCp()+" "+prov.getCiudad()+" "+prov.getEstado());
-			celular.setText(prov.getCelular());
-			telefono.setText(prov.getTelefono());
-			correo.setText(prov.getEmail());
-			table.setModel(new ProductobySupplierModel(prov.getId()));
+			try {
+				Proveedor prov = (Proveedor) suppliers.getSelectedItem();
+				nombre.setText(prov.getNombre());
+				direccion.setText(prov.getDireccion()+" "+prov.getCp()+" "+prov.getCiudad()+" "+prov.getEstado());
+				celular.setText(prov.getCelular());
+				telefono.setText(prov.getTelefono());
+				correo.setText(prov.getEmail());
+				table.setModel(new ProductobySupplierModel(prov.getId()));
+			}catch(NullPointerException exp) {
+				JOptionPane.showMessageDialog(null, "Seleccione un proveedor", "No hay proveedor seleccionado", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	}
 	
