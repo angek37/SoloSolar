@@ -71,7 +71,9 @@ public class ListaPedidos extends JPanel {
 	}
 	
 	public class OptionsPanel extends JPanel implements ActionListener{
-		JButton editar, eliminar;
+		JButton pdf, editar, eliminar;
+		private ImageIcon pdfIco = new ImageIcon(
+				new ImageIcon("assets/pdf.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		private ImageIcon editIco = new ImageIcon(
 				new ImageIcon("assets/editOrder.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		private ImageIcon deleteIco = new ImageIcon(
@@ -79,6 +81,10 @@ public class ListaPedidos extends JPanel {
 		
 		public OptionsPanel() {
 			setLayout(new FlowLayout(FlowLayout.CENTER));
+			pdf = new JButton("Exportar", pdfIco);
+			pdf.setBackground(new Color(182, 182, 182));
+			add(pdf);
+			pdf.addActionListener(this);
 			editar = new JButton("Editar", editIco);
 			editar.setBackground(new Color(182, 182, 182));
 			add(editar);
@@ -113,6 +119,8 @@ public class ListaPedidos extends JPanel {
 							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el pedido", "¡Error!", JOptionPane.ERROR_MESSAGE);
 						}
 					}
+				}else if(e.getSource() == pdf) {
+					
 				}
 			}catch(ArrayIndexOutOfBoundsException except) {
 				JOptionPane.showMessageDialog(null, "No se ha seleccionado un pedido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -135,7 +143,7 @@ public class ListaPedidos extends JPanel {
 		public String getColumnName(int col) {
 			String name = "";
 			switch(col) {
-			case 0: name = "Clave";
+			case 0: name = "Pedido";
 			break;
 			case 1: name = "Fecha";
 			break;
