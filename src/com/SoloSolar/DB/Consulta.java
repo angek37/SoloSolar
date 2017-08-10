@@ -27,6 +27,78 @@ public class Consulta {
         }
     }
     
+    public static Pedido getPedido(int id) {
+    	createConnection();
+    	Pedido p = new Pedido();
+    	try {
+    		stmt = conn.createStatement();
+    		ResultSet rs = stmt.executeQuery("SELECT * FROM PEDIDO WHERE ID_PEDIDO = " + id);
+    		while(rs.next()) {
+    			p.setId(rs.getInt(1));
+    			p.setCustomer(rs.getInt(2));
+    			p.setDate(rs.getDate(3));
+    			p.setIva(rs.getBoolean(4));
+    			p.setObservaciones(rs.getString(5));
+    		}
+			shutdown();
+			return p;
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		}
+    	return p;
+    }
+    
+    public static int tamañoPedidoC(int id) {
+    	createConnection();
+    	int index = 0;
+    	try {
+    		stmt = conn.createStatement();
+    		ResultSet rs = stmt.executeQuery("SELECT PR.CLAVE, PR.NOMBRE, R.CANTIDAD, PR.PAQUETE, R.LISTA, " 
+    				+ "R.PRECIO, (R.PRECIO * R.CANTIDAD) AS TOTAL "
+    				+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "
+    				+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "  
+    				+ "WHERE ID_PEDIDO = " + id);
+    		while(rs.next()) {
+    			index++;
+    		}
+    		shutdown();
+			return index;
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		}
+    	return index;
+    }
+    
+    public static String[][] getPedidoCompleto(int id) {
+    	createConnection();
+    	String data[][] = new String[tamañoPedidoC(id)][7];
+    	int cont = 0;
+    	try {
+    		stmt = conn.createStatement();
+    		ResultSet rs = stmt.executeQuery("SELECT PR.CLAVE, PR.NOMBRE, R.CANTIDAD, PR.PAQUETE, R.LISTA, " 
+    				+ "R.PRECIO, (R.PRECIO * R.CANTIDAD) AS TOTAL "
+    				+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "
+    				+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "  
+    				+ "WHERE ID_PEDIDO = " + id);
+    		while(rs.next()) {
+    			System.out.println(rs.getString(1));
+    			data[cont][0] = rs.getString(1); 
+    			data[cont][1] = rs.getString(2);
+    			data[cont][2] = rs.getString(3);
+    			data[cont][3] = rs.getString(4);
+    			data[cont][4] = rs.getString(5);
+    			data[cont][5] = rs.getString(6);
+    			data[cont][6] = rs.getString(7);
+    			cont++;
+    		}
+    		shutdown();
+    		return data;
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		}
+    	return data;
+    }
+    
     public Categoria[] selectCategories(){
     	createConnection();
     	Categoria[] cat = new Categoria[0];
