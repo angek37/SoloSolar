@@ -28,6 +28,8 @@ public class ListaPedidos extends JPanel {
 	JTable table;
 	JFrame frame;
 	JPanel principal;
+	Consulta c = new Consulta();
+	Pedido[] p = c.selectOrders();
 	
 	public ListaPedidos(JPanel principal, JFrame frame) {
 		this.frame = frame;
@@ -100,11 +102,11 @@ public class ListaPedidos extends JPanel {
 			Consulta c = new Consulta();
 			try {
 				if(e.getSource() == editar) {
-					Pedido p = c.selectOrder(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
-					p.setTotal((Double)table.getModel().getValueAt(table.getSelectedRow(), 4));
+					Pedido pedido = c.selectOrder(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+					pedido.setTotal((Double)p[table.getSelectedRow()].getTotal());
 					String[][] renglones = c.selectRowsOrder(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
 					principal.removeAll();
-					principal.add(new Venta(frame, p, renglones));
+					principal.add(new Venta(frame, pedido, renglones));
 					principal.updateUI();
 					principal.repaint();
 					repaint();
@@ -129,8 +131,6 @@ public class ListaPedidos extends JPanel {
 	}
 	
 	public class TableOrderModel extends AbstractTableModel {
-		Consulta c = new Consulta();
-		Pedido[] p = c.selectOrders();
 
 		public int getRowCount() {
 			return p.length;
@@ -164,15 +164,15 @@ public class ListaPedidos extends JPanel {
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			Object ob = null;
 			switch(columnIndex) {
-			case 0: ob = (Object) p[rowIndex].getId();
+			case 0: ob = p[rowIndex].getId();
 			break;
-			case 1: ob = (Object) p[rowIndex].getFecha();
+			case 1: ob = p[rowIndex].getFecha();
 			break;
-			case 2: ob = (Object) p[rowIndex].getCustomer();
+			case 2: ob = p[rowIndex].getCustomer();
 			break;
-			case 3: ob = (Object) p[rowIndex].getClienteString();
+			case 3: ob = p[rowIndex].getClienteString();
 			break;
-			case 4: ob = (Object) p[rowIndex].getTotal();
+			case 4: ob = "$ " + p[rowIndex].getTotal();
 			break;
 			}
 			return ob;
