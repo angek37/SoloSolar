@@ -114,7 +114,7 @@ public class Validaciones {
 			mensajeErrores += "\nEl nombre no puede estar vacio";
 			clienteCorrecto = false;
 		}
-		if(validarCamposNoVacios(p.getDireccion())) {
+		if(validarCamposNoVacios(p.getCalle())) {
 			mensajeErrores += "\nLa direccion no puede estar vacia";
 			clienteCorrecto = false;
 		}

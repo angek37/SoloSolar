@@ -156,9 +156,10 @@ public class Insert {
     public boolean InsertSupplier(Proveedor prov) {
     	try {
             stmt = conn.createStatement();
-            stmt.execute("insert into Proveedor(Nombre, Direccion, Telefono, Email) values ('" +
-            		prov.getNombre() + "','" + prov.getDireccion() + "','" + prov.getTelefono() + "','" 
-            			+ prov.getEmail() + "')");
+            stmt.execute("insert into Proveedor(Nombre, Calle, Numero, Colonia, CP, Ciudad, Estado, Email, Celular, Telefono) values ('" +
+            		prov.getNombre() + "','" + prov.getCalle() + "','" + prov.getNumero() + "','" + prov.getColonia()
+            			+ "'," + prov.getCp() + ",'" + prov.getCiudad() + "','" + prov.getEstado() + "','" + prov.getEmail() + "',"
+            				+ "'" + prov.getCelular() + "','" + prov.getTelefono() + "')");
             stmt.close();
             shutdown();
             return true;
