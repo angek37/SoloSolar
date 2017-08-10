@@ -175,7 +175,6 @@ public class PedidosPorCliente extends JPanel {
 				} else if(e.getSource() == pdf) {
 					int ped = Integer.parseInt(pedidos.getModel().getValueAt(pedidos.getSelectedRow(), 0) + "");
 					int id = Consulta.getIdCliente(ped);
-					System.out.println(id + " " + ped);
 					Pedido p = Consulta.getPedido(ped);
 					boolean iva = false;
 					String ruta = "";
