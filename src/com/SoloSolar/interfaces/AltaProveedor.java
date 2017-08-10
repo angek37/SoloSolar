@@ -22,7 +22,7 @@ import com.SoloSolar.DB.Consulta;
 import com.SoloSolar.DB.Insert;
 
 public class AltaProveedor extends JPanel implements ActionListener {
-	private JTextField nombre, direccion, telefono, correo;
+	private JTextField nombre, calle, numero, colonia, cp, ciudad, estado, celular, telefono, correo;
 	private JButton registrar;
 	private JTable table;
 	private JLabel titulo;
@@ -30,75 +30,96 @@ public class AltaProveedor extends JPanel implements ActionListener {
 	public AltaProveedor() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(4,30,4,4);
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.weighty = 1;
+		gbc.weightx = 1;
+		gbc.ipadx = 200;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.weighty = 0.2;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.insets = new Insets(4,4,4,4);
 		titulo = new JLabel("Registrar nuevo Proveedor");
 		titulo.setFont(new Font("Calibri", Font.ITALIC, 16));
 		titulo.setForeground(Color.BLUE);
 		add(titulo, gbc);
 		gbc.gridy++;
-		gbc.gridx = 0;
-		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridwidth = 1;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
-		add(new JLabel("Nombre de proveedor:"), gbc);
+		gbc.ipadx = 0;
+		add(new JLabel("Nombre:"), gbc);
 		nombre = new JTextField();
-		gbc.gridx+=2;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridwidth = 2;
+		gbc.gridx++;
+		gbc.ipadx = 200;
 		add(nombre, gbc);
+		gbc.gridx++;
+		gbc.ipadx = 0;
+		add(new JLabel("Calle:"), gbc);
+		calle = new JTextField();
+		gbc.gridx++;
+		gbc.ipadx = 200;
+		add(calle, gbc);
+		gbc.gridy++;
+		gbc.gridx = 0;
+		gbc.ipadx = 0;
+		add(new JLabel("Número:"), gbc);
+		numero = new JTextField();
+		gbc.gridx++;
+		gbc.ipadx = 200;
+		add(numero, gbc);
+		gbc.gridx++;
+		gbc.ipadx = 0;
+		add(new JLabel("Colonia:"), gbc);
+		colonia = new JTextField();
+		gbc.gridx++;
+		gbc.ipadx = 200;
+		add(colonia, gbc);
 		gbc.gridx = 0;
 		gbc.gridy++;
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
-		add(new JLabel("Dirección:"), gbc);
-		direccion = new JTextField();
-		gbc.gridx+=2;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridwidth = 2;
-		add(direccion, gbc);
+		gbc.ipadx = 0;
+		add(new JLabel("C.P.:"), gbc);
+		cp = new JTextField();
+		gbc.gridx++;
+		gbc.ipadx = 200;
+		add(cp, gbc);
+		gbc.gridx++;
+		gbc.ipadx = 0;
+		add(new JLabel("Ciudad:"), gbc);
+		ciudad = new JTextField();
+		gbc.gridx++;
+		gbc.ipadx = 200;
+		add(ciudad, gbc);
 		gbc.gridx = 0;
 		gbc.gridy++;
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
-		add(new JLabel("Teléfono:"), gbc);
-		telefono = new JTextField();
-		gbc.gridx+=2;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridwidth = 2;
-		add(telefono, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
+		gbc.ipadx = 0;
+		add(new JLabel("Estado:"), gbc);
+		estado = new JTextField();
+		gbc.gridx++;
+		gbc.ipadx = 200;
+		add(estado, gbc);
+		gbc.gridx++;
+		gbc.ipadx = 0;
 		add(new JLabel("Email:"), gbc);
 		correo = new JTextField();
-		gbc.gridx+=2;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridwidth = 2;
+		gbc.gridx++;
+		gbc.ipadx = 200;
 		add(correo, gbc);
-		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		gbc.ipadx = 0;
+		add(new JLabel("Cel.:"), gbc);
+		celular = new JTextField();
+		gbc.gridx++;
+		gbc.ipadx = 200;
+		add(celular, gbc);
+		gbc.gridx++;
+		gbc.ipadx = 0;
+		add(new JLabel("Tel.:"), gbc);
+		telefono = new JTextField();
+		gbc.gridx++;
+		gbc.ipadx = 200;
+		add(telefono, gbc);
 		registrar = new JButton("Registrar proveedor");
 		gbc.gridy++;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridwidth = 2;
+		gbc.ipadx = 50;
 		add(registrar, gbc);
 		registrar.addActionListener(this);
 		
@@ -111,7 +132,8 @@ public class AltaProveedor extends JPanel implements ActionListener {
 		JScrollPane scrollPane = new JScrollPane(table);
 		gbc.gridx = 0;
 		gbc.gridy++;
-		gbc.weighty = 1;
+		gbc.ipady = 100;
+		gbc.insets = new Insets(4,0,0,0);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.gridheight = 4;
@@ -123,11 +145,19 @@ public class AltaProveedor extends JPanel implements ActionListener {
 		Insert in = new Insert();
 		Proveedor prov;
 		if(e.getSource() == registrar) {
-			prov = new Proveedor(nombre.getText(), direccion.getText(), telefono.getText(), correo.getText());
+			prov = new Proveedor(nombre.getText(), calle.getText(), numero.getText(), 
+					colonia.getText(), ciudad.getText(), estado.getText(), correo.getText(), 
+						celular.getText(), telefono.getText(), cp.getText());
 			if(v.validarProveedores(prov)) {
 				if(in.InsertSupplier(prov)) {
 					nombre.setText("");
-					direccion.setText("");
+					calle.setText("");
+					numero.setText("");
+					colonia.setText("");
+					cp.setText("");
+					ciudad.setText("");
+					estado.setText("");
+					celular.setText("");
 					telefono.setText("");
 					correo.setText("");
 					table.setModel(new SupplierModel());
@@ -147,7 +177,7 @@ public class AltaProveedor extends JPanel implements ActionListener {
 		}
 
 		public int getColumnCount() {
-			return 2;
+			return 3;
 		}
 		
 		public String getColumnName(int col) {
@@ -157,6 +187,8 @@ public class AltaProveedor extends JPanel implements ActionListener {
 		    	  return aux = "Nombre";
 		      case 1: 
 		    	  return aux = "Dirección";
+		      case 2:
+		    	  return aux = "Teléfono";
 		      }
 			return aux;
 		}
@@ -170,6 +202,9 @@ public class AltaProveedor extends JPanel implements ActionListener {
 				   break;
 			   case 1:
 				   value = proveedor.getDireccion();
+				   break;
+			   case 2:
+				   value = proveedor.getTelefono();
 				   break;
 			   }
 	           return value;

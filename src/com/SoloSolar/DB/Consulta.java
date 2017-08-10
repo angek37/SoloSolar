@@ -546,7 +546,7 @@ public class Consulta {
     	Proveedor[] aux;
         try {
             stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery("select * from Proveedor");
+            ResultSet results = stmt.executeQuery("select id_p, nombre, calle, numero, colonia, cp, ciudad, estado, email, celular, telefono, Calle || ' ' || Numero || ' ' || Colonia from Proveedor");
             int c = 0;
             while(results.next()) {
             	aux = new Proveedor[prov.length];
@@ -560,9 +560,17 @@ public class Consulta {
             	prov[c] = new Proveedor();
             	prov[c].setId(results.getInt(1));
             	prov[c].setNombre(results.getString(2));
-            	prov[c].setDireccion(results.getString(3));
-            	prov[c].setTelefono(results.getString(4));
-            	prov[c].setEmail(results.getString(5));
+            	prov[c].setCalle(results.getString(3));
+            	prov[c].setNumero(results.getString(4));
+            	prov[c].setColonia(results.getString(5));
+            	prov[c].setCp(Integer.toString(results.getInt(6)));
+            	prov[c].setCiudad(results.getString(7));
+            	prov[c].setEstado(results.getString(8));
+            	prov[c].setEmail(results.getString(9));
+            	prov[c].setCelular(results.getString(10));
+            	prov[c].setTelefono(results.getString(11));
+            	prov[c].setDireccion(results.getString(12));
+            	;
             	c++;
             }
             aux = null;
