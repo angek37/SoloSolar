@@ -215,7 +215,7 @@ public class General {
 			} else if (e.getSource() == listPed) {
 				panelPrincipal.add(new ListaPedidos(panelPrincipal, frame));
 			} else if (e.getSource() == cliPed) {
-				panelPrincipal.add(new PedidosPorCliente());
+				panelPrincipal.add(new PedidosPorCliente(panelPrincipal, frame));
 			}
 
 			panelPrincipal.updateUI();

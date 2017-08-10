@@ -15,7 +15,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,13 +26,18 @@ import javax.swing.table.AbstractTableModel;
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.Capsulas.Pedido;
 import com.SoloSolar.DB.Consulta;
+import com.SoloSolar.DB.Insert;
 
 public class PedidosPorCliente extends JPanel {
 	JTable clientes, pedidos;
+	JFrame frame;
+	JPanel principal;
 	Consulta c = new Consulta();
 	Pedido[] pedidosDatos = new Pedido[0];
 	
-	public PedidosPorCliente() {
+	public PedidosPorCliente(JPanel principal, JFrame frame) {
+		this.principal = principal;
+		this.frame = frame;
 		setLayout(new BorderLayout());
 		pedidos = new JTable(new PedidosModel());
 		pedidos.setFillsViewportHeight(true);
@@ -117,25 +124,69 @@ public class PedidosPorCliente extends JPanel {
 	}
 	
 	public class OptionsPanel extends JPanel implements ActionListener{
-		JButton pdf;
+		JButton pdf, editar, eliminar;
 		private ImageIcon pdfIco = new ImageIcon(
 				new ImageIcon("assets/pdf.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+		private ImageIcon editIco = new ImageIcon(
+				new ImageIcon("assets/editOrder.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+		private ImageIcon deleteIco = new ImageIcon(
+				new ImageIcon("assets/deleteOrder.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 		
 		public OptionsPanel() {
 			setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.insets = new Insets(30, 20, 0, 20);
+			gbc.insets = new Insets(10, 20, 0, 20);
 			gbc.anchor = GridBagConstraints.CENTER;
 			gbc.gridx = 0;
 			gbc.gridy = 0;
 			pdf = new JButton("Exportar", pdfIco);
+			pdf.setPreferredSize(new Dimension(100, 70));
+			pdf.setBackground(new Color(182, 182, 182));
 			add(pdf, gbc);
 			pdf.addActionListener(this);
+			editar = new JButton(" Editar   ", editIco);
+			editar.setMaximumSize(new Dimension(100, 70));
+			editar.setBackground(new Color(182, 182, 182));
+			gbc.gridy++;
+			gbc.insets = new Insets(5, 20, 0, 20);
+			add(editar, gbc);
+			editar.addActionListener(this);
+			eliminar = new JButton("Eliminar ", deleteIco);
+			eliminar.setMaximumSize(new Dimension(100, 70));
+			eliminar.setBackground(new Color(182, 182, 182));
+			gbc.gridy++;
+			add(eliminar, gbc);
+			eliminar.addActionListener(this);
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == pdf) {
-				
+			try {
+				if(e.getSource() == pdf) {
+					
+				} else if(e.getSource() == editar){
+					Pedido pedido = c.selectOrder(pedidos.getModel().getValueAt(pedidos.getSelectedRow(), 0).toString());
+					pedido.setTotal((Double)pedidosDatos[pedidos.getSelectedRow()].getTotal());
+					String[][] renglones = c.selectRowsOrder(pedidos.getModel().getValueAt(pedidos.getSelectedRow(), 0).toString());
+					principal.removeAll();
+					principal.add(new Venta(frame, pedido, renglones));
+					principal.updateUI();
+					principal.repaint();
+					repaint();
+				} else if(e.getSource() == eliminar) {
+					Insert in = new Insert();
+					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar el pedido '"+ pedidos.getModel().getValueAt(pedidos.getSelectedRow(), 0) +"'?", "Borrar Pedido", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(reply == JOptionPane.YES_OPTION) {
+						if(in.DeleteOrder(pedidos.getModel().getValueAt(pedidos.getSelectedRow(), 0).toString())) {
+							JOptionPane.showMessageDialog(null, "El pedido se ha eliminado de forma correcta", "¡Pedido Eliminado!", JOptionPane.INFORMATION_MESSAGE);
+							pedidosDatos = c.selectOrders(""+clientes.getModel().getValueAt(clientes.getSelectedRow(), 0));
+							pedidos.setModel(new PedidosModel());
+						}else {
+							JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el pedido", "¡Error!", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			}catch(ArrayIndexOutOfBoundsException excep){
+				JOptionPane.showMessageDialog(null, "Seleccione un pedido", "No hay pedido seleccionado", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
