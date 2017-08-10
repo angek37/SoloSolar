@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
@@ -46,7 +47,8 @@ public class PedidosPorCliente extends JPanel {
 			clientes.setShowHorizontalLines(true);
 			clientes.setShowVerticalLines(true);
 			clientes.getTableHeader().setReorderingAllowed(false);
-			add(clientes, gbc);
+			JScrollPane scrollPane = new JScrollPane(clientes);
+			add(scrollPane, gbc);
 		}
 	}
 	
