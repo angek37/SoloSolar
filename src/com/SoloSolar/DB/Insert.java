@@ -173,8 +173,11 @@ public class Insert {
     	try {
             stmt = conn.createStatement();
             stmt.execute("update Proveedor set Nombre = '" + p.getNombre() + "',"
-            		+ "Direccion = '" + p.getDireccion() + "',Telefono = '"+ 
-            			p.getTelefono()+"',Email = '"+ p.getEmail() +"' where id_p = "+ p.getId());
+            		+ "calle = '" + p.getCalle() + "',numero = '"+ 
+            			p.getNumero()+"',colonia = '"+ p.getColonia() +"',"
+            			+"cp = "+p.getCp()+", ciudad = '"+p.getCiudad()+"', estado = '"+
+            				p.getEstado()+"', email = '"+p.getEmail()+"', celular = '"+
+            				p.getCelular()+"', telefono = '"+p.getTelefono()+"' where id_p = "+ p.getId());
             stmt.close();
             shutdown();
             return true;
