@@ -173,47 +173,47 @@ public class PedidosPorCliente extends JPanel {
 						}
 					}
 				} else if(e.getSource() == pdf) {
+					int ped = Integer.parseInt(pedidos.getModel().getValueAt(pedidos.getSelectedRow(), 0) + "");
+					int id = Consulta.getIdCliente(ped);
+					System.out.println(id + " " + ped);
+					Pedido p = Consulta.getPedido(ped);
+					boolean iva = false;
 					String ruta = "";
 					int renglones = pedidos.getRowCount();
-					if(renglones >= 1) {
-						JFileChooser f = new JFileChooser() {
-							@Override
-							public void approveSelection() {
-								File f = getSelectedFile();
-				                if (f.exists() && getDialogType() == SAVE_DIALOG) {
-				                	int result = JOptionPane.showConfirmDialog(this,
-				                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
-				                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
-	
-				                    switch (result){
-				                    	case JOptionPane.YES_OPTION:
-				                    		super.approveSelection();
-				                    		return;
-				                    	case JOptionPane.NO_OPTION:
-				                    		return;
-				                    	case JOptionPane.CLOSED_OPTION:
-				                    		return;
-				                    	case JOptionPane.CANCEL_OPTION:
-				                    		cancelSelection();
-				                    		return;
-				                    }
-				                }
-				                super.approveSelection();
-							}
-						};
-						f.setSelectedFile(new File("Reporte Pedidos por Cliente"));
-						int opcion = f.showSaveDialog(frame);
-						if(opcion == JFileChooser.APPROVE_OPTION) {
-							String[][] dataPDF = dataPDF(pedidos.getRowCount());
-							File file = f.getSelectedFile();
-							ruta = file.toString();
-							String data[][] = dataPDF(renglones);
-							GenerarPDFPxC g = new GenerarPDFPxC(ruta, renglones, data, ID, total);
+					JFileChooser f = new JFileChooser() {
+						@Override
+						public void approveSelection() {
+							File f = getSelectedFile();
+			                if (f.exists() && getDialogType() == SAVE_DIALOG) {
+			                	int result = JOptionPane.showConfirmDialog(this,
+			                		String.format("%s ya existe.%n ¿Desea Sobreescribirlo?", f.getName()),
+			                		"El archivo ya existe", JOptionPane.YES_NO_OPTION);
+
+			                    switch (result){
+			                    	case JOptionPane.YES_OPTION:
+			                    		super.approveSelection();
+			                    		return;
+			                    	case JOptionPane.NO_OPTION:
+			                    		return;
+			                    	case JOptionPane.CLOSED_OPTION:
+			                    		return;
+			                    	case JOptionPane.CANCEL_OPTION:
+			                    		cancelSelection();
+			                    		return;
+			                    }
+			                }
+			                super.approveSelection();
 						}
-					} else {
-						JOptionPane.showMessageDialog(frame, "No hay datos para exportar", "¡Error!", JOptionPane.INFORMATION_MESSAGE);
+					};
+					f.setSelectedFile(new File("Pedido " + ped));
+					int opcion = f.showSaveDialog(frame);
+					if(opcion == JFileChooser.APPROVE_OPTION) {
+						String[][] dataPDF = Consulta.getPedidoCompleto(ped);
+						File file = f.getSelectedFile();
+						ruta = file.toString();
+						GenerarPDFListas g = new GenerarPDFListas(ruta, renglones, dataPDF, id, ped, p);
 					}
-				}
+				}			
 			}catch(ArrayIndexOutOfBoundsException excep){
 				JOptionPane.showMessageDialog(null, "Seleccione un pedido", "No hay pedido seleccionado", JOptionPane.INFORMATION_MESSAGE);
 			}

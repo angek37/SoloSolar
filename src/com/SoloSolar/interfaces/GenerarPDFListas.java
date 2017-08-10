@@ -42,8 +42,7 @@ public class GenerarPDFListas {
 	double total;
 	int cantidades;
 	
-	public GenerarPDFListas(String ruta, int renglones, String dataPDF[][], int idC, int idP,
-			Pedido p) {
+	public GenerarPDFListas(String ruta, int renglones, String dataPDF[][], int idC, int idP, Pedido p) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document(PageSize.A4, 36, 36, 36, 36);

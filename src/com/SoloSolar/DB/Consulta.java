@@ -48,6 +48,23 @@ public class Consulta {
     	return p;
     }
     
+    public static int getIdCliente(int id) {
+    	createConnection();
+    	int idCliente = 0;
+    	try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT CUSTOMER FROM PEDIDO WHERE ID_PEDIDO = " + id);
+			while(rs.next()) {
+				idCliente = rs.getInt(1);
+			}
+    		shutdown();
+    		return idCliente;
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		}
+    	return idCliente;
+    }
+    
     public static int tamañoPedidoC(int id) {
     	createConnection();
     	int index = 0;

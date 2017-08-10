@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import com.SoloSolar.Capsulas.Cliente;
+import com.SoloSolar.Capsulas.Pedido;
 import com.SoloSolar.Capsulas.Usuario;
 import com.SoloSolar.DB.ClienteBD;
 import com.SoloSolar.DB.UsuarioBD;
@@ -38,12 +39,17 @@ public class GenerarPDFPxC {
 	private Font pagare = new Font(Font.getFamily("Arial"), 8, Font.NORMAL);
 	private Font pagare2 = new Font(Font.getFamily("Arial"), 12, Font.NORMAL);
 	private Font pagare3 = new Font(Font.getFamily("Arial"), 10, Font.NORMAL);
+	double total;
+	int cantidades;
 	
-	public GenerarPDFPxC(String ruta, int renglones, String dataPDF[][], int id, String total) {
+	public GenerarPDFPxC(String ruta, int renglones, String dataPDF[][], int idC, int idP, Pedido p) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document(PageSize.A4, 36, 36, 36, 36);
 			PdfWriter writer = PdfWriter.getInstance(doc, archivo);
+			PdfPTable tableFooter = new PdfPTable(1);
+			FooterTable ft = new FooterTable(pagare(tableFooter));
+			writer.setPageEvent(ft);
 			//doc.setPageSize(new Rectangle(612, 791));
 			doc.open();
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -52,18 +58,35 @@ public class GenerarPDFPxC {
 			doc.add(new Paragraph(" "));
 			PdfPTable t = new PdfPTable(2);
 			t.setWidths(new float[] {2, 4});
-			doc.add(addHeaderInformation(t, id));
+			doc.add(addHeaderInformation(t, idC));
 			doc.add(getFooter("BLVD. JUAN ALONSO DE TORRES OTE. #202 B COL. VIBAR TEL.: (477)"
 					+ "114 56 37 CEL.: 044 477 136 5097, LEÓN, GTO."));
 			doc.add(new Paragraph("\n"));
+			PdfPTable observaciones = new PdfPTable(1);
+			observaciones.setTotalWidth(510f);
+			observaciones.setLockedWidth(true);
+			observaciones.setHorizontalAlignment(0);
+			observaciones.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			observaciones.getDefaultCell().setCellEvent(new RoundedBorder());
+			PdfPTable camp = new PdfPTable(1);
+			camp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			camp.addCell(getHeader("Observaciones: "));
+			camp.addCell(getInfo(p.getObservaciones()));
+			observaciones.addCell(camp);
+			doc.add(observaciones);
 			PdfPTable table = new PdfPTable(1);
+			doc.add(getFecha("No. Pedido: " + idP));
 			doc.add(new Paragraph("\n"));
 			//doc.add(addTableInformation(table));
-			PdfPTable tab = new PdfPTable(3);
-			//tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
-			PdfPCell cellClave = new PdfPCell(getHeader("Pedido")),
-					 cellNombre = new PdfPCell(getHeader("Fecha")),
-					 cellCant = new PdfPCell(getHeader("Total"));
+			PdfPTable tab = new PdfPTable(7);
+			tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
+			PdfPCell cellClave = new PdfPCell(getHeader("Clave")),
+					 cellNombre = new PdfPCell(getHeader("Nombre")),
+					 cellCant = new PdfPCell(getHeader("Cantidad")),
+					 cellPack = new PdfPCell(getHeader("Pack")),
+					 cellL = new PdfPCell(getHeader("L")),
+					 cellPrec = new PdfPCell(getHeader("Precio")),
+					 cellSub = new PdfPCell(getHeader("Total"));
 			
 			cellClave.setBorderWidthBottom(1f);
 			cellClave.setBorderWidthTop(1f);
@@ -74,9 +97,25 @@ public class GenerarPDFPxC {
 			cellCant.setBorderWidthBottom(1f);
 			cellCant.setBorderWidthTop(1f);
 			cellCant.setBorder(Rectangle.BOTTOM);
+			cellPack.setBorderWidthBottom(1f);
+			cellPack.setBorderWidthTop(1f);
+			cellPack.setBorder(Rectangle.BOTTOM);
+			cellL.setBorderWidthBottom(1f);
+			cellL.setBorderWidthTop(1f);
+			cellL.setBorder(Rectangle.BOTTOM);
+			cellPrec.setBorderWidthBottom(1f);
+			cellPrec.setBorderWidthTop(1f);
+			cellPrec.setBorder(Rectangle.BOTTOM);
+			cellSub.setBorderWidthBottom(1f);
+			cellSub.setBorderWidthTop(1f);
+			cellSub.setBorder(Rectangle.BOTTOM);
 			tab.addCell(cellClave);
 			tab.addCell(cellNombre);
 			tab.addCell(cellCant);
+			tab.addCell(cellPack);
+			tab.addCell(cellL);
+			tab.addCell(cellPrec);
+			tab.addCell(cellSub);
 			tab.setTotalWidth(510f);
 			tab.setLockedWidth(true);
 			tab.setHorizontalAlignment(0);
@@ -84,21 +123,42 @@ public class GenerarPDFPxC {
 			tab.getDefaultCell().setCellEvent(new RoundedBorder());*/
 			tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			tab.setTableEvent(new BorderEvent());
-			for(int i = 0; i < renglones; i++) {
-				for(int j = 0; j < 3; j++) {
+			for(int i = 0; i < dataPDF.length; i++) {
+				for(int j = 0; j < dataPDF[i].length; j++) {
 					tab.addCell(getInfo(dataPDF[i][j]));
 				}
+				cantidades = cantidades + Integer.parseInt(dataPDF[i][2]);
+				total = total + Double.parseDouble(dataPDF[i][6]);
 			}
 			doc.add(tab);
-			PdfPTable tabResults = new PdfPTable(3);
-			//tabResults.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
+			PdfPTable tabResults = new PdfPTable(7);
+			tabResults.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
 			tabResults.setTotalWidth(510f);
 			tabResults.setLockedWidth(true);
 			tabResults.setHorizontalAlignment(0);
 			tabResults.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			tabResults.addCell(getHeader("Pedidos encontrados: " + renglones));
+			tabResults.addCell(getHeader("Productos encontrados: "));
+			tabResults.addCell(getHeader(dataPDF.length + ""));
+			tabResults.addCell(getHeader(cantidades + ""));
 			tabResults.addCell(getHeader(""));
-			tabResults.addCell(getHeader(total));
+			tabResults.addCell(getHeader(""));
+			if(!p.getIva()) {
+				tabResults.addCell(getHeader(""));
+				tabResults.addCell(getHeader(total + ""));
+			} else {
+				PdfPTable pet = new PdfPTable(1);
+				pet.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				pet.addCell(getHeader(" "));
+				pet.addCell(getHeader("IVA: "));
+				pet.addCell(getHeader("Total: "));
+				tabResults.addCell(pet);
+				PdfPTable piva = new PdfPTable(1);
+				piva.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				piva.addCell(getHeader(round(total, 1) + ""));
+				piva.addCell(getInfo(round(total * 0.16, 1) + ""));
+				piva.addCell(getInfo(round(total + (total * 0.16), 1) + ""));
+				tabResults.addCell(piva);
+			}
 			doc.add(tabResults);
 			doc.close();
 			JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "¡Exito!", JOptionPane.INFORMATION_MESSAGE);
