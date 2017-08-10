@@ -39,7 +39,8 @@ public class GenerarPDFListas {
 	private Font pagare = new Font(Font.getFamily("Arial"), 8, Font.NORMAL);
 	private Font pagare2 = new Font(Font.getFamily("Arial"), 12, Font.NORMAL);
 	private Font pagare3 = new Font(Font.getFamily("Arial"), 10, Font.NORMAL);
-	double total, cantidades;
+	double total;
+	int cantidades;
 	
 	public GenerarPDFListas(String ruta, int renglones, String dataPDF[][], int idC, int idP,
 			Pedido p) {
@@ -127,6 +128,8 @@ public class GenerarPDFListas {
 				for(int j = 0; j < dataPDF[i].length; j++) {
 					tab.addCell(getInfo(dataPDF[i][j]));
 				}
+				cantidades = cantidades + Integer.parseInt(dataPDF[i][2]);
+				total = total + Double.parseDouble(dataPDF[i][6]);
 			}
 			doc.add(tab);
 			PdfPTable tabResults = new PdfPTable(7);
@@ -136,11 +139,11 @@ public class GenerarPDFListas {
 			tabResults.setHorizontalAlignment(0);
 			tabResults.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			tabResults.addCell(getHeader("Productos encontrados: "));
-			tabResults.addCell(getHeader(renglones + ""));
+			tabResults.addCell(getHeader(dataPDF.length + ""));
 			tabResults.addCell(getHeader(cantidades + ""));
 			tabResults.addCell(getHeader(""));
 			tabResults.addCell(getHeader(""));
-			if(p.getIva()) {
+			if(!p.getIva()) {
 				tabResults.addCell(getHeader(""));
 				tabResults.addCell(getHeader(total + ""));
 			} else {

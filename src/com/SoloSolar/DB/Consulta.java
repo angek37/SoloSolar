@@ -58,7 +58,7 @@ public class Consulta {
     				+ "FROM PEDIDO AS P JOIN RENGLON AS R ON P.ID_PEDIDO = R.PEDIDO "
     				+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "  
     				+ "WHERE ID_PEDIDO = " + id);
-    		while(rs.next()) {
+    		while(rs.next()) {	
     			index++;
     		}
     		shutdown();
@@ -70,8 +70,8 @@ public class Consulta {
     }
     
     public static String[][] getPedidoCompleto(int id) {
-    	createConnection();
     	String data[][] = new String[tamañoPedidoC(id)][7];
+    	createConnection();
     	int cont = 0;
     	try {
     		stmt = conn.createStatement();
@@ -81,7 +81,6 @@ public class Consulta {
     				+ "JOIN PRODUCTO AS PR ON PR.CLAVE = R.ID_PROD "  
     				+ "WHERE ID_PEDIDO = " + id);
     		while(rs.next()) {
-    			System.out.println(rs.getString(1));
     			data[cont][0] = rs.getString(1); 
     			data[cont][1] = rs.getString(2);
     			data[cont][2] = rs.getString(3);
