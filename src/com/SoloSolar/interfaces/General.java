@@ -86,6 +86,8 @@ public class General {
 				new ImageIcon("assets/proProv.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon OrderList = new ImageIcon(
 				new ImageIcon("assets/OrderList.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
+		private ImageIcon CustOrderIco = new ImageIcon(
+				new ImageIcon("assets/custOrder.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
@@ -101,7 +103,7 @@ public class General {
 			proveedor = new JMenu("Proveedores");
 			titleBar = new JPanel();
 			listPed = new JMenuItem("Lista de Pedidos", OrderList);
-			cliPed = new JMenuItem("Pedidos por Cliente");
+			cliPed = new JMenuItem("Pedidos por Cliente", CustOrderIco);
 			altaClie = new JMenuItem("Alta Cliente", addC);
 			modClie = new JMenuItem("Administrar Clientes", admC);
 			altaProd = new JMenuItem("Alta Producto", addP);
