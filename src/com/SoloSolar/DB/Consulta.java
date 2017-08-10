@@ -547,7 +547,8 @@ public class Consulta {
     	Proveedor[] aux;
         try {
             stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery("select id_p, nombre, calle, numero, colonia, cp, ciudad, estado, email, celular, telefono, Calle || ' ' || Numero || ' ' || Colonia from Proveedor");
+            ResultSet results = stmt.executeQuery("select id_p, nombre, calle, numero, colonia, cp, ciudad, estado, email,"
+            		+" celular, telefono, Calle || ' ' || Numero || ' ' || Colonia from Proveedor");
             int c = 0;
             while(results.next()) {
             	aux = new Proveedor[prov.length];

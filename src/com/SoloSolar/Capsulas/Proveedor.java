@@ -136,4 +136,8 @@ public class Proveedor {
 		return direccion;
 	}
 	
+	public String toString() {
+		return nombre;
+	}
+	
 }

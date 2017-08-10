@@ -25,7 +25,7 @@ import com.SoloSolar.Capsulas.Proveedor;
 import com.SoloSolar.DB.Consulta;
 
 public class ProductosPorProveedor extends JPanel implements ActionListener{
-	private JLabel titulo, nombre, direccion, telefono, correo;
+	private JLabel titulo, nombre, direccion, celular, telefono, correo;
 	private JComboBox<Proveedor> suppliers;
 	Consulta c = new Consulta();
 	Proveedor[] supplier = (Proveedor[]) c.selectSupplier();
@@ -77,7 +77,8 @@ public class ProductosPorProveedor extends JPanel implements ActionListener{
 		if(e.getSource() == buscar) {
 			Proveedor prov = (Proveedor) suppliers.getSelectedItem();
 			nombre.setText(prov.getNombre());
-			direccion.setText(prov.getDireccion());
+			direccion.setText(prov.getDireccion()+" "+prov.getCp()+" "+prov.getCiudad()+" "+prov.getEstado());
+			celular.setText(prov.getCelular());
 			telefono.setText(prov.getTelefono());
 			correo.setText(prov.getEmail());
 			table.setModel(new ProductobySupplierModel(prov.getId()));
@@ -107,7 +108,13 @@ public class ProductosPorProveedor extends JPanel implements ActionListener{
 			add(direccion, gbc);
 			gbc.gridx = 0;
 			gbc.gridy++;
-			add(new JLabel("Teléfono:"), gbc);
+			add(new JLabel("Cel.:"), gbc);
+			celular = new JLabel("");
+			gbc.gridx++;
+			add(celular, gbc);
+			gbc.gridx = 0;
+			gbc.gridy++;
+			add(new JLabel("Tel.:"), gbc);
 			telefono = new JLabel("");
 			gbc.gridx++;
 			add(telefono, gbc);
@@ -180,13 +187,13 @@ public class ProductosPorProveedor extends JPanel implements ActionListener{
 				   value = producto.getPaquete();
 				   break;
 			   case 4:
-				   value = producto.getCosto();
+				   value = "$ "+producto.getCosto();
 				   break;
 			   case 5:
-				   value = producto.getPrecio1();
+				   value = "$ "+producto.getPrecio1();
 				   break;
 			   case 6:
-				   value = producto.getPrecio2();
+				   value = "$ "+producto.getPrecio2();
 				   break;
 			   }
 	           return value;
