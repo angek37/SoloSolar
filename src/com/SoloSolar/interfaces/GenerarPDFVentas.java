@@ -18,6 +18,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -34,38 +35,20 @@ public class GenerarPDFVentas {
 	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 7, Font.BOLD);
 	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 7, Font.NORMAL);
 	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 7, Font.BOLDITALIC);
+	private Font pagare = new Font(Font.getFamily("Arial"), 8, Font.NORMAL);
+	private Font pagare2 = new Font(Font.getFamily("Arial"), 12, Font.NORMAL);
+	private Font pagare3 = new Font(Font.getFamily("Arial"), 10, Font.NORMAL);
 	
 	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][], int cantidades, double total,
 			String infAd[], boolean ivaSel) {
 		try {
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
-			Document doc = new Document();
+			Document doc = new Document(PageSize.A4, 36, 36, 36, 36);
 			PdfWriter writer = PdfWriter.getInstance(doc, archivo);
-			PdfPCell cTF = new PdfPCell(getHeader("Realizó"));
-			cTF.setBorderWidthBottom(1f);
-			cTF.setBorderWidthTop(1f);
-			cTF.setBorder(Rectangle.TOP);
-			PdfPTable tableFooter = new PdfPTable(5);
-			tableFooter.setTotalWidth(510f);
-			tableFooter.setLockedWidth(true);
-			tableFooter.setHorizontalAlignment(0);
-			tableFooter.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			tableFooter.addCell(cTF);
-			tableFooter.addCell(new Paragraph(" "));
-			cTF = new PdfPCell(getHeader("Revisó"));
-			cTF.setBorderWidthBottom(1f);
-			cTF.setBorderWidthTop(1f);
-			cTF.setBorder(Rectangle.TOP);
-			tableFooter.addCell(cTF);
-			tableFooter.addCell(new Paragraph(" "));
-			cTF = new PdfPCell(getHeader("Autorizó"));
-			cTF.setBorderWidthBottom(1f);
-			cTF.setBorderWidthTop(1f);
-			cTF.setBorder(Rectangle.TOP);
-			tableFooter.addCell(cTF);
-			FooterTable ft = new FooterTable(tableFooter);
+			PdfPTable tableFooter = new PdfPTable(1);
+			FooterTable ft = new FooterTable(pagare(tableFooter));
 			writer.setPageEvent(ft);
-			doc.setPageSize(new Rectangle(612, 791));
+			//doc.setPageSize(new Rectangle(612, 791));
 			doc.open();
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
@@ -89,8 +72,9 @@ public class GenerarPDFVentas {
 			camp.addCell(getInfo(infAd[0]));
 			observaciones.addCell(camp);
 			doc.add(observaciones);
-			doc.add(new Paragraph("\n"));
 			PdfPTable table = new PdfPTable(1);
+			doc.add(getFecha("No. Pedido: " + infAd[1]));
+			doc.add(new Paragraph("\n"));
 			//doc.add(addTableInformation(table));
 			PdfPTable tab = new PdfPTable(7);
 			tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
@@ -205,6 +189,73 @@ public class GenerarPDFVentas {
 		}
 	}
 	
+	public PdfPTable pagare(PdfPTable pagare) {
+		pagare.setTableEvent(new BorderEventRED());
+		pagare.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		pagare.setTotalWidth(510f);
+		pagare.setLockedWidth(true);
+		pagare.setHorizontalAlignment(0);
+		PdfPTable tab = new PdfPTable(2);
+		tab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		PdfPTable cr = new PdfPTable(3);
+		cr.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		PdfPCell crr = new PdfPCell();
+		crr.setBorder(Rectangle.NO_BORDER);
+		crr.addElement(new Paragraph(" "));
+		crr.setBackgroundColor(BaseColor.RED);
+		crr.setPaddingLeft(5f);
+		tab.addCell(cr);
+		cr.addCell(crr);
+		cr.addCell("");
+		cr.addCell("");
+		PdfPTable c2 = new PdfPTable(2);
+		c2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		c2.addCell(getArial2("BUENO POR $"));
+		crr = new PdfPCell();
+		crr.setBorder(Rectangle.NO_BORDER);
+		crr.addElement(getInfo(" "));
+		crr.setBackgroundColor(new BaseColor(215, 162, 162));
+		c2.addCell(crr);
+		tab.addCell(c2);
+		pagare.addCell(tab);
+		PdfPTable c3 = new PdfPTable(2);
+		c3.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		PdfPTable c31 = new PdfPTable(2);
+		c31.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		c31.addCell(new Paragraph(""));
+		c31.addCell(getArial("En_______________________"));
+		c3.addCell(c31);
+		c3.addCell(getArial("a__________ de_________________________ de___________"));
+		pagare.addCell(c3);
+		pagare.addCell(getArial(""
+		+ "  Debo(emos) y pagaré(mos) incodicionalmente por este pagaré a la orden de:_________________________________________________"));
+		PdfPTable imp = new PdfPTable(1);
+		imp.getDefaultCell().setBackgroundColor(new BaseColor(215, 162, 162));
+		imp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		imp.setTotalWidth(505f);
+		imp.setLockedWidth(true);
+		imp.setHorizontalAlignment(0);
+		imp.addCell(getArial("LA CANTIDAD DE: "));
+		imp.addCell(getArial(" "));
+		pagare.addCell(imp);
+		pagare.addCell(getArial(" "
+		+ "Valor recibido a mi(nuestra) entera satisfaccion. Este pagaré forma parte de una serie numerada del 1_________ y todos estan sujetos a la "));
+		pagare.addCell(getArial(" "
+		+ "condición de que, al no pagarse a su vencimiento, serán exigibles a todos los que le sigan en número, ademas de los ya vencidos, desde la "));
+		pagare.addCell(getArial(" "
+		+ "fecha de vencimiento de este documento hasta el día de su liquidación, causará intereses moratorios al tipo de___% mensual pagadero en "));
+		pagare.addCell(getArial(" "
+		+ "esta ciudad juntamente con el principal."));
+		PdfPTable c32 = new PdfPTable(2);
+		pagare.addCell(new Paragraph(" "));
+		pagare.addCell(new Paragraph(" "));
+		c32.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+		c32.addCell(new Paragraph(""));
+		c32.addCell(getArial3("Acepto(amos) Firma(s)_________________________"));
+		pagare.addCell(c32);
+		return pagare;
+	}
+	
 	public PdfPTable addHeaderInformation(PdfPTable t, String infAd[]) {
 		Usuario u = UsuarioBD.Datos();
 		Cliente c = ClienteBD.getCliente(Integer.parseInt(infAd[4]));
@@ -277,14 +328,56 @@ public class GenerarPDFVentas {
 		tab.setTotalWidth(510f);
 		PdfPTable t = new PdfPTable(1);
 		t.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-		t.addCell(getInfo("   Nombre ____________________________________________________________________________________________"));
-		t.addCell(getInfo("   Domicilio _________________________________________________________________________________________"));
-		t.addCell(getInfo("   Ciudad ____________________________________________ Telefono ______________________________________"));
+		t.addCell(getArial("   Nombre ____________________________________________________________________________________________"));
+		t.addCell(getArial("   Domicilio _________________________________________________________________________________________"));
+		t.addCell(getArial("   Ciudad ____________________________________________ Telefono ______________________________________"));
 		t.addCell("");
 		tab.addCell(t);
 		
 		return tab;
 	}
+	
+	class BorderEventRED implements PdfPTableEvent {
+		 
+        protected boolean bottom = true;
+        protected boolean top = true;
+ 
+        public void splitTable(PdfPTable table) {
+    	    bottom = false;
+        }
+ 
+        public void afterSplitTable(PdfPTable table, PdfPRow startRow, int startIdx) {
+        	top = false;
+        }
+ 
+        public void tableLayout(PdfPTable table, float[][] width, float[] height,
+                int headerRows, int rowStart, PdfContentByte[] canvas) {
+            float widths[] = width[0];
+            float y1 = height[0];
+            float y2 = height[height.length - 1];
+            float x1 = widths[0];
+            float x2 = widths[widths.length - 1];
+            PdfContentByte cb = canvas[PdfPTable.LINECANVAS];
+            cb.setColorStroke(BaseColor.RED);
+            cb.setLineWidth(1f);
+            cb.moveTo(x1, y1);
+            cb.lineTo(x1, y2);
+            cb.moveTo(x2, y1);
+            cb.lineTo(x2, y2);
+            if (top) {
+                cb.moveTo(x1, y1);
+                cb.lineTo(x2, y1);
+            }
+            if (bottom) {
+                cb.moveTo(x1, y2);
+                cb.lineTo(x2, y2);
+            }
+            cb.stroke();
+            cb.resetRGBColorStroke();
+            bottom = true;
+            top = true;
+        }
+    }
 	
 	class BorderEvent implements PdfPTableEvent {
 		 
@@ -333,9 +426,39 @@ public class GenerarPDFVentas {
             this.footer = footer;
         }
         public void onEndPage(PdfWriter writer, Document document) {
-            footer.writeSelectedRows(0, -1, 36, 64, writer.getDirectContent());
+            footer.writeSelectedRows(0, -1, 36, 220, writer.getDirectContent());
         }
     }
+	
+	private Paragraph getArial(String texto) {
+		Paragraph p = new Paragraph();
+		Chunk c = new Chunk();
+		p.setAlignment(Element.ALIGN_RIGHT);
+		c.append(texto);
+		c.setFont(pagare);
+		p.add(c);
+		return p;
+	}
+	
+	private Paragraph getArial2(String texto) {
+		Paragraph p = new Paragraph();
+		Chunk c = new Chunk();
+		p.setAlignment(Element.ALIGN_RIGHT);
+		c.append(texto);
+		c.setFont(pagare2);
+		p.add(c);
+		return p;
+	}
+	
+	private Paragraph getArial3(String texto) {
+		Paragraph p = new Paragraph();
+		Chunk c = new Chunk();
+		p.setAlignment(Element.ALIGN_RIGHT);
+		c.append(texto);
+		c.setFont(pagare3);
+		p.add(c);
+		return p;
+	}
 	
 	private Paragraph getFecha(String texto) {
 		Paragraph p = new Paragraph();

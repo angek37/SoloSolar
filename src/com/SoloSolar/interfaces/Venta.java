@@ -538,6 +538,7 @@ public class Venta extends JPanel {
 				add(nuevo);
 				exportar = new JButton("Exportar", pdf);
 				exportar.addActionListener(this);
+				exportar.setEnabled(false);
 				add(exportar);
 				guardar = new JButton("Guardar", save);
 				guardar.addActionListener(this);
@@ -561,6 +562,7 @@ public class Venta extends JPanel {
 									if(in.InsertRowsOrder(id, renglones)) {
 										JOptionPane.showMessageDialog(padre, "El pedido se ha guardado exitosamente", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
 										isEdited = false;
+										exportar.setEnabled(true);
 									}else {
 										JOptionPane.showMessageDialog(padre, "Ha ocurrido un error al guardar", "¡Error!", JOptionPane.ERROR_MESSAGE);
 									}
@@ -575,11 +577,13 @@ public class Venta extends JPanel {
 										if(in.UpdateRowsOrder(p.getId(), renglones)) {
 											JOptionPane.showMessageDialog(padre, "El pedido se ha guardado exitosamente", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
 											isEdited = false;
+											exportar.setEnabled(true);
 										}else {
 											JOptionPane.showMessageDialog(padre, "No ha sido posible modificar los renglones", "¡Error!", JOptionPane.ERROR_MESSAGE);
 										}
 									}else {
 										JOptionPane.showMessageDialog(padre, "El pedido se ha guardado exitosamente", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
+										exportar.setEnabled(true);
 									}
 								}else {
 									JOptionPane.showMessageDialog(padre, "No ha sido posible crear el pedido", "¡Error!", JOptionPane.ERROR_MESSAGE);
@@ -592,6 +596,7 @@ public class Venta extends JPanel {
 				} else if(e.getSource() == nuevo) {
 					int reply = JOptionPane.showConfirmDialog(padre, "Esta acción eliminará los datos no guardados ¿desea continuar?", "Seleccione una opción", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					if(reply == JOptionPane.YES_OPTION) {
+						exportar.setEnabled(false);
 						pedido.setText("");
 						idCliente.setText("");
 						nombreCliente.setText("");
