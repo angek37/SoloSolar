@@ -545,7 +545,7 @@ public class Consulta {
     	try {
     		stmt = conn.createStatement();
             ResultSet results = stmt.executeQuery("select id_Pedido, Fecha, customer, CLIENTE.FIRSTNAME || ' ' || CLIENTE.LASTNAME, IVA "
-            		+"from PEDIDO join CLIENTE on customer = id_cus order by Fecha desc");
+            		+"from PEDIDO join CLIENTE on customer = id_cus order by id_Pedido desc");
             while(results.next()) {
             	aux = p;
             	p = new Pedido[aux.length+1];
@@ -668,11 +668,15 @@ public class Consulta {
     			c[aux.length].setNombre(results.getString(2));
     			c[aux.length].setTelefono(results.getString(3));
     			c[aux.length].setTelEmp(results.getString(4));
-    			ResultSet pedidos = stmt2.executeQuery("select id_Pedido from Pedido where customer = "+c[aux.length].getId());
+    			ResultSet pedidos = stmt2.executeQuery("select id_Pedido, IVA from Pedido where customer = "+c[aux.length].getId());
     			while(pedidos.next()) {
     				ResultSet totalOrder = stmt3.executeQuery("select Precio*Cantidad from Renglon where Pedido = "+pedidos.getInt(1));
     				while(totalOrder.next()) {
-    					subtotal += totalOrder.getDouble(1);
+    					if(pedidos.getBoolean(2)) {
+    						subtotal += 1.16*totalOrder.getDouble(1);
+    					}else {
+    						subtotal += totalOrder.getDouble(1);
+    					}
     				}
     				totalOrder.close();
     				total += subtotal;
