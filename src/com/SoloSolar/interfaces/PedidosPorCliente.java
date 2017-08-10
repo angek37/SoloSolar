@@ -2,6 +2,7 @@ package com.SoloSolar.interfaces;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -57,7 +58,6 @@ public class PedidosPorCliente extends JPanel {
 			gbc.gridy = 0;
 			add(titulo, gbc);
 			gbc.fill = GridBagConstraints.BOTH;
-			gbc.gridheight = 1;
 			gbc.gridy++;
 			clientes = new JTable(new ClientesModel());
 			clientes.setFillsViewportHeight(true);
@@ -65,6 +65,7 @@ public class PedidosPorCliente extends JPanel {
 			clientes.setShowVerticalLines(true);
 			clientes.getTableHeader().setReorderingAllowed(false);
 			JScrollPane scrollPane = new JScrollPane(clientes);
+			scrollPane.setPreferredSize(new Dimension(200, 300));
 			add(scrollPane, gbc);
 			clientes.getColumnModel().getColumn(0).setMaxWidth(50);
 			clientes.getColumnModel().getColumn(1).setMinWidth(170);
