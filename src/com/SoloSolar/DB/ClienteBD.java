@@ -23,7 +23,7 @@ public class ClienteBD {
             stmt.execute("INSERT INTO CLIENTE(RFC, FIRSTNAME, LASTNAME, CALLE, NUMERO, COLONIA, CP, CIUDAD, ESTADO, EMAIL,"
             		+ "TEL_CELULAR, TEL_EMPRESA) VALUES ('" + cli.getRFC() + "', '" + cli.getNombre() + "',"
             		+ "'" + cli.getApellidos() +  "', '" + cli.getCalle() + "', '" + cli.getNoDir() + "', '" 
-            		+ cli.getColonia() + "', " + Integer.parseInt(cli.getCP()) + ", '" + cli.getCiudad() + "', '" 
+            		+ cli.getColonia() + "', " + cli.getCP() + ", '" + cli.getCiudad() + "', '" 
             		+ cli.getEstado() + "', " + "'" + cli.getEmail() + "', '" + cli.getTelefono() + "', '"
         			+ cli.getTelEmp() + "')");
             stmt.close();
