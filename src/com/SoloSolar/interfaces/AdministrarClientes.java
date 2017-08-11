@@ -409,7 +409,7 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 				telEmpTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 10));
 				celTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 11));
 				noDirTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 12));
-				clientes.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
+				clientes.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0)+ " " + table.getModel().getValueAt(table.getSelectedRow(), 2));
 				ID = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
 			}
 		}catch(ArrayIndexOutOfBoundsException expt) {
