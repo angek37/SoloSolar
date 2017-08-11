@@ -393,8 +393,8 @@ public class AltaProducto extends JPanel implements ActionListener{
 		if(e.getSource() == registrar) {
 			c = (Categoria) categories.getSelectedItem();
 			p = new Producto(clave.getText(), nombre.getText(), c.getId(), 
-					Integer.parseInt(paquete.getText()), Double.parseDouble(costo.getText()), 
-					Double.parseDouble(precio1.getText()), Double.parseDouble(precio2.getText()));
+					paquete.getText(), costo.getText(), 
+					precio1.getText(), precio2.getText());
 			if(v.validarProducto(p)) {
 				if(i.InsertProduct(p)){
 					if(!datos[0][0].equals("")) {
@@ -426,7 +426,7 @@ public class AltaProducto extends JPanel implements ActionListener{
 						por2.setText("");
 					}
 				}else {
-					JOptionPane.showMessageDialog(null, "No ha sido posible registrar el producto", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No ha sido posible registrar el producto"+"\n Es posible que la clave ya sea usada en otro producto", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}

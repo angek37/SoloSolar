@@ -566,10 +566,10 @@ public class Consulta {
             	prod[c].setClave(results.getString(1));
             	prod[c].setNombre(results.getString(2));
             	prod[c].setCategoria(results.getInt(3));
-            	prod[c].setPaquete(results.getInt(4));
-            	prod[c].setCosto(results.getDouble(5));
-            	prod[c].setPrecio1(results.getDouble(6));
-            	prod[c].setPrecio2(results.getDouble(7));
+            	prod[c].setPaquete(Integer.toString(results.getInt(4)));
+            	prod[c].setCosto(Double.toString(results.getDouble(5)));
+            	prod[c].setPrecio1(Double.toString(results.getDouble(6)));
+            	prod[c].setPrecio2(Double.toString(results.getDouble(7)));
             	c++;
             }
             aux = null;
@@ -608,10 +608,10 @@ public class Consulta {
             	prod[c].setClave(results.getString(1));
             	prod[c].setNombre(results.getString(2));
             	prod[c].setCategoriaNombre(results.getString(3));
-            	prod[c].setPaquete(results.getInt(4));
-            	prod[c].setCosto(results.getDouble(5));
-            	prod[c].setPrecio1(results.getDouble(6));
-            	prod[c].setPrecio2(results.getDouble(7));
+            	prod[c].setPaquete(Integer.toString(results.getInt(4)));
+            	prod[c].setCosto(Double.toString(results.getDouble(5)));
+            	prod[c].setPrecio1(Double.toString(results.getDouble(6)));
+            	prod[c].setPrecio2(Double.toString(results.getDouble(7)));
             	c++;
             }
             aux = null;

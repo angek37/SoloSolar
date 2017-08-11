@@ -273,10 +273,10 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 					producto.setClave(clave.getText());
 					producto.setNombre(nombre.getText());
 					producto.setCategoria(cat.getId());
-					producto.setPaquete(Integer.parseInt(paquete.getText()));
-					producto.setCosto(Double.parseDouble(costo.getText()));
-					producto.setPrecio1(Double.parseDouble(precio1.getText()));
-					producto.setPrecio2(Double.parseDouble(precio2.getText()));
+					producto.setPaquete(paquete.getText());
+					producto.setCosto(costo.getText());
+					producto.setPrecio1(precio1.getText());
+					producto.setPrecio2(precio2.getText());
 					if(v.validarProducto(producto)) {
 						if(in.UpdateProduct(producto)) {
 							if(in.UpdateProductSupplier(clave.getText(), datos)) {

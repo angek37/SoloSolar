@@ -37,7 +37,7 @@ public class Validaciones {
 			}
 		}
 		if(!c.getNoDir().equals("")) {
-			if(validarSoloNumerosVacios(c.getNoDir())) {
+			if(validarSoloEnterosVacios(c.getNoDir())) {
 				mensajeErrores += "\nEl numero de direccion debe ser numero";
 				clienteCorrecto = false;
 			}
@@ -51,13 +51,13 @@ public class Validaciones {
 			c.setCP("0");
 		}
 		if(!c.getTelEmp().equals("")) {
-			if(validarSoloNumerosVacios(c.getTelEmp())) {
+			if(validarSoloEnterosVacios(c.getTelEmp())) {
 				mensajeErrores += "\nEl telefono no puede contener letras";
 				clienteCorrecto = false;
 			}
 		}
 		if(!c.getTelefono().equals("")) {
-			if(validarSoloNumerosVacios(c.getTelefono())) {
+			if(validarSoloEnterosVacios(c.getTelefono())) {
 				mensajeErrores += "\nEl celular no puede contener letras";
 				clienteCorrecto = false;
 			}
@@ -80,21 +80,29 @@ public class Validaciones {
 			mensajeErrores += "\nEl producto no puede estar vacio";
 			clienteCorrecto = false;
 		}
-		if(validarSoloNumerosNoVacios(String.valueOf(p.getPaquete()))) {
-			mensajeErrores += "\nEl paquete solo puede ser numeros (No vacios)";
-			clienteCorrecto = false;
+		if(!p.getPaquete().equals("")) {
+			if(validarSoloEnterosVacios(String.valueOf(p.getPaquete()))) {
+				mensajeErrores += "\nEl paquete solo puede ser numeros";
+				clienteCorrecto = false;
+			}
+		}else {
+			p.setPaquete("0");
 		}
-		if(validarSoloNumerosNoVacios(String.valueOf(p.getCosto()))) {
+		if(validarSoloDecimales(String.valueOf(p.getCosto()))) {
 			mensajeErrores += "\nEl costo solo puede ser numeros (No vacios)";
 			clienteCorrecto = false;
 		}
-		if(validarSoloNumerosNoVacios(String.valueOf(p.getPrecio1()))) {
+		if(validarSoloDecimales(String.valueOf(p.getPrecio1()))) {
 			mensajeErrores += "\nEl precio 1 solo puede ser numeros (No vacios)";
 			clienteCorrecto = false;
 		}
-		if(validarSoloNumerosNoVacios(String.valueOf(p.getPrecio2()))) {
-			mensajeErrores += "\nEl precio 2 solo puede ser numeros (No vacios)";
-			clienteCorrecto = false;
+		if(!p.getPrecio2().equals("")) {
+			if(validarSoloDecimales(String.valueOf(p.getPrecio2()))) {
+				mensajeErrores += "\nEl precio 2 solo puede ser numeros";
+				clienteCorrecto = false;
+			}
+		}else {
+			p.setPrecio2("0.0");
 		}
 		if(!clienteCorrecto) {
 			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
@@ -132,7 +140,7 @@ public class Validaciones {
 			mensajeErrores += "\nLa direccion no puede estar vacia";
 			clienteCorrecto = false;
 		}
-		if(validarSoloNumerosVacios(p.getTelefono())) {
+		if(validarSoloEnterosVacios(p.getTelefono())) {
 			mensajeErrores += "\nEl telefono no puede contener letras.";
 			clienteCorrecto = false;
 		}
@@ -150,7 +158,7 @@ public class Validaciones {
 		return cadena.equals("") ? true : false;
 	}
 	
-	public boolean validarSoloNumerosNoVacios(String num) {
+	public boolean validarSoloDecimales(String num) {
 		if(!num.equals("")) {
 			String expReg = "[0-9.]+";
 			
@@ -163,7 +171,7 @@ public class Validaciones {
 		}
 	}
 	
-	public boolean validarSoloNumerosVacios(String num) {
+	public boolean validarSoloEnterosVacios(String num) {
 		if(!num.equals("")) {
 			String expReg = "[0-9]+";
 			
