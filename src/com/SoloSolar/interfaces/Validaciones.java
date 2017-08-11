@@ -160,12 +160,12 @@ public class Validaciones {
 	
 	public boolean validarSoloDecimales(String num) {
 		if(!num.equals("")) {
-			String expReg = "[0-9.]+";
-			
-			Pattern pattern = Pattern.compile(expReg);
-			
-			Matcher matcher = pattern.matcher(num);
-			return !matcher.matches();
+			try {
+				Double.parseDouble(num);
+				return false;
+			}catch(NumberFormatException exp) {
+				return true;
+			}
 		} else {
 			return true;
 		}
