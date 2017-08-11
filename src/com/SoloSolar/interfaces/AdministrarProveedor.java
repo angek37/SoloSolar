@@ -43,6 +43,7 @@ public class AdministrarProveedor extends JPanel implements MouseListener {
 		table.setFillsViewportHeight(true);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
+		table.getTableHeader().setReorderingAllowed(false);
 		table.addMouseListener(this);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(150, 0));
