@@ -81,7 +81,7 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 		}
 		
 		public String getColumnName(int col) {
-			return "Nombre";
+			return "Cliente";
 		}
 
 		public Object getValueAt(int rowIndex, int columnIndex) {
@@ -89,13 +89,13 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 			   Cliente cliente = client[rowIndex];
 			   switch (columnIndex) {
 				   case 0:
-					   value = cliente.getNombre();
+					   value = cliente.getApellidos();
 					   break;
 				   case 1:
 					   value = cliente.getId();
 					   break;
 				   case 2:
-					   value = cliente.getApellidos();
+					   value = cliente.getNombre();
 					   break;
 				   case 3:
 					   value = cliente.getRFC();
@@ -396,9 +396,9 @@ public class AdministrarClientes extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		try {
 			if (e.getClickCount() == 1) {
-				nombreTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
+				nombreTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 2));
 				idTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 1));
-				apellidosTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 2));
+				apellidosTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
 				rfcTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 3));
 				emailTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 4));
 				calleTF.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 5));
