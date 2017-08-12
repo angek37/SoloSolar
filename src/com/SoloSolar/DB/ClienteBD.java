@@ -72,7 +72,7 @@ public class ClienteBD {
     	
         try {
             stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery("SELECT * FROM CLIENTE");
+            ResultSet results = stmt.executeQuery("SELECT * FROM CLIENTE ORDER BY LASTNAME ASC");
             int c = 0;
             while(results.next()) {
             	aux = new Cliente[cl.length];

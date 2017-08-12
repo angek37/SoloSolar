@@ -121,7 +121,7 @@ public class Consulta {
     	Categoria[] aux;
         try {
             stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery("select * from Categoria");
+            ResultSet results = stmt.executeQuery("select * from Categoria order by Nombre asc");
 //            ResultSetMetaData rsmd = results.getMetaData();
 //            int numberCols = rsmd.getColumnCount();            
 //            for (int i=1; i<=numberCols; i++) {
@@ -551,7 +551,7 @@ public class Consulta {
     	Producto[] aux;
         try {
             stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery("select * from Producto");
+            ResultSet results = stmt.executeQuery("select * from Producto order by Nombre asc");
             int c = 0;
             while(results.next()) {
             	aux = new Producto[prod.length];
@@ -633,7 +633,7 @@ public class Consulta {
         try {
             stmt = conn.createStatement();
             ResultSet results = stmt.executeQuery("select id_p, nombre, calle, numero, colonia, cp, ciudad, estado, email,"
-            		+" celular, telefono, Calle || ' ' || Numero || ' ' || Colonia from Proveedor");
+            		+" celular, telefono, Calle || ' ' || Numero || ' ' || Colonia from Proveedor order by Nombre asc");
             int c = 0;
             while(results.next()) {
             	aux = new Proveedor[prov.length];
