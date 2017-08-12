@@ -36,15 +36,9 @@ public class Validaciones {
 				clienteCorrecto = false;
 			}
 		}
-		if(!c.getNoDir().equals("")) {
-			if(validarSoloEnterosVacios(c.getNoDir())) {
-				mensajeErrores += "\nEl numero de direccion debe ser numero";
-				clienteCorrecto = false;
-			}
-		}
 		if(!c.getCP().equals("") && !c.getCP().equals("0")) {
-			if(validarLongitud(c.getCP(), 5)) {
-				mensajeErrores += "\nEl codigo postal debe ser de 5 digitos";
+			if(validarCP(c.getCP())) {
+				mensajeErrores += "\nEl codigo postal debe ser de 5 digitos numéricos";
 				clienteCorrecto = false;
 			}
 		}else {
@@ -132,17 +126,43 @@ public class Validaciones {
 			mensajeErrores += "\nEl nombre no puede estar vacio";
 			clienteCorrecto = false;
 		}
-		if(validarCamposNoVacios(p.getCalle())) {
-			mensajeErrores += "\nLa direccion no puede estar vacia";
-			clienteCorrecto = false;
+		if(!p.getCp().equals("")) {
+			if(validarCP(p.getCp())) {
+				mensajeErrores += "\nEl codigo postal debe ser de 5 digitos numéricos";
+				clienteCorrecto = false;
+			}
+		}else {
+			p.setCp("0");
 		}
-		if(validarSoloEnterosVacios(p.getTelefono())) {
-			mensajeErrores += "\nEl telefono no puede contener letras.";
-			clienteCorrecto = false;
+		if(!p.getCiudad().equals("")) {
+			if(validarSoloLetrasNoVacio(p.getCiudad())) {
+				mensajeErrores += "\nEl nombre de la ciudad solo puede contener letras";
+				clienteCorrecto = false;
+			}
 		}
-		if(validarEmail(p.getEmail())) {
-			mensajeErrores += "\nEl email debe ser (Ejemplo): email@example.com";
-			clienteCorrecto = false;
+		if(!p.getEstado().equals("")) {
+			if(validarSoloLetrasNoVacio(p.getEstado())) {
+				mensajeErrores += "\nEl nombre del estado solo puede contener letras";
+				clienteCorrecto = false;
+			}
+		}
+		if(!p.getEmail().equals("")) {
+			if(validarEmail(p.getEmail())) {
+				mensajeErrores += "\nEl email debe ser (Ejemplo): email@example.com";
+				clienteCorrecto = false;
+			}
+		}
+		if(!p.getCelular().equals("")) {
+			if(validarSoloEnterosVacios(p.getCelular())) {
+				mensajeErrores += "\nEl Celular no puede contener letras.";
+				clienteCorrecto = false;
+			}
+		}
+		if(!p.getTelefono().equals("")) {
+			if(validarSoloEnterosVacios(p.getTelefono())) {
+				mensajeErrores += "\nEl telefono no puede contener letras.";
+				clienteCorrecto = false;
+			}
 		}
 		if(!clienteCorrecto) {
 			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
@@ -215,6 +235,17 @@ public class Validaciones {
 			}
 		}else {
 			return false;
+		}
+	}
+	
+	public boolean validarCP(String cadena) {
+		if(cadena.length() == 5) {
+			String expReg = "[0-9]+";
+			Pattern pattern = Pattern.compile(expReg);
+			Matcher matcher = pattern.matcher(cadena);
+			return !matcher.matches();
+		}else {
+			return true;
 		}
 	}
 	
