@@ -10,6 +10,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -32,13 +34,14 @@ import javax.swing.table.DefaultTableModel;
 import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Producto;
 import com.SoloSolar.Capsulas.Proveedor;
+import com.SoloSolar.Capsulas.TextPrompt;
 import com.SoloSolar.DB.Consulta;
 import com.SoloSolar.DB.Insert;
 import com.SoloSolar.interfaces.AdministrarCategorias.CategoryModel;
 import com.SoloSolar.interfaces.AdministrarCategorias.ProductModel;
 
 public class AdministrarProducto extends JPanel implements MouseListener {
-	private JTextField clave, nombre, paquete, costo, precio1, precio2;
+	private JTextField clave, nombre, paquete, costo, precio1, precio2, por1, por2;
 	Consulta c = new Consulta();
 	Categoria[] category = (Categoria[]) c.selectCategories();
 	Proveedor[] supplier = (Proveedor[]) c.selectSupplier();
@@ -117,7 +120,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 		
 	}
 	
-	public class ModifyProduct extends JPanel implements ActionListener{
+	public class ModifyProduct extends JPanel implements ActionListener, KeyListener{
 		private JButton actualizar, eliminar;
 		private JPanel updateP, deleteP;
 		
@@ -140,11 +143,13 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			gbc.gridx+=2;
 			gbc.weightx = 1;
 			gbc.weighty = 0;
+			gbc.ipadx = 200;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.gridwidth = 2;
 			updateP.add(clave, gbc);
 			gbc.gridy++;
 			gbc.gridx = 0;
+			gbc.ipadx = 0;
 			gbc.anchor = GridBagConstraints.WEST;
 			gbc.gridwidth = 1;
 			gbc.weightx = 1;
@@ -206,9 +211,18 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			gbc.gridx+=2;
 			gbc.weightx = 1;
 			gbc.weighty = 0;
+			gbc.ipadx = 200;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.gridwidth = 2;
 			updateP.add(precio1, gbc);
+			por1 = new JTextField();
+			TextPrompt percent = new TextPrompt("%", por1, TextPrompt.Show.FOCUS_LOST);
+			percent.changeAlpha(0.75f);
+			gbc.anchor = GridBagConstraints.WEST;
+			gbc.gridx+=2;
+			gbc.ipadx = 10;
+			updateP.add(por1, gbc);
+			por1.addKeyListener(this);
 			gbc.gridx = 0;
 			gbc.gridy++;
 			gbc.anchor = GridBagConstraints.WEST;
@@ -219,11 +233,21 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			gbc.gridx+=2;
 			gbc.weightx = 1;
 			gbc.weighty = 0;
+			gbc.ipadx = 200;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.gridwidth = 2;
 			updateP.add(precio2, gbc);
+			por2 = new JTextField();
+			TextPrompt percent2 = new TextPrompt("%", por2, TextPrompt.Show.FOCUS_LOST);
+			percent2.changeAlpha(0.75f);
+			gbc.anchor = GridBagConstraints.WEST;
+			gbc.gridx+=2;
+			gbc.ipadx = 10;
+			updateP.add(por2, gbc);
+			por2.addKeyListener(this);
 			
 			actualizar = new JButton("Actualizar");
+			gbc.gridx = 2;
 			gbc.gridy++;
 			gbc.weightx = 1;
 			gbc.weighty = 0;
@@ -287,6 +311,8 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 								costo.setText("");
 								precio1.setText("");
 								precio2.setText("");
+								por1.setText("");
+								por2.setText("");
 								table.setModel(new ProductModel());
 								prod.setText("Elija Producto");
 								datos = null;
@@ -319,6 +345,45 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 				}
 			}catch(NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException exp) {
 				JOptionPane.showMessageDialog(null, "No se ha seleccionado un producto", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+		public double round(double value, int places) {
+		    if (places < 0) throw new IllegalArgumentException();
+
+		    long factor = (long) Math.pow(10, places);
+		    value = value * factor;
+		    long tmp = Math.round(value);
+		    return (double) tmp / factor;
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			double r;
+			if(e.getSource() == por1 && !costo.getText().isEmpty()) {
+				try {
+					r = round(Double.parseDouble(costo.getText())*((Double.parseDouble(por1.getText())/100)+1),1);
+					precio1.setText(Double.toString(r));
+				}catch(NumberFormatException ex) {
+					por1.setText("");
+				}
+			}else if(e.getSource() == por2 && !costo.getText().isEmpty()) {
+				try {
+					r = round(Double.parseDouble(costo.getText())*((Double.parseDouble(por2.getText())/100)+1),1);
+					precio2.setText(Double.toString(r));
+				}catch(NumberFormatException ex) {
+					por2.setText("");
+				}
 			}
 		}
 	}
