@@ -157,7 +157,7 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 			deleteP.setLayout(new GridBagLayout());
 			GridBagConstraints gbc2 = new GridBagConstraints();
 			deleteP.setBorder(new CompoundBorder(new TitledBorder("Eliminar categoría"), new EmptyBorder(12, 12, 12, 12)));
-			prod = new JLabel("Productos dentro de esta categoría: ");
+			prod = new JLabel("Elija una categoría");
 			gbc2.gridx = 0;
 			gbc2.gridy = 0;
 			gbc2.anchor = GridBagConstraints.WEST;
@@ -169,7 +169,7 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 			gbc2.weightx = 1;
 			gbc2.anchor = GridBagConstraints.WEST;
 			gbc2.insets = new Insets(20, 0, 20, 0);
-			deleteP.add(new JLabel("Transferir a: "), gbc2);
+			deleteP.add(new JLabel("Transferir productos a: "), gbc2);
 			
 			categories = new JComboBox<Categoria>(new ProductModel());
 			gbc2.gridx++;
@@ -198,6 +198,7 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 							nombre.setText("");
 							descripcion.setText("");
 							id.setText("");
+							prod.setText("Elija una categoría");
 							table.setModel(new CategoryModel());
 							categories.setModel(new ProductModel());
 							categories.updateUI();
@@ -210,22 +211,27 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 					Categoria substituteCat = (Categoria) categories.getSelectedItem();
 					int reply = JOptionPane.showConfirmDialog(null, "¿Esta seguro de borrar la categoría '"+ table.getModel().getValueAt(table.getSelectedRow(), 0) +"'?", "Borrar Categoría", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					if(reply == JOptionPane.YES_OPTION) {
-						if(in.ChangeCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2), substituteCat.getId())) {
-							if(in.DeleteCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2))) {
-								in.shutdown();
-								JOptionPane.showMessageDialog(null, "Categoria eliminada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-								table.setModel(new CategoryModel());
-								nombre.setText("");
-								descripcion.setText("");
-								id.setText("");
-								categories.setModel(new ProductModel());
-								categories.updateUI();
+						if(substituteCat.getId() != Integer.parseInt(id.getText())) {
+							if(in.ChangeCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2), substituteCat.getId())) {
+								if(in.DeleteCategory((int)table.getModel().getValueAt(table.getSelectedRow(), 2))) {
+									in.shutdown();
+									JOptionPane.showMessageDialog(null, "Categoria eliminada exitosamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+									table.setModel(new CategoryModel());
+									nombre.setText("");
+									descripcion.setText("");
+									id.setText("");
+									prod.setText("Elija una categoría");
+									categories.setModel(new ProductModel());
+									categories.updateUI();
+								}else {
+									in.shutdown();
+									JOptionPane.showMessageDialog(null, "No ha sido posible eliminar la categoría", "Error", JOptionPane.ERROR_MESSAGE);
+								}
 							}else {
-								in.shutdown();
-								JOptionPane.showMessageDialog(null, "No ha sido posible eliminar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, "No ha sido posible transferir los productos", "Error", JOptionPane.ERROR_MESSAGE);
 							}
 						}else {
-							JOptionPane.showMessageDialog(null, "No ha sido posible transferir los productos", "Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "No es posible transferir a la misma categoría", "Error", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				}
@@ -241,6 +247,7 @@ public class AdministrarCategorias extends JPanel implements MouseListener {
 				nombre.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
 				descripcion.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
 				id.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2));
+				prod.setText("Eliminar la categoría '"+table.getModel().getValueAt(table.getSelectedRow(), 0)+"'");
 			}
 		}catch(ArrayIndexOutOfBoundsException expt) {
 			

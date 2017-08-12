@@ -118,10 +118,6 @@ public class Validaciones {
 			mensajeErrores += "\nEl nombre no puede estar vacio";
 			clienteCorrecto = false;
 		}
-		if(validarCamposNoVacios(c.getDescripcion())) {
-			mensajeErrores += "\nLa descripcion no puede estar vacia";
-			clienteCorrecto = false;
-		}
 		if(!clienteCorrecto) {
 			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
 		}
