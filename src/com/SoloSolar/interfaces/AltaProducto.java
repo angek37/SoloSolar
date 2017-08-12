@@ -334,7 +334,7 @@ public class AltaProducto extends JPanel implements ActionListener{
 						}
 					}
 				}catch(NullPointerException ex) {
-					JOptionPane.showMessageDialog(null,"No hay proveedor seleccionado","¡Error!",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"No hay proveedor seleccionado","¡No hay proveedores!",JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		}
