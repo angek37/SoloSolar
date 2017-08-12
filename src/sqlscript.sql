@@ -74,7 +74,7 @@ create table Producto_Proveedor (
 
 alter table Pedido add constraint fk_PC foreign key (customer) references Cliente(id_cus) on delete cascade;
 alter table Renglon add constraint fk_RP foreign key (Pedido) references Pedido(id_Pedido) on delete cascade;
-alter table Renglon add constraint fk_RProd foreign key (id_prod) references Producto(Clave) on delete cascade;
+alter table Renglon add constraint fk_RProd foreign key (id_prod) references Producto(Clave) on delete set null;
 alter table Producto add constraint fk_ProdCat foreign key (Categoria) references Categoria(id_cat) on delete cascade;
 alter table Producto_Proveedor add constraint fk_PPp foreign key (Clave) references Producto(Clave) on delete cascade;
 alter table Producto_Proveedor add constraint fk_PPpr foreign key (id_pro) references Proveedor(id_p) on delete cascade;
