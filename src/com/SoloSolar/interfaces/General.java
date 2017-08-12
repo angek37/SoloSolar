@@ -56,8 +56,8 @@ public class General {
 
 	public class GeneralPanel extends JPanel implements ActionListener {
 		private JMenuBar menu;
-		private JMenu pedidos, clientes, productos, categoria, proveedor;
-		private JMenuItem altaClie, modClie, altaProd, altaCat, adminCat, adminProd, altaProv, adminProv, prodProv, listPed, cliPed;
+		private JMenu pedidos, clientes, productos, categoria, proveedor, ayuda;
+		private JMenuItem altaClie, modClie, altaProd, altaCat, adminCat, adminProd, altaProv, adminProv, prodProv, listPed, cliPed, acerca;
 		private ImageIcon logo = new ImageIcon(
 				new ImageIcon("assets/logo.png").getImage().getScaledInstance(154, 27, Image.SCALE_DEFAULT));
 		private JLabel titulo;
@@ -88,6 +88,8 @@ public class General {
 				new ImageIcon("assets/OrderList.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
 		private ImageIcon CustOrderIco = new ImageIcon(
 				new ImageIcon("assets/custOrder.png").getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
+		private ImageIcon AboutIco = new ImageIcon(
+				new ImageIcon("assets/about.png").getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT));
 		
 		public GeneralPanel(JFrame jf) {
 			jfp = jf;
@@ -101,6 +103,7 @@ public class General {
 			productos = new JMenu("Productos");
 			categoria = new JMenu("Categoria");
 			proveedor = new JMenu("Proveedores");
+			ayuda = new JMenu("Ayuda");
 			titleBar = new JPanel();
 			listPed = new JMenuItem("Lista de Pedidos", OrderList);
 			cliPed = new JMenuItem("Pedidos por Cliente", CustOrderIco);
@@ -113,6 +116,7 @@ public class General {
 			altaProv = new JMenuItem("Alta Proveedor", addProv);
 			adminProv = new JMenuItem("Administrar Proveedores", admProv);
 			prodProv = new JMenuItem("Productos por Proveedor", proProv);
+			acerca = new JMenuItem("Acerca de", AboutIco);
 			
 			jfp.setIconImage(new ImageIcon("assets/icono.png").getImage());
 			panelPrincipal = new JPanel();
@@ -161,7 +165,12 @@ public class General {
 			proveedor.add(prodProv);
 			prodProv.addActionListener(this);
 			altaProv.addActionListener(this);
-			adminProv.addActionListener(this);			
+			adminProv.addActionListener(this);		
+			
+			//Ayuda
+			menu.add(ayuda);
+			ayuda.add(acerca);
+			acerca.addActionListener(this);
 
 			setLayout(new BorderLayout());
 			add(new MenuPanel(), BorderLayout.WEST);
@@ -216,6 +225,9 @@ public class General {
 				panelPrincipal.add(new ListaPedidos(panelPrincipal, frame));
 			} else if (e.getSource() == cliPed) {
 				panelPrincipal.add(new PedidosPorCliente(panelPrincipal, frame));
+			} else if (e.getSource() == acerca) {
+				new Acerca(frame);
+				panelPrincipal.add(General.this.bienvenida);
 			}
 
 			panelPrincipal.updateUI();
