@@ -234,14 +234,20 @@ public class AdministrarProveedor extends JPanel implements MouseListener {
 					if(reply == JOptionPane.YES_OPTION) {
 						if(i.DeleteProdProv(Integer.parseInt(id.getText()))) {
 							if(i.DeleteSupplier(Integer.parseInt(id.getText()))) {
-//								JOptionPane.showMessageDialog(null, "El proveedor se ha eliminado correctamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
-//								table.setModel(new SupplierModel());
-//								id.setText("");
-//								nombre.setText("");
-//								direccion.setText("");
-//								telefono.setText("");
-//								correo.setText("");
-//								prov.setText("Elija un proveedor");
+								JOptionPane.showMessageDialog(null, "El proveedor se ha eliminado correctamente", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+								table.setModel(new SupplierModel());
+								id.setText("");
+								nombre.setText("");
+								calle.setText("");
+								numero.setText("");
+								colonia.setText("");
+								cp.setText("");
+								ciudad.setText("");
+								estado.setText("");
+								celular.setText("");
+								telefono.setText("");
+								correo.setText("");
+								prov.setText("Elija un proveedor");
 							}else {
 								JOptionPane.showMessageDialog(null, "No ha sido posible eliminar el proveedor", "Error", JOptionPane.ERROR_MESSAGE);
 							}
@@ -270,6 +276,7 @@ public class AdministrarProveedor extends JPanel implements MouseListener {
 				celular.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 9));
 				telefono.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 10));
 				correo.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 8));
+				prov.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
 			}
 		}catch(ArrayIndexOutOfBoundsException expt) {
 			
