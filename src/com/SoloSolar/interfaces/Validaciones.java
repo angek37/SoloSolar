@@ -9,6 +9,7 @@ import com.SoloSolar.Capsulas.Categoria;
 import com.SoloSolar.Capsulas.Cliente;
 import com.SoloSolar.Capsulas.Producto;
 import com.SoloSolar.Capsulas.Proveedor;
+import com.SoloSolar.Capsulas.Usuario;
 
 public class Validaciones {
 	
@@ -26,7 +27,7 @@ public class Validaciones {
 		}
 		if(!c.getRFC().equals("")) {
 			if(!RangoLongitud(c.getRFC(), 10, 13)) {
-				mensajeErrores += "\nEl RFC debe contener al menos 10 caracteres";
+				mensajeErrores += "\nEl RFC debe contener al menos 10 a 13 caracteres";
 				clienteCorrecto = false;
 			}
 		}
@@ -161,6 +162,34 @@ public class Validaciones {
 		if(!p.getTelefono().equals("")) {
 			if(validarSoloEnterosVacios(p.getTelefono())) {
 				mensajeErrores += "\nEl telefono no puede contener letras.";
+				clienteCorrecto = false;
+			}
+		}
+		if(!clienteCorrecto) {
+			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
+		}
+		return clienteCorrecto;
+	}
+	
+	
+	public boolean validarUsuario(Usuario u) {
+		boolean clienteCorrecto = true;
+		String mensajeErrores = "Favor de corregir los siguientes datos: ";
+		if(u.getUsuario().equals("")) {
+			mensajeErrores += "\nEl nombre de usuario no puede estar vacio.";
+			clienteCorrecto = false;
+		}
+		if(u.getPassword().equals("")) {
+			mensajeErrores += "\nLa contraseña no puede estar vacia.";
+			clienteCorrecto = false;
+		}
+		if(validarSoloLetrasNoVacio(u.getNombre())) {
+			mensajeErrores += "\nEl nombre debe contener únicamente letras.";
+			clienteCorrecto = false;
+		}
+		if(!u.getRFC().equals("")) {
+			if(!RangoLongitud(u.getRFC(), 10, 13)) {
+				mensajeErrores += "\nEl RFC debe contener al menos 10 a 13 caracteres";
 				clienteCorrecto = false;
 			}
 		}

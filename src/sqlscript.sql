@@ -79,4 +79,4 @@ alter table Producto add constraint fk_ProdCat foreign key (Categoria) reference
 alter table Producto_Proveedor add constraint fk_PPp foreign key (Clave) references Producto(Clave) on delete cascade;
 alter table Producto_Proveedor add constraint fk_PPpr foreign key (id_pro) references Proveedor(id_p) on delete cascade;
 
-insert into Usuario values ('admin', '123', 'Alberto Rodríguez', '')
+insert into Usuario values ('admin', '123', 'FELIX ALBERTO RODRIGUEZ ALVAREZ', '')

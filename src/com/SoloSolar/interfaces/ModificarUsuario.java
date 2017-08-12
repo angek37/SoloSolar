@@ -142,11 +142,14 @@ public class ModificarUsuario extends JPanel implements ActionListener, MouseLis
 				rfcTF.setEditable(false);
 			}
 		} else if(e.getSource() == guardar) {
-			 u.setNombre(nombreTF.getText());
-			 u.setUsuario(usuarioTF.getText());
-			 u.setPassword(String.valueOf(passwordTF.getPassword()));
-			 u.setRFC(rfcTF.getText());
-			 UsuarioBD.ModificarUsuario(u);
+			Validaciones v = new Validaciones();
+			u.setNombre(nombreTF.getText());
+			u.setUsuario(usuarioTF.getText());
+			u.setPassword(String.valueOf(passwordTF.getPassword()));
+			u.setRFC(rfcTF.getText());
+			if(v.validarUsuario(u)) {
+				UsuarioBD.ModificarUsuario(u);
+			}
 		}
 	}
 
