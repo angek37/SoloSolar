@@ -60,6 +60,15 @@ public class Validaciones {
 		if(!clienteCorrecto) {
 			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
 		}
+		c.setRFC(c.getRFC().toUpperCase());
+		c.setNombre(c.getNombre().toUpperCase());
+		c.setApellidos(c.getApellidos().toUpperCase());
+		c.setCalle(c.getCalle().toUpperCase());
+		c.setNoDir(c.getNoDir().toUpperCase());
+		c.setColonia(c.getColonia().toUpperCase());
+		c.setCiudad(c.getCiudad().toUpperCase());
+		c.setEstado(c.getEstado().toUpperCase());
+		c.setEmail(c.getEmail().toUpperCase());
 		return clienteCorrecto;
 	}
 	
@@ -102,6 +111,8 @@ public class Validaciones {
 		if(!clienteCorrecto) {
 			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
 		}
+		p.setClave(p.getClave().toUpperCase());
+		p.setNombre(p.getNombre().toUpperCase());
 		return clienteCorrecto;
 	}
 	
@@ -116,6 +127,8 @@ public class Validaciones {
 		if(!clienteCorrecto) {
 			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
 		}
+		c.setNombre(c.getNombre().toUpperCase());
+		c.setDescripcion(c.getDescripcion().toUpperCase());
 		return clienteCorrecto;
 	}
 	
@@ -168,6 +181,13 @@ public class Validaciones {
 		if(!clienteCorrecto) {
 			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
 		}
+		p.setNombre(p.getNombre().toUpperCase());
+		p.setCalle(p.getCalle().toUpperCase());
+		p.setNumero(p.getNumero().toUpperCase());
+		p.setColonia(p.getColonia().toUpperCase());
+		p.setCiudad(p.getCiudad().toUpperCase());
+		p.setEstado(p.getEstado().toUpperCase());
+		p.setEmail(p.getEmail().toUpperCase());
 		return clienteCorrecto;
 	}
 	
@@ -196,6 +216,8 @@ public class Validaciones {
 		if(!clienteCorrecto) {
 			JOptionPane.showMessageDialog(null, mensajeErrores, "¡Error!", JOptionPane.ERROR_MESSAGE);
 		}
+		u.setNombre(u.getNombre().toUpperCase());
+		u.setRFC(u.getRFC().toUpperCase());
 		return clienteCorrecto;
 	}
 	
