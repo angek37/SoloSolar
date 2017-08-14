@@ -31,15 +31,15 @@ create table Pedido (
 
 create table Renglon (
 	Pedido int NOT NULL,
-	id_prod varchar(8) NOT NULL,
+	id_prod varchar(12),
 	Precio double NOT NULL,
 	Cantidad int NOT NULL,
 	Lista int NOT NULL
 )
 
 create table Producto (
-	Clave varchar(8) NOT NULL PRIMARY KEY,
-	Nombre varchar(40) NOT NULL,
+	Clave varchar(12) NOT NULL PRIMARY KEY,
+	Nombre varchar(84) NOT NULL,
 	Categoria int NOT NULL,
 	Paquete int,
 	Costo double NOT NULL,
@@ -68,7 +68,7 @@ create table Proveedor (
 )
 
 create table Producto_Proveedor (
-	Clave varchar(8) NOT NULL,
+	Clave varchar(12) NOT NULL,
 	id_pro int NOT NULL
 )
 
