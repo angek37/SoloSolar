@@ -79,7 +79,7 @@ public class Insert {
     public boolean InsertProduct(Producto prod) {
     	try {
             stmt = conn.createStatement();
-            stmt.execute("insert into Producto values('" +prod.getClave()+ "','" +prod.getNombre()+ "'," +prod.getCategoria()+ "," 
+            stmt.execute("insert into Producto values('" +prod.getClave()+ "','" +prod.getNombre().replace("'", "''")+ "'," +prod.getCategoria()+ "," 
             		+prod.getPaquete()+ "," +prod.getCosto()+ "," +prod.getPrecio1()+ "," +prod.getPrecio2()+ ")");
             stmt.close();
             return true;
@@ -126,7 +126,7 @@ public class Insert {
     public boolean UpdateProduct(Producto prod) {
     	try {
             stmt = conn.createStatement();
-            stmt.execute("update Producto set Nombre = '" + prod.getNombre() + "',"
+            stmt.execute("update Producto set Nombre = '" + prod.getNombre().replace("'", "''") + "',"
             		+ "Categoria = " + prod.getCategoria() + ",Paquete = "+ 
             			prod.getPaquete()+",Costo = "+ prod.getCosto() +",Precio1 = "+
             				prod.getPrecio1()+",Precio2 = "+
