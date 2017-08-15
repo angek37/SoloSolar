@@ -336,6 +336,8 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 							costo.setText("");
 							precio1.setText("");
 							precio2.setText("");
+							por1.setText("");
+							por2.setText("");
 							table.setModel(new ProductModel());
 							prod.setText("Elija Producto");
 						}else {
@@ -558,6 +560,8 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 				precio1.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 5));
 				precio2.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 6));
 				prod.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
+				por1.setText("");
+				por2.setText("");
 				tableS.setModel(new DefaultTableModel(datos, head));
 			}
 		}catch(ArrayIndexOutOfBoundsException expt) {
