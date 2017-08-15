@@ -26,6 +26,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class Login {
+	General g = new General();
 	public Login() {
 		EventQueue.invokeLater(new Runnable() {
             @Override
@@ -105,7 +106,7 @@ public class Login {
 				ConnectionDB c = new ConnectionDB();
 				if(e.getSource() == signin) {
 					if(c.getPassword("Usuario", user.getText()).equals(pass.getText())) {
-						new General();
+						g.makeVisible();
 						JF.setVisible(false);
 					}else {
 						user.setText("");
@@ -127,7 +128,7 @@ public class Login {
 				if(e.getKeyCode() == 10) {
 					ConnectionDB c = new ConnectionDB();
 					if(c.getPassword("Usuario", user.getText()).equals(pass.getText())) {
-						new General();
+						g.makeVisible();
 						JF.setVisible(false);
 					}else {
 						user.setText("");

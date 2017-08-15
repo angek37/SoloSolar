@@ -49,9 +49,13 @@ public class General {
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.add(new GeneralPanel(frame));
 				frame.setLocationRelativeTo(null);
-				frame.setVisible(true);
+				frame.setVisible(false);
 			}
 		});
+	}
+	
+	public void makeVisible() {
+		frame.setVisible(true);
 	}
 
 	public class GeneralPanel extends JPanel implements ActionListener {
@@ -326,9 +330,5 @@ public class General {
 			}
 		}
 
-	}
-
-	public static void main(String[] mr) {
-		new General();
 	}
 }
