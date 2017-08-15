@@ -638,7 +638,7 @@ public class Venta extends JPanel {
 					                super.approveSelection();
 								}
 							};
-							f.setSelectedFile(new File("Reporte Ventas " + idCliente.getText()));
+							f.setSelectedFile(new File("Reporte Ventas " + pedido.getText()));
 							int opcion = f.showSaveDialog(padre);
 							if(opcion == JFileChooser.APPROVE_OPTION) {
 								String fecha = datePicker.getCalendar().get(Calendar.DAY_OF_MONTH) 

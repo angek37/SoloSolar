@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -38,10 +40,16 @@ public class GenerarPDFVentas {
 	private Font pagare = new Font(Font.getFamily("Arial"), 8, Font.NORMAL);
 	private Font pagare2 = new Font(Font.getFamily("Arial"), 12, Font.NORMAL);
 	private Font pagare3 = new Font(Font.getFamily("Arial"), 10, Font.NORMAL);
+	double TotalReal = 0;
 	
 	public GenerarPDFVentas(String ruta, int renglones, String dataPDF[][], int cantidades, double total,
 			String infAd[], boolean ivaSel) {
 		try {
+			if(ivaSel) {
+				TotalReal = round(total, 1);
+			} else {
+				TotalReal = round(total + (total * 0.16), 1);
+			}
 			FileOutputStream archivo = new FileOutputStream(ruta + ".pdf");
 			Document doc = new Document(PageSize.A4, 36, 36, 36, 36);
 			PdfWriter writer = PdfWriter.getInstance(doc, archivo);
@@ -166,6 +174,26 @@ public class GenerarPDFVentas {
 		}
 	}
 	
+	public String meses(int mes) {
+		String meses = "";
+		switch (mes) {
+			case 1:  meses = "Enero"; 		break;
+			case 2:  meses = "Febrero"; 	break;
+			case 3:  meses = "Marzo"; 		break;
+			case 4:  meses = "Abril"; 		break;
+			case 5:  meses = "Mayo"; 		break;
+			case 6:  meses = "Junio"; 		break;
+			case 7:  meses = "Julio"; 		break;
+			case 8:  meses = "Agosto"; 		break;
+			case 9:  meses = "Septiembre"; 	break;
+			case 10: meses = "Octubre"; 	break;
+			case 11: meses = "Noviembre"; 	break;
+			case 12: meses = "Diciembre"; 	break;
+		}
+		
+		return meses;
+	}
+	
 	public double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
 
@@ -190,6 +218,12 @@ public class GenerarPDFVentas {
 	}
 	
 	public PdfPTable pagare(PdfPTable pagare) {
+		Date date = new Date();
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int year  = localDate.getYear();
+		int month = localDate.getMonthValue();
+		int day   = localDate.getDayOfMonth();
+		 
 		pagare.setTableEvent(new BorderEventRED());
 		pagare.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 		pagare.setTotalWidth(510f);
@@ -213,19 +247,15 @@ public class GenerarPDFVentas {
 		c2.addCell(getArial2("BUENO POR $"));
 		crr = new PdfPCell();
 		crr.setBorder(Rectangle.NO_BORDER);
-		crr.addElement(getInfo(" "));
+		crr.addElement(getArial2(" " + TotalReal));
 		crr.setBackgroundColor(new BaseColor(215, 162, 162));
 		c2.addCell(crr);
 		tab.addCell(c2);
 		pagare.addCell(tab);
 		PdfPTable c3 = new PdfPTable(2);
 		c3.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-		PdfPTable c31 = new PdfPTable(2);
-		c31.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-		c31.addCell(new Paragraph(""));
-		c31.addCell(getArial("En_______________________"));
-		c3.addCell(c31);
-		c3.addCell(getArial("a__________ de_________________________ de___________"));
+		c3.addCell(new Paragraph(""));		
+		c3.addCell(getArial("En León, Gto. a " + day + " de " + meses(month) + " de " + year));
 		pagare.addCell(c3);
 		pagare.addCell(getArial(""
 		+ "  Debo(emos) y pagaré(mos) incodicionalmente por este pagaré a la orden de:_________________________________________________"));
@@ -286,6 +316,7 @@ public class GenerarPDFVentas {
 			t2.addCell(getHeader("alberto-426@hotmail.com"));
 			t.addCell(t2);
 			PdfPTable t3 = new PdfPTable(2);
+			t3.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			t3.addCell(getHeader("Direccion: " + c.getCalle() + " " + c.getNoDir() + " " + c.getColonia() + " (" + c.getCP() +")"));
 			t3.addCell(getHeader(c.getEstado() + ", " + c.getCiudad()));
 			t3.addCell(getHeader(c.getTelEmp() + ", " + c.getTelefono()));
