@@ -113,6 +113,7 @@ public class Validaciones {
 		}
 		p.setClave(p.getClave().toUpperCase());
 		p.setNombre(p.getNombre().toUpperCase());
+		p.setNombre(p.getNombre().replace("'", "\""));
 		return clienteCorrecto;
 	}
 	
@@ -129,6 +130,8 @@ public class Validaciones {
 		}
 		c.setNombre(c.getNombre().toUpperCase());
 		c.setDescripcion(c.getDescripcion().toUpperCase());
+		c.setNombre(c.getNombre().replace("'", "\""));
+		c.setDescripcion(c.getDescripcion().replace("'", "\""));
 		return clienteCorrecto;
 	}
 	

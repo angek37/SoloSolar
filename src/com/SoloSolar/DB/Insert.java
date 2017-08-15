@@ -126,7 +126,7 @@ public class Insert {
     public boolean UpdateProduct(Producto prod) {
     	try {
             stmt = conn.createStatement();
-            stmt.execute("update Producto set Nombre = '" + prod.getNombre().replace("'", "''") + "',"
+            stmt.execute("update Producto set Nombre = '" + prod.getNombre() + "',"
             		+ "Categoria = " + prod.getCategoria() + ",Paquete = "+ 
             			prod.getPaquete()+",Costo = "+ prod.getCosto() +",Precio1 = "+
             				prod.getPrecio1()+",Precio2 = "+
