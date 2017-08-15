@@ -162,8 +162,8 @@ public class BuscarCliente {
 			try {
 				if(e.getClickCount() == 2 && !e.isConsumed()) {
 					e.consume();
-					idCliente.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 0));
-					nombreCliente.setText("" + table.getModel().getValueAt(table.getSelectedRow(), 1));
+					idCliente.setText("" + table.getValueAt(table.getSelectedRow(), 0));
+					nombreCliente.setText("" + table.getValueAt(table.getSelectedRow(), 1));
 					dg.dispose();
 				}
 			} catch(Exception x) {

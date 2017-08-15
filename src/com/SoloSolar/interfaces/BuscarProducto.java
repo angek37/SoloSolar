@@ -28,7 +28,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import com.SoloSolar.DB.Consulta;
 import com.sun.glass.events.KeyEvent;
 
 public class BuscarProducto {
@@ -162,14 +161,14 @@ public class BuscarProducto {
 			if(e.getClickCount() == 2 && !e.isConsumed()) {
 				String sel = combo.getSelectedItem() + "";
 				e.consume();
-				tabla.setValueAt(table.getModel().getValueAt(table.getSelectedRow(), 0), renglon, 0);
-				tabla.setValueAt(table.getModel().getValueAt(table.getSelectedRow(), 1), renglon, 1);
-				tabla.setValueAt(table.getModel().getValueAt(table.getSelectedRow(), 3), renglon, 3);
+				tabla.setValueAt(table.getValueAt(table.getSelectedRow(), 0), renglon, 0);
+				tabla.setValueAt(table.getValueAt(table.getSelectedRow(), 1), renglon, 1);
+				tabla.setValueAt(table.getValueAt(table.getSelectedRow(), 3), renglon, 3);
 				tabla.setValueAt(sel, renglon, 4);
 				tabla.setValueAt(sel.equals("1") 
-						? table.getModel().getValueAt(table.getSelectedRow(), 4) 
-						: table.getModel().getValueAt(table.getSelectedRow(), 5), renglon, 5);
-				dg.dispose();
+						? table.getValueAt(table.getSelectedRow(), 4) 
+						: table.getValueAt(table.getSelectedRow(), 5), renglon, 5);
+				dg.dispose();				
 			}
 		}
 
