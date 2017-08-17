@@ -28,9 +28,9 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class GenerarPDF {
-	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
-	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 8, Font.NORMAL);
-	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 8, Font.BOLDITALIC);
+	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 9, Font.BOLD);
+	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 9, Font.NORMAL);
+	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 9, Font.BOLDITALIC);
 	
 	public GenerarPDF(String ruta, int renglones, String dataPDF[][]) {
 		try {
