@@ -61,9 +61,10 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
 		table.getTableHeader().setReorderingAllowed(false);
+		table.getColumnModel().getColumn(0).setMaxWidth(60);
 		table.addMouseListener(this);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setPreferredSize(new Dimension(150, 0));
+		scrollPane.setPreferredSize(new Dimension(230,0));
 		add(scrollPane, BorderLayout.WEST);
 		add(new ModifyProduct(), BorderLayout.CENTER);
 		
@@ -82,21 +83,28 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 		}
 
 		public int getColumnCount() {
-			return 1;
+			return 2;
 		}
 		
 		public String getColumnName(int col) {
-			return "Nombre";
+			String column = "";
+			switch(col) {
+			case 0: column = "Clave";
+			break;
+			case 1: column = "Nombre";
+			break;
+			}
+			return column;
 		}
 
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			Object value = null;
 			   Producto producto = product[rowIndex];
 			   switch (columnIndex) {
-			   case 1:
+			   case 0:
 				   value = producto.getClave();
 				   break;
-			   case 0:
+			   case 1:
 				   value = producto.getNombre();
 				   break;
 			   case 2:
@@ -268,7 +276,7 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			prod = new JLabel("Elija un producto");
 			prod.setFont(new Font("Calibri", Font.ITALIC, 12));
 			prod.setForeground(Color.RED);
-			gbc2.gridx++;
+			gbc2.gridy++;
 			gbc2.anchor = GridBagConstraints.WEST;
 			gbc2.gridwidth = GridBagConstraints.REMAINDER;
 			gbc2.fill = GridBagConstraints.HORIZONTAL;
@@ -277,7 +285,6 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 			deleteP.add(prod, gbc2);
 			eliminar = new JButton("Eliminar");
 			gbc2.gridwidth = 1;
-			gbc2.gridx++;
 			gbc2.insets = new Insets(0, 0, 0, 0);
 			gbc2.gridy++;
 			deleteP.add(eliminar, gbc2);
@@ -551,15 +558,15 @@ public class AdministrarProducto extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		try {
 			if (e.getClickCount() == 1) {
-				datos = c.selectProductSuppliers(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
+				datos = c.selectProductSuppliers(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
 				categories.setSelectedIndex(NumCategory((Integer)table.getModel().getValueAt(table.getSelectedRow(), 2)));
-				clave.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
-				nombre.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
+				clave.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
+				nombre.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
 				paquete.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3));
 				costo.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 4));
 				precio1.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 5));
 				precio2.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 6));
-				prod.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 0));
+				prod.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1));
 				por1.setText("");
 				por2.setText("");
 				tableS.setModel(new DefaultTableModel(datos, head));
