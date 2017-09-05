@@ -33,9 +33,9 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class GenerarPDFListas {
-	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 9, Font.BOLD);
-	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 9, Font.NORMAL);
-	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 9, Font.BOLDITALIC);
+	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
+	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 10, Font.NORMAL);
+	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 10, Font.BOLDITALIC);
 	private Font pagare = new Font(Font.getFamily("Arial"), 8, Font.NORMAL);
 	private Font pagare2 = new Font(Font.getFamily("Arial"), 12, Font.NORMAL);
 	private Font pagare3 = new Font(Font.getFamily("Arial"), 10, Font.NORMAL);
@@ -78,7 +78,7 @@ public class GenerarPDFListas {
 			doc.add(new Paragraph("\n"));
 			//doc.add(addTableInformation(table));
 			PdfPTable tab = new PdfPTable(7);
-			tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
+			tab.setWidths(new float[] {2, 6, 2, 1, 1, 2, 2});
 			PdfPCell cellClave = new PdfPCell(getHeader("Clave")),
 					 cellNombre = new PdfPCell(getHeader("Nombre")),
 					 cellCant = new PdfPCell(getHeader("Cantidad")),
@@ -131,7 +131,7 @@ public class GenerarPDFListas {
 			}
 			doc.add(tab);
 			PdfPTable tabResults = new PdfPTable(7);
-			tabResults.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
+			tabResults.setWidths(new float[] {2, 6, 2, 1, 1, 2, 2});
 			tabResults.setTotalWidth(510f);
 			tabResults.setLockedWidth(true);
 			tabResults.setHorizontalAlignment(0);
