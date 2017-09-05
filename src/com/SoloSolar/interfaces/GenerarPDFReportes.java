@@ -28,9 +28,9 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class GenerarPDFReportes {
-	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 9, Font.BOLD);
-	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 9, Font.NORMAL);
-	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 9, Font.BOLDITALIC);
+	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
+	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 10, Font.NORMAL);
+	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 10, Font.BOLDITALIC);
 	
 	public GenerarPDFReportes(String ruta, int renglones, String dataPDF[][], String filtroReporte, double ivaReport) {
 		try {
