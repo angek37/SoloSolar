@@ -33,9 +33,9 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class GenerarPDFListas {
-	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 9, Font.BOLD);
-	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 9, Font.NORMAL);
-	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 9, Font.BOLDITALIC);
+	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
+	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 10, Font.NORMAL);
+	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 10, Font.BOLDITALIC);
 	private Font pagare = new Font(Font.getFamily("Arial"), 8, Font.NORMAL);
 	private Font pagare2 = new Font(Font.getFamily("Arial"), 12, Font.NORMAL);
 	private Font pagare3 = new Font(Font.getFamily("Arial"), 10, Font.NORMAL);

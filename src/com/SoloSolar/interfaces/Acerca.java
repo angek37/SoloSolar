@@ -36,7 +36,7 @@ public class Acerca {
 		gbc.gridy++;
 		j.add(titulo, gbc);
 		gbc.gridy++;
-		j.add(new JLabel("Versión: 1.0.5 Release"), gbc);
+		j.add(new JLabel("Versión: 1.0.7 Release"), gbc);
 		JLabel developers = new JLabel("Desarrollador por:");
 		developers.setFont(new Font("Arial", Font.BOLD, 15));
 		gbc.gridy++;

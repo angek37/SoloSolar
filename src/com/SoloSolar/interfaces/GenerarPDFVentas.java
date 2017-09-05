@@ -34,9 +34,9 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class GenerarPDFVentas {
-	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 9, Font.BOLD);
-	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 9, Font.NORMAL);
-	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 9, Font.BOLDITALIC);
+	private Font fuenteBold = new Font(Font.FontFamily.COURIER, 10, Font.BOLD);
+	private Font fuenteNormal = new Font(Font.FontFamily.COURIER, 10, Font.NORMAL);
+	private Font fuenteItalic = new Font(Font.FontFamily.COURIER, 10, Font.BOLDITALIC);
 	private Font pagare = new Font(Font.getFamily("Arial"), 8, Font.NORMAL);
 	private Font pagare2 = new Font(Font.getFamily("Arial"), 12, Font.NORMAL);
 	private Font pagare3 = new Font(Font.getFamily("Arial"), 10, Font.NORMAL);
@@ -63,7 +63,6 @@ public class GenerarPDFVentas {
 			doc.add(getFecha(dateFormat.format(date)));
 			doc.add(new Paragraph(" "));
 			PdfPTable t = new PdfPTable(2);
-			t.setWidths(new float[] {2, 4});
 			doc.add(addHeaderInformation(t, infAd));
 			doc.add(getFooter("BLVD. JUAN ALONSO DE TORRES OTE. #202 B COL. VIBAR TEL.: (477)"
 					+ "114 56 37 CEL.: 044 477 136 5097, LEÓN, GTO."));
