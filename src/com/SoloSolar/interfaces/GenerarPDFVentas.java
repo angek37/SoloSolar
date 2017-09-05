@@ -85,7 +85,7 @@ public class GenerarPDFVentas {
 			doc.add(new Paragraph("\n"));
 			//doc.add(addTableInformation(table));
 			PdfPTable tab = new PdfPTable(7);
-			tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
+			tab.setWidths(new float[] {3, 5, 2, 1, 1, 2, 1});
 			PdfPCell cellClave = new PdfPCell(getHeader("Clave")),
 					 cellNombre = new PdfPCell(getHeader("Nombre")),
 					 cellCant = new PdfPCell(getHeader("Cantidad")),
@@ -136,7 +136,7 @@ public class GenerarPDFVentas {
 			}
 			doc.add(tab);
 			PdfPTable tabResults = new PdfPTable(7);
-			tabResults.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
+			tabResults.setWidths(new float[] {3, 5, 2, 1, 1, 2, 1});
 			tabResults.setTotalWidth(510f);
 			tabResults.setLockedWidth(true);
 			tabResults.setHorizontalAlignment(0);

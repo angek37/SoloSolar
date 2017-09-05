@@ -73,7 +73,7 @@ public class GenerarPDFReportes {
 			doc.add(new Paragraph("\n"));
 			//doc.add(addTableInformation(table));
 			PdfPTable tab = new PdfPTable(5);
-			//tab.setWidths(new float[] {3, 5, 2, 1, 1, 1, 1});
+			//tab.setWidths(new float[] {3, 5, 2, 1, 1, 2, 1});
 			PdfPCell cellProd = new PdfPCell(getHeader("Producto")),
 					 cellCant = new PdfPCell(getHeader("Cantidad")),
 					 cellCost = new PdfPCell(getHeader("Costo")),
