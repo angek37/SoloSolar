@@ -1,0 +1,1 @@
+java -cp db/jooq/jooq-3.11.2.jar:db/jooq/jooq-meta-3.11.2.jar:db/jooq/jooq-codegen-3.11.2.jar:db/derby.jar:. org.jooq.codegen.GenerationTool db/jooq/jooq-config.xml

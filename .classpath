@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="assets/JTattoo-1.6.11.jar"/>
 	<classpathentry kind="lib" path="assets/iText-5.0.5.jar"/>
 	<classpathentry kind="lib" path="assets/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="db/jooq/jooq-3.11.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
