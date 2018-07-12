@@ -3,7 +3,7 @@ create table Usuario (
 	password varchar(32) NOT NULL,
 	Nombre varchar(64),
 	RFC varchar(13)
-)
+);
 
 create table Cliente (
 	id_cus int NOT NULL PRIMARY KEY  GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
@@ -19,64 +19,76 @@ create table Cliente (
 	Email varchar(32),
 	Tel_Celular varchar(12),
 	Tel_Empresa varchar(12)
-)
+);
 
 create table Pedido (
 	id_Pedido int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-	customer int NOT NULL,
+	Cliente int NOT NULL,
 	Fecha date NOT NULL,
 	IVA boolean NOT NULL,
-	Observaciones varchar(64)
-)
+	Observaciones varchar(64),
+	Total double
+);
+
+create table Factura (
+	id_Factura int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+	Cliente int NOT NULL,
+	Fecha date NOT NULL,
+	IVA boolean NOT NULL,
+	Observaciones varchar(64),
+	Total double
+);
 
 create table Renglon (
 	Pedido int NOT NULL,
 	id_prod varchar(12),
 	Precio double NOT NULL,
 	Cantidad int NOT NULL,
-	Lista int NOT NULL
-)
+	Lista int NOT NULL,
+	Subtotal double
+);
+
+create table Renglon_Factura(
+	Factura int NOT NULL,
+	id_prod varchar(12),
+	Precio double NOT NULL,
+	Cantidad int NOT NULL,
+	Lista int NOT NULL,
+	Subtotal double
+);
 
 create table Producto (
 	Clave varchar(12) NOT NULL PRIMARY KEY,
 	Nombre varchar(84) NOT NULL,
-	Categoria int NOT NULL,
+	ClaveSat varchar(8) NOT NULL,
 	Paquete int,
 	Costo double NOT NULL,
 	Precio1 double NOT NULL,
-	Precio2 double
-)
+	Precio2 double,
+	Inventario boolean NOT NULL,
+	Minimo int,
+	Actual int
+);
 
-create table Categoria (
-	id_cat int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-	Nombre varchar(32) NOT NULL,
-	Descripcion varchar(64)
-)
+create table ClaveProducto(
+	claveProd varchar(8) NOT NULL PRIMARY KEY,
+	Nombre varchar(80) NOT NULL,
+	Unidad varchar(3) NOT NULL
+);
 
-create table Proveedor (
-	id_p int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-	Nombre varchar(32) NOT NULL,
-	Calle varchar(32),
-	Numero varchar(8),
-	Colonia varchar(32),
-	CP int,
-	Ciudad varchar(32),
-	Estado varchar(32),
-	Email varchar(32),
-	Celular varchar(12),
-	Telefono varchar(12)
-)
+create table Unidad(
+	claveUnidad varchar(3) NOT NULL PRIMARY KEY,
+	Nombre varchar(80) NOT NULL
+);
 
-create table Producto_Proveedor (
-	Clave varchar(12) NOT NULL,
-	id_pro int NOT NULL
-)
-
-alter table Pedido add constraint fk_PC foreign key (customer) references Cliente(id_cus) on delete cascade;
+alter table Pedido add constraint fk_PC foreign key (Cliente) references Cliente(id_cus) on delete cascade;
+alter table Factura add constraint fk_FC foreign key (Cliente) references Cliente(id_cus) on delete cascade;
 alter table Renglon add constraint fk_RP foreign key (Pedido) references Pedido(id_Pedido) on delete cascade;
+alter table Renglon_Factura add constraint fk_RF foreign key (Factura) references Factura(id_Factura) on delete cascade;
 alter table Renglon add constraint fk_RProd foreign key (id_prod) references Producto(Clave) on delete set null;
-alter table Producto add constraint fk_ProdCat foreign key (Categoria) references Categoria(id_cat) on delete cascade;
-alter table Producto_Proveedor add constraint fk_PPp foreign key (Clave) references Producto(Clave) on delete cascade;
-alter table Producto_Proveedor add constraint fk_PPpr foreign key (id_pro) references Proveedor(id_p) on delete cascade;
+alter table Renglon_Factura add constraint fk_RFProd foreign key (id_prod) references Producto(Clave) on delete set null;
+alter table Producto add constraint fk_ProdClave foreign key (ClaveSat) references ClaveProducto(ClaveProd) on delete cascade;
+alter table ClaveProducto add constraint fk_ClaveUnidad foreign key (Unidad) references Unidad(claveUnidad) on delete cascade;
+
 
 insert into Usuario values ('admin', '123', 'FELIX ALBERTO RODRIGUEZ ALVAREZ', 'ROAF6504089G0')
