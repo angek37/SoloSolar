@@ -2,20 +2,27 @@ package SS.DesktopApp.Domain.Concrete;
 
 import java.util.List;
 
+import org.jooq.DSLContext;
+
 import SS.DesktopApp.Domain.Entities.ProductoRecord;
+import static SS.DesktopApp.Domain.Tables.PRODUCTO;
 
 public class ProductoRepository implements IRepository<ProductoRecord>{
+	
+	private DSLContext _dbContext;
+	
+	public ProductoRepository(DSLContext dbContext) {
+		_dbContext = dbContext;
+	}
 
 	@Override
 	public ProductoRecord GetById(Object id) {
-		// TODO Auto-generated method stub
-		return null;
+		return _dbContext.selectFrom(PRODUCTO).where(PRODUCTO.CLAVE.eq((String)id)).fetchOne();
 	}
 
 	@Override
 	public List<ProductoRecord> GetAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return _dbContext.selectFrom(PRODUCTO).fetch();
 	}
 
 	@Override
