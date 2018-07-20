@@ -17,30 +17,37 @@ public class ProductoRepository implements IRepository<ProductoRecord>{
 
 	@Override
 	public ProductoRecord GetById(Object id) {
-		return _dbContext.selectFrom(PRODUCTO).where(PRODUCTO.CLAVE.eq((String)id)).fetchOne();
+		return _dbContext
+				.selectFrom(PRODUCTO)
+				.where(PRODUCTO.CLAVE.eq(id.toString()))
+				.fetchOne();
 	}
 
 	@Override
 	public List<ProductoRecord> GetAll() {
-		return _dbContext.selectFrom(PRODUCTO).fetch();
+		return _dbContext
+				.selectFrom(PRODUCTO).fetch();
 	}
 
 	@Override
-	public void Add(ProductoRecord entity) {
-		// TODO Auto-generated method stub
-		
+	public int Add(ProductoRecord entity) {
+		return _dbContext
+				.executeInsert(entity);
 	}
 
 	@Override
-	public void Delete(ProductoRecord entity) {
-		// TODO Auto-generated method stub
-		
+	public void Delete(Object id) {
+		_dbContext
+		.delete(PRODUCTO)
+		.where(PRODUCTO.CLAVE.eq(id.toString()));
 	}
 
 	@Override
 	public void Edit(ProductoRecord entity) {
-		// TODO Auto-generated method stub
-		
+		_dbContext
+		.update(PRODUCTO)
+		.set(entity)
+		.execute();
 	}
 
 }
